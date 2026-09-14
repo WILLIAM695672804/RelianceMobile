@@ -1,0 +1,6 @@
+design/
+coverage/
+android/
+ios/
+.expo/
+package-lock.json
