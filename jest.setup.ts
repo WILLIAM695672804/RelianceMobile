@@ -1,5 +1,13 @@
 // Modules natifs absents de l'environnement Jest.
 
+jest.mock('./modules/reliance-cookies', () => ({
+  __esModule: true,
+  default: {
+    getCookieValue: jest.fn(async () => null),
+    clearAll: jest.fn(async () => undefined),
+  },
+}));
+
 // MMKV substitue lui-même une instance en mémoire sous Jest, mais importe Nitro dès le chargement.
 jest.mock('react-native-nitro-modules', () => ({
   NitroModules: {

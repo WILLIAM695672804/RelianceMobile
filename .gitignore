@@ -45,5 +45,3 @@ yarn-error.*
 .env.contract
 coverage/
 dist/
-android/
-ios/
