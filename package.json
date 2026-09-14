@@ -68,5 +68,14 @@
     "doctor": "npx expo-doctor",
     "prepare": "husky"
   },
-  "private": true
+  "private": true,
+  "lint-staged": {
+    "*.{ts,tsx,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
 }
