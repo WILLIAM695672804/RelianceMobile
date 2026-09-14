@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop, 'feature/**']
+  pull_request:
+
+jobs:
+  qualite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Vérification des types
+        run: npm run typecheck
+      - name: Analyse statique
+        run: npm run lint
+      - name: Formatage
+        run: npm run format:check
+      - name: Tests et couverture
+        run: npm run test:coverage
+      - name: Diagnostic Expo
+        run: npx expo-doctor
