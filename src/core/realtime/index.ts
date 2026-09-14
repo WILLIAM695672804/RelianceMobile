@@ -24,3 +24,8 @@ export {
   type RealtimeState,
 } from './realtimeService';
 export { useChannelEvent } from './useChannelEvent';
+export {
+  BACKGROUND_DISCONNECT_DELAY_MS,
+  bindAppStateLifecycle,
+  type AppStateLifecycleDeps,
+} from './appStateLifecycle';
