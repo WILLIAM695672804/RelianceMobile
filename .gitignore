@@ -39,3 +39,11 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Reliance
+.env
+.env.contract
+coverage/
+dist/
+android/
+ios/
