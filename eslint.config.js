@@ -9,6 +9,11 @@ module.exports = defineConfig([
     ignores: ['coverage/*', 'design/*', '.expo/*', 'android/*', 'ios/*', 'dist/*'],
   },
   {
+    // Les fabriques de jest.mock ne peuvent référencer que des modules chargés par require().
+    files: ['jest.setup.ts', '**/*.test.ts', '**/*.test.tsx'],
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
+  {
     settings: {
       'import/resolver': { typescript: { project: './tsconfig.json' } },
     },
