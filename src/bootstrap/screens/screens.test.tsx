@@ -1,4 +1,4 @@
-import { screen, userEvent } from '@testing-library/react-native';
+import { screen, userEvent, waitFor } from '@testing-library/react-native';
 
 import { createSessionStore } from '@/core/session';
 import { buildSessionUser } from '@/test/fixtures/users';
@@ -55,7 +55,20 @@ describe('AccountScreen', () => {
     expect(screen.getByText('client@example.test')).toBeOnTheScreen();
     await user.press(screen.getByRole('button', { name: 'Se déconnecter' }));
 
-    expect(logout).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(logout).toHaveBeenCalledTimes(1));
+  });
+
+  it('signale la déconnexion en cours', async () => {
+    const user = userEvent.setup();
+    const logout = jest.fn(() => new Promise<void>(() => undefined));
+    await renderWithProviders(<AccountScreen />, {
+      sessionStore: storeWith('client'),
+      sessionActions: { logout },
+    });
+
+    await user.press(screen.getByRole('button', { name: 'Se déconnecter' }));
+
+    expect(await screen.findByRole('button', { name: 'Se déconnecter' })).toBeBusy();
   });
 });
 

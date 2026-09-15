@@ -1,8 +1,12 @@
-import { useTranslation } from 'react-i18next';
+import { router } from 'expo-router';
 
-import { PlaceholderScreen } from '@/shared/components';
+import { LoginScreen } from '@/features/auth';
 
 export default function LoginRoute() {
-  const { t } = useTranslation();
-  return <PlaceholderScreen title={t('common:appName')} />;
+  return (
+    <LoginScreen
+      onRegister={() => router.push('/register')}
+      onForgotPassword={() => router.push('/forgot-password')}
+    />
+  );
 }

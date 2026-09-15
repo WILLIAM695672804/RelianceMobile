@@ -1,13 +1,14 @@
 import { useTranslation } from 'react-i18next';
 
-import { useSession, useSessionActions } from '@/core/session';
+import { useSession } from '@/core/session';
+import { useLogout } from '@/features/auth';
 import { Button, Card, Screen, Text } from '@/shared/components';
 
 /** Compte : profil minimal et déconnexion. */
 export function AccountScreen() {
   const { t } = useTranslation();
   const user = useSession((state) => state.user);
-  const { logout } = useSessionActions();
+  const logout = useLogout();
 
   return (
     <Screen scroll>
@@ -23,7 +24,8 @@ export function AccountScreen() {
       </Card>
       <Button
         label={t('common:actions.logout')}
-        onPress={() => void logout()}
+        onPress={() => logout.mutate()}
+        loading={logout.isPending}
         variant="secondary"
       />
     </Screen>
