@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["RelianceCookiesModule"]
+  },
+  "android": {
+    "modules": ["cm.reliance.cookies.RelianceCookiesModule"]
+  }
+}

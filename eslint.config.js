@@ -18,6 +18,8 @@ module.exports = defineConfig([
       'import/resolver': { typescript: { project: './tsconfig.json' } },
     },
     rules: {
+      // axios 1.20 exporte aussi `create` et `isAxiosError` : `axios.create()` reste l'idiome documenté.
+      'import/no-named-as-default-member': 'off',
       // Règle de dépendance (spécification § 3).
       'import/no-restricted-paths': [
         'error',
