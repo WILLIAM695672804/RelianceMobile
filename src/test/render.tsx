@@ -19,7 +19,11 @@ import { createFakeRealtimeClient } from './fakeRealtime';
 
 export function createTestQueryClient(): QueryClient {
   return new QueryClient({
-    defaultOptions: { queries: { retry: false, gcTime: Infinity }, mutations: { retry: false } },
+    // gcTime infini : aucun temporisateur de collecte ne retient le processus Jest.
+    defaultOptions: {
+      queries: { retry: false, gcTime: Infinity },
+      mutations: { retry: false, gcTime: Infinity },
+    },
   });
 }
 
