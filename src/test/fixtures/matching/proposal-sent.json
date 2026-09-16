@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "message": "Proposition envoyée au technicien",
+  "data": {
+    "request_id": "890a1828-ff6b-42b9-bbf5-46f7ba01ad8b",
+    "technician_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+    "price": "15000.00",
+    "message": "Pouvez-vous passer cet après-midi ?",
+    "status": "pending",
+    "expires_at": "2026-09-17T22:52:57.000000Z",
+    "id": "ee856cb7-b637-4236-8a3f-4dfd5cb71635",
+    "updated_at": "2026-09-16T22:52:57.000000Z",
+    "created_at": "2026-09-16T22:52:57.000000Z",
+    "request": {
+      "id": "890a1828-ff6b-42b9-bbf5-46f7ba01ad8b",
+      "client_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "title": "Panne de courant",
+      "description": "Plus de courant dans la cuisine depuis ce matin, le disjoncteur saute.",
+      "status": "quoted",
+      "created_at": "2026-09-16T22:52:57.000000Z",
+      "updated_at": "2026-09-16T22:52:57.000000Z",
+      "deleted_at": null,
+      "address_id": "62981b00-659b-4b46-aa64-11fd2bce1c5e",
+      "detected_category": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+      "diagnostic_fee": null,
+      "photos": ["requests/photos/kbyyVlZq7EYiNvwomVE0fbneqsKlqM8LErMNDkzU.png"],
+      "metadata": null
+    },
+    "technician": {
+      "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "name": "Technicien Démo",
+      "email": "technicien@example.test",
+      "phone": null,
+      "is_active": true,
+      "two_factor_enabled": false,
+      "email_verified_at": "2026-09-15T12:02:24.000000Z",
+      "created_at": "2026-09-15T12:02:24.000000Z",
+      "updated_at": "2026-09-16T22:52:57.000000Z",
+      "deleted_at": null,
+      "avatar_url": null,
+      "rating": "4.80",
+      "num_reviews": 32,
+      "verified": true,
+      "last_login": "2026-09-16T22:52:57.000000Z"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "status": "success",
+  "message": "Demande créée et analysée",
+  "data": {
+    "id": "890a1828-ff6b-42b9-bbf5-46f7ba01ad8b",
+    "title": "Panne de courant",
+    "description": "Plus de courant dans la cuisine depuis ce matin, le disjoncteur saute.",
+    "status": "new",
+    "category": {
+      "id": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+      "name": "Dépannage électrique",
+      "slug": "depannage-electrique"
+    },
+    "address": {
+      "id": "62981b00-659b-4b46-aa64-11fd2bce1c5e",
+      "city": "Yaoundé",
+      "address": "Adresse de démonstration"
+    },
+    "photos": ["requests/photos/kbyyVlZq7EYiNvwomVE0fbneqsKlqM8LErMNDkzU.png"],
+    "diagnostic_fee": null,
+    "analysis": {
+      "estimated_difficulty": "moderate",
+      "suggested_price": "15000.00",
+      "estimated_skills": ["electricite-generale"]
+    },
+    "created_at": "2026-09-16T22:52:57+00:00",
+    "updated_at": "2026-09-16T22:52:57+00:00"
+  }
+}

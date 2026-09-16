@@ -1,0 +1,152 @@
+{
+  "data": [
+    {
+      "id": "890a1828-ff6b-42b9-bbf5-46f7ba01ad8b",
+      "title": "Panne de courant",
+      "description": "Plus de courant dans la cuisine depuis ce matin, le disjoncteur saute.",
+      "status": "quoted",
+      "category": {
+        "id": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+        "name": "Dépannage électrique",
+        "slug": "depannage-electrique"
+      },
+      "address": {
+        "id": "62981b00-659b-4b46-aa64-11fd2bce1c5e",
+        "city": "Yaoundé",
+        "address": "Adresse de démonstration"
+      },
+      "photos": ["requests/photos/kbyyVlZq7EYiNvwomVE0fbneqsKlqM8LErMNDkzU.png"],
+      "diagnostic_fee": null,
+      "analysis": {
+        "estimated_difficulty": "moderate",
+        "suggested_price": "15000.00",
+        "estimated_skills": ["electricite-generale"]
+      },
+      "proposals_count": 1,
+      "counterpart": null,
+      "created_at": "2026-09-16T22:52:57+00:00",
+      "updated_at": "2026-09-16T22:52:57+00:00"
+    },
+    {
+      "id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+      "title": "Prise murale",
+      "description": "Une prise murale du salon ne fonctionne plus depuis hier soir.",
+      "status": "assigned",
+      "category": {
+        "id": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+        "name": "Dépannage électrique",
+        "slug": "depannage-electrique"
+      },
+      "address": {
+        "id": "515fa250-1623-4778-af9a-56498ffca1e3",
+        "city": "Yaoundé",
+        "address": null
+      },
+      "photos": [],
+      "diagnostic_fee": null,
+      "analysis": {
+        "estimated_difficulty": "simple",
+        "suggested_price": "5000.00",
+        "estimated_skills": ["electricite-generale", "peinture"]
+      },
+      "proposals_count": 1,
+      "counterpart": {
+        "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "name": "Technicien Démo",
+        "role": "technician"
+      },
+      "created_at": "2026-09-16T22:52:57+00:00",
+      "updated_at": "2026-09-16T22:52:58+00:00"
+    },
+    {
+      "id": "9b6ace25-6179-4320-abb8-d74c25430475",
+      "title": "Prise murale",
+      "description": "Une prise murale du salon ne fonctionne plus depuis hier soir.",
+      "status": "assigned",
+      "category": {
+        "id": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+        "name": "Dépannage électrique",
+        "slug": "depannage-electrique"
+      },
+      "address": {
+        "id": "0e3dfd7a-530e-4a53-80e9-a3a6541789d9",
+        "city": "Yaoundé",
+        "address": null
+      },
+      "photos": [],
+      "diagnostic_fee": null,
+      "analysis": {
+        "estimated_difficulty": "simple",
+        "suggested_price": "5000.00",
+        "estimated_skills": ["electricite-generale", "peinture"]
+      },
+      "proposals_count": 1,
+      "counterpart": {
+        "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "name": "Technicien Démo",
+        "role": "technician"
+      },
+      "created_at": "2026-09-16T22:19:01+00:00",
+      "updated_at": "2026-09-16T22:19:01+00:00"
+    },
+    {
+      "id": "6f2236df-08f5-4912-bffa-1c014f6901d8",
+      "title": "Panne de courant",
+      "description": "Plus de courant dans la cuisine depuis ce matin, le disjoncteur saute.",
+      "status": "quoted",
+      "category": {
+        "id": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+        "name": "Dépannage électrique",
+        "slug": "depannage-electrique"
+      },
+      "address": {
+        "id": "07e8fb6d-7703-4e88-aac0-14fb707b8c4c",
+        "city": "Yaoundé",
+        "address": "Adresse de démonstration"
+      },
+      "photos": ["requests/photos/2fyukpILkh3nA6NS7p7voHuvqU2KUFrS2Fb3OBHj.png"],
+      "diagnostic_fee": null,
+      "analysis": {
+        "estimated_difficulty": "moderate",
+        "suggested_price": "15000.00",
+        "estimated_skills": ["electricite-generale"]
+      },
+      "proposals_count": 1,
+      "counterpart": null,
+      "created_at": "2026-09-16T22:18:35+00:00",
+      "updated_at": "2026-09-16T22:18:36+00:00"
+    }
+  ],
+  "links": {
+    "first": "http://api.test/api/v1/requests?page=1",
+    "last": "http://api.test/api/v1/requests?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/requests?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http://api.test/api/v1/requests",
+    "per_page": 15,
+    "to": 4,
+    "total": 4
+  }
+}

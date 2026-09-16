@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "message": "Proposition acceptée",
+  "data": {
+    "id": "924104c5-ec72-4319-844b-68557d2bf949",
+    "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+    "technician_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+    "status": "accepted",
+    "expires_at": "2026-09-17T22:52:58.000000Z",
+    "created_at": "2026-09-16T22:52:58.000000Z",
+    "updated_at": "2026-09-16T22:52:58.000000Z",
+    "price": "12000.00",
+    "message": null,
+    "request": {
+      "id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+      "client_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "title": "Prise murale",
+      "description": "Une prise murale du salon ne fonctionne plus depuis hier soir.",
+      "status": "assigned",
+      "created_at": "2026-09-16T22:52:57.000000Z",
+      "updated_at": "2026-09-16T22:52:58.000000Z",
+      "deleted_at": null,
+      "address_id": "515fa250-1623-4778-af9a-56498ffca1e3",
+      "detected_category": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+      "diagnostic_fee": null,
+      "photos": [],
+      "metadata": null
+    },
+    "technician": {
+      "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "name": "Technicien Démo",
+      "email": "technicien@example.test",
+      "phone": null,
+      "is_active": true,
+      "two_factor_enabled": false,
+      "email_verified_at": "2026-09-15T12:02:24.000000Z",
+      "created_at": "2026-09-15T12:02:24.000000Z",
+      "updated_at": "2026-09-16T22:52:57.000000Z",
+      "deleted_at": null,
+      "avatar_url": null,
+      "rating": "4.80",
+      "num_reviews": 32,
+      "verified": true,
+      "last_login": "2026-09-16T22:52:57.000000Z"
+    }
+  }
+}
