@@ -27,6 +27,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-localization',
     'expo-font',
     'expo-status-bar',
+    [
+      'expo-image-picker',
+      {
+        photosPermission:
+          'Reliance accède à vos photos pour votre avatar et vos justificatifs d’identité.',
+        cameraPermission:
+          'Reliance utilise l’appareil photo pour photographier vos justificatifs d’identité.',
+        microphonePermission: false,
+      },
+    ],
     ['expo-build-properties', { android: { usesCleartextTraffic: !isProduction } }],
   ],
 });

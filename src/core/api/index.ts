@@ -13,3 +13,4 @@ export {
   type CsrfManagerDeps,
 } from './csrf';
 export { parseResponse } from './parseResponse';
+export { appendFile, MULTIPART_HEADERS, type UploadFile } from './upload';
