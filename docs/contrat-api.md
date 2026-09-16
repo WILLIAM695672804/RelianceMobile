@@ -11,7 +11,9 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | `auth`          | Livré (Plan 1, recette appareil en attente) | `auth/login`, `auth/register`, `auth/logout`, `auth/me`, `auth/forgot-password`, `auth/reset-password`, `auth/2fa/{generate,enable,disable}`, `auth/email/verification-notification` |
 | `profile`       | Livré (Plan 2, recette appareil en attente) | `auth/profile`, `auth/profile/password`, `auth/profile/avatar`, `locations`, `locations/{id}`, `locations/{id}/default`, `auth/request-upgrade`                                      |
 | `kyc`           | Livré (Plan 2, recette appareil en attente) | `auth/kyc/mine`, `auth/kyc/upload`                                                                                                                                                   |
-| Autres features | Plans 3 et suivants                         | —                                                                                                                                                                                    |
+| `requests`      | Livré (Plan 3, recette appareil en attente) | `requests` (GET, POST), `requests/{id}`, `skills`                                                                                                                                    |
+| `matching`      | Livré (Plan 3, recette appareil en attente) | `requests/{id}/match`, `requests/{id}/select-technician`, `technicians/{id}/profile`, `proposals/my`, `proposals/active-mission`, `proposals/{id}/accept`, `proposals/{id}/refuse`   |
+| Autres features | Plans 4 et suivants                         | —                                                                                                                                                                                    |
 
 ## 2. Réponses d'authentification constatées
 
@@ -36,14 +38,26 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | Passage technicien déjà acquis ou en attente | 422    | `{ message }` sans `errors`                                                |
 | Justificatif soumis                          | 200    | `{ message: "Document KYC soumis", document: { id, type, status, url } }`  |
 
+### Demandes et rapprochement
+
+| Cas                             | Statut | Corps                                                                    |
+| ------------------------------- | ------ | ------------------------------------------------------------------------ |
+| Demande créée                   | 201    | `{ status: "success", data: request }` (statut `new`)                    |
+| Demande invalide                | 422    | `{ message, errors }`                                                    |
+| Rapprochement                   | 200    | `{ status, data: { technicians, scoring_details } }`                     |
+| Proposition envoyée             | 201    | `{ status, message, data: proposal }` (statut `pending`, expire en 24 h) |
+| Proposition acceptée ou refusée | 200    | `{ status: "success", message }`                                         |
+| Proposition expirée             | 410    | `{ message }`                                                            |
+| Aucune mission en cours         | 200    | `{ status: "success", data: null }`                                      |
+
 ## 3. Statuts
 
-| Objet       | Valeurs                                                                             |
-| ----------- | ----------------------------------------------------------------------------------- |
-| Demande     | `pending`, `analyzed`, `matching`, `proposed`, `accepted`, `completed`, `cancelled` |
-| Proposition | `sent`, `view`, `accepted`, `refused`, `expired`                                    |
-| Mission     | `pending`, `en_route`, `arrived`, `in_progress`, `completed`, `cancelled`           |
-| Devis       | `draft`, `sent`, `accepted`, `rejected`, `expired`                                  |
+| Objet       | Valeurs                                                                                                                                                            |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Demande     | `new`, `analyzed`, `quoted`, `assigned`, `completed`, `cancelled` (les commentaires de migration, obsolètes, citent `pending`, `matching`, `proposed`, `accepted`) |
+| Proposition | `pending`, `accepted`, `refused`, `rejected` (propositions concurrentes à l'acceptation), `expired` (la migration cite `sent`, `view`)                             |
+| Mission     | `pending`, `en_route`, `arrived`, `in_progress`, `completed`, `cancelled`                                                                                          |
+| Devis       | `draft`, `sent`, `accepted`, `rejected`, `expired`                                                                                                                 |
 
 ## 4. Temps réel
 
@@ -67,3 +81,5 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `SANCTUM_STATEFUL_DOMAINS` doit contenir `mobile.reliance.local` (origine déclarée par le mobile).
 - `avatar_url` et l'`url` des justificatifs sont construits sur `APP_URL` : sur appareil physique, `APP_URL` doit désigner une adresse joignable depuis le téléphone (par exemple `http://192.168.1.159:8010`), faute de quoi les images ne se chargent pas.
 - `KycController::upload` ne relit pas le modèle : `document.status` vaut `null` dans la réponse, bien que la base enregistre `pending`.
+- `GET /technicians/{id}/profile`, route publique, sérialise le courriel et le téléphone du technicien. Le mobile les écarte (schéma Zod), mais la correction relève du backend.
+- `POST /requests/{id}/select-technician` et `GET /proposals/my` renvoient les modèles `User` bruts du client et du technicien (même exposition que `/auth/me`).
