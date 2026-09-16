@@ -6,10 +6,10 @@ Source de vérité : le code de `RelianceBackend/` (`php artisan route:list --pa
 
 Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'implémentation.
 
-| Feature         | État         | Endpoints implémentés                                                                                                                                                                |
-| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `auth`          | Plan 1       | `auth/login`, `auth/register`, `auth/logout`, `auth/me`, `auth/forgot-password`, `auth/reset-password`, `auth/2fa/{generate,enable,disable}`, `auth/email/verification-notification` |
-| Autres features | Plans 2 et 3 | —                                                                                                                                                                                    |
+| Feature         | État                                        | Endpoints implémentés                                                                                                                                                                |
+| --------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `auth`          | Livré (Plan 1, recette appareil en attente) | `auth/login`, `auth/register`, `auth/logout`, `auth/me`, `auth/forgot-password`, `auth/reset-password`, `auth/2fa/{generate,enable,disable}`, `auth/email/verification-notification` |
+| Autres features | Plans 2 et suivants                         | —                                                                                                                                                                                    |
 
 ## 2. Réponses d'authentification constatées
 
@@ -50,3 +50,5 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 ## 6. Observations de sécurité backend
 
 - `User::$hidden` ne masque que `password` et `remember_token` : `two_factor_secret` et `two_factor_recovery_codes` sont sérialisés dans `/auth/me` et `/auth/login`. Le mobile les ignore (schéma Zod strict), mais la correction relève du backend.
+- `POST /auth/forgot-password` valide `exists:users,email` : la réponse 422 permet l'énumération des comptes.
+- `SANCTUM_STATEFUL_DOMAINS` doit contenir `mobile.reliance.local` (origine déclarée par le mobile).
