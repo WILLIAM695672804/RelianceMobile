@@ -45,6 +45,7 @@ describe('hooks auth', () => {
     await act(async () => {
       await result.current.mutateAsync({ email: 'technicien@example.test', password: 'secret' });
     });
+    await waitFor(() => expect(result.current.isPending).toBe(false));
 
     expect(sessionActions.signIn).toHaveBeenCalledWith(
       expect.objectContaining({ role: 'technicien' }),
@@ -61,6 +62,7 @@ describe('hooks auth', () => {
         .mutateAsync({ email: 'a@example.test', password: 'x' })
         .catch(() => undefined);
     });
+    await waitFor(() => expect(result.current.isPending).toBe(false));
 
     expect(sessionActions.signIn).not.toHaveBeenCalled();
   });
@@ -79,6 +81,7 @@ describe('hooks auth', () => {
         password_confirmation: 'motdepasse',
       });
     });
+    await waitFor(() => expect(result.current.isPending).toBe(false));
 
     expect(sessionActions.signIn).toHaveBeenCalledTimes(1);
   });
@@ -90,6 +93,7 @@ describe('hooks auth', () => {
     await act(async () => {
       await result.current.mutateAsync();
     });
+    await waitFor(() => expect(result.current.isPending).toBe(false));
 
     expect(sessionActions.logout).toHaveBeenCalledTimes(1);
   });
@@ -105,6 +109,7 @@ describe('hooks auth', () => {
     await act(async () => {
       message = await result.current.mutateAsync('awa@example.test');
     });
+    await waitFor(() => expect(result.current.isPending).toBe(false));
 
     expect(message).toBe('Lien de réinitialisation envoyé par email.');
   });
@@ -121,6 +126,7 @@ describe('hooks auth', () => {
     await act(async () => {
       await result.current.mutateAsync('123456');
     });
+    await waitFor(() => expect(result.current.isPending).toBe(false));
 
     expect(invalidate).toHaveBeenCalledWith({ queryKey: authKeys.account() });
   });

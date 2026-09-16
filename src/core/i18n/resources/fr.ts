@@ -39,11 +39,6 @@ export const fr = {
     home: {
       greeting: 'Bonjour, {{name}}',
     },
-    account: {
-      title: 'Mon compte',
-      email: 'Adresse électronique',
-      role: 'Rôle',
-    },
   },
   errors: {
     network: 'Vérifiez votre connexion.',

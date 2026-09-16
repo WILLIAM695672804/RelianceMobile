@@ -2,6 +2,7 @@ import { act } from '@testing-library/react-native';
 
 import { createRealtimeService } from '@/core/realtime';
 import { createSessionStore } from '@/core/session';
+import { kycKeys } from '@/features/kyc';
 import { createFakeRealtimeClient } from '@/test/fakeRealtime';
 import { buildSessionUser } from '@/test/fixtures/users';
 import { renderWithProviders } from '@/test/render';
@@ -29,5 +30,28 @@ describe('RealtimeBridge', () => {
     });
 
     expect(restore).toHaveBeenCalledTimes(1);
+  });
+
+  it('relit les justificatifs à la décision KYC', async () => {
+    const fake = createFakeRealtimeClient();
+    const realtime = createRealtimeService(() => fake.client);
+    const sessionStore = createSessionStore();
+    sessionStore.getState().setAuthenticated(buildSessionUser('technicien', { id: 'u1' }));
+    realtime.start();
+
+    const { queryClient } = await renderWithProviders(<RealtimeBridge />, {
+      realtime,
+      sessionStore,
+    });
+    const invalidate = jest.spyOn(queryClient, 'invalidateQueries');
+    await act(async () => {
+      fake.channels.get('user.u1')?.emit('KycStatusChanged', {
+        status: 'approved',
+        rejection_reason: null,
+        type: 'kyc_status',
+      });
+    });
+
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: kycKeys.all });
   });
 });
