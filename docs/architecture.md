@@ -4,16 +4,18 @@ Ce document remplace le Document 3 (rédigé pour Flutter).
 
 ## 1. Couches
 
-| Couche                | Rôle                                                                                                                                              | Peut importer                                             |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| `app/`                | Routes Expo Router ; délégation pure                                                                                                              | tout                                                      |
-| `src/bootstrap/`      | Composition des singletons (client HTTP, session, cache, temps réel), fournisseurs, navigateur racine, écrans transverses (E01, compte, web-only) | `core`, `shared`, `features`                              |
-| `src/features/<nom>/` | Une capacité métier : `api/`, `schemas/`, `hooks/`, `screens/`, `components/`, `index.ts`                                                         | `core`, `shared`, autres features **via leur `index.ts`** |
-| `src/shared/`         | Primitives d'interface et utilitaires                                                                                                             | `core`                                                    |
-| `src/core/`           | Socle technique sans connaissance métier                                                                                                          | bibliothèques et `modules/`                               |
-| `modules/`            | Modules natifs locaux (Expo Modules API, Kotlin + Swift), découverts par l'autoliaison                                                            | `expo`                                                    |
+| Couche                | Rôle                                                                                                                                                                        | Peut importer                                             |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| `app/`                | Routes Expo Router ; délégation pure                                                                                                                                        | tout                                                      |
+| `src/bootstrap/`      | Composition des singletons (client HTTP, session, cache, temps réel), fournisseurs, navigateur racine, écrans transverses (E01, web-only) et liaison de E08 à la navigation | `core`, `shared`, `features`                              |
+| `src/features/<nom>/` | Une capacité métier : `api/`, `schemas/`, `hooks/`, `screens/`, `components/`, `index.ts`                                                                                   | `core`, `shared`, autres features **via leur `index.ts`** |
+| `src/shared/`         | Primitives d'interface et utilitaires                                                                                                                                       | `core`                                                    |
+| `src/core/`           | Socle technique sans connaissance métier                                                                                                                                    | bibliothèques et `modules/`                               |
+| `modules/`            | Modules natifs locaux (Expo Modules API, Kotlin + Swift), découverts par l'autoliaison                                                                                      | `expo`                                                    |
 
 La règle est imposée par `import/no-restricted-paths` (ESLint). Toute importation profonde `@/features/x/...` est interdite.
+
+Dépendances entre features autorisées à ce jour : `profile` → `auth` (compte, double authentification, déconnexion). `src/shared/media/` encapsule `expo-image-picker` (galerie, appareil photo) pour les features qui téléversent des fichiers ; l'envoi `multipart/form-data` passe par `core/api/upload.ts`.
 
 **Écarts avec la spécification** : groupes de rôle sous forme de répertoires nommés (`app/client`, `app/technicien`, `app/agence`) pour éviter le conflit de trois routes `/` ; ajout de `src/core/query/` et de `src/bootstrap/`.
 
