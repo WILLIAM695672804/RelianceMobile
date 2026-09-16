@@ -6,6 +6,7 @@ import { appEnv } from '@/core/config';
 import { resolveLanguage } from '@/core/i18n';
 import { startConnectivitySync } from '@/core/offline';
 import { createMmkvStore } from '@/core/storage';
+import { authTranslations } from '@/features/auth';
 
 import { createServices } from './createServices';
 
@@ -19,5 +20,5 @@ export const services = createServices({
   cacheStorage: createMmkvStore('reliance.query-cache'),
   appVersion: Constants.expoConfig?.version ?? '0.0.0',
   language: resolveLanguage(getLocales().map((locale) => locale.languageTag)),
-  translations: [],
+  translations: [authTranslations],
 });

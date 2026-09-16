@@ -1,6 +1,7 @@
 export { Button, type ButtonProps, type ButtonVariant } from './Button';
 export { Card } from './Card';
 export { ConfirmDialog, type ConfirmDialogProps } from './ConfirmDialog';
+export { FormTextField, type FormTextFieldProps } from './FormTextField';
 export { OfflineBanner } from './OfflineBanner';
 export { PlaceholderScreen, type PlaceholderScreenProps } from './PlaceholderScreen';
 export { Screen, type ScreenProps } from './Screen';

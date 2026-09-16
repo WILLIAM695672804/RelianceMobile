@@ -4,12 +4,12 @@ Application mobile de la plateforme Reliance (clients, techniciens, agences), en
 
 ## Prérequis
 
-| Outil                | Version              | Remarque                                         |
-| -------------------- | -------------------- | ------------------------------------------------ |
-| Node.js              | 24 LTS (`.nvmrc`)    | `nvm use`                                        |
-| JDK                  | 17                   | `sudo apt install openjdk-17-jdk`                |
-| Android Studio + SDK | API 35 ou supérieure | émulateur Pixel recommandé                       |
-| Backend Reliance     | `RelianceBackend/`   | API sur le port 8000, WebSocket sur le port 6001 |
+| Outil            | Version            | Remarque                                                                                                                                              |
+| ---------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Node.js          | 24 LTS (`.nvmrc`)  | `nvm use`                                                                                                                                             |
+| JDK              | 17 ou 21           | validé avec OpenJDK 21 (Gradle 9.3.1, AGP 8.12)                                                                                                       |
+| SDK Android      | API 36             | `cmdline-tools` suffisent (sans Android Studio) : `platform-tools`, `platforms;android-36`, `build-tools;36.0.0`, `ndk;27.1.12297006`, `cmake;3.22.1` |
+| Backend Reliance | `RelianceBackend/` | API (port 8000 ou 8010), WebSocket sur le port 6001                                                                                                   |
 
 Le projet exige une **development build** (modules natifs : cookies, MMKV) ; Expo Go n'est pas pris en charge.
 
@@ -46,9 +46,14 @@ npm start         # serveur Metro pour les lancements suivants
 
 ## Réseau de développement
 
-- Émulateur Android : l'hôte est joignable en `10.0.2.2` ; appareil physique : IP locale de la machine.
-- Backend : `php artisan serve --host=0.0.0.0 --port=8000` ; WebSocket : `php artisan websockets:serve` (écoute sur `0.0.0.0:6001`).
+- Émulateur Android : l'hôte est joignable en `10.0.2.2` ; appareil physique : IP locale de la machine (par exemple `192.168.1.159`), téléphone et poste sur le même réseau.
+- Backend : `php artisan serve --host=0.0.0.0 --port=8010` ; WebSocket : `php artisan websockets:serve` (écoute sur `0.0.0.0:6001`). Le port 8000 est occupé par un autre projet du poste.
 - Backend, `.env` : `SANCTUM_STATEFUL_DOMAINS=127.0.0.1:5173,localhost:5173,mobile.reliance.local` puis `php artisan config:clear`.
+- Pare-feu, le cas échéant : `sudo ufw allow from 192.168.1.0/24 to any port 8010,6001 proto tcp`.
+
+### Compilation sur poste à mémoire contrainte
+
+Le dossier `android/` est généré (`npx expo prebuild`) et ignoré par git. Sur une machine à mémoire limitée, brider la compilation dans `android/gradle.properties` — `org.gradle.parallel=false`, `org.gradle.workers.max=2`, `kotlin.compiler.execution.strategy=in-process` — et lancer `taskset -c 0-1 ./gradlew app:assembleDebug -PreactNativeArchitectures=arm64-v8a`. Ces réglages sont perdus à chaque `prebuild --clean`.
 
 ## Comptes de test
 
@@ -65,3 +70,4 @@ npm start         # serveur Metro pour les lancements suivants
 - [Contrat API](docs/contrat-api.md)
 - [Décisions d'architecture](docs/adr/)
 - [Spécification des fondations](docs/specs/2026-09-14-reliance-mobile-fondations-design.md)
+- [Feature `auth`](src/features/auth/README.md)
