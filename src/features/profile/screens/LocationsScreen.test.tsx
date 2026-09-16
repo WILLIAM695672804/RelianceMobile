@@ -1,4 +1,5 @@
 import { fireEvent, screen, userEvent, waitFor } from '@testing-library/react-native';
+import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 import { renderWithProviders } from '@/test/render';
@@ -10,12 +11,13 @@ const home = { id: 'l1', label: 'Maison', address: 'Rue 1', city: 'Douala', is_d
 const office = { id: 'l2', label: 'Bureau', address: 'Rue 2', city: null, is_default: false };
 
 async function setup(locations: unknown[] = [home, office]) {
+  const api = axios.create({ baseURL: 'http://api.test/api/v1' });
+  const mock = new MockAdapter(api);
+  mock.onGet('/locations').reply(200, locations);
   const providers = await renderWithProviders(<LocationsScreen />, {
+    api,
     translations: [profileTranslations],
   });
-  const mock = new MockAdapter(providers.api);
-  mock.onGet('/locations').reply(200, locations);
-  await providers.queryClient.invalidateQueries();
   return { ...providers, mock, user: userEvent.setup() };
 }
 
