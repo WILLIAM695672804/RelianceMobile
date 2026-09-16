@@ -45,3 +45,8 @@ yarn-error.*
 .env.contract
 coverage/
 dist/
+
+# Artefacts de compilation des modules natifs locaux
+modules/*/android/build/
+modules/*/android/.cxx/
+modules/*/ios/build/
