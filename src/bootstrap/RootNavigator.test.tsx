@@ -57,4 +57,16 @@ describe('RootNavigator', () => {
     expect(screen.getByText('écran:web-only')).toBeOnTheScreen();
     expect(screen.queryByText('écran:(profil)')).not.toBeOnTheScreen();
   });
+
+  it('n’ouvre le parcours des demandes qu’au client', async () => {
+    const sessionStore = createSessionStore();
+    sessionStore.getState().setAuthenticated(buildSessionUser('client'));
+    await renderWithProviders(<RootNavigator />, { sessionStore });
+    expect(screen.getByText('écran:(demande)')).toBeOnTheScreen();
+
+    await act(async () => {
+      sessionStore.getState().setAuthenticated(buildSessionUser('technicien'));
+    });
+    expect(screen.queryByText('écran:(demande)')).not.toBeOnTheScreen();
+  });
 });

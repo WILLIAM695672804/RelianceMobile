@@ -1,0 +1,7 @@
+{
+  "message": "The technician id field is required. (and 1 more error)",
+  "errors": {
+    "technician_id": ["The technician id field is required."],
+    "price": ["The price field is required."]
+  }
+}

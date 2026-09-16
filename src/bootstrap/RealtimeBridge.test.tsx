@@ -3,6 +3,7 @@ import { act } from '@testing-library/react-native';
 import { createRealtimeService } from '@/core/realtime';
 import { createSessionStore } from '@/core/session';
 import { kycKeys } from '@/features/kyc';
+import { matchingKeys } from '@/features/matching';
 import { createFakeRealtimeClient } from '@/test/fakeRealtime';
 import { buildSessionUser } from '@/test/fixtures/users';
 import { renderWithProviders } from '@/test/render';
@@ -53,5 +54,24 @@ describe('RealtimeBridge', () => {
     });
 
     expect(invalidate).toHaveBeenCalledWith({ queryKey: kycKeys.all });
+  });
+
+  it('relit les propositions à la réception d’une proposition', async () => {
+    const fake = createFakeRealtimeClient();
+    const realtime = createRealtimeService(() => fake.client);
+    const sessionStore = createSessionStore();
+    sessionStore.getState().setAuthenticated(buildSessionUser('technicien', { id: 'u1' }));
+    realtime.start();
+
+    const { queryClient } = await renderWithProviders(<RealtimeBridge />, {
+      realtime,
+      sessionStore,
+    });
+    const invalidate = jest.spyOn(queryClient, 'invalidateQueries');
+    await act(async () => {
+      fake.channels.get('proposals.u1')?.emit('ProposalCreated', { id: 'p1' });
+    });
+
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: matchingKeys.all });
   });
 });

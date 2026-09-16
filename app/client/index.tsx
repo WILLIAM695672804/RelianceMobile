@@ -1,5 +1,5 @@
-import { RoleHomeScreen } from '@/bootstrap/screens/RoleHomeScreen';
+import { ClientHomeRoute } from '@/bootstrap/screens/ClientHomeRoute';
 
 export default function HomeRoute() {
-  return <RoleHomeScreen />;
+  return <ClientHomeRoute />;
 }

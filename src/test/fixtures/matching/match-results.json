@@ -1,0 +1,65 @@
+{
+  "status": "success",
+  "data": {
+    "technicians": [
+      {
+        "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "name": "Technicien Démo",
+        "avatar_url": null,
+        "rating": 4.8,
+        "num_reviews": 32,
+        "verified": true,
+        "distance_km": 0,
+        "match_score": 64,
+        "scores": {
+          "distance": 1,
+          "rating": 0.96,
+          "proficiency": 0.03,
+          "availability": 0.3,
+          "success_rate": 0.5,
+          "total": 0.641
+        },
+        "skills": [
+          {
+            "name": "Électricité générale",
+            "proficiency": 3,
+            "hourly_rate": "7000.00"
+          },
+          {
+            "name": "Installation électrique",
+            "proficiency": 3,
+            "hourly_rate": "6000.00"
+          },
+          {
+            "name": "Dépannage électrique",
+            "proficiency": 3,
+            "hourly_rate": "9000.00"
+          },
+          {
+            "name": "Tableau électrique",
+            "proficiency": 4,
+            "hourly_rate": "6000.00"
+          },
+          {
+            "name": "Éclairage / LED",
+            "proficiency": 5,
+            "hourly_rate": "5000.00"
+          }
+        ],
+        "badges": []
+      }
+    ],
+    "scoring_details": {
+      "weights": {
+        "distance": 0.3,
+        "rating": 0.25,
+        "proficiency": 0.2,
+        "availability": 0.15,
+        "success_rate": 0.1
+      },
+      "candidates_found": 1,
+      "returned": 1,
+      "radius_km": 50
+    }
+  }
+}

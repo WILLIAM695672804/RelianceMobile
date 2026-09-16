@@ -7,6 +7,7 @@
  */
 
 export { profileKeys } from './hooks/profileKeys';
+export { useSkillCatalog } from './hooks/useSkillCatalog';
 export {
   useCreateLocation,
   useDeleteLocation,
@@ -20,6 +21,7 @@ export {
   useUploadAvatar,
 } from './hooks/useProfileMutations';
 export { profileTranslations } from './i18n';
+export { groupSkillsByCategory, type SkillGroup } from './model/skillGroups';
 export {
   ChangePasswordScreen,
   type ChangePasswordScreenProps,
@@ -43,3 +45,4 @@ export type {
   ProfilePayload,
   UpgradePayload,
 } from './schemas/profileSchemas';
+export type { Skill } from './schemas/skillSchemas';

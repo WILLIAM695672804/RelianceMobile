@@ -8,7 +8,9 @@ import { startConnectivitySync } from '@/core/offline';
 import { createMmkvStore } from '@/core/storage';
 import { authTranslations } from '@/features/auth';
 import { kycTranslations } from '@/features/kyc';
+import { matchingTranslations } from '@/features/matching';
 import { profileTranslations } from '@/features/profile';
+import { requestsTranslations } from '@/features/requests';
 
 import { createServices } from './createServices';
 
@@ -26,5 +28,11 @@ export const services = createServices({
   appVersion: Constants.expoConfig?.version ?? '0.0.0',
   language:
     languagePreference.read() ?? resolveLanguage(getLocales().map((locale) => locale.languageTag)),
-  translations: [authTranslations, profileTranslations, kycTranslations],
+  translations: [
+    authTranslations,
+    profileTranslations,
+    kycTranslations,
+    requestsTranslations,
+    matchingTranslations,
+  ],
 });

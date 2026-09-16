@@ -1,0 +1,173 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "9b323a6d-74ae-4bde-83d7-492ef95a549e",
+      "slug": "plomberie-generale",
+      "name": "Plomberie générale",
+      "category": "Plomberie"
+    },
+    {
+      "id": "816fefaa-cbb9-45b2-9a87-9d001839c483",
+      "slug": "debouchage-canalisation",
+      "name": "Débouchage canalisation",
+      "category": "Plomberie"
+    },
+    {
+      "id": "a801aeb6-cea6-4cf1-829a-c9927ba15a85",
+      "slug": "installation-sanitaire",
+      "name": "Installation sanitaire",
+      "category": "Plomberie"
+    },
+    {
+      "id": "f2ed6f88-178c-4200-a97f-33b3d481ebe0",
+      "slug": "reparation-fuite",
+      "name": "Réparation de fuite",
+      "category": "Plomberie"
+    },
+    {
+      "id": "b7575c9a-eb3b-4a99-8fd1-52b0aeeaff50",
+      "slug": "chauffe-eau",
+      "name": "Installation/réparation chauffe-eau",
+      "category": "Plomberie"
+    },
+    {
+      "id": "4b12dfe5-2290-4e67-aad2-abd1632711bc",
+      "slug": "electricite-generale",
+      "name": "Électricité générale",
+      "category": "Électricité"
+    },
+    {
+      "id": "07d7936c-2330-4385-bffe-7cd6abf8493b",
+      "slug": "installation-electrique",
+      "name": "Installation électrique",
+      "category": "Électricité"
+    },
+    {
+      "id": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+      "slug": "depannage-electrique",
+      "name": "Dépannage électrique",
+      "category": "Électricité"
+    },
+    {
+      "id": "a98b8d28-baaa-4764-af91-f42322cf2391",
+      "slug": "tableau-electrique",
+      "name": "Tableau électrique",
+      "category": "Électricité"
+    },
+    {
+      "id": "804d09ec-cb08-4f77-8aad-9a30b8f7e3ee",
+      "slug": "eclairage",
+      "name": "Éclairage / LED",
+      "category": "Électricité"
+    },
+    {
+      "id": "59d10208-0ec0-40bc-adbc-69605565409c",
+      "slug": "maintenance-informatique",
+      "name": "Maintenance informatique",
+      "category": "Informatique"
+    },
+    {
+      "id": "2dfa2a38-1c7f-4504-ada3-1c9d16a16d6d",
+      "slug": "reseau-wifi",
+      "name": "Réseau / Wi-Fi",
+      "category": "Informatique"
+    },
+    {
+      "id": "5f5dee77-752a-4c54-936e-0108d4594460",
+      "slug": "reparation-smartphone",
+      "name": "Réparation smartphone",
+      "category": "Électronique"
+    },
+    {
+      "id": "d572932e-3aa4-4dd7-8ec7-f6e195b38410",
+      "slug": "reparation-tv",
+      "name": "Réparation TV / écran",
+      "category": "Électronique"
+    },
+    {
+      "id": "7f67e7fa-5cbe-43bf-aa13-0f79930677df",
+      "slug": "camera-surveillance",
+      "name": "Caméra de surveillance",
+      "category": "Sécurité"
+    },
+    {
+      "id": "810236c4-79a6-462b-82d9-bb09c4812693",
+      "slug": "alarme-securite",
+      "name": "Système d'alarme",
+      "category": "Sécurité"
+    },
+    {
+      "id": "dbb20f1c-e3bb-4374-9784-5d7396396e0d",
+      "slug": "controle-acces",
+      "name": "Contrôle d'accès",
+      "category": "Sécurité"
+    },
+    {
+      "id": "bbd1c0a9-0687-4e7b-9f5a-e4e784a927fb",
+      "slug": "gps-tracking",
+      "name": "GPS / Tracking véhicule",
+      "category": "Sécurité"
+    },
+    {
+      "id": "995637d1-ec2b-4736-b01d-97e1d283eb51",
+      "slug": "mecanique-auto",
+      "name": "Mécanique automobile",
+      "category": "Mécanique"
+    },
+    {
+      "id": "ea0e880b-687d-4abd-b68d-1d3db262773e",
+      "slug": "climatisation-auto",
+      "name": "Climatisation automobile",
+      "category": "Mécanique"
+    },
+    {
+      "id": "9bc88bf6-1b8b-4a1e-a111-541cfd76c891",
+      "slug": "electricite-auto",
+      "name": "Électricité automobile",
+      "category": "Mécanique"
+    },
+    {
+      "id": "5b41cb62-1cd0-419b-be46-51ff27095cd9",
+      "slug": "climatisation",
+      "name": "Climatisation",
+      "category": "Climatisation"
+    },
+    {
+      "id": "d5caa64b-cc94-44b8-aebd-4969f0aa6586",
+      "slug": "refrigeration",
+      "name": "Réfrigération",
+      "category": "Climatisation"
+    },
+    {
+      "id": "9f3d923c-9e75-4aa5-803a-059a3cfdc393",
+      "slug": "ventilation",
+      "name": "Ventilation / VMC",
+      "category": "Climatisation"
+    },
+    {
+      "id": "c3522c8e-1955-4410-b8f4-1b0fc86ca594",
+      "slug": "peinture",
+      "name": "Peinture",
+      "category": "Bâtiment"
+    },
+    {
+      "id": "01be0812-0771-40d9-9bbe-1a1958be5ffc",
+      "slug": "carrelage",
+      "name": "Carrelage",
+      "category": "Bâtiment"
+    },
+    {
+      "id": "8e81c5a0-61b1-4c8d-a4b7-c940bb2a3e4f",
+      "slug": "menuiserie",
+      "name": "Menuiserie",
+      "category": "Bâtiment"
+    },
+    {
+      "id": "4755af55-c4fe-4f25-bb20-444643c7d9e8",
+      "slug": "soudure",
+      "name": "Soudure / Métallerie",
+      "category": "Bâtiment"
+    }
+  ]
+}
