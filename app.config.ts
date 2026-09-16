@@ -37,6 +37,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         microphonePermission: false,
       },
     ],
+    [
+      'expo-location',
+      {
+        locationWhenInUsePermission:
+          'Reliance utilise votre position pour localiser votre demande et trouver les techniciens proches.',
+      },
+    ],
     ['expo-build-properties', { android: { usesCleartextTraffic: !isProduction } }],
   ],
 });

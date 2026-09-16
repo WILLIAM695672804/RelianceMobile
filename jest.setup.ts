@@ -32,3 +32,19 @@ jest.mock('expo-image-picker', () => ({
   requestMediaLibraryPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted' })),
   requestCameraPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted' })),
 }));
+
+jest.mock('expo-location', () => ({
+  Accuracy: { Balanced: 3 },
+  requestForegroundPermissionsAsync: jest.fn(async () => ({
+    granted: true,
+    status: 'granted',
+    canAskAgain: true,
+  })),
+  getCurrentPositionAsync: jest.fn(async () => ({
+    coords: { latitude: 3.848, longitude: 11.5021 },
+  })),
+  reverseGeocodeAsync: jest.fn(async () => [
+    { street: 'Rue de la démonstration', city: 'Yaoundé', formattedAddress: null },
+  ]),
+  geocodeAsync: jest.fn(async () => [{ latitude: 4.0511, longitude: 9.7679 }]),
+}));
