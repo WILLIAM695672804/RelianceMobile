@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSession } from '@/core/session';
 import { PlaceholderScreen, Text } from '@/shared/components';
 
-/** Accueil provisoire commun aux trois rôles (E05, E11 et E07 aux lots ultérieurs). */
+/** Accueil provisoire de l'agence (E07 à un lot ultérieur). */
 export function RoleHomeScreen() {
   const { t } = useTranslation();
   const user = useSession((state) => state.user);

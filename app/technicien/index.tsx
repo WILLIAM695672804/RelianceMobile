@@ -1,5 +1,5 @@
-import { RoleHomeScreen } from '@/bootstrap/screens/RoleHomeScreen';
+import { TechnicianHomeScreen } from '@/features/matching';
 
 export default function HomeRoute() {
-  return <RoleHomeScreen />;
+  return <TechnicianHomeScreen />;
 }
