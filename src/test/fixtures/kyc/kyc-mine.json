@@ -1,0 +1,14 @@
+[
+  {
+    "id": "710e26f7-0be8-458e-b086-864d1d9d68fa",
+    "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+    "type": "cni",
+    "file_path": "kyc/39kKBzt1SCeZxHvMuZT8r2OxIFiorJpCScGKCAHr.png",
+    "status": "pending",
+    "rejection_reason": null,
+    "validated_by": null,
+    "created_at": "2026-09-16T21:03:06.000000Z",
+    "updated_at": "2026-09-16T21:03:06.000000Z",
+    "url": "http://api.test/storage/kyc/39kKBzt1SCeZxHvMuZT8r2OxIFiorJpCScGKCAHr.png"
+  }
+]

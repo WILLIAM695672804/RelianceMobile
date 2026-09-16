@@ -1,0 +1,28 @@
+[
+  {
+    "id": "d1d2b923-7cc7-4a14-92bc-38100e20a117",
+    "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+    "label": "Zone d'intervention principale",
+    "address": "Adresse de démonstration",
+    "city": "Yaounde",
+    "state": null,
+    "country": null,
+    "postcode": null,
+    "is_default": true,
+    "created_at": "2026-09-15T12:02:24.000000Z",
+    "updated_at": "2026-09-15T12:02:24.000000Z"
+  },
+  {
+    "id": "3df2918f-e789-45b2-85d7-e98592a6ceec",
+    "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+    "label": "Capture",
+    "address": "Adresse de démonstration",
+    "city": "Douala",
+    "state": null,
+    "country": null,
+    "postcode": null,
+    "is_default": false,
+    "created_at": "2026-09-16T21:03:06.000000Z",
+    "updated_at": "2026-09-16T21:03:06.000000Z"
+  }
+]
