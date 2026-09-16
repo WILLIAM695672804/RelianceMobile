@@ -41,11 +41,6 @@ export const en: typeof fr = {
     home: {
       greeting: 'Hello, {{name}}',
     },
-    account: {
-      title: 'My account',
-      email: 'Email address',
-      role: 'Role',
-    },
   },
   errors: {
     network: 'Check your connection.',

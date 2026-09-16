@@ -15,14 +15,14 @@ export interface TranslationTree {
 /** Ressources d'une feature : langue → namespace → arborescence. */
 export type TranslationResources = Record<Language, Record<string, TranslationTree>>;
 
-const isSupported = (code: string): code is Language =>
+export const isSupportedLanguage = (code: string): code is Language =>
   (SUPPORTED_LANGUAGES as readonly string[]).includes(code);
 
 /** Première langue prise en charge parmi les préférences de l'appareil ; `fr` à défaut. */
 export function resolveLanguage(tags: readonly (string | null | undefined)[]): Language {
   for (const tag of tags) {
     const code = tag?.split('-')[0]?.toLowerCase();
-    if (code && isSupported(code)) return code;
+    if (code && isSupportedLanguage(code)) return code;
   }
   return 'fr';
 }

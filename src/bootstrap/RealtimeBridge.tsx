@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { bindAppStateLifecycle, channels, useChannelEvent, useRealtime } from '@/core/realtime';
 import { useSession, useSessionActions } from '@/core/session';
+import { useKycStatusSync } from '@/features/kyc';
 
 /** Abonnements temps réel transverses et cycle de vie de la connexion. */
 export function RealtimeBridge() {
@@ -15,6 +16,9 @@ export function RealtimeBridge() {
   useChannelEvent(userId ? channels.user(userId) : null, 'RoleUpgradeDecision', () => {
     void restore();
   });
+
+  // Décision sur un justificatif : relecture des documents, même hors de l'écran KYC.
+  useKycStatusSync();
 
   return null;
 }

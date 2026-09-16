@@ -26,6 +26,7 @@ describe('computeGuards', () => {
       isTechnicien: false,
       isAgence: false,
       isWebOnly: false,
+      isMember: false,
     });
   });
 
@@ -33,24 +34,28 @@ describe('computeGuards', () => {
     expect(computeGuards(state({ status: 'unauthenticated' }))).toMatchObject({
       isBooting: false,
       isGuest: true,
+      isMember: false,
     });
   });
 
   it.each([
-    ['client', 'isClient'],
-    ['technicien', 'isTechnicien'],
-    ['agence', 'isAgence'],
-    ['admin', 'isWebOnly'],
-    ['unknown', 'isWebOnly'],
-  ] as const)('ouvre l’espace du rôle %s', (role, guard) => {
-    const guards = computeGuards(state({ status: 'authenticated', user: userWith(role) }));
-    expect(guards[guard]).toBe(true);
-    expect(Object.values(guards).filter(Boolean)).toHaveLength(1);
+    ['client', 'isClient', true],
+    ['technicien', 'isTechnicien', true],
+    ['agence', 'isAgence', true],
+    ['admin', 'isWebOnly', false],
+    ['unknown', 'isWebOnly', false],
+  ] as const)('ouvre l’espace du rôle %s', (role, guard, member) => {
+    const { isMember, ...exclusive } = computeGuards(
+      state({ status: 'authenticated', user: userWith(role) }),
+    );
+    expect(exclusive[guard]).toBe(true);
+    expect(Object.values(exclusive).filter(Boolean)).toHaveLength(1);
+    expect(isMember).toBe(member);
   });
 
   it('ouvre l’espace du rôle en mode dégradé', () => {
     expect(
-      computeGuards(state({ status: 'degraded', user: userWith('technicien') })).isTechnicien,
-    ).toBe(true);
+      computeGuards(state({ status: 'degraded', user: userWith('technicien') })),
+    ).toMatchObject({ isTechnicien: true, isMember: true });
   });
 });

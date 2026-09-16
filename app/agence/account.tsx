@@ -1,5 +1,5 @@
-import { AccountScreen } from '@/bootstrap/screens/AccountScreen';
+import { ProfileRoute } from '@/bootstrap/screens/ProfileRoute';
 
 export default function AccountRoute() {
-  return <AccountScreen />;
+  return <ProfileRoute />;
 }

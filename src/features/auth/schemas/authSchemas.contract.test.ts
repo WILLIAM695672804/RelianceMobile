@@ -1,5 +1,3 @@
-import { AxiosError, AxiosHeaders, type AxiosResponse } from 'axios';
-
 import { normalizeError } from '@/core/errors';
 import { apiUserSchema, toSessionUser } from '@/core/session';
 import login2faRequired from '@/test/fixtures/auth/login-2fa-required.json';
@@ -8,25 +6,9 @@ import loginSuccess from '@/test/fixtures/auth/login-success.json';
 import logout from '@/test/fixtures/auth/logout.json';
 import me from '@/test/fixtures/auth/me.json';
 import registerValidationError from '@/test/fixtures/auth/register-validation-error.json';
+import { httpError } from '@/test/httpError';
 
 import { loginResponseSchema, messageResponseSchema } from './authSchemas';
-
-function httpError(status: number, data: unknown): AxiosError {
-  const response = {
-    status,
-    data,
-    statusText: '',
-    headers: {},
-    config: { headers: new AxiosHeaders() },
-  };
-  return new AxiosError(
-    'échec',
-    'ERR_BAD_REQUEST',
-    undefined,
-    undefined,
-    response as AxiosResponse,
-  );
-}
 
 describe('contrat des réponses d’authentification', () => {
   it('POST /auth/login 200 : utilisateur technicien, secrets écartés', () => {

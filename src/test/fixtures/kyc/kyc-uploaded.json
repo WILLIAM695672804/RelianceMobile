@@ -1,0 +1,9 @@
+{
+  "message": "Document KYC soumis",
+  "document": {
+    "id": "710e26f7-0be8-458e-b086-864d1d9d68fa",
+    "type": "cni",
+    "status": null,
+    "url": "http://api.test/storage/kyc/39kKBzt1SCeZxHvMuZT8r2OxIFiorJpCScGKCAHr.png"
+  }
+}

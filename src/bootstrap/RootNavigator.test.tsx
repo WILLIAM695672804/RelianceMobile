@@ -32,7 +32,7 @@ describe('RootNavigator', () => {
     expect(screen.queryByText('écran:(auth)')).not.toBeOnTheScreen();
   });
 
-  it('bascule vers le groupe invité puis vers l’espace du rôle', async () => {
+  it('bascule vers le groupe invité puis vers l’espace du rôle et le profil', async () => {
     const sessionStore = createSessionStore();
     await renderWithProviders(<RootNavigator />, { sessionStore });
 
@@ -40,11 +40,13 @@ describe('RootNavigator', () => {
       sessionStore.getState().setUnauthenticated();
     });
     expect(screen.getByText('écran:(auth)')).toBeOnTheScreen();
+    expect(screen.queryByText('écran:(profil)')).not.toBeOnTheScreen();
 
     await act(async () => {
       sessionStore.getState().setAuthenticated(buildSessionUser('technicien'));
     });
     expect(screen.getByText('écran:technicien')).toBeOnTheScreen();
+    expect(screen.getByText('écran:(profil)')).toBeOnTheScreen();
     expect(screen.queryByText('écran:(auth)')).not.toBeOnTheScreen();
   });
 
@@ -53,5 +55,6 @@ describe('RootNavigator', () => {
     sessionStore.getState().setAuthenticated(buildSessionUser('admin'));
     await renderWithProviders(<RootNavigator />, { sessionStore });
     expect(screen.getByText('écran:web-only')).toBeOnTheScreen();
+    expect(screen.queryByText('écran:(profil)')).not.toBeOnTheScreen();
   });
 });

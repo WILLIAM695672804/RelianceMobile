@@ -1,13 +1,17 @@
-import { screen, userEvent, waitFor } from '@testing-library/react-native';
+import { screen, userEvent } from '@testing-library/react-native';
+import { router } from 'expo-router';
 
 import { createSessionStore } from '@/core/session';
+import { profileTranslations } from '@/features/profile';
 import { buildSessionUser } from '@/test/fixtures/users';
 import { renderWithProviders } from '@/test/render';
 
-import { AccountScreen } from './AccountScreen';
 import { LaunchScreen } from './LaunchScreen';
+import { ProfileRoute } from './ProfileRoute';
 import { RoleHomeScreen } from './RoleHomeScreen';
 import { WebOnlyScreen } from './WebOnlyScreen';
+
+jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
 
 function storeWith(role: Parameters<typeof buildSessionUser>[0]) {
   const store = createSessionStore();
@@ -43,32 +47,19 @@ describe('RoleHomeScreen', () => {
   });
 });
 
-describe('AccountScreen', () => {
-  it('affiche le profil et déconnecte', async () => {
+describe('ProfileRoute', () => {
+  it('ouvre l’écran du profil choisi', async () => {
     const user = userEvent.setup();
-    const logout = jest.fn(async () => undefined);
-    await renderWithProviders(<AccountScreen />, {
+    await renderWithProviders(<ProfileRoute />, {
       sessionStore: storeWith('client'),
-      sessionActions: { logout },
+      translations: [profileTranslations],
     });
 
-    expect(screen.getByText('client@example.test')).toBeOnTheScreen();
-    await user.press(screen.getByRole('button', { name: 'Se déconnecter' }));
+    await user.press(screen.getByRole('button', { name: 'Mes adresses' }));
+    await user.press(screen.getByRole('button', { name: 'Devenir technicien' }));
 
-    await waitFor(() => expect(logout).toHaveBeenCalledTimes(1));
-  });
-
-  it('signale la déconnexion en cours', async () => {
-    const user = userEvent.setup();
-    const logout = jest.fn(() => new Promise<void>(() => undefined));
-    await renderWithProviders(<AccountScreen />, {
-      sessionStore: storeWith('client'),
-      sessionActions: { logout },
-    });
-
-    await user.press(screen.getByRole('button', { name: 'Se déconnecter' }));
-
-    expect(await screen.findByRole('button', { name: 'Se déconnecter' })).toBeBusy();
+    expect(router.push).toHaveBeenNthCalledWith(1, '/locations');
+    expect(router.push).toHaveBeenNthCalledWith(2, '/upgrade');
   });
 });
 

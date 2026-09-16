@@ -28,6 +28,9 @@ export function RootNavigator() {
         <Stack.Protected guard={guards.isAgence}>
           <Stack.Screen name="agence" />
         </Stack.Protected>
+        <Stack.Protected guard={guards.isMember}>
+          <Stack.Screen name="(profil)" />
+        </Stack.Protected>
         <Stack.Protected guard={guards.isWebOnly}>
           <Stack.Screen name="web-only" />
         </Stack.Protected>

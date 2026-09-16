@@ -71,3 +71,5 @@ Le dossier `android/` est généré (`npx expo prebuild`) et ignoré par git. Su
 - [Décisions d'architecture](docs/adr/)
 - [Spécification des fondations](docs/specs/2026-09-14-reliance-mobile-fondations-design.md)
 - [Feature `auth`](src/features/auth/README.md)
+- [Feature `profile`](src/features/profile/README.md)
+- [Feature `kyc`](src/features/kyc/README.md)
