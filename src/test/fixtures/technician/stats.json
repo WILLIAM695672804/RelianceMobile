@@ -1,0 +1,39 @@
+{
+  "wallet_balance": 0,
+  "available_balance": 0,
+  "total_earnings": 0,
+  "monthly_earnings": 0,
+  "rating": 4.8,
+  "num_reviews": 32,
+  "missions_total": 0,
+  "missions_completed": 0,
+  "completion_rate": 0,
+  "category_breakdown": [],
+  "monthly_missions": [
+    {
+      "label": "Apr",
+      "count": 0
+    },
+    {
+      "label": "May",
+      "count": 0
+    },
+    {
+      "label": "Jun",
+      "count": 0
+    },
+    {
+      "label": "Jul",
+      "count": 0
+    },
+    {
+      "label": "Aug",
+      "count": 0
+    },
+    {
+      "label": "Sep",
+      "count": 0
+    }
+  ],
+  "recent_missions": []
+}

@@ -1,0 +1,248 @@
+{
+  "data": [
+    {
+      "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "name": "Technicien Démo",
+      "avatar_url": null,
+      "verified": true,
+      "rating": 4.8,
+      "num_reviews": 32,
+      "bio": "Electricien certifie avec 8 ans d'experience. Specialise en installations electriques residentielles et commerciales.",
+      "kyc_approved": false,
+      "skills": [
+        {
+          "id": "4b12dfe5-2290-4e67-aad2-abd1632711bc",
+          "name": "Électricité générale",
+          "slug": "electricite-generale",
+          "category": "Électricité",
+          "proficiency": 3,
+          "hourly_rate": "7000.00"
+        },
+        {
+          "id": "07d7936c-2330-4385-bffe-7cd6abf8493b",
+          "name": "Installation électrique",
+          "slug": "installation-electrique",
+          "category": "Électricité",
+          "proficiency": 3,
+          "hourly_rate": "6000.00"
+        },
+        {
+          "id": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+          "name": "Dépannage électrique",
+          "slug": "depannage-electrique",
+          "category": "Électricité",
+          "proficiency": 3,
+          "hourly_rate": "9000.00"
+        },
+        {
+          "id": "a98b8d28-baaa-4764-af91-f42322cf2391",
+          "name": "Tableau électrique",
+          "slug": "tableau-electrique",
+          "category": "Électricité",
+          "proficiency": 4,
+          "hourly_rate": "6000.00"
+        },
+        {
+          "id": "804d09ec-cb08-4f77-8aad-9a30b8f7e3ee",
+          "name": "Éclairage / LED",
+          "slug": "eclairage",
+          "category": "Électricité",
+          "proficiency": 5,
+          "hourly_rate": "5000.00"
+        }
+      ],
+      "location": {
+        "city": "Yaounde",
+        "latitude": 3.848,
+        "longitude": 11.5021,
+        "radius": 50
+      },
+      "distance_km": "0"
+    },
+    {
+      "id": "75807769-8433-43a2-b05d-300b55046aa2",
+      "name": "Technicien Démo",
+      "avatar_url": null,
+      "verified": true,
+      "rating": 4.5,
+      "num_reviews": 12,
+      "bio": "Technicien informatique et reseau. Configuration Wi-Fi, maintenance PC, reparation smartphones.",
+      "kyc_approved": false,
+      "skills": [
+        {
+          "id": "59d10208-0ec0-40bc-adbc-69605565409c",
+          "name": "Maintenance informatique",
+          "slug": "maintenance-informatique",
+          "category": "Informatique",
+          "proficiency": 3,
+          "hourly_rate": "3000.00"
+        },
+        {
+          "id": "2dfa2a38-1c7f-4504-ada3-1c9d16a16d6d",
+          "name": "Réseau / Wi-Fi",
+          "slug": "reseau-wifi",
+          "category": "Informatique",
+          "proficiency": 5,
+          "hourly_rate": "14000.00"
+        },
+        {
+          "id": "5f5dee77-752a-4c54-936e-0108d4594460",
+          "name": "Réparation smartphone",
+          "slug": "reparation-smartphone",
+          "category": "Électronique",
+          "proficiency": 4,
+          "hourly_rate": "6000.00"
+        },
+        {
+          "id": "7f67e7fa-5cbe-43bf-aa13-0f79930677df",
+          "name": "Caméra de surveillance",
+          "slug": "camera-surveillance",
+          "category": "Sécurité",
+          "proficiency": 3,
+          "hourly_rate": "15000.00"
+        }
+      ],
+      "location": {
+        "city": "Yaounde",
+        "latitude": 3.855,
+        "longitude": 11.51,
+        "radius": 50
+      },
+      "distance_km": "1.170077553"
+    },
+    {
+      "id": "cd1a15a0-30df-4533-bcc5-37d35c11580d",
+      "name": "Technicien Démo",
+      "avatar_url": null,
+      "verified": true,
+      "rating": 4.9,
+      "num_reviews": 45,
+      "bio": "Specialiste climatisation et refrigeration. Installation, maintenance et depannage de tous types de systemes.",
+      "kyc_approved": false,
+      "skills": [
+        {
+          "id": "5b41cb62-1cd0-419b-be46-51ff27095cd9",
+          "name": "Climatisation",
+          "slug": "climatisation",
+          "category": "Climatisation",
+          "proficiency": 5,
+          "hourly_rate": "12000.00"
+        },
+        {
+          "id": "d5caa64b-cc94-44b8-aebd-4969f0aa6586",
+          "name": "Réfrigération",
+          "slug": "refrigeration",
+          "category": "Climatisation",
+          "proficiency": 3,
+          "hourly_rate": "6000.00"
+        },
+        {
+          "id": "9f3d923c-9e75-4aa5-803a-059a3cfdc393",
+          "name": "Ventilation / VMC",
+          "slug": "ventilation",
+          "category": "Climatisation",
+          "proficiency": 5,
+          "hourly_rate": "6000.00"
+        }
+      ],
+      "location": {
+        "city": "Yaounde",
+        "latitude": 3.84,
+        "longitude": 11.49,
+        "radius": 50
+      },
+      "distance_km": "1.6089731588499998"
+    },
+    {
+      "id": "6413cb66-fb39-4152-aafb-5e5be1f58575",
+      "name": "Technicien Démo",
+      "avatar_url": null,
+      "verified": true,
+      "rating": 4.6,
+      "num_reviews": 18,
+      "bio": "Plombier professionnel. Interventions rapides pour fuites, debouchage et installations sanitaires.",
+      "kyc_approved": false,
+      "skills": [
+        {
+          "id": "9b323a6d-74ae-4bde-83d7-492ef95a549e",
+          "name": "Plomberie générale",
+          "slug": "plomberie-generale",
+          "category": "Plomberie",
+          "proficiency": 3,
+          "hourly_rate": "6000.00"
+        },
+        {
+          "id": "816fefaa-cbb9-45b2-9a87-9d001839c483",
+          "name": "Débouchage canalisation",
+          "slug": "debouchage-canalisation",
+          "category": "Plomberie",
+          "proficiency": 3,
+          "hourly_rate": "5000.00"
+        },
+        {
+          "id": "a801aeb6-cea6-4cf1-829a-c9927ba15a85",
+          "name": "Installation sanitaire",
+          "slug": "installation-sanitaire",
+          "category": "Plomberie",
+          "proficiency": 3,
+          "hourly_rate": "12000.00"
+        },
+        {
+          "id": "f2ed6f88-178c-4200-a97f-33b3d481ebe0",
+          "name": "Réparation de fuite",
+          "slug": "reparation-fuite",
+          "category": "Plomberie",
+          "proficiency": 3,
+          "hourly_rate": "3000.00"
+        },
+        {
+          "id": "b7575c9a-eb3b-4a99-8fd1-52b0aeeaff50",
+          "name": "Installation/réparation chauffe-eau",
+          "slug": "chauffe-eau",
+          "category": "Plomberie",
+          "proficiency": 5,
+          "hourly_rate": "9000.00"
+        }
+      ],
+      "location": {
+        "city": "Yaounde",
+        "latitude": 3.86,
+        "longitude": 11.52,
+        "radius": 50
+      },
+      "distance_km": "2.39029536999"
+    }
+  ],
+  "links": {
+    "first": "http://api.test/api/v1/technicians?page=1",
+    "last": "http://api.test/api/v1/technicians?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/technicians?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http://api.test/api/v1/technicians",
+    "per_page": 20,
+    "to": 4,
+    "total": 4
+  }
+}
