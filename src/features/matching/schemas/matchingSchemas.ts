@@ -111,6 +111,17 @@ export const receivedProposalsResponseSchema = z.object({
 export const activeMissionSchema = z.object({
   proposal_id: z.string(),
   price: decimalSchema,
+  job: z
+    .object({
+      id: z.string(),
+      status: z.string(),
+      phases: z
+        .array(z.object({ title: z.string(), status: z.string(), notes: z.string().nullish() }))
+        .nullish(),
+      started_at: z.string().nullish(),
+    })
+    .nullable()
+    .default(null),
   request: z.object({
     id: z.string(),
     title: z.string(),

@@ -48,6 +48,16 @@ describe('matchingSchemas', () => {
       activeMission.data.request.title,
     );
     expect(activeMissionResponseSchema.parse({ status: 'success', data: null }).data).toBeNull();
+    expect(activeMissionResponseSchema.parse(activeMission).data?.job).toBeNull();
+    expect(
+      activeMissionResponseSchema.parse({
+        status: 'success',
+        data: {
+          ...activeMission.data,
+          job: { id: 'j1', status: 'in_progress', phases: null, started_at: null },
+        },
+      }).data?.job?.status,
+    ).toBe('in_progress');
   });
 
   it('valide le prix et le message de l’offre', () => {
