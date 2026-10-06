@@ -6,14 +6,15 @@ Source de vérité : le code de `RelianceBackend/` (`php artisan route:list --pa
 
 Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'implémentation.
 
-| Feature         | État                                        | Endpoints implémentés                                                                                                                                                                |
-| --------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `auth`          | Livré (Plan 1, recette appareil en attente) | `auth/login`, `auth/register`, `auth/logout`, `auth/me`, `auth/forgot-password`, `auth/reset-password`, `auth/2fa/{generate,enable,disable}`, `auth/email/verification-notification` |
-| `profile`       | Livré (Plan 2, recette appareil en attente) | `auth/profile`, `auth/profile/password`, `auth/profile/avatar`, `locations`, `locations/{id}`, `locations/{id}/default`, `auth/request-upgrade`                                      |
-| `kyc`           | Livré (Plan 2, recette appareil en attente) | `auth/kyc/mine`, `auth/kyc/upload`                                                                                                                                                   |
-| `requests`      | Livré (Plan 3, recette appareil en attente) | `requests` (GET, POST), `requests/{id}`, `skills`                                                                                                                                    |
-| `matching`      | Livré (Plan 3, recette appareil en attente) | `requests/{id}/match`, `requests/{id}/select-technician`, `technicians/{id}/profile`, `proposals/my`, `proposals/active-mission`, `proposals/{id}/accept`, `proposals/{id}/refuse`   |
-| Autres features | Plans 4 et suivants                         | —                                                                                                                                                                                    |
+| Feature         | État                                              | Endpoints implémentés                                                                                                                                                                                                                                           |
+| --------------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `auth`          | Livré (Plan 1, recette appareil en attente)       | `auth/login`, `auth/register`, `auth/logout`, `auth/me`, `auth/forgot-password`, `auth/reset-password`, `auth/2fa/{generate,enable,disable}`, `auth/email/verification-notification`                                                                            |
+| `profile`       | Livré (Plans 2 et 4, recette appareil en attente) | `auth/profile`, `auth/profile/password`, `auth/profile/avatar`, `locations`, `locations/{id}`, `locations/{id}/default`, `auth/request-upgrade`, `technician/profile`, `technician/location`, `technician/skills`, `technician/skills/{id}`, `technician/stats` |
+| `directory`     | Livré (Plan 4, recette appareil en attente)       | `technicians`, `technicians/{id}/profile`                                                                                                                                                                                                                       |
+| `kyc`           | Livré (Plan 2, recette appareil en attente)       | `auth/kyc/mine`, `auth/kyc/upload`                                                                                                                                                                                                                              |
+| `requests`      | Livré (Plan 3, recette appareil en attente)       | `requests` (GET, POST), `requests/{id}`, `skills`                                                                                                                                                                                                               |
+| `matching`      | Livré (Plan 3, recette appareil en attente)       | `requests/{id}/match`, `requests/{id}/select-technician`, `technicians/{id}/profile`, `proposals/my`, `proposals/active-mission`, `proposals/{id}/accept`, `proposals/{id}/refuse`                                                                              |
+| Autres features | Plans 4 et suivants                               | —                                                                                                                                                                                                                                                               |
 
 ## 2. Réponses d'authentification constatées
 
@@ -50,6 +51,19 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | Proposition expirée             | 410    | `{ message }`                                                            |
 | Aucune mission en cours         | 200    | `{ status: "success", data: null }`                                      |
 
+### Volet technicien et annuaire
+
+| Cas                           | Statut | Corps                                                              |
+| ----------------------------- | ------ | ------------------------------------------------------------------ |
+| Profil professionnel          | 200    | `{ status, data: IdentityHubResource }`                            |
+| Présentation enregistrée      | 200    | `{ status, data: IdentityHubResource }`                            |
+| Zone enregistrée              | 200    | `{ status, message, data: IdentityHubResource }`                   |
+| Zone invalide                 | 422    | `{ message, errors: { latitude, longitude, radius } }`             |
+| Compétence ajoutée ou retirée | 200    | `{ status, message }`                                              |
+| Compétence invalide           | 422    | `{ message, errors: { skill_id, proficiency, experience_years } }` |
+| Statistiques                  | 200    | objet plat, **sans** enveloppe `data`                              |
+| Annuaire                      | 200    | pagination Laravel de `TechnicianCardResource` (20 par page)       |
+
 ## 3. Statuts
 
 | Objet       | Valeurs                                                                                                                                                            |
@@ -83,3 +97,6 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `KycController::upload` ne relit pas le modèle : `document.status` vaut `null` dans la réponse, bien que la base enregistre `pending`.
 - `GET /technicians/{id}/profile`, route publique, sérialise le courriel et le téléphone du technicien. Le mobile les écarte (schéma Zod), mais la correction relève du backend.
 - `POST /requests/{id}/select-technician` et `GET /proposals/my` renvoient les modèles `User` bruts du client et du technicien (même exposition que `/auth/me`).
+- `GET /technician/stats` ne respecte pas l'enveloppe `{ status, data }` des autres routes : la réponse est l'objet de statistiques lui-même.
+- `POST /technician/skills` écrit `experience_years` dans le `meta` du pivot ; les compétences créées par le seeder renvoient donc `0`.
+- `GET /technicians` ne filtre pas sur le KYC : un technicien listé peut avoir `kyc_approved: false`.
