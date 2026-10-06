@@ -6,6 +6,7 @@ export default function ClientLayout() {
   return (
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen name="index" options={{ title: t('common:navigation.home') }} />
+      <Tabs.Screen name="annuaire" options={{ title: t('common:navigation.directory') }} />
       <Tabs.Screen name="account" options={{ title: t('common:navigation.account') }} />
     </Tabs>
   );

@@ -24,6 +24,8 @@ export const fr = {
     },
     navigation: {
       home: 'Accueil',
+      activity: 'Activité',
+      directory: 'Annuaire',
       account: 'Compte',
     },
     roles: {
