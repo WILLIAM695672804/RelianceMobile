@@ -76,3 +76,4 @@ Le dossier `android/` est généré (`npx expo prebuild`) et ignoré par git. Su
 - [Feature `requests`](src/features/requests/README.md)
 - [Feature `matching`](src/features/matching/README.md)
 - [Feature `directory`](src/features/directory/README.md)
+- [Feature `missions`](src/features/missions/README.md)
