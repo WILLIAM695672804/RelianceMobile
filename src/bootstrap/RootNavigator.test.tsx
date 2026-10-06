@@ -46,6 +46,7 @@ describe('RootNavigator', () => {
       sessionStore.getState().setAuthenticated(buildSessionUser('technicien'));
     });
     expect(screen.getByText('écran:technicien')).toBeOnTheScreen();
+    expect(screen.getByText('écran:(missions)')).toBeOnTheScreen();
     expect(screen.getByText('écran:(profil)')).toBeOnTheScreen();
     expect(screen.getByText('écran:(annuaire)')).toBeOnTheScreen();
     expect(screen.queryByText('écran:(auth)')).not.toBeOnTheScreen();

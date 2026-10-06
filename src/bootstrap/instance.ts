@@ -10,6 +10,7 @@ import { authTranslations } from '@/features/auth';
 import { directoryTranslations } from '@/features/directory';
 import { kycTranslations } from '@/features/kyc';
 import { matchingTranslations } from '@/features/matching';
+import { missionsTranslations } from '@/features/missions';
 import { profileTranslations } from '@/features/profile';
 import { requestsTranslations } from '@/features/requests';
 
@@ -35,6 +36,7 @@ export const services = createServices({
     kycTranslations,
     requestsTranslations,
     matchingTranslations,
+    missionsTranslations,
     directoryTranslations,
   ],
 });

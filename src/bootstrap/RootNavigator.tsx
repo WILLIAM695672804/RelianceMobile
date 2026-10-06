@@ -25,6 +25,7 @@ export function RootNavigator() {
         </Stack.Protected>
         <Stack.Protected guard={guards.isTechnicien}>
           <Stack.Screen name="technicien" />
+          <Stack.Screen name="(missions)" />
         </Stack.Protected>
         <Stack.Protected guard={guards.isAgence}>
           <Stack.Screen name="agence" />
