@@ -1,0 +1,6 @@
+{
+  "message": "The phases field is required.",
+  "errors": {
+    "phases": ["The phases field is required."]
+  }
+}

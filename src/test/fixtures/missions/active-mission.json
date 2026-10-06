@@ -1,0 +1,30 @@
+{
+  "status": "success",
+  "data": {
+    "proposal_id": "924104c5-ec72-4319-844b-68557d2bf949",
+    "price": "12000.00",
+    "accepted_at": "2026-09-16T22:52:58.000000Z",
+    "job": null,
+    "request": {
+      "id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+      "title": "Prise murale",
+      "description": "Une prise murale du salon ne fonctionne plus depuis hier soir.",
+      "status": "assigned",
+      "photos": [],
+      "category": "Dépannage électrique"
+    },
+    "client": {
+      "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "name": "Client Démo",
+      "phone": null,
+      "avatar": null
+    },
+    "address": {
+      "label": "Adresse de la demande",
+      "city": "Yaoundé",
+      "address": null,
+      "latitude": "3.8480",
+      "longitude": "11.5021"
+    }
+  }
+}
