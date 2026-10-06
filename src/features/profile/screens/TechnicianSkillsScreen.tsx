@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
@@ -135,7 +135,7 @@ function AddSkillForm({ ownedIds, onAdded }: { ownedIds: string[]; onAdded: () =
       travelFee: '0',
     },
   });
-  const proficiency = form.watch('proficiency');
+  const proficiency = useWatch({ control: form.control, name: 'proficiency' });
 
   const available = (catalogue.data ?? []).filter((skill) => !ownedIds.includes(skill.id));
   const groups = groupSkillsByCategory(available, t('profile:skills.chooseSkill'));
