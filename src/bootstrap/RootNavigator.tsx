@@ -33,6 +33,7 @@ export function RootNavigator() {
         <Stack.Protected guard={guards.isMember}>
           <Stack.Screen name="(profil)" />
           <Stack.Screen name="(annuaire)" />
+          <Stack.Screen name="(facturation)" />
         </Stack.Protected>
         <Stack.Protected guard={guards.isWebOnly}>
           <Stack.Screen name="web-only" />

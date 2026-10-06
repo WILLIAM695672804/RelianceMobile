@@ -51,12 +51,20 @@ describe('ProfileScreen (E08)', () => {
         'Mes compétences',
         'Ma zone d’intervention',
         'Justificatifs d’identité',
+        'Mes factures',
         'Paramètres',
       ],
     ],
     [
       'client',
-      ['Modifier le profil', 'Mot de passe', 'Mes adresses', 'Devenir technicien', 'Paramètres'],
+      [
+        'Modifier le profil',
+        'Mot de passe',
+        'Mes adresses',
+        'Devenir technicien',
+        'Mes factures',
+        'Paramètres',
+      ],
     ],
     ['agence', ['Modifier le profil', 'Mot de passe', 'Mes adresses', 'Paramètres']],
   ] as const)('adapte le menu au rôle %s', async (role, entries) => {
@@ -89,6 +97,7 @@ describe('ProfileScreen (E08)', () => {
       'skills',
       'zone',
       'kyc',
+      'invoices',
       'settings',
     ]);
     expect(destinationsFor('client')).toEqual([
@@ -96,6 +105,7 @@ describe('ProfileScreen (E08)', () => {
       'password',
       'locations',
       'upgrade',
+      'invoices',
       'settings',
     ]);
   });

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { Badge, Card, Screen, StateView, Text } from '@/shared/components';
+import { Badge, Button, Card, Screen, StateView, Text } from '@/shared/components';
 import {
   distanceBetween,
   formatAmount,
@@ -22,8 +22,13 @@ import { MissionTimeline } from './MissionTimeline';
 const asPhaseStatus = (status: string): PhaseStatus =>
   (PHASE_STATUSES as readonly string[]).includes(status) ? (status as PhaseStatus) : 'pending';
 
+export interface MissionTrackingScreenProps {
+  /** Ouverture des devis de la demande suivie. */
+  onOpenQuotes?: (requestId: string) => void;
+}
+
 /** E15 — Suivi client : avancement de l'intervention et dernière position du technicien. */
-export function MissionTrackingScreen() {
+export function MissionTrackingScreen({ onOpenQuotes }: MissionTrackingScreenProps = {}) {
   const { t } = useTranslation();
   const mission = useClientMission();
   const jobId = mission.data?.job_id ?? null;
@@ -52,6 +57,7 @@ export function MissionTrackingScreen() {
         mission={mission.data}
         tracking={tracking.data ?? null}
         position={position.data ?? null}
+        onOpenQuotes={onOpenQuotes}
       />
     );
   };
@@ -70,10 +76,12 @@ function MissionTracking({
   mission,
   tracking,
   position,
+  onOpenQuotes,
 }: {
   mission: ClientMission;
   tracking: JobTracking | null;
   position: LivePosition | null;
+  onOpenQuotes?: (requestId: string) => void;
 }) {
   const { t } = useTranslation();
   const place = [mission.address?.address, mission.address?.city].filter(Boolean).join(', ');
@@ -115,6 +123,14 @@ function MissionTracking({
         ) : null}
         {place ? <Text>{t('missions:tracking.place', { place })}</Text> : null}
       </Card>
+
+      {onOpenQuotes ? (
+        <Button
+          label={t('missions:tracking.quotes')}
+          onPress={() => onOpenQuotes(mission.request.id)}
+          variant="secondary"
+        />
+      ) : null}
 
       {tracking ? (
         <Card>

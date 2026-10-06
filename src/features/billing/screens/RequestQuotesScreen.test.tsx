@@ -51,8 +51,8 @@ describe('RequestQuotesScreen (E17)', () => {
     const { mock, user } = await setup('technicien', draftQuotes);
     mock.onPost(`/quotes/${QUOTE_ID}/send`).reply(200, quoteSent);
 
-    expect(await screen.findByText('Nouveau devis')).toBeOnTheScreen();
-    expect(screen.getByText('Brouillon')).toBeOnTheScreen();
+    expect(await screen.findByText('Brouillon')).toBeOnTheScreen();
+    expect(screen.getByText('Nouveau devis')).toBeOnTheScreen();
 
     await user.press(screen.getByRole('button', { name: 'Envoyer au client' }));
 

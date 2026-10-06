@@ -136,4 +136,20 @@ describe('MissionCockpitScreen (E13, E14)', () => {
     expect(await screen.findByText('Mission terminée.')).toBeOnTheScreen();
     expect(screen.queryByRole('button', { name: 'Terminer la mission' })).not.toBeOnTheScreen();
   });
+
+  it('ouvre les devis de la demande', async () => {
+    const onOpenQuotes = jest.fn();
+    const api = axios.create({ baseURL: 'http://api.test/api/v1' });
+    const mock = new MockAdapter(api);
+    mock.onGet('/proposals/active-mission').reply(200, missionWith(null));
+    await renderWithProviders(
+      <MissionCockpitScreen onOpenHistory={jest.fn()} onOpenQuotes={onOpenQuotes} />,
+      { api, translations: [missionsTranslations, matchingTranslations] },
+    );
+    const user = userEvent.setup();
+
+    await user.press(await screen.findByRole('button', { name: 'Devis' }));
+
+    expect(onOpenQuotes).toHaveBeenCalledWith(activeMission.data.request.id);
+  });
 });

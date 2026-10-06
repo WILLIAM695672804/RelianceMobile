@@ -77,4 +77,22 @@ describe('MissionTrackingScreen (E15)', () => {
 
     await waitFor(() => expect(mock.history.get.length).toBeGreaterThan(before));
   });
+
+  it('ouvre les devis reçus', async () => {
+    const onOpenQuotes = jest.fn();
+    const api = axios.create({ baseURL: 'http://api.test/api/v1' });
+    const mock = new MockAdapter(api);
+    mock.onGet('/mission/active').reply(200, clientMission);
+    mock.onGet(`/jobs/${JOB_ID}/tracking`).reply(200, clientTracking);
+    mock.onGet('/position/technician').reply(200, technicianPosition);
+    await renderWithProviders(<MissionTrackingScreen onOpenQuotes={onOpenQuotes} />, {
+      api,
+      translations: [missionsTranslations],
+    });
+    const user = userEvent.setup();
+
+    await user.press(await screen.findByRole('button', { name: 'Devis reçus' }));
+
+    expect(onOpenQuotes).toHaveBeenCalledWith(clientMission.data.request.id);
+  });
 });

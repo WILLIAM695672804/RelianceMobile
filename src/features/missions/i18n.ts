@@ -35,6 +35,7 @@ const fr = {
     completeMessage: 'Confirmez l’achèvement de « {{title}} ».',
     notes: 'Compte rendu (facultatif)',
     confirm: 'Terminer',
+    quotes: 'Devis',
     history: 'Historique des missions',
     updateFailed: 'La mise à jour a échoué. Veuillez réessayer.',
     errors: {
@@ -87,6 +88,7 @@ const fr = {
     position: 'Position relevée à {{time}}',
     distance: 'À {{distance}} de votre adresse',
     positionUnknown: 'Position du technicien non communiquée.',
+    quotes: 'Devis reçus',
   },
 };
 
@@ -125,6 +127,7 @@ const en: typeof fr = {
     completeMessage: 'Confirm completion of “{{title}}”.',
     notes: 'Report (optional)',
     confirm: 'Complete',
+    quotes: 'Quotes',
     history: 'Job history',
     updateFailed: 'The update failed. Please try again.',
     errors: {
@@ -177,6 +180,7 @@ const en: typeof fr = {
     position: 'Position recorded at {{time}}',
     distance: '{{distance}} from your address',
     positionUnknown: 'Technician position not shared.',
+    quotes: 'Received quotes',
   },
 };
 

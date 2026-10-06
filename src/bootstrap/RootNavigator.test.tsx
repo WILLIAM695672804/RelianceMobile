@@ -49,6 +49,7 @@ describe('RootNavigator', () => {
     expect(screen.getByText('écran:(missions)')).toBeOnTheScreen();
     expect(screen.getByText('écran:(profil)')).toBeOnTheScreen();
     expect(screen.getByText('écran:(annuaire)')).toBeOnTheScreen();
+    expect(screen.getByText('écran:(facturation)')).toBeOnTheScreen();
     expect(screen.queryByText('écran:(auth)')).not.toBeOnTheScreen();
   });
 
