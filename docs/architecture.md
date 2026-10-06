@@ -15,7 +15,7 @@ Ce document remplace le Document 3 (rédigé pour Flutter).
 
 La règle est imposée par `import/no-restricted-paths` (ESLint). Toute importation profonde `@/features/x/...` est interdite.
 
-Dépendances entre features autorisées à ce jour : `profile` → `auth` (compte, double authentification, déconnexion) ; `requests` → `profile` (catalogue des compétences) ; `matching` → `requests` (clés de cache, lecture d'une demande) ; `directory` → `matching` (profil public d'un technicien). `src/shared/location/` encapsule `expo-location` (position, géocodage) et `src/shared/format/` les formats d'affichage (montants FCFA, distances, notes, dates). `src/shared/media/` encapsule `expo-image-picker` (galerie, appareil photo) pour les features qui téléversent des fichiers ; l'envoi `multipart/form-data` passe par `core/api/upload.ts`.
+Dépendances entre features autorisées à ce jour : `profile` → `auth` (compte, double authentification, déconnexion) ; `requests` → `profile` (catalogue des compétences) ; `matching` → `requests` (clés de cache, lecture d'une demande) ; `directory` → `matching` (profil public d'un technicien) ; `missions` → `matching` (mission acceptée, clés de cache). `src/shared/format/geo.ts` fournit la distance à vol d'oiseau entre deux points. `src/shared/location/` encapsule `expo-location` (position, géocodage) et `src/shared/format/` les formats d'affichage (montants FCFA, distances, notes, dates). `src/shared/media/` encapsule `expo-image-picker` (galerie, appareil photo) pour les features qui téléversent des fichiers ; l'envoi `multipart/form-data` passe par `core/api/upload.ts`.
 
 **Écarts avec la spécification** : groupes de rôle sous forme de répertoires nommés (`app/client`, `app/technicien`, `app/agence`) pour éviter le conflit de trois routes `/` ; ajout de `src/core/query/` et de `src/bootstrap/`.
 
@@ -47,6 +47,6 @@ NetInfo alimente `onlineManager` et le store de connectivité ; `OfflineBanner` 
 
 ## 7. Navigation
 
-`Stack.Protected` alimenté par `computeGuards(session)` : `index` (démarrage), `(auth)`, `client` et `(demande)` (parcours d'une demande : `/requests/new`, `/requests/[id]`, `/requests/[id]/matching`, `/requests/[id]/technicians/[technicianId]`), `technicien`, `agence`, `(profil)` (dont le volet technicien : `/professional`, `/skills`, `/zone`), `(annuaire)` (`/technicians/[id]`), `web-only` (administrateur ou rôle inconnu). Schéma de liens profonds : `reliance://`.
+`Stack.Protected` alimenté par `computeGuards(session)` : `index` (démarrage), `(auth)`, `client` et `(demande)` (parcours d'une demande : `/requests/new`, `/requests/[id]`, `/requests/[id]/matching`, `/requests/[id]/technicians/[technicianId]`), `technicien`, `agence`, `(profil)` (dont le volet technicien : `/professional`, `/skills`, `/zone`), `(annuaire)` (`/technicians/[id]`), `(missions)` (`/jobs`, `/jobs/[id]`), `web-only` (administrateur ou rôle inconnu). Schéma de liens profonds : `reliance://`.
 
-Onglets par rôle : client « Accueil / Annuaire / Compte », technicien « Accueil / Activité / Compte », agence « Accueil / Compte ».
+Onglets par rôle : client « Accueil / Suivi / Annuaire / Compte », technicien « Accueil / Mission / Activité / Compte », agence « Accueil / Compte ».

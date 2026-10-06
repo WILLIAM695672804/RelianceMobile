@@ -1,0 +1,27 @@
+{
+  "status": "success",
+  "data": {
+    "job_id": "463ada9d-3f77-47a3-a2de-8efefdbe8e03",
+    "status": "in_progress",
+    "phases": [
+      {
+        "notes": "Prise hors tension",
+        "title": "Diagnostic",
+        "status": "completed"
+      },
+      {
+        "notes": null,
+        "title": "Remplacement de la prise",
+        "status": "in_progress"
+      }
+    ],
+    "route": null,
+    "estimated_travel_seconds": null,
+    "started_at": "2026-10-06T17:56:37.000000Z",
+    "completed_at": null,
+    "technician": {
+      "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "name": "Technicien Démo"
+    }
+  }
+}

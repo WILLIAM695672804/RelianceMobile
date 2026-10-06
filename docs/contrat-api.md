@@ -14,6 +14,7 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | `kyc`           | Livré (Plan 2, recette appareil en attente)       | `auth/kyc/mine`, `auth/kyc/upload`                                                                                                                                                                                                                              |
 | `requests`      | Livré (Plan 3, recette appareil en attente)       | `requests` (GET, POST), `requests/{id}`, `skills`                                                                                                                                                                                                               |
 | `matching`      | Livré (Plan 3, recette appareil en attente)       | `requests/{id}/match`, `requests/{id}/select-technician`, `technicians/{id}/profile`, `proposals/my`, `proposals/active-mission`, `proposals/{id}/accept`, `proposals/{id}/refuse`                                                                              |
+| `missions`      | Livré (Plan 5, recette appareil en attente)       | `jobs` (GET, POST), `jobs/{id}`, `jobs/{id}/status`, `jobs/{id}/phases`, `jobs/{id}/tracking`, `mission/active`, `position/update`, `position/technician`                                                                                                       |
 | Autres features | Plans 4 et suivants                               | —                                                                                                                                                                                                                                                               |
 
 ## 2. Réponses d'authentification constatées
@@ -64,6 +65,20 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | Statistiques                  | 200    | objet plat, **sans** enveloppe `data`                              |
 | Annuaire                      | 200    | pagination Laravel de `TechnicianCardResource` (20 par page)       |
 
+### Suivi d'intervention
+
+| Cas                           | Statut | Corps                                                                   |
+| ----------------------------- | ------ | ----------------------------------------------------------------------- |
+| Mission créée                 | 201    | `{ data: JobResource }` (statut `pending`, `phases: null`)              |
+| Statut mis à jour             | 200    | `{ data: JobResource }`                                                 |
+| Statut invalide               | 422    | `{ message, errors: { status } }`                                       |
+| Mission d'un autre technicien | 403    | `{ message: "Non autorisé" }`                                           |
+| Phases enregistrées           | 200    | `{ data: JobResource }`                                                 |
+| Suivi d'une mission           | 200    | `{ status, data: { job_id, status, phases, technician } }`              |
+| Mission en cours du client    | 200    | `{ status, data }` ou `data: null`                                      |
+| Position transmise            | 200    | `{ status: "ok" }` (sans `data`)                                        |
+| Position du technicien        | 200    | `{ status, data: { latitude, longitude, updated_at } }` ou `data: null` |
+
 ## 3. Statuts
 
 | Objet       | Valeurs                                                                                                                                                            |
@@ -100,3 +115,7 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `GET /technician/stats` ne respecte pas l'enveloppe `{ status, data }` des autres routes : la réponse est l'objet de statistiques lui-même.
 - `POST /technician/skills` écrit `experience_years` dans le `meta` du pivot ; les compétences créées par le seeder renvoient donc `0`.
 - `GET /technicians` ne filtre pas sur le KYC : un technicien listé peut avoir `kyc_approved: false`.
+- `POST /jobs` ne vérifie pas que la demande est attribuée au technicien appelant.
+- `POST /position/update` ne respecte pas l'enveloppe `{ status, data }` : la réponse est `{ "status": "ok" }`.
+- `GET /position/technician` renvoie la position du technicien de la dernière proposition `pending` ou `accepted` du client, sans vérifier qu'une mission est en cours.
+- Le statut de la demande n'est pas repassé à `completed` lorsque la mission est achevée : seul `technician_jobs.status` l'est.
