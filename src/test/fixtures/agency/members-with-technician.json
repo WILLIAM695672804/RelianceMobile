@@ -1,0 +1,66 @@
+{
+  "data": [
+    {
+      "id": "58fe9714-17e8-4999-9bcf-a4ac5c0bc0c3",
+      "agency_id": "64a2aebc-6e35-44de-b4a4-6b8135963092",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000002",
+      "role": "admin",
+      "joined_at": "2026-10-06T21:39:46.000000Z",
+      "created_at": "2026-10-06T20:39:46.000000Z",
+      "updated_at": "2026-10-06T20:39:46.000000Z",
+      "user": {
+        "id": "9d3f6a2e-0000-4000-8000-000000000001",
+        "name": "Technicien Démo",
+        "email": "technicien@example.test",
+        "phone": null,
+        "is_active": true,
+        "two_factor_enabled": false,
+        "email_verified_at": null,
+        "created_at": "2026-10-06T20:39:45.000000Z",
+        "updated_at": "2026-10-06T20:41:37.000000Z",
+        "deleted_at": null,
+        "avatar_url": null,
+        "rating": "0.00",
+        "num_reviews": 0,
+        "verified": false,
+        "last_login": "2026-10-06T20:41:37.000000Z",
+        "meta": {
+          "address": "Adresse de démonstration",
+          "agency_name": "Agence de démonstration",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "6c4026f5-9c15-494c-9bd8-0414fd626b4b",
+      "agency_id": "64a2aebc-6e35-44de-b4a4-6b8135963092",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "role": "member",
+      "joined_at": "2026-10-06T21:41:18.000000Z",
+      "created_at": "2026-10-06T20:41:17.000000Z",
+      "updated_at": "2026-10-06T20:41:17.000000Z",
+      "user": {
+        "id": "9d3f6a2e-0000-4000-8000-000000000001",
+        "name": "Technicien Démo",
+        "email": "technicien@example.test",
+        "phone": null,
+        "is_active": true,
+        "two_factor_enabled": false,
+        "email_verified_at": "2026-09-15T12:02:24.000000Z",
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-10-06T20:41:36.000000Z",
+        "deleted_at": null,
+        "avatar_url": null,
+        "rating": "5.00",
+        "num_reviews": 1,
+        "verified": true,
+        "last_login": "2026-10-06T20:41:36.000000Z",
+        "meta": {
+          "bio": "Électricien certifié, huit ans d’expérience en installations résidentielles.",
+          "competences": ["Mise aux normes", "Tableaux électriques"],
+          "competences_intro": ["electricite", "domotique", "securite"]
+        }
+      }
+    }
+  ]
+}

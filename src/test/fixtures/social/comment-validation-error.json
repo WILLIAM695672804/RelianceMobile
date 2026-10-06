@@ -1,0 +1,6 @@
+{
+  "message": "The content field is required.",
+  "errors": {
+    "content": ["The content field is required."]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "message": "The content field is required when attachments is not present.",
+  "errors": {
+    "content": ["The content field is required when attachments is not present."]
+  }
+}

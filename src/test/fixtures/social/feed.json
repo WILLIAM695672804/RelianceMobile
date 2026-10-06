@@ -1,0 +1,100 @@
+{
+  "data": [
+    {
+      "id": "1e9b2ce9-10e2-4a29-9c50-49f55ff8ddf5",
+      "author_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "author": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Personne Démo",
+        "avatar_url": null,
+        "is_verified": false
+      },
+      "content": "Première publication de démonstration sur le fil Reliance.",
+      "attachments": null,
+      "likes_count": 0,
+      "comments_count": 0,
+      "is_liked": false,
+      "created_at": "2026-10-06T19:41:38.000000Z"
+    },
+    {
+      "id": "10ad7f4e-5f29-4705-beaf-5ed309a8727e",
+      "author_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "author": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Personne Démo",
+        "avatar_url": null,
+        "is_verified": false
+      },
+      "content": "Seconde publication : retour d’expérience après intervention.",
+      "attachments": null,
+      "likes_count": 0,
+      "comments_count": 0,
+      "is_liked": false,
+      "created_at": "2026-10-06T19:41:38.000000Z"
+    },
+    {
+      "id": "7b0e5c5e-116b-4ecd-a864-2b0faef3d1c6",
+      "author_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "author": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Personne Démo",
+        "avatar_url": null,
+        "is_verified": false
+      },
+      "content": "Première publication de démonstration sur le fil Reliance.",
+      "attachments": null,
+      "likes_count": 0,
+      "comments_count": 0,
+      "is_liked": false,
+      "created_at": "2026-10-06T19:41:18.000000Z"
+    },
+    {
+      "id": "75cf1f68-4422-4f34-97e1-387043f45822",
+      "author_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "author": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Personne Démo",
+        "avatar_url": null,
+        "is_verified": false
+      },
+      "content": "Seconde publication : retour d’expérience après intervention.",
+      "attachments": null,
+      "likes_count": 0,
+      "comments_count": 0,
+      "is_liked": false,
+      "created_at": "2026-10-06T19:41:18.000000Z"
+    }
+  ],
+  "links": {
+    "first": "http://api.test/api/v1/posts/feed?page=1",
+    "last": "http://api.test/api/v1/posts/feed?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/posts/feed?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http://api.test/api/v1/posts/feed",
+    "per_page": 15,
+    "to": 4,
+    "total": 4
+  }
+}
