@@ -58,6 +58,7 @@ describe('ProfileScreen (E08)', () => {
         'Mes avis',
         'Notifications',
         'Messagerie',
+        'Fil Reliance',
         'Paramètres',
       ],
     ],
@@ -73,6 +74,7 @@ describe('ProfileScreen (E08)', () => {
         'Mon portefeuille',
         'Notifications',
         'Messagerie',
+        'Fil Reliance',
         'Paramètres',
       ],
     ],
@@ -85,6 +87,7 @@ describe('ProfileScreen (E08)', () => {
         'Mon portefeuille',
         'Notifications',
         'Messagerie',
+        'Fil Reliance',
         'Paramètres',
       ],
     ],
@@ -125,6 +128,7 @@ describe('ProfileScreen (E08)', () => {
       'reviews',
       'notifications',
       'messages',
+      'feed',
       'settings',
     ]);
     expect(destinationsFor('client')).toEqual([
@@ -137,6 +141,7 @@ describe('ProfileScreen (E08)', () => {
       'wallet',
       'notifications',
       'messages',
+      'feed',
       'settings',
     ]);
   });

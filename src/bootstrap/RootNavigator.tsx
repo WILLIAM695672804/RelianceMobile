@@ -29,6 +29,7 @@ export function RootNavigator() {
         </Stack.Protected>
         <Stack.Protected guard={guards.isAgence}>
           <Stack.Screen name="agence" />
+          <Stack.Screen name="(agence)" />
         </Stack.Protected>
         <Stack.Protected guard={guards.isMember}>
           <Stack.Screen name="(profil)" />
@@ -39,6 +40,7 @@ export function RootNavigator() {
           <Stack.Screen name="(portefeuille)" />
           <Stack.Screen name="(avis)" />
           <Stack.Screen name="(planning)" />
+          <Stack.Screen name="(social)" />
         </Stack.Protected>
         <Stack.Protected guard={guards.isWebOnly}>
           <Stack.Screen name="web-only" />

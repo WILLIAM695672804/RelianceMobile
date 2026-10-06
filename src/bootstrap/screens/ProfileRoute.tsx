@@ -14,6 +14,7 @@ export const PROFILE_HREF: Record<ProfileDestination, Href> = {
   reviews: '/my-reviews',
   notifications: '/notifications',
   messages: '/conversations',
+  feed: '/feed',
   professional: '/professional',
   skills: '/skills',
   zone: '/zone',

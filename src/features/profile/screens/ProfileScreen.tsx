@@ -16,6 +16,7 @@ export type ProfileDestination =
   | 'reviews'
   | 'notifications'
   | 'messages'
+  | 'feed'
   | 'professional'
   | 'skills'
   | 'zone'
@@ -42,6 +43,7 @@ export function destinationsFor(role: Role): ProfileDestination[] {
     ...(role === 'technicien' ? (['reviews'] as const) : []),
     'notifications',
     'messages',
+    'feed',
     'settings',
   ];
 }
