@@ -18,6 +18,8 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | `billing`       | Livré (Plan 6, recette appareil en attente)       | `quotes` (POST), `quotes/{id}`, `quotes/{id}/{send,accept,reject}`, `requests/{requestId}/quotes`, `invoices`, `invoices/{id}`, `invoices/{id}/pay`                                                                                                             |
 | `notifications` | Livré (Plan 7, recette appareil en attente)       | `notifications`, `notifications/{id}/read`, `notifications/read-all`, `notifications/unread-count`, `notification-settings` (GET, PUT)                                                                                                                          |
 | `chat`          | Livré (Plan 7, recette appareil en attente)       | `conversations` (GET, POST), `conversations/{id}`, `conversations/unread-count`, `conversations/{id}/messages` (GET, POST), `conversations/{id}/messages/read`                                                                                                  |
+| `wallet`        | Livré (Plan 8, recette appareil en attente)       | `wallet`, `wallet/transactions`, `wallet/recharge`, `wallet/withdraw`                                                                                                                                                                                           |
+| `reviews`       | Livré (Plan 8, recette appareil en attente)       | `reviews` (POST), `reviews/technician/{id}`, `reviews/mine`, `badges/user/{id}`, `reputation/{id}`                                                                                                                                                              |
 | Autres features | Plans 4 et suivants                               | —                                                                                                                                                                                                                                                               |
 
 ## 2. Réponses d'authentification constatées
@@ -112,6 +114,21 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | Message vide sans pièce jointe  | 422    | `{ message, errors: { body } }`                                 |
 | Fil marqué comme lu             | 200    | `{ status, message }`                                           |
 
+### Portefeuille et avis
+
+| Cas                           | Statut | Corps                                                             |
+| ----------------------------- | ------ | ----------------------------------------------------------------- |
+| Portefeuille                  | 200    | `{ data: { balance, available_balance, held_amount, currency } }` |
+| Historique                    | 200    | pagination de `TransactionResource`                               |
+| Recharge initiée              | 200    | `{ message, payment_id, external_ref, status: "pending" }`        |
+| Recharge refusée (passerelle) | 422    | `{ message, payment_id, status: "failed" }`                       |
+| Retrait enregistré            | 200    | `{ message, payment_id }`                                         |
+| Solde insuffisant             | 422    | `{ message: "Solde insuffisant" }`                                |
+| Avis déposé                   | 201    | `{ status, message, data: review, new_badges }`                   |
+| Avis déjà déposé              | 409    | `{ message }`                                                     |
+| Avis d'un technicien          | 200    | `{ data: paginator }` (pagination **imbriquée**)                  |
+| Réputation                    | 200    | `{ data: paginator, total }`                                      |
+
 ## 3. Statuts
 
 | Objet       | Valeurs                                                                                                                                                            |
@@ -157,3 +174,6 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `POST /invoices/{id}/pay` ne déclenche aucun mouvement financier : la facture est simplement marquée payée.
 - `GET /notifications` ne passe par aucune ressource : les colonnes de la table (dont `user_id`) sont exposées telles quelles, et la pagination n'est pas enveloppée.
 - Deux défauts bloquaient la messagerie, corrigés dans `RelianceBackend` (commit `fix(social)`) : `MessageResource` sérialisait la relation `attachments` non chargée — la colonne JSON homonyme masquant de surcroît la relation — et `Conversation::lastMessage()` employait `latestOfMany()`, qui agrège `MAX(uuid)`, refusé par PostgreSQL.
+- `POST /reviews` renvoie le technicien brut sous `data.target`, courriel compris ; le mobile l'écarte.
+- Les routes d'avis, de badges et de réputation imbriquent la pagination sous `data`, contrairement au reste de l'API.
+- `JobController::updateStatus` ne clôturait pas la demande : l'avis était alors impossible (`ReviewController` exige `completed`). Corrigé dans `RelianceBackend` (commit `fix(operations)`).

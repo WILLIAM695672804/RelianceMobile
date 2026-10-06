@@ -5,6 +5,7 @@ import { useSession, useSessionActions } from '@/core/session';
 import { useQuotesSync } from '@/features/billing';
 import { useKycStatusSync } from '@/features/kyc';
 import { useNotificationsSync } from '@/features/notifications';
+import { useWalletSync } from '@/features/wallet';
 import { useProposalsSync } from '@/features/matching';
 
 /** Abonnements temps réel transverses et cycle de vie de la connexion. */
@@ -31,6 +32,9 @@ export function RealtimeBridge() {
 
   // Notification reçue : relecture de la liste et du compteur.
   useNotificationsSync();
+
+  // Solde, gels et règlements : relecture du portefeuille.
+  useWalletSync();
 
   return null;
 }

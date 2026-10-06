@@ -36,6 +36,8 @@ export function RootNavigator() {
           <Stack.Screen name="(facturation)" />
           <Stack.Screen name="(notifications)" />
           <Stack.Screen name="(messagerie)" />
+          <Stack.Screen name="(portefeuille)" />
+          <Stack.Screen name="(avis)" />
         </Stack.Protected>
         <Stack.Protected guard={guards.isWebOnly}>
           <Stack.Screen name="web-only" />

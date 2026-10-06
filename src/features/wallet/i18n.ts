@@ -1,0 +1,101 @@
+import type { TranslationResources } from '@/core/i18n';
+
+const fr = {
+  title: 'Mon portefeuille',
+  balance: 'Solde total',
+  available: 'Solde disponible',
+  held: 'Montant gelé',
+  updatedAt: 'Mis à jour le {{date}}',
+  recharge: 'Recharger',
+  withdraw: 'Demander un retrait',
+  history: 'Derniers mouvements',
+  historyEmpty: 'Aucun mouvement enregistré.',
+  transaction: {
+    credit: 'Crédit',
+    debit: 'Débit',
+    hold: 'Gel',
+    release: 'Libération',
+    unknown: 'Mouvement',
+  },
+  transactionLine: '{{amount}} — {{date}}',
+  balanceAfter: 'Solde après : {{amount}}',
+  forms: {
+    rechargeTitle: 'Recharger mon portefeuille',
+    rechargeHint: 'Le crédit est porté au compte dès que l’opérateur confirme le paiement.',
+    withdrawTitle: 'Demander un retrait',
+    withdrawHint: 'La demande est transmise à l’administration ; le solde disponible reste gelé.',
+    amount: 'Montant (FCFA)',
+    method: 'Moyen de paiement',
+    methodLabel: {
+      momo: 'MTN Mobile Money',
+      om: 'Orange Money',
+      card: 'Carte bancaire',
+      bank_transfer: 'Virement bancaire',
+    },
+    chooseMethod: 'Choisir : {{method}}',
+    phone: 'Numéro de téléphone',
+    submitRecharge: 'Lancer la recharge',
+    submitWithdraw: 'Envoyer la demande',
+    initiated: 'Demande enregistrée : {{message}}',
+    errors: {
+      amountInvalid: 'Indiquez un montant entier en FCFA.',
+      amountTooSmall: 'La recharge minimale est de 100 FCFA.',
+      withdrawalTooSmall: 'Le retrait minimal est de 500 FCFA.',
+      phoneRequired: 'Indiquez le numéro associé au compte mobile.',
+      phoneInvalid: 'Le numéro doit comporter neuf chiffres et commencer par 6.',
+    },
+  },
+};
+
+const en: typeof fr = {
+  title: 'My wallet',
+  balance: 'Total balance',
+  available: 'Available balance',
+  held: 'Held amount',
+  updatedAt: 'Updated on {{date}}',
+  recharge: 'Top up',
+  withdraw: 'Request a withdrawal',
+  history: 'Recent movements',
+  historyEmpty: 'No movement recorded.',
+  transaction: {
+    credit: 'Credit',
+    debit: 'Debit',
+    hold: 'Hold',
+    release: 'Release',
+    unknown: 'Movement',
+  },
+  transactionLine: '{{amount}} — {{date}}',
+  balanceAfter: 'Balance after: {{amount}}',
+  forms: {
+    rechargeTitle: 'Top up my wallet',
+    rechargeHint: 'The credit is applied as soon as the operator confirms the payment.',
+    withdrawTitle: 'Request a withdrawal',
+    withdrawHint: 'The request goes to the administration; the available balance stays held.',
+    amount: 'Amount (FCFA)',
+    method: 'Payment method',
+    methodLabel: {
+      momo: 'MTN Mobile Money',
+      om: 'Orange Money',
+      card: 'Bank card',
+      bank_transfer: 'Bank transfer',
+    },
+    chooseMethod: 'Choose: {{method}}',
+    phone: 'Phone number',
+    submitRecharge: 'Start the top-up',
+    submitWithdraw: 'Send the request',
+    initiated: 'Request recorded: {{message}}',
+    errors: {
+      amountInvalid: 'Enter a whole amount in FCFA.',
+      amountTooSmall: 'The minimum top-up is 100 FCFA.',
+      withdrawalTooSmall: 'The minimum withdrawal is 500 FCFA.',
+      phoneRequired: 'Enter the number linked to the mobile account.',
+      phoneInvalid: 'The number must have nine digits and start with 6.',
+    },
+  },
+};
+
+/** Ressources du namespace `wallet`. */
+export const walletTranslations: TranslationResources = {
+  fr: { wallet: fr },
+  en: { wallet: en },
+};

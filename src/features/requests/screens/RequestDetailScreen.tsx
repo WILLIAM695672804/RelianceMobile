@@ -13,10 +13,16 @@ export interface RequestDetailScreenProps {
   requestId: string;
   /** Ouverture des résultats du rapprochement (E11). */
   onFindTechnicians: () => void;
+  /** Dépôt d'un avis sur une demande clôturée. */
+  onReview?: (requestId: string) => void;
 }
 
 /** Détail d'une demande : description, lieu, photos, prix indicatif et étape du rapprochement. */
-export function RequestDetailScreen({ requestId, onFindTechnicians }: RequestDetailScreenProps) {
+export function RequestDetailScreen({
+  requestId,
+  onFindTechnicians,
+  onReview,
+}: RequestDetailScreenProps) {
   const { t } = useTranslation();
   const request = useRequest(requestId);
   const storageUrl = useStorageUrl();
@@ -71,6 +77,13 @@ export function RequestDetailScreen({ requestId, onFindTechnicians }: RequestDet
               variant="secondary"
             />
           </>
+        ) : null}
+        {onReview && stage === 'closed' ? (
+          <Button
+            label={t('requests:detail.review')}
+            onPress={() => onReview(requestId)}
+            variant="secondary"
+          />
         ) : null}
         {stage === 'assigned' && data.counterpart ? (
           <Text tone="primary">

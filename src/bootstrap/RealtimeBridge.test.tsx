@@ -5,6 +5,7 @@ import { createSessionStore } from '@/core/session';
 import { billingKeys } from '@/features/billing';
 import { kycKeys } from '@/features/kyc';
 import { notificationsKeys } from '@/features/notifications';
+import { walletKeys } from '@/features/wallet';
 import { matchingKeys } from '@/features/matching';
 import { createFakeRealtimeClient } from '@/test/fakeRealtime';
 import { buildSessionUser } from '@/test/fixtures/users';
@@ -113,5 +114,24 @@ describe('RealtimeBridge', () => {
     });
 
     expect(invalidate).toHaveBeenCalledWith({ queryKey: notificationsKeys.all });
+  });
+
+  it('relit le portefeuille à la mise à jour du solde', async () => {
+    const fake = createFakeRealtimeClient();
+    const realtime = createRealtimeService(() => fake.client);
+    const sessionStore = createSessionStore();
+    sessionStore.getState().setAuthenticated(buildSessionUser('technicien', { id: 'u1' }));
+    realtime.start();
+
+    const { queryClient } = await renderWithProviders(<RealtimeBridge />, {
+      realtime,
+      sessionStore,
+    });
+    const invalidate = jest.spyOn(queryClient, 'invalidateQueries');
+    await act(async () => {
+      fake.channels.get('wallet.u1')?.emit('BalanceUpdated', { balance: 1000 });
+    });
+
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: walletKeys.all });
   });
 });
