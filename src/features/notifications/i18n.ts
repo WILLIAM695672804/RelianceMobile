@@ -1,0 +1,65 @@
+import type { TranslationResources } from '@/core/i18n';
+
+const fr = {
+  title: 'Notifications',
+  empty: 'Aucune notification.',
+  unread: '{{count}} non lue(s)',
+  allRead: 'Tout est lu.',
+  markAll: 'Tout marquer comme lu',
+  markOne: 'Marquer comme lue : {{title}}',
+  marked: 'Notification marquée comme lue.',
+  allMarked: 'Toutes les notifications sont marquées comme lues.',
+  actionFailed: 'L’opération a échoué. Veuillez réessayer.',
+  receivedAt: 'Reçue le {{date}}',
+  openSettings: 'Préférences de notification',
+  settings: {
+    title: 'Préférences de notification',
+    hint: 'Choisissez par quels canaux vous souhaitez être informé.',
+    in_app: 'Dans l’application',
+    push: 'Notifications poussées',
+    pushHint: 'Non encore disponible : le serveur n’envoie pas de notification poussée.',
+    email: 'Courriel',
+    sms: 'SMS',
+    enabled: 'Activé',
+    disabled: 'Désactivé',
+    toggle: 'Changer : {{channel}}',
+    submit: 'Enregistrer les préférences',
+    saved: 'Préférences enregistrées.',
+    saveFailed: 'L’enregistrement a échoué. Veuillez réessayer.',
+  },
+};
+
+const en: typeof fr = {
+  title: 'Notifications',
+  empty: 'No notification.',
+  unread: '{{count}} unread',
+  allRead: 'Everything is read.',
+  markAll: 'Mark all as read',
+  markOne: 'Mark as read: {{title}}',
+  marked: 'Notification marked as read.',
+  allMarked: 'All notifications are marked as read.',
+  actionFailed: 'The operation failed. Please try again.',
+  receivedAt: 'Received on {{date}}',
+  openSettings: 'Notification preferences',
+  settings: {
+    title: 'Notification preferences',
+    hint: 'Choose the channels you want to be informed through.',
+    in_app: 'In the app',
+    push: 'Push notifications',
+    pushHint: 'Not available yet: the server does not send push notifications.',
+    email: 'Email',
+    sms: 'SMS',
+    enabled: 'On',
+    disabled: 'Off',
+    toggle: 'Change: {{channel}}',
+    submit: 'Save preferences',
+    saved: 'Preferences saved.',
+    saveFailed: 'Saving failed. Please try again.',
+  },
+};
+
+/** Ressources du namespace `notifications`. */
+export const notificationsTranslations: TranslationResources = {
+  fr: { notifications: fr },
+  en: { notifications: en },
+};
