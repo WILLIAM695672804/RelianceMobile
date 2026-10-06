@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "data": {
+    "day_of_week": 1,
+    "start_time": "08:00",
+    "end_time": "17:00",
+    "repeat_weekly": true,
+    "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+    "id": "d535045d-47b0-4bb1-b504-5c0aa64d9008",
+    "updated_at": "2026-10-06T20:22:07.000000Z",
+    "created_at": "2026-10-06T20:22:07.000000Z"
+  }
+}

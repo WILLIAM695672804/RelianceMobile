@@ -1,0 +1,8 @@
+{
+  "message": "The day of week field is required. (and 2 more errors)",
+  "errors": {
+    "day_of_week": ["The day of week field is required."],
+    "start_time": ["The start time field is required."],
+    "end_time": ["The end time field is required."]
+  }
+}

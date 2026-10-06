@@ -1,0 +1,93 @@
+{
+  "status": "success",
+  "data": {
+    "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+    "timezone": "Africa/Douala",
+    "recurring_slots": [
+      {
+        "id": "8e8c027c-450c-4459-b98e-a923d7f87fba",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 0,
+        "start_time": "09:00:00",
+        "end_time": "14:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "a5f3c8ef-6386-4a93-aafd-18daf67a3e32",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 1,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "f04f56ba-df46-48ad-9549-f48650bf1929",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 2,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "efd3f78f-67b9-4e34-b6be-4b2204a5afd9",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 3,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "84652339-abfd-46c3-8118-4932a7b279c4",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 4,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "91c23992-e15f-4669-9175-285233fd7bba",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 5,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "ec60b475-1f67-41e2-82b5-43de3998c51f",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 6,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      }
+    ],
+    "exceptions": [],
+    "appointments": [],
+    "insights": {
+      "capacity_percent": 0,
+      "booked_hours": 0,
+      "total_hours": 83
+    }
+  }
+}

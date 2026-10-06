@@ -1,0 +1,23 @@
+{
+  "data": {
+    "id": "de8676ef-401b-497b-8619-0dfc9b823ed8",
+    "request_id": "890a1828-ff6b-42b9-bbf5-46f7ba01ad8b",
+    "technician_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+    "request": {
+      "id": "890a1828-ff6b-42b9-bbf5-46f7ba01ad8b",
+      "title": "Panne de courant",
+      "status": "quoted"
+    },
+    "technician": {
+      "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "name": "Technicien Démo"
+    },
+    "location": null,
+    "scheduled_start": "2026-10-07T08:00:00.000000Z",
+    "scheduled_end": "2026-10-07T10:00:00.000000Z",
+    "status": "scheduled",
+    "notes": "Intervention de démonstration",
+    "assigned_at": "2026-10-06T20:22:08.000000Z",
+    "created_at": "2026-10-06T20:22:07.000000Z"
+  }
+}
