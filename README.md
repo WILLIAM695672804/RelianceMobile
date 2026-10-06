@@ -80,3 +80,5 @@ Le dossier `android/` est généré (`npx expo prebuild`) et ignoré par git. Su
 - [Feature `billing`](src/features/billing/README.md)
 - [Feature `notifications`](src/features/notifications/README.md)
 - [Feature `chat`](src/features/chat/README.md)
+- [Feature `wallet`](src/features/wallet/README.md)
+- [Feature `reviews`](src/features/reviews/README.md)
