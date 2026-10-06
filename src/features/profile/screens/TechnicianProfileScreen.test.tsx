@@ -1,4 +1,4 @@
-import { fireEvent, screen, userEvent, waitFor } from '@testing-library/react-native';
+import { fireEvent, screen, userEvent } from '@testing-library/react-native';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
