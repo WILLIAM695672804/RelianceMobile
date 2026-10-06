@@ -1,0 +1,47 @@
+{
+  "data": [
+    {
+      "id": "fda6c0c8-5b53-461d-8b76-dc45c635844d",
+      "follower_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "followee_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "follower": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Personne Démo",
+        "avatar_url": null
+      },
+      "created_at": "2026-10-06T19:55:22.000000Z"
+    }
+  ],
+  "links": {
+    "first": "http://api.test/api/v1/users/c2976e8d-b624-46dd-81a4-a7eb1f359636/followers?page=1",
+    "last": "http://api.test/api/v1/users/c2976e8d-b624-46dd-81a4-a7eb1f359636/followers?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/users/c2976e8d-b624-46dd-81a4-a7eb1f359636/followers?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http://api.test/api/v1/users/c2976e8d-b624-46dd-81a4-a7eb1f359636/followers",
+    "per_page": 20,
+    "to": 1,
+    "total": 1
+  }
+}

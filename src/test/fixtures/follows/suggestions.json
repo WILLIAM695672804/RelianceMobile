@@ -1,0 +1,46 @@
+{
+  "data": [
+    {
+      "id": "cd1a15a0-30df-4533-bcc5-37d35c11580d",
+      "name": "Personne Démo",
+      "avatar_url": null,
+      "rating": "4.90",
+      "verified": true
+    },
+    {
+      "id": "c4dc2ed1-538e-45af-b59e-eadb065ad2b7",
+      "name": "Personne Démo",
+      "avatar_url": null,
+      "rating": "4.70",
+      "verified": true
+    },
+    {
+      "id": "6413cb66-fb39-4152-aafb-5e5be1f58575",
+      "name": "Personne Démo",
+      "avatar_url": null,
+      "rating": "4.60",
+      "verified": true
+    },
+    {
+      "id": "75807769-8433-43a2-b05d-300b55046aa2",
+      "name": "Personne Démo",
+      "avatar_url": null,
+      "rating": "4.50",
+      "verified": true
+    },
+    {
+      "id": "7fdc1589-8fe9-44a2-bc21-5cea550ecf48",
+      "name": "Personne Démo",
+      "avatar_url": null,
+      "rating": "0.00",
+      "verified": false
+    },
+    {
+      "id": "a1c312ad-e5da-4f28-8f1d-9f61e7d9b282",
+      "name": "Personne Démo",
+      "avatar_url": null,
+      "rating": "0.00",
+      "verified": true
+    }
+  ]
+}
