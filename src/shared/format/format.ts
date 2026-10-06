@@ -30,3 +30,13 @@ export function formatDate(iso: string): string {
   if (Number.isNaN(date.getTime())) return '';
   return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`;
 }
+
+/** Heure locale « 09:05 » ; chaîne vide si la date est absente ou illisible. */
+export function formatClockTime(value: string | null | undefined): string {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${hours}:${minutes}`;
+}

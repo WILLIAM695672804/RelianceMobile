@@ -1,4 +1,4 @@
-import { formatAmount, formatDate, formatDistance, formatRating } from './format';
+import { formatAmount, formatClockTime, formatDate, formatDistance, formatRating } from './format';
 
 const NBSP = ' ';
 
@@ -23,5 +23,16 @@ describe('formats', () => {
   it('formatDate produit une date jour/mois/année', () => {
     expect(formatDate('2026-09-16T12:00:00+00:00')).toBe('16/09/2026');
     expect(formatDate('date invalide')).toBe('');
+  });
+});
+
+describe('formatClockTime', () => {
+  it('rend l’heure locale sur deux chiffres', () => {
+    expect(formatClockTime(new Date(2026, 9, 6, 9, 5).toISOString())).toBe('09:05');
+  });
+
+  it('rend une chaîne vide pour une date absente ou illisible', () => {
+    expect(formatClockTime(null)).toBe('');
+    expect(formatClockTime('illisible')).toBe('');
   });
 });
