@@ -5,19 +5,28 @@ import { useSession, type Role } from '@/core/session';
 import { useLogout } from '@/features/auth';
 import { Avatar, Badge, Button, Card, ListItem, Screen, Text } from '@/shared/components';
 
-export type ProfileDestination = 'edit' | 'password' | 'locations' | 'kyc' | 'upgrade' | 'settings';
+export type ProfileDestination =
+  | 'edit'
+  | 'password'
+  | 'locations'
+  | 'professional'
+  | 'skills'
+  | 'zone'
+  | 'kyc'
+  | 'upgrade'
+  | 'settings';
 
 export interface ProfileScreenProps {
   onOpen: (destination: ProfileDestination) => void;
 }
 
-/** Entrées du menu : justificatifs pour le technicien, passage technicien pour le client. */
+/** Entrées du menu : volet professionnel et justificatifs pour le technicien, passage technicien pour le client. */
 export function destinationsFor(role: Role): ProfileDestination[] {
   return [
     'edit',
     'password',
     'locations',
-    ...(role === 'technicien' ? (['kyc'] as const) : []),
+    ...(role === 'technicien' ? (['professional', 'skills', 'zone', 'kyc'] as const) : []),
     ...(role === 'client' ? (['upgrade'] as const) : []),
     'settings',
   ];

@@ -9,6 +9,15 @@
 export { profileKeys } from './hooks/profileKeys';
 export { useSkillCatalog } from './hooks/useSkillCatalog';
 export {
+  useAddTechnicianSkill,
+  useMyTechnicianSkills,
+  useRemoveTechnicianSkill,
+  useTechnicianIdentity,
+  useTechnicianStats,
+  useUpdateServiceArea,
+  useUpdateTechnicianProfile,
+} from './hooks/useTechnician';
+export {
   useCreateLocation,
   useDeleteLocation,
   useLocations,
@@ -34,7 +43,11 @@ export {
   type ProfileDestination,
   type ProfileScreenProps,
 } from './screens/ProfileScreen';
+export { ServiceAreaScreen } from './screens/ServiceAreaScreen';
 export { SettingsScreen, type SettingsScreenProps } from './screens/SettingsScreen';
+export { TechnicianProfileScreen } from './screens/TechnicianProfileScreen';
+export { TechnicianSkillsScreen } from './screens/TechnicianSkillsScreen';
+export { TechnicianStatsScreen } from './screens/TechnicianStatsScreen';
 export {
   UpgradeRequestScreen,
   type UpgradeRequestScreenProps,
@@ -46,3 +59,10 @@ export type {
   UpgradePayload,
 } from './schemas/profileSchemas';
 export type { Skill } from './schemas/skillSchemas';
+export type {
+  ServiceAreaPayload,
+  ServicePerimeter,
+  TechnicianIdentity,
+  TechnicianSkill,
+  TechnicianStats,
+} from './schemas/technicianSchemas';

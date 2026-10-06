@@ -5,7 +5,7 @@ import { buildSessionUser } from '@/test/fixtures/users';
 import { renderWithProviders } from '@/test/render';
 
 import { profileTranslations } from '../i18n';
-import { ProfileScreen } from './ProfileScreen';
+import { destinationsFor, ProfileScreen } from './ProfileScreen';
 
 async function setup(role: Role, overrides: Parameters<typeof buildSessionUser>[1] = {}) {
   const sessionStore = createSessionStore();
@@ -47,6 +47,9 @@ describe('ProfileScreen (E08)', () => {
         'Modifier le profil',
         'Mot de passe',
         'Mes adresses',
+        'Profil professionnel',
+        'Mes compétences',
+        'Ma zone d’intervention',
         'Justificatifs d’identité',
         'Paramètres',
       ],
@@ -75,5 +78,25 @@ describe('ProfileScreen (E08)', () => {
     await user.press(screen.getByRole('button', { name: 'Se déconnecter' }));
 
     await waitFor(() => expect(logout).toHaveBeenCalledTimes(1));
+  });
+
+  it('propose les écrans professionnels au technicien uniquement', () => {
+    expect(destinationsFor('technicien')).toEqual([
+      'edit',
+      'password',
+      'locations',
+      'professional',
+      'skills',
+      'zone',
+      'kyc',
+      'settings',
+    ]);
+    expect(destinationsFor('client')).toEqual([
+      'edit',
+      'password',
+      'locations',
+      'upgrade',
+      'settings',
+    ]);
   });
 });
