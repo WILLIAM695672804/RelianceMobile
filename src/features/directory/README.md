@@ -11,6 +11,8 @@ Annuaire public des techniciens vérifiés et profil public.
 
 Filtres appliqués : recherche par nom (`search`) et proximité (`latitude`, `longitude`, `radius_km` de 50 km, position relevée par `locateDevice`). Le serveur ne renvoie que les techniciens `verified` et `is_active` ; il classe par distance quand une position est fournie, sinon par note décroissante. Seule la première page (20 techniciens) est lue.
 
+Le profil public porte le bouton de suivi (`FollowButton` de `@/features/social`).
+
 ## Endpoints
 
 | Fonction            | Méthode et route                                                             | Hook                     |
