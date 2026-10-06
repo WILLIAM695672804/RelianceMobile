@@ -10,6 +10,15 @@ const fr = {
       'Vous avez atteint la limite de {{max}} demandes ouvertes : attendez la clôture de l’une d’elles.',
     empty: 'Vous n’avez pas encore de demande en cours',
     loadError: 'Impossible de charger vos informations. Vérifiez votre connexion.',
+    openAll: 'Toutes mes demandes',
+  },
+  list: {
+    title: 'Mes demandes',
+    empty: 'Aucune demande enregistrée.',
+    open: 'Voir la demande',
+    openNamed: 'Voir la demande : {{title}}',
+    createdAt: 'Créée le {{date}}',
+    count: '{{count}} demande(s)',
   },
   stages: {
     toMatch: 'À attribuer',
@@ -91,6 +100,15 @@ const en: typeof fr = {
     limitReached: 'You have reached the limit of {{max}} open requests: wait until one is closed.',
     empty: 'You have no open request yet',
     loadError: 'Unable to load your information. Check your connection.',
+    openAll: 'All my requests',
+  },
+  list: {
+    title: 'My requests',
+    empty: 'No request recorded.',
+    open: 'View the request',
+    openNamed: 'View the request: {{title}}',
+    createdAt: 'Created on {{date}}',
+    count: '{{count}} request(s)',
   },
   stages: {
     toMatch: 'To assign',

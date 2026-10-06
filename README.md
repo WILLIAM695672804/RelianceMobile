@@ -57,11 +57,22 @@ Le dossier `android/` est généré (`npx expo prebuild`) et ignoré par git. Su
 
 ## Comptes de test
 
-| Rôle           | Compte                                         | Source                                  |
-| -------------- | ---------------------------------------------- | --------------------------------------- |
-| Technicien     | `tech.electricien@reliance.cm` / `password123` | `TechnicianSeeder`                      |
-| Client, agence | à créer par l'écran d'inscription (E03)        | aucun seeder                            |
-| Administrateur | `admin@reliance.cm`                            | redirigé vers « espace réservé au web » |
+| Rôle           | Compte                                         | Source                                                 |
+| -------------- | ---------------------------------------------- | ------------------------------------------------------ |
+| Technicien     | `tech.electricien@reliance.cm` / `password123` | `TechnicianSeeder`                                     |
+| Client         | `client.capture@example.test` / `password123`  | créé par `./scripts/capture-matching-fixtures.sh`      |
+| Agence         | `agence.capture@example.test` / `password123`  | créé par `./scripts/capture-agency-social-fixtures.sh` |
+| Administrateur | `admin@reliance.cm`                            | redirigé vers « espace réservé au web »                |
+
+## Parcours couverts
+
+| Rôle       | Onglets                            | Depuis « Compte »                                                                                                                           |
+| ---------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Client     | Accueil, Suivi, Annuaire, Compte   | profil, mot de passe, adresses, factures, rendez-vous, portefeuille, notifications, messagerie, fil                                         |
+| Technicien | Accueil, Mission, Activité, Compte | profil professionnel, compétences, zone, planning, justificatifs, factures, rendez-vous, portefeuille, avis, notifications, messagerie, fil |
+| Agence     | Agence, Compte                     | profil, mot de passe, adresses, notifications, messagerie, fil                                                                              |
+
+Parcours d'intervention de bout en bout : demande (E10) → rapprochement (E11) → proposition (E12) → acceptation (E06) → suivi (E13 à E15, E18) → devis (E16, E17) → facture (E22) → avis.
 
 ## Documentation
 

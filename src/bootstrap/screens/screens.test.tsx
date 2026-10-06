@@ -8,7 +8,6 @@ import { renderWithProviders } from '@/test/render';
 
 import { LaunchScreen } from './LaunchScreen';
 import { ProfileRoute } from './ProfileRoute';
-import { RoleHomeScreen } from './RoleHomeScreen';
 import { WebOnlyScreen } from './WebOnlyScreen';
 
 jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
@@ -36,14 +35,6 @@ describe('LaunchScreen (E01)', () => {
     await user.press(await screen.findByRole('button', { name: 'Réessayer' }));
 
     expect(restore).toHaveBeenCalledTimes(2);
-  });
-});
-
-describe('RoleHomeScreen', () => {
-  it('salue l’utilisateur et indique son rôle', async () => {
-    await renderWithProviders(<RoleHomeScreen />, { sessionStore: storeWith('technicien') });
-    expect(screen.getByRole('header')).toHaveTextContent('Bonjour, Awa Diallo');
-    expect(screen.getByText('Technicien')).toBeOnTheScreen();
   });
 });
 

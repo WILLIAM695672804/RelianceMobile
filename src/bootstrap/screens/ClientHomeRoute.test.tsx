@@ -6,7 +6,11 @@ import { ClientHomeRoute } from './ClientHomeRoute';
 jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
 
 const mockCapturedProps: {
-  current?: { onNewRequest: () => void; onOpenRequest: (id: string) => void };
+  current?: {
+    onNewRequest: () => void;
+    onOpenRequest: (id: string) => void;
+    onOpenAll?: () => void;
+  };
 } = {};
 
 jest.mock('@/features/requests', () => ({
@@ -28,5 +32,13 @@ describe('ClientHomeRoute', () => {
       pathname: '/requests/[id]',
       params: { id: 'r1' },
     });
+  });
+
+  it('ouvre la liste complète des demandes', async () => {
+    await render(<ClientHomeRoute />);
+
+    mockCapturedProps.current?.onOpenAll?.();
+
+    expect(router.push).toHaveBeenCalledWith('/requests');
   });
 });

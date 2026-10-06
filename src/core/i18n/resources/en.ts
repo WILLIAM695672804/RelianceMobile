@@ -43,9 +43,6 @@ export const en: typeof fr = {
     placeholder: {
       upcoming: 'Screen planned for a later release.',
     },
-    home: {
-      greeting: 'Hello, {{name}}',
-    },
   },
   errors: {
     network: 'Check your connection.',

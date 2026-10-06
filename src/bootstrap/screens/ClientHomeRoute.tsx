@@ -8,6 +8,7 @@ export function ClientHomeRoute() {
     <ClientHomeScreen
       onNewRequest={() => router.push('/requests/new')}
       onOpenRequest={(id) => router.push({ pathname: '/requests/[id]', params: { id } })}
+      onOpenAll={() => router.push('/requests')}
     />
   );
 }

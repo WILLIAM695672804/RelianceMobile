@@ -4,10 +4,10 @@ Espace agence : fiche et équipe.
 
 ## Périmètre
 
-| Écran        | Composant          | Route                               |
-| ------------ | ------------------ | ----------------------------------- |
-| E07 — Agence | `AgencyScreen`     | `app/agence/agence.tsx`             |
-| Équipe       | `AgencyTeamScreen` | `app/(agence)/agency/team/[id].tsx` |
+| Écran        | Composant          | Route                                               |
+| ------------ | ------------------ | --------------------------------------------------- |
+| E07 — Agence | `AgencyScreen`     | `app/agence/index.tsx` (accueil de l'espace agence) |
+| Équipe       | `AgencyTeamScreen` | `app/(agence)/agency/team/[id].tsx`                 |
 
 Tant que `GET /my-agency` ne renvoie rien, l'écran propose la création : le créateur devient membre `admin`. La fiche (nom, présentation, adresse, téléphone, courriel) est modifiable par un administrateur. L'équipe liste les adhésions avec leur rôle ; un technicien est rattaché depuis l'annuaire (`@/features/directory`) et retiré après confirmation.
 

@@ -41,9 +41,6 @@ export const fr = {
     placeholder: {
       upcoming: 'Écran prévu dans un lot ultérieur.',
     },
-    home: {
-      greeting: 'Bonjour, {{name}}',
-    },
   },
   errors: {
     network: 'Vérifiez votre connexion.',
