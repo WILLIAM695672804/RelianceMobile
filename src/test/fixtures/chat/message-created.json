@@ -1,0 +1,19 @@
+{
+  "status": "success",
+  "message": "Message envoye",
+  "data": {
+    "id": "38a22c82-a1a9-4493-9132-e5fbc80cfb13",
+    "conversation_id": "85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9",
+    "sender_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+    "sender": {
+      "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "name": "Personne Démo",
+      "avatar_url": null
+    },
+    "body": "Je serai présent toute la matinée.",
+    "attachments": [],
+    "delivered": null,
+    "read_at": null,
+    "created_at": "2026-10-06T19:47:26.000000Z"
+  }
+}

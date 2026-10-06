@@ -36,6 +36,7 @@ const fr = {
     notes: 'Compte rendu (facultatif)',
     confirm: 'Terminer',
     quotes: 'Devis',
+    contact: 'Contacter le client',
     history: 'Historique des missions',
     updateFailed: 'La mise à jour a échoué. Veuillez réessayer.',
     errors: {
@@ -89,6 +90,7 @@ const fr = {
     distance: 'À {{distance}} de votre adresse',
     positionUnknown: 'Position du technicien non communiquée.',
     quotes: 'Devis reçus',
+    contact: 'Contacter le technicien',
   },
 };
 
@@ -128,6 +130,7 @@ const en: typeof fr = {
     notes: 'Report (optional)',
     confirm: 'Complete',
     quotes: 'Quotes',
+    contact: 'Contact the client',
     history: 'Job history',
     updateFailed: 'The update failed. Please try again.',
     errors: {
@@ -181,6 +184,7 @@ const en: typeof fr = {
     distance: '{{distance}} from your address',
     positionUnknown: 'Technician position not shared.',
     quotes: 'Received quotes',
+    contact: 'Contact the technician',
   },
 };
 

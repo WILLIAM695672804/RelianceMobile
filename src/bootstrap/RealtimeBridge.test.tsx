@@ -4,6 +4,7 @@ import { createRealtimeService } from '@/core/realtime';
 import { createSessionStore } from '@/core/session';
 import { billingKeys } from '@/features/billing';
 import { kycKeys } from '@/features/kyc';
+import { notificationsKeys } from '@/features/notifications';
 import { matchingKeys } from '@/features/matching';
 import { createFakeRealtimeClient } from '@/test/fakeRealtime';
 import { buildSessionUser } from '@/test/fixtures/users';
@@ -93,5 +94,24 @@ describe('RealtimeBridge', () => {
     });
 
     expect(invalidate).toHaveBeenCalledWith({ queryKey: billingKeys.all });
+  });
+
+  it('relit les notifications à la réception d’une notification', async () => {
+    const fake = createFakeRealtimeClient();
+    const realtime = createRealtimeService(() => fake.client);
+    const sessionStore = createSessionStore();
+    sessionStore.getState().setAuthenticated(buildSessionUser('client', { id: 'u1' }));
+    realtime.start();
+
+    const { queryClient } = await renderWithProviders(<RealtimeBridge />, {
+      realtime,
+      sessionStore,
+    });
+    const invalidate = jest.spyOn(queryClient, 'invalidateQueries');
+    await act(async () => {
+      fake.channels.get('notifications.u1')?.emit('NotificationCreated', { id: 'n1' });
+    });
+
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: notificationsKeys.all });
   });
 });

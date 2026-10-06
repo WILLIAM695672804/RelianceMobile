@@ -4,6 +4,7 @@ import { bindAppStateLifecycle, channels, useChannelEvent, useRealtime } from '@
 import { useSession, useSessionActions } from '@/core/session';
 import { useQuotesSync } from '@/features/billing';
 import { useKycStatusSync } from '@/features/kyc';
+import { useNotificationsSync } from '@/features/notifications';
 import { useProposalsSync } from '@/features/matching';
 
 /** Abonnements temps réel transverses et cycle de vie de la connexion. */
@@ -27,6 +28,9 @@ export function RealtimeBridge() {
 
   // Devis reçu ou facture émise : relecture de la facturation.
   useQuotesSync();
+
+  // Notification reçue : relecture de la liste et du compteur.
+  useNotificationsSync();
 
   return null;
 }

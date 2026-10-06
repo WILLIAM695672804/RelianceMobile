@@ -52,6 +52,8 @@ describe('ProfileScreen (E08)', () => {
         'Ma zone d’intervention',
         'Justificatifs d’identité',
         'Mes factures',
+        'Notifications',
+        'Messagerie',
         'Paramètres',
       ],
     ],
@@ -63,10 +65,22 @@ describe('ProfileScreen (E08)', () => {
         'Mes adresses',
         'Devenir technicien',
         'Mes factures',
+        'Notifications',
+        'Messagerie',
         'Paramètres',
       ],
     ],
-    ['agence', ['Modifier le profil', 'Mot de passe', 'Mes adresses', 'Paramètres']],
+    [
+      'agence',
+      [
+        'Modifier le profil',
+        'Mot de passe',
+        'Mes adresses',
+        'Notifications',
+        'Messagerie',
+        'Paramètres',
+      ],
+    ],
   ] as const)('adapte le menu au rôle %s', async (role, entries) => {
     await setup(role);
     expect(menu()).toEqual([...entries, 'Se déconnecter']);
@@ -98,6 +112,8 @@ describe('ProfileScreen (E08)', () => {
       'zone',
       'kyc',
       'invoices',
+      'notifications',
+      'messages',
       'settings',
     ]);
     expect(destinationsFor('client')).toEqual([
@@ -106,6 +122,8 @@ describe('ProfileScreen (E08)', () => {
       'locations',
       'upgrade',
       'invoices',
+      'notifications',
+      'messages',
       'settings',
     ]);
   });

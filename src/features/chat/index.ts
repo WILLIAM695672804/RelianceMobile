@@ -1,0 +1,22 @@
+/**
+ * Feature `chat` — messagerie entre client et technicien (E24).
+ * @packageDocumentation
+ */
+
+export { chatKeys } from './hooks/chatKeys';
+export {
+  useConversation,
+  useConversations,
+  useConversationSync,
+  useCreateConversation,
+  useMarkConversationRead,
+  useMessages,
+  useSendMessage,
+  useUnreadMessageCount,
+} from './hooks/useChat';
+export { chatTranslations } from './i18n';
+export { conversationTitle, otherMembers, sortedMessages } from './model/conversation';
+export { ChatScreen, type ChatScreenProps } from './screens/ChatScreen';
+export { ConversationsScreen, type ConversationsScreenProps } from './screens/ConversationsScreen';
+export { StartChatScreen, type StartChatScreenProps } from './screens/StartChatScreen';
+export type { Conversation, ConversationMember, Message } from './schemas/chatSchemas';

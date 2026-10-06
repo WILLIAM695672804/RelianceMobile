@@ -8,6 +8,9 @@ export default function SuiviRoute() {
       onOpenQuotes={(requestId) =>
         router.push({ pathname: '/quotes/[requestId]', params: { requestId } })
       }
+      onContact={(userId) =>
+        router.push({ pathname: '/conversations/new', params: { member: userId } })
+      }
     />
   );
 }

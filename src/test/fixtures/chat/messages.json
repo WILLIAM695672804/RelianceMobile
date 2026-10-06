@@ -1,0 +1,96 @@
+{
+  "data": [
+    {
+      "id": "38a22c82-a1a9-4493-9132-e5fbc80cfb13",
+      "conversation_id": "85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9",
+      "sender_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "sender": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Personne Démo",
+        "avatar_url": null
+      },
+      "body": "Je serai présent toute la matinée.",
+      "attachments": [],
+      "delivered": false,
+      "read_at": null,
+      "created_at": "2026-10-06T18:47:26.000000Z"
+    },
+    {
+      "id": "c29f1b62-9095-4883-9493-96920f901c44",
+      "conversation_id": "85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9",
+      "sender_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "sender": {
+        "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "name": "Personne Démo",
+        "avatar_url": null
+      },
+      "body": "Bonjour, je passe vers 9 h.",
+      "attachments": [],
+      "delivered": false,
+      "read_at": null,
+      "created_at": "2026-10-06T18:46:34.000000Z"
+    },
+    {
+      "id": "8f7a81f6-d86a-459a-bedc-11d6e1b5ac34",
+      "conversation_id": "85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9",
+      "sender_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "sender": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Personne Démo",
+        "avatar_url": null
+      },
+      "body": "Bonjour, à quelle heure passez-vous ?",
+      "attachments": [],
+      "delivered": false,
+      "read_at": null,
+      "created_at": "2026-10-06T18:46:33.000000Z"
+    },
+    {
+      "id": "ad13f353-19a2-4dbe-9d0d-34d14dc42473",
+      "conversation_id": "85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9",
+      "sender_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "sender": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Personne Démo",
+        "avatar_url": null
+      },
+      "body": "Je serai présent toute la matinée.",
+      "attachments": [],
+      "delivered": false,
+      "read_at": null,
+      "created_at": "2026-10-06T18:46:33.000000Z"
+    }
+  ],
+  "links": {
+    "first": "http://api.test/api/v1/conversations/85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9/messages?page=1",
+    "last": "http://api.test/api/v1/conversations/85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9/messages?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/conversations/85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9/messages?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http://api.test/api/v1/conversations/85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9/messages",
+    "per_page": 30,
+    "to": 4,
+    "total": 4
+  }
+}

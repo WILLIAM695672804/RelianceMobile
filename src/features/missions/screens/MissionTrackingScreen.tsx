@@ -25,10 +25,15 @@ const asPhaseStatus = (status: string): PhaseStatus =>
 export interface MissionTrackingScreenProps {
   /** Ouverture des devis de la demande suivie. */
   onOpenQuotes?: (requestId: string) => void;
+  /** Ouverture d'une conversation avec le technicien. */
+  onContact?: (userId: string) => void;
 }
 
 /** E15 — Suivi client : avancement de l'intervention et dernière position du technicien. */
-export function MissionTrackingScreen({ onOpenQuotes }: MissionTrackingScreenProps = {}) {
+export function MissionTrackingScreen({
+  onOpenQuotes,
+  onContact,
+}: MissionTrackingScreenProps = {}) {
   const { t } = useTranslation();
   const mission = useClientMission();
   const jobId = mission.data?.job_id ?? null;
@@ -58,6 +63,7 @@ export function MissionTrackingScreen({ onOpenQuotes }: MissionTrackingScreenPro
         tracking={tracking.data ?? null}
         position={position.data ?? null}
         onOpenQuotes={onOpenQuotes}
+        onContact={onContact}
       />
     );
   };
@@ -77,13 +83,16 @@ function MissionTracking({
   tracking,
   position,
   onOpenQuotes,
+  onContact,
 }: {
   mission: ClientMission;
   tracking: JobTracking | null;
   position: LivePosition | null;
   onOpenQuotes?: (requestId: string) => void;
+  onContact?: (userId: string) => void;
 }) {
   const { t } = useTranslation();
+  const technician = mission.technician;
   const place = [mission.address?.address, mission.address?.city].filter(Boolean).join(', ');
   const address = mission.address;
   const distance =
@@ -123,6 +132,14 @@ function MissionTracking({
         ) : null}
         {place ? <Text>{t('missions:tracking.place', { place })}</Text> : null}
       </Card>
+
+      {onContact && technician ? (
+        <Button
+          label={t('missions:tracking.contact')}
+          onPress={() => onContact(technician.id)}
+          variant="secondary"
+        />
+      ) : null}
 
       {onOpenQuotes ? (
         <Button
