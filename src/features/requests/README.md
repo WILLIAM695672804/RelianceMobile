@@ -9,6 +9,7 @@ Demandes d'intervention du client : accueil, création, détail.
 | E05 — Accueil client   | `ClientHomeScreen`    | `app/client/index.tsx`                  |
 | E10 — Nouvelle demande | `NewRequestScreen`    | `app/(demande)/requests/new.tsx`        |
 | Détail d'une demande   | `RequestDetailScreen` | `app/(demande)/requests/[id]/index.tsx` |
+| Toutes mes demandes    | `RequestsListScreen`  | `app/(demande)/requests/index.tsx`      |
 
 Règles appliquées côté mobile : cinq demandes ouvertes au plus (`MAX_OPEN_REQUESTS`) ; intitulé de 255 caractères au plus ; description de 20 à 1000 caractères ; une à cinq photos ; catégorie et position obligatoires. La position provient du GPS (`locateDevice`) ou du géocodage d'une adresse saisie (`geocodeAddress`), tous deux dans `src/shared/location/`.
 
