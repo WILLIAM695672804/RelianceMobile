@@ -26,6 +26,7 @@ export const en: typeof fr = {
     },
     navigation: {
       home: 'Home',
+      agency: 'Agency',
       mission: 'Job',
       tracking: 'Tracking',
       activity: 'Activity',

@@ -21,7 +21,9 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | `wallet`        | Livré (Plan 8, recette appareil en attente)       | `wallet`, `wallet/transactions`, `wallet/recharge`, `wallet/withdraw`                                                                                                                                                                                           |
 | `reviews`       | Livré (Plan 8, recette appareil en attente)       | `reviews` (POST), `reviews/technician/{id}`, `reviews/mine`, `badges/user/{id}`, `reputation/{id}`                                                                                                                                                              |
 | `planning`      | Livré (Plan 9, recette appareil en attente)       | `technician/calendar`, `technician/time-slots`, `technician/time-slots/{id}`, `technician/exceptions`, `technician/exceptions/{id}`, `appointments`, `appointments/upcoming`, `appointments/{id}`, `appointments/{id}/status`                                   |
-| Autres features | Plans 4 et suivants                               | —                                                                                                                                                                                                                                                               |
+| `agency`        | Livré (Plan 10, recette appareil en attente)      | `my-agency`, `agencies` (GET, POST), `agencies/{id}`, `agencies/{id}/members`, `agencies/{id}/members/{userId}`                                                                                                                                                 |
+| `social`        | Livré (Plan 10, recette appareil en attente)      | `posts/feed`, `posts/explore`, `posts` (POST), `posts/{id}`, `posts/{id}/like`, `posts/{id}/comments` (GET, POST)                                                                                                                                               |
+| Hors périmètre  | Litiges, abonnements, crédits, jetons de poussée  | `disputes/*`, `subscriptions/*`, `credits/*`, `push-tokens/*`                                                                                                                                                                                                   |
 
 ## 2. Réponses d'authentification constatées
 
@@ -144,6 +146,21 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | Statut mis à jour      | 200    | `{ data: appointment }`                                                                            |
 | Rendez-vous d'un tiers | 403    | `{ message: "Non autorisé" }`                                                                      |
 
+### Agence et fil social
+
+| Cas                     | Statut | Corps                                                 |
+| ----------------------- | ------ | ----------------------------------------------------- |
+| Aucune agence rattachée | 200    | `{ data: null, message }`                             |
+| Agence créée            | 201    | `{ message, data: agency }` (créateur `admin`)        |
+| Agence invalide         | 422    | `{ message, errors: { name } }`                       |
+| Fiche mise à jour       | 200    | `{ message, data: agency }` ; 403 hors administrateur |
+| Membre ajouté           | 201    | `{ message, data: membership }`                       |
+| Membre déjà rattaché    | 422    | `{ message }`                                         |
+| Publication créée       | 201    | `{ status, message, data: post }`                     |
+| Publication vide        | 422    | `{ message, errors: { content } }`                    |
+| Mention « j'aime »      | 200    | `{ status, liked, likes_count }`                      |
+| Commentaire ajouté      | 201    | `{ status, message, data: comment }`                  |
+
 ## 3. Statuts
 
 | Objet       | Valeurs                                                                                                                                                            |
@@ -195,3 +212,6 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `POST /appointments` ne vérifie ni que le technicien est celui de la demande, ni l'absence de chevauchement avec un autre rendez-vous.
 - `GET /technician/calendar` renvoie `insights.total_hours` à 45 heures par défaut : la charge affichée peut dépasser 100 %.
 - Les créneaux renvoient `start_time` au format `HH:MM:SS` en lecture et `HH:MM` à la création ; le mobile normalise.
+- La table `agencies` n'a ni `owner_id` ni `email`/`phone` : le contrôleur écrivait des champs inexistants et comparait un propriétaire toujours nul (toute mise à jour échouait en 403). Corrigé dans `RelianceBackend` (`fix(profile)`) : la responsabilité suit l'appartenance au rôle `admin`, les coordonnées vivent dans `contact_email` et `contact_phone`, et `AgencyMembership` gagne ses relations.
+- `/posts/{id}` capturait `/posts/feed` et `/posts/trending` faute de contrainte UUID. Corrigé dans `RelianceBackend` (`fix(social)`).
+- `GET /my-agency` expose les membres sous forme de comptes bruts (courriel et `meta` compris).

@@ -1,0 +1,13 @@
+{
+  "message": "Agence mise à jour",
+  "data": {
+    "id": "64a2aebc-6e35-44de-b4a4-6b8135963092",
+    "name": "Agence de démonstration",
+    "description": "Agence de test, mise à jour depuis le mobile.",
+    "contact_email": null,
+    "contact_phone": null,
+    "address": "Adresse de démonstration",
+    "created_at": "2026-10-06T20:39:46.000000Z",
+    "updated_at": "2026-10-06T20:41:17.000000Z"
+  }
+}

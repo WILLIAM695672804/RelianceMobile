@@ -6,6 +6,7 @@ import { appEnv } from '@/core/config';
 import { createLanguagePreference, resolveLanguage } from '@/core/i18n';
 import { startConnectivitySync } from '@/core/offline';
 import { createMmkvStore } from '@/core/storage';
+import { agencyTranslations } from '@/features/agency';
 import { authTranslations } from '@/features/auth';
 import { billingTranslations } from '@/features/billing';
 import { chatTranslations } from '@/features/chat';
@@ -17,6 +18,7 @@ import { notificationsTranslations } from '@/features/notifications';
 import { planningTranslations } from '@/features/planning';
 import { profileTranslations } from '@/features/profile';
 import { requestsTranslations } from '@/features/requests';
+import { socialTranslations } from '@/features/social';
 import { reviewsTranslations } from '@/features/reviews';
 import { walletTranslations } from '@/features/wallet';
 
@@ -49,6 +51,8 @@ export const services = createServices({
     walletTranslations,
     reviewsTranslations,
     planningTranslations,
+    agencyTranslations,
+    socialTranslations,
     directoryTranslations,
   ],
 });

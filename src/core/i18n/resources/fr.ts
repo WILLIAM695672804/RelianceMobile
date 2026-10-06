@@ -24,6 +24,7 @@ export const fr = {
     },
     navigation: {
       home: 'Accueil',
+      agency: 'Agence',
       mission: 'Mission',
       tracking: 'Suivi',
       activity: 'Activité',

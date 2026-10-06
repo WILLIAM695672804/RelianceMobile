@@ -6,6 +6,7 @@ export default function AgenceLayout() {
   return (
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen name="index" options={{ title: t('common:navigation.home') }} />
+      <Tabs.Screen name="agence" options={{ title: t('common:navigation.agency') }} />
       <Tabs.Screen name="account" options={{ title: t('common:navigation.account') }} />
     </Tabs>
   );

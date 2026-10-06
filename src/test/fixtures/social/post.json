@@ -1,0 +1,18 @@
+{
+  "data": {
+    "id": "1e9b2ce9-10e2-4a29-9c50-49f55ff8ddf5",
+    "author_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+    "author": {
+      "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "name": "Personne Démo",
+      "avatar_url": null,
+      "is_verified": false
+    },
+    "content": "Première publication de démonstration sur le fil Reliance.",
+    "attachments": null,
+    "likes_count": 0,
+    "comments_count": 0,
+    "is_liked": false,
+    "created_at": "2026-10-06T19:41:38.000000Z"
+  }
+}
