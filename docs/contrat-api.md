@@ -15,6 +15,7 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | `requests`      | Livré (Plan 3, recette appareil en attente)       | `requests` (GET, POST), `requests/{id}`, `skills`                                                                                                                                                                                                               |
 | `matching`      | Livré (Plan 3, recette appareil en attente)       | `requests/{id}/match`, `requests/{id}/select-technician`, `technicians/{id}/profile`, `proposals/my`, `proposals/active-mission`, `proposals/{id}/accept`, `proposals/{id}/refuse`                                                                              |
 | `missions`      | Livré (Plan 5, recette appareil en attente)       | `jobs` (GET, POST), `jobs/{id}`, `jobs/{id}/status`, `jobs/{id}/phases`, `jobs/{id}/tracking`, `mission/active`, `position/update`, `position/technician`                                                                                                       |
+| `billing`       | Livré (Plan 6, recette appareil en attente)       | `quotes` (POST), `quotes/{id}`, `quotes/{id}/{send,accept,reject}`, `requests/{requestId}/quotes`, `invoices`, `invoices/{id}`, `invoices/{id}/pay`                                                                                                             |
 | Autres features | Plans 4 et suivants                               | —                                                                                                                                                                                                                                                               |
 
 ## 2. Réponses d'authentification constatées
@@ -79,6 +80,21 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | Position transmise            | 200    | `{ status: "ok" }` (sans `data`)                                        |
 | Position du technicien        | 200    | `{ status, data: { latitude, longitude, updated_at } }` ou `data: null` |
 
+### Devis et factures
+
+| Cas                 | Statut | Corps                                                      |
+| ------------------- | ------ | ---------------------------------------------------------- |
+| Devis créé          | 201    | `{ data: QuoteResource }` (statut `draft`)                 |
+| Devis invalide      | 422    | `{ message, errors: { request_id, total_amount } }`        |
+| Devis envoyé        | 200    | `{ data: QuoteResource }` (statut `sent`)                  |
+| Devis déjà envoyé   | 422    | `{ message }` **sans** `errors`                            |
+| Devis accepté       | 200    | `{ status, message, data: { quote, invoice_id } }`         |
+| Devis non décidable | 422    | `{ message }` **sans** `errors`                            |
+| Devis refusé        | 200    | `{ data: QuoteResource }` (statut `rejected`)              |
+| Factures            | 200    | pagination Laravel de `InvoiceResource` (reçues et émises) |
+| Paiement déclaré    | 200    | `{ data: InvoiceResource }` (statut `paid`)                |
+| Facture déjà payée  | 422    | `{ message }` **sans** `errors`                            |
+
 ## 3. Statuts
 
 | Objet       | Valeurs                                                                                                                                                            |
@@ -119,3 +135,6 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `POST /position/update` ne respecte pas l'enveloppe `{ status, data }` : la réponse est `{ "status": "ok" }`.
 - `GET /position/technician` renvoie la position du technicien de la dernière proposition `pending` ou `accepted` du client, sans vérifier qu'une mission est en cours.
 - Le statut de la demande n'est pas repassé à `completed` lorsque la mission est achevée : seul `technician_jobs.status` l'est.
+- `Quote::isAcceptable()` autorise l'acceptation d'un devis `draft` : un brouillon jamais envoyé peut être accepté par le client qui en connaît l'identifiant. Le mobile ne présente que les devis `sent`.
+- `GET /requests/{requestId}/quotes` ne vérifie pas que l'appelant est le client ou le technicien de la demande.
+- `POST /invoices/{id}/pay` ne déclenche aucun mouvement financier : la facture est simplement marquée payée.
