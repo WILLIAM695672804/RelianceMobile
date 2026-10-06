@@ -1,0 +1,188 @@
+{
+  "current_page": 1,
+  "data": [
+    {
+      "id": "daf3ac67-9c53-44f2-bfae-12d549c6b51a",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Proposition reçue",
+      "body": "Un technicien vous a transmis une proposition.",
+      "payload": {
+        "type": "proposal"
+      },
+      "is_read": false,
+      "read_at": null,
+      "created_at": "2026-10-06T19:47:25.000000Z",
+      "updated_at": "2026-10-06T19:47:25.000000Z"
+    },
+    {
+      "id": "531b9116-46d0-482a-9783-e7e5d54d1c10",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Devis envoyé",
+      "body": "Votre technicien a envoyé un devis.",
+      "payload": {
+        "type": "quote"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:47:25.000000Z",
+      "created_at": "2026-10-06T19:47:25.000000Z",
+      "updated_at": "2026-10-06T19:47:25.000000Z"
+    },
+    {
+      "id": "b49df822-3c5b-4707-8452-f726666a30ac",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Proposition reçue",
+      "body": "Un technicien vous a transmis une proposition.",
+      "payload": {
+        "type": "proposal"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:46:33.000000Z",
+      "created_at": "2026-10-06T19:46:32.000000Z",
+      "updated_at": "2026-10-06T19:46:33.000000Z"
+    },
+    {
+      "id": "1809ad66-798e-41a3-8ad5-b35fbc1504c5",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Devis envoyé",
+      "body": "Votre technicien a envoyé un devis.",
+      "payload": {
+        "type": "quote"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:46:32.000000Z",
+      "created_at": "2026-10-06T19:46:32.000000Z",
+      "updated_at": "2026-10-06T19:46:32.000000Z"
+    },
+    {
+      "id": "578b8157-4405-4998-a964-9f16822d5d37",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Devis envoyé",
+      "body": "Votre technicien a envoyé un devis.",
+      "payload": {
+        "type": "quote"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:46:03.000000Z",
+      "created_at": "2026-10-06T19:46:03.000000Z",
+      "updated_at": "2026-10-06T19:46:03.000000Z"
+    },
+    {
+      "id": "001899b3-942f-4fa3-bac4-0f640733aa9c",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Proposition reçue",
+      "body": "Un technicien vous a transmis une proposition.",
+      "payload": {
+        "type": "proposal"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:46:04.000000Z",
+      "created_at": "2026-10-06T19:46:03.000000Z",
+      "updated_at": "2026-10-06T19:46:04.000000Z"
+    },
+    {
+      "id": "151be5af-c97c-4c86-8636-6b9bd24eff1e",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Devis envoyé",
+      "body": "Votre technicien a envoyé un devis.",
+      "payload": {
+        "type": "quote"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:45:29.000000Z",
+      "created_at": "2026-10-06T19:45:29.000000Z",
+      "updated_at": "2026-10-06T19:45:29.000000Z"
+    },
+    {
+      "id": "cab7b655-2a0a-4dc4-8976-ee55561e66a9",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Proposition reçue",
+      "body": "Un technicien vous a transmis une proposition.",
+      "payload": {
+        "type": "proposal"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:45:30.000000Z",
+      "created_at": "2026-10-06T19:45:29.000000Z",
+      "updated_at": "2026-10-06T19:45:30.000000Z"
+    },
+    {
+      "id": "f84903cd-9c31-4dfd-87a3-a13a258f7bc7",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Proposition reçue",
+      "body": "Un technicien vous a transmis une proposition.",
+      "payload": {
+        "type": "proposal"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:44:42.000000Z",
+      "created_at": "2026-10-06T19:44:41.000000Z",
+      "updated_at": "2026-10-06T19:44:42.000000Z"
+    },
+    {
+      "id": "ae7f7afd-724f-445e-b802-6b7d8a2e38db",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Devis envoyé",
+      "body": "Votre technicien a envoyé un devis.",
+      "payload": {
+        "type": "quote"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:44:41.000000Z",
+      "created_at": "2026-10-06T19:44:41.000000Z",
+      "updated_at": "2026-10-06T19:44:41.000000Z"
+    },
+    {
+      "id": "a393ff76-2bd0-454e-96a1-3f007f61cd9d",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Devis envoyé",
+      "body": "Votre technicien a envoyé un devis.",
+      "payload": {
+        "type": "quote"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:44:36.000000Z",
+      "created_at": "2026-10-06T19:44:36.000000Z",
+      "updated_at": "2026-10-06T19:44:36.000000Z"
+    },
+    {
+      "id": "8b399b76-ae1b-4a9c-bb57-6629767b3f5e",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "title": "Proposition reçue",
+      "body": "Un technicien vous a transmis une proposition.",
+      "payload": {
+        "type": "proposal"
+      },
+      "is_read": true,
+      "read_at": "2026-10-06T19:44:36.000000Z",
+      "created_at": "2026-10-06T19:44:36.000000Z",
+      "updated_at": "2026-10-06T19:44:36.000000Z"
+    }
+  ],
+  "first_page_url": "http://api.test/api/v1/notifications?page=1",
+  "from": 1,
+  "last_page": 1,
+  "last_page_url": "http://api.test/api/v1/notifications?page=1",
+  "links": [
+    {
+      "url": null,
+      "label": "&laquo; Previous",
+      "active": false
+    },
+    {
+      "url": "http://api.test/api/v1/notifications?page=1",
+      "label": "1",
+      "active": true
+    },
+    {
+      "url": null,
+      "label": "Next &raquo;",
+      "active": false
+    }
+  ],
+  "next_page_url": null,
+  "path": "http://api.test/api/v1/notifications",
+  "per_page": 20,
+  "prev_page_url": null,
+  "to": 12,
+  "total": 12
+}

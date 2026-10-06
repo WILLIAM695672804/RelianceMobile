@@ -1,0 +1,37 @@
+{
+  "message": "Préférences mises à jour",
+  "data": [
+    {
+      "id": "5d177738-a0f6-41dc-bb6d-85ebea684f91",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "channel": "email",
+      "enabled": true,
+      "created_at": "2026-10-06T19:44:37.000000Z",
+      "updated_at": "2026-10-06T19:44:37.000000Z"
+    },
+    {
+      "id": "8906fb43-e444-400f-b4cd-6656c2289c87",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "channel": "in_app",
+      "enabled": true,
+      "created_at": "2026-10-06T19:44:37.000000Z",
+      "updated_at": "2026-10-06T19:44:37.000000Z"
+    },
+    {
+      "id": "f7c44330-abd9-4d9f-ac41-6106b67d5ec3",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "channel": "push",
+      "enabled": false,
+      "created_at": "2026-10-06T19:44:37.000000Z",
+      "updated_at": "2026-10-06T19:44:37.000000Z"
+    },
+    {
+      "id": "5f8ff533-e86b-4872-aec3-ef92c3b90866",
+      "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+      "channel": "sms",
+      "enabled": false,
+      "created_at": "2026-10-06T19:44:37.000000Z",
+      "updated_at": "2026-10-06T19:44:37.000000Z"
+    }
+  ]
+}

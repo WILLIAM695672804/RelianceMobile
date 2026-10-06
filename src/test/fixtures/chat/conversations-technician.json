@@ -1,0 +1,73 @@
+{
+  "data": [
+    {
+      "id": "85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9",
+      "subject": "Intervention électrique",
+      "members": [
+        {
+          "user_id": "9d3f6a2e-0000-4000-8000-000000000001",
+          "name": "Personne Démo",
+          "avatar_url": null,
+          "joined_at": "2026-10-06T19:46:34.000000Z",
+          "unread_count": 3
+        },
+        {
+          "user_id": "9d3f6a2e-0000-4000-8000-000000000002",
+          "name": "Personne Démo",
+          "avatar_url": null,
+          "joined_at": "2026-10-06T19:46:34.000000Z",
+          "unread_count": 0
+        }
+      ],
+      "last_message": {
+        "id": "38a22c82-a1a9-4493-9132-e5fbc80cfb13",
+        "conversation_id": "85fcb113-32e9-4b21-a3f7-aa5bd10fe2a9",
+        "sender_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "sender": {
+          "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+          "name": "Personne Démo",
+          "avatar_url": null
+        },
+        "body": "Je serai présent toute la matinée.",
+        "attachments": [],
+        "delivered": false,
+        "read_at": null,
+        "created_at": "2026-10-06T18:47:26.000000Z"
+      },
+      "unread_count": 3,
+      "created_at": "2026-10-06T18:46:33.000000Z"
+    }
+  ],
+  "links": {
+    "first": "http://api.test/api/v1/conversations?page=1",
+    "last": "http://api.test/api/v1/conversations?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/conversations?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http://api.test/api/v1/conversations",
+    "per_page": 20,
+    "to": 1,
+    "total": 1
+  }
+}

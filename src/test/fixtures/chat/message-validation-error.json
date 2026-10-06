@@ -1,0 +1,6 @@
+{
+  "message": "The body field is required when attachments is not present.",
+  "errors": {
+    "body": ["The body field is required when attachments is not present."]
+  }
+}

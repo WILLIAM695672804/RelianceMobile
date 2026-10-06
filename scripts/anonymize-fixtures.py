@@ -7,6 +7,11 @@ import sys
 
 SENSITIVE_KEYS = {"two_factor_secret", "two_factor_recovery_codes", "remember_token", "meta", "geom"}
 USER_ID = "9d3f6a2e-0000-4000-8000-000000000001"
+# Identifiants d'utilisateur pseudonymisés : un par identifiant réel rencontré,
+# pour ne pas confondre deux personnes distinctes dans une même fixture.
+PSEUDONYM_IDS: dict[str, str] = {}
+# Une personne se reconnaît à un nom accompagné d'un de ces marqueurs.
+PERSON_MARKER_KEYS = {"avatar_url", "avatar", "user_id", "email"}
 STORAGE_URL = re.compile(r"^https?://[^/]+/storage/")
 API_URL = re.compile(r"^https?://[^/]+/api/")
 
@@ -70,8 +75,22 @@ def scrub(node):
     if TECHNICIAN_MARKERS & node.keys():
         scrub_person(node, "Technicien Démo")
     for key in ("user_id", "validated_by"):
-        if node.get(key):
+        value = node.get(key)
+        if isinstance(value, str) and value:
+            node[key] = PSEUDONYM_IDS.setdefault(
+                value, f"9d3f6a2e-0000-4000-8000-{len(PSEUDONYM_IDS) + 1:012d}"
+            )
+        elif value:
             node[key] = USER_ID
+    # Personne non couverte par PERSON_KEYS (membre de conversation, expéditeur d'un message).
+    name = node.get("name")
+    if (
+        isinstance(name, str)
+        and name
+        and not name.endswith("Démo")
+        and PERSON_MARKER_KEYS & node.keys()
+    ):
+        node["name"] = "Personne Démo"
     if isinstance(node.get("phone"), str):
         node["phone"] = None
     # Seules les adresses textuelles sont remplacées : un objet adresse est parcouru récursivement.
