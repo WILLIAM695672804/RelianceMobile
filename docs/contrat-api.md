@@ -16,6 +16,8 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | `matching`      | Livré (Plan 3, recette appareil en attente)       | `requests/{id}/match`, `requests/{id}/select-technician`, `technicians/{id}/profile`, `proposals/my`, `proposals/active-mission`, `proposals/{id}/accept`, `proposals/{id}/refuse`                                                                              |
 | `missions`      | Livré (Plan 5, recette appareil en attente)       | `jobs` (GET, POST), `jobs/{id}`, `jobs/{id}/status`, `jobs/{id}/phases`, `jobs/{id}/tracking`, `mission/active`, `position/update`, `position/technician`                                                                                                       |
 | `billing`       | Livré (Plan 6, recette appareil en attente)       | `quotes` (POST), `quotes/{id}`, `quotes/{id}/{send,accept,reject}`, `requests/{requestId}/quotes`, `invoices`, `invoices/{id}`, `invoices/{id}/pay`                                                                                                             |
+| `notifications` | Livré (Plan 7, recette appareil en attente)       | `notifications`, `notifications/{id}/read`, `notifications/read-all`, `notifications/unread-count`, `notification-settings` (GET, PUT)                                                                                                                          |
+| `chat`          | Livré (Plan 7, recette appareil en attente)       | `conversations` (GET, POST), `conversations/{id}`, `conversations/unread-count`, `conversations/{id}/messages` (GET, POST), `conversations/{id}/messages/read`                                                                                                  |
 | Autres features | Plans 4 et suivants                               | —                                                                                                                                                                                                                                                               |
 
 ## 2. Réponses d'authentification constatées
@@ -95,6 +97,21 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | Paiement déclaré    | 200    | `{ data: InvoiceResource }` (statut `paid`)                |
 | Facture déjà payée  | 422    | `{ message }` **sans** `errors`                            |
 
+### Notifications et messagerie
+
+| Cas                             | Statut | Corps                                                           |
+| ------------------------------- | ------ | --------------------------------------------------------------- |
+| Notifications                   | 200    | pagination Laravel **brute** (champs de page à la racine)       |
+| Compteur de non-lues            | 200    | `{ count }`                                                     |
+| Notification marquée            | 200    | `{ message }`                                                   |
+| Préférences                     | 200    | `{ data: [{ channel, enabled }] }` (valeurs par défaut si vide) |
+| Conversation créée ou retrouvée | 201    | `{ status, message, data: ConversationResource }`               |
+| Conversation invalide           | 422    | `{ message, errors: { members } }`                              |
+| Messages                        | 200    | pagination de `MessageResource`, **ordre décroissant**          |
+| Message envoyé                  | 201    | `{ status, message, data: MessageResource }`                    |
+| Message vide sans pièce jointe  | 422    | `{ message, errors: { body } }`                                 |
+| Fil marqué comme lu             | 200    | `{ status, message }`                                           |
+
 ## 3. Statuts
 
 | Objet       | Valeurs                                                                                                                                                            |
@@ -138,3 +155,5 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `Quote::isAcceptable()` autorise l'acceptation d'un devis `draft` : un brouillon jamais envoyé peut être accepté par le client qui en connaît l'identifiant. Le mobile ne présente que les devis `sent`.
 - `GET /requests/{requestId}/quotes` ne vérifie pas que l'appelant est le client ou le technicien de la demande.
 - `POST /invoices/{id}/pay` ne déclenche aucun mouvement financier : la facture est simplement marquée payée.
+- `GET /notifications` ne passe par aucune ressource : les colonnes de la table (dont `user_id`) sont exposées telles quelles, et la pagination n'est pas enveloppée.
+- Deux défauts bloquaient la messagerie, corrigés dans `RelianceBackend` (commit `fix(social)`) : `MessageResource` sérialisait la relation `attachments` non chargée — la colonne JSON homonyme masquant de surcroît la relation — et `Conversation::lastMessage()` employait `latestOfMany()`, qui agrège `MAX(uuid)`, refusé par PostgreSQL.
