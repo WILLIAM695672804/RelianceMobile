@@ -16,6 +16,8 @@ import { missionsTranslations } from '@/features/missions';
 import { notificationsTranslations } from '@/features/notifications';
 import { profileTranslations } from '@/features/profile';
 import { requestsTranslations } from '@/features/requests';
+import { reviewsTranslations } from '@/features/reviews';
+import { walletTranslations } from '@/features/wallet';
 
 import { createServices } from './createServices';
 
@@ -43,6 +45,8 @@ export const services = createServices({
     billingTranslations,
     notificationsTranslations,
     chatTranslations,
+    walletTranslations,
+    reviewsTranslations,
     directoryTranslations,
   ],
 });

@@ -68,6 +68,7 @@ const fr = {
     },
   },
   detail: {
+    review: 'Noter l’intervention',
     category: 'Catégorie : {{name}}',
     address: 'Adresse : {{address}}',
     createdAt: 'Créée le {{date}}',
@@ -145,6 +146,7 @@ const en: typeof fr = {
     },
   },
   detail: {
+    review: 'Rate the job',
     category: 'Category: {{name}}',
     address: 'Address: {{address}}',
     createdAt: 'Created on {{date}}',

@@ -71,4 +71,22 @@ describe('RequestDetailScreen', () => {
     expect(await screen.findByText('Élément introuvable.')).toBeOnTheScreen();
     expect(screen.getByRole('button', { name: 'Réessayer' })).toBeOnTheScreen();
   });
+
+  it('propose de noter une intervention clôturée', async () => {
+    const api = axios.create({ baseURL: 'http://api.test/api/v1' });
+    const mock = new MockAdapter(api);
+    mock
+      .onGet('/requests/r1')
+      .reply(200, { status: 'success', data: buildServiceRequest({ status: 'completed' }) });
+    const onReview = jest.fn();
+    await renderWithProviders(
+      <RequestDetailScreen requestId="r1" onFindTechnicians={jest.fn()} onReview={onReview} />,
+      { api, translations: [requestsTranslations] },
+    );
+    const user = userEvent.setup();
+
+    await user.press(await screen.findByRole('button', { name: 'Noter l’intervention' }));
+
+    expect(onReview).toHaveBeenCalledWith('r1');
+  });
 });
