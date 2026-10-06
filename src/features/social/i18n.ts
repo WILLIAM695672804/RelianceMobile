@@ -41,6 +41,19 @@ const fr = {
       contentTooLong: 'Le commentaire ne doit pas dépasser 2000 caractères.',
     },
   },
+  follow: {
+    follow: 'Suivre',
+    unfollow: 'Ne plus suivre',
+    followNamed: 'Suivre {{name}}',
+    unfollowNamed: 'Ne plus suivre {{name}}',
+    followers: '{{count}} abonné(s)',
+    followed: 'Vous suivez ce compte.',
+    unfollowed: 'Vous ne suivez plus ce compte.',
+    failed: 'L’opération a échoué. Veuillez réessayer.',
+    suggestionsTitle: 'Comptes à suivre',
+    suggestionsEmpty: 'Aucune suggestion pour le moment.',
+    rating: 'Note : {{rating}} / 5',
+  },
 };
 
 const en: typeof fr = {
@@ -83,6 +96,19 @@ const en: typeof fr = {
       contentRequired: 'Enter a comment.',
       contentTooLong: 'The comment must not exceed 2000 characters.',
     },
+  },
+  follow: {
+    follow: 'Follow',
+    unfollow: 'Unfollow',
+    followNamed: 'Follow {{name}}',
+    unfollowNamed: 'Unfollow {{name}}',
+    followers: '{{count}} follower(s)',
+    followed: 'You now follow this account.',
+    unfollowed: 'You no longer follow this account.',
+    failed: 'The operation failed. Please try again.',
+    suggestionsTitle: 'Accounts to follow',
+    suggestionsEmpty: 'No suggestion for now.',
+    rating: 'Rating: {{rating}} / 5',
   },
 };
 

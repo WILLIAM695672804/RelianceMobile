@@ -13,15 +13,22 @@ Deux onglets : « Mon fil » (`/posts/feed`, comptes suivis et publications prop
 
 ## Endpoints
 
-| Fonction        | Méthode et route            | Hook            |
-| --------------- | --------------------------- | --------------- |
-| `fetchFeed`     | `GET /posts/feed`           | `useFeed`       |
-| `fetchExplore`  | `GET /posts/explore`        | `useExplore`    |
-| `fetchPost`     | `GET /posts/{id}`           | `usePost`       |
-| `createPost`    | `POST /posts`               | `useCreatePost` |
-| `toggleLike`    | `POST /posts/{id}/like`     | `useToggleLike` |
-| `fetchComments` | `GET /posts/{id}/comments`  | `useComments`   |
-| `addComment`    | `POST /posts/{id}/comments` | `useAddComment` |
+| Fonction            | Méthode et route                | Hook              |
+| ------------------- | ------------------------------- | ----------------- |
+| `fetchFeed`         | `GET /posts/feed`               | `useFeed`         |
+| `fetchExplore`      | `GET /posts/explore`            | `useExplore`      |
+| `fetchPost`         | `GET /posts/{id}`               | `usePost`         |
+| `createPost`        | `POST /posts`                   | `useCreatePost`   |
+| `toggleLike`        | `POST /posts/{id}/like`         | `useToggleLike`   |
+| `fetchComments`     | `GET /posts/{id}/comments`      | `useComments`     |
+| `addComment`        | `POST /posts/{id}/comments`     | `useAddComment`   |
+| `checkFollow`       | `GET /follows/{id}/check`       | `useFollowStatus` |
+| `followUser`        | `POST /follows/{id}`            | `useFollowUser`   |
+| `unfollowUser`      | `DELETE /follows/{id}`          | `useUnfollowUser` |
+| `fetchFollowCounts` | `GET /users/{id}/follow-counts` | `useFollowCounts` |
+| `fetchSuggestions`  | `GET /follows/suggestions`      | `useSuggestions`  |
+
+`FollowButton` est réutilisable : il porte l'état, la bascule et le nombre d'abonnés. Le profil public d'un technicien (`@/features/directory`) s'en sert.
 
 ## Fixtures
 
@@ -31,5 +38,6 @@ Deux onglets : « Mon fil » (`/posts/feed`, comptes suivis et publications prop
 
 - Pièces jointes hors périmètre (le serveur accepte dix fichiers de 10 Mo).
 - Une seule page par fil (15 publications) ; pas de défilement infini.
-- Les abonnements (`follows/*`) ne sont pas exposés : « Mon fil » reste vide tant qu'aucun compte n'est suivi, d'où l'onglet « Découvrir ».
+- Les abonnements sont gérés (`follows/*`), mais les listes d'abonnés et d'abonnements ne sont pas présentées : seuls les compteurs le sont.
+- `POST /follows/{id}` répond 409 lorsque le compte est déjà suivi ; le mobile traite ce cas comme un succès.
 - `/posts/{id}` exigeait une contrainte UUID pour ne pas capturer `/posts/feed` (correctif serveur `fix(social)`).

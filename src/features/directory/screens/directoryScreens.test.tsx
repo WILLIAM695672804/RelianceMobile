@@ -5,6 +5,7 @@ import MockAdapter from 'axios-mock-adapter';
 import empty from '@/test/fixtures/directory/technicians-empty.json';
 import technicians from '@/test/fixtures/directory/technicians.json';
 import technicianProfile from '@/test/fixtures/matching/technician-profile.json';
+import { socialTranslations } from '@/features/social';
 import { renderWithProviders } from '@/test/render';
 
 import { directoryTranslations } from '../i18n';
@@ -114,5 +115,28 @@ describe('TechnicianPublicProfileScreen', () => {
     });
 
     expect(await screen.findByText('Élément introuvable.')).toBeOnTheScreen();
+  });
+
+  it('permet de suivre le technicien depuis son profil public', async () => {
+    const { api, mock } = setupApi();
+    mock.onGet('/technicians/t1/profile').reply(200, technicianProfile);
+    mock.onGet('/follows/t1/check').reply(200, { following: false });
+    mock.onGet('/users/t1/follow-counts').reply(200, { followers_count: 0, following_count: 0 });
+    mock
+      .onPost('/follows/t1')
+      .reply(201, { status: 'success', message: 'Suivi', following: true, followers_count: 1 });
+    await renderWithProviders(<TechnicianPublicProfileScreen technicianId="t1" />, {
+      api,
+      translations: [directoryTranslations, socialTranslations],
+    });
+    const user = userEvent.setup();
+
+    await user.press(
+      await screen.findByRole('button', {
+        name: `Suivre ${technicianProfile.data.name}`,
+      }),
+    );
+
+    await waitFor(() => expect(mock.history.post).toHaveLength(1));
   });
 });
