@@ -1,0 +1,55 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "4b12dfe5-2290-4e67-aad2-abd1632711bc",
+      "slug": "electricite-generale",
+      "name": "Électricité générale",
+      "category": "Électricité",
+      "proficiency": 3,
+      "experience_years": 0,
+      "hourly_rate": 7000,
+      "travel_fee": 1000
+    },
+    {
+      "id": "07d7936c-2330-4385-bffe-7cd6abf8493b",
+      "slug": "installation-electrique",
+      "name": "Installation électrique",
+      "category": "Électricité",
+      "proficiency": 3,
+      "experience_years": 0,
+      "hourly_rate": 6000,
+      "travel_fee": 500
+    },
+    {
+      "id": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+      "slug": "depannage-electrique",
+      "name": "Dépannage électrique",
+      "category": "Électricité",
+      "proficiency": 3,
+      "experience_years": 0,
+      "hourly_rate": 9000,
+      "travel_fee": 2000
+    },
+    {
+      "id": "a98b8d28-baaa-4764-af91-f42322cf2391",
+      "slug": "tableau-electrique",
+      "name": "Tableau électrique",
+      "category": "Électricité",
+      "proficiency": 4,
+      "experience_years": 0,
+      "hourly_rate": 6000,
+      "travel_fee": 500
+    },
+    {
+      "id": "804d09ec-cb08-4f77-8aad-9a30b8f7e3ee",
+      "slug": "eclairage",
+      "name": "Éclairage / LED",
+      "category": "Électricité",
+      "proficiency": 5,
+      "experience_years": 0,
+      "hourly_rate": 5000,
+      "travel_fee": 1500
+    }
+  ]
+}

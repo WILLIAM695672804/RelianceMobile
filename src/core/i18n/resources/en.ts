@@ -26,6 +26,8 @@ export const en: typeof fr = {
     },
     navigation: {
       home: 'Home',
+      activity: 'Activity',
+      directory: 'Directory',
       account: 'Account',
     },
     roles: {

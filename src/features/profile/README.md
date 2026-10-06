@@ -42,6 +42,29 @@ La langue choisie dans E26 est enregistrée dans le stockage MMKV `reliance.pref
 
 `src/test/fixtures/profile/` — régénération : `./scripts/capture-profile-fixtures.sh` (backend local démarré ; crée puis supprime une adresse). `avatar-updated.json` est rédigée à la main (l'envoi modifierait le compte de test).
 
+## Volet technicien
+
+| Écran                   | Composant                 | Route                           |
+| ----------------------- | ------------------------- | ------------------------------- |
+| Profil professionnel    | `TechnicianProfileScreen` | `app/(profil)/professional.tsx` |
+| Compétences tarifées    | `TechnicianSkillsScreen`  | `app/(profil)/skills.tsx`       |
+| Zone d'intervention     | `ServiceAreaScreen`       | `app/(profil)/zone.tsx`         |
+| Statistiques d'activité | `TechnicianStatsScreen`   | `app/technicien/activite.tsx`   |
+
+| Fonction                  | Méthode et route                 | Hook                         |
+| ------------------------- | -------------------------------- | ---------------------------- |
+| `fetchTechnicianIdentity` | `GET /technician/profile`        | `useTechnicianIdentity`      |
+| `updateTechnicianProfile` | `PUT /technician/profile`        | `useUpdateTechnicianProfile` |
+| `updateServiceArea`       | `PUT /technician/location`       | `useUpdateServiceArea`       |
+| `fetchMyTechnicianSkills` | `GET /technician/skills`         | `useMyTechnicianSkills`      |
+| `addTechnicianSkill`      | `POST /technician/skills`        | `useAddTechnicianSkill`      |
+| `removeTechnicianSkill`   | `DELETE /technician/skills/{id}` | `useRemoveTechnicianSkill`   |
+| `fetchTechnicianStats`    | `GET /technician/stats`          | `useTechnicianStats`         |
+
+Règles appliquées côté mobile : présentation de 1000 caractères au plus ; savoir-faire saisis en une ligne séparée par des virgules (50 caractères chacun) ; rayon d'intervention entier de 1 à 500 km ; niveau de maîtrise de 1 à 5 ; années d'expérience, tarif horaire et frais de déplacement entiers. Le nom et le téléphone restent modifiables depuis E09 seulement (`PUT /auth/profile`), pour ne pas désynchroniser la session.
+
+`PUT /technician/location` écrit le point PostGIS du technicien : sans zone déclarée, il reste invisible du rapprochement géographique.
+
 ## Limites connues
 
 - Le téléphone ne peut pas être effacé : Laravel convertit la chaîne vide en `null`, que la règle `string` refuse.

@@ -31,6 +31,7 @@ export function RootNavigator() {
         </Stack.Protected>
         <Stack.Protected guard={guards.isMember}>
           <Stack.Screen name="(profil)" />
+          <Stack.Screen name="(annuaire)" />
         </Stack.Protected>
         <Stack.Protected guard={guards.isWebOnly}>
           <Stack.Screen name="web-only" />

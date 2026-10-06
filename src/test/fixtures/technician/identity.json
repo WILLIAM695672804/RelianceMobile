@@ -1,0 +1,73 @@
+{
+  "status": "success",
+  "data": {
+    "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+    "name": "Technicien Démo",
+    "email": "technicien@example.test",
+    "phone": null,
+    "avatar_url": null,
+    "verified": true,
+    "rating": 4.8,
+    "num_reviews": 32,
+    "bio": "Electricien certifie avec 8 ans d'experience. Specialise en installations electriques residentielles et commerciales.",
+    "competences": [],
+    "kyc_approved": false,
+    "skills": [
+      {
+        "id": "4b12dfe5-2290-4e67-aad2-abd1632711bc",
+        "name": "Électricité générale",
+        "slug": "electricite-generale",
+        "category": "Électricité",
+        "proficiency": 3,
+        "hourly_rate": "7000.00",
+        "travel_fee": "1000.00"
+      },
+      {
+        "id": "07d7936c-2330-4385-bffe-7cd6abf8493b",
+        "name": "Installation électrique",
+        "slug": "installation-electrique",
+        "category": "Électricité",
+        "proficiency": 3,
+        "hourly_rate": "6000.00",
+        "travel_fee": "500.00"
+      },
+      {
+        "id": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+        "name": "Dépannage électrique",
+        "slug": "depannage-electrique",
+        "category": "Électricité",
+        "proficiency": 3,
+        "hourly_rate": "9000.00",
+        "travel_fee": "2000.00"
+      },
+      {
+        "id": "a98b8d28-baaa-4764-af91-f42322cf2391",
+        "name": "Tableau électrique",
+        "slug": "tableau-electrique",
+        "category": "Électricité",
+        "proficiency": 4,
+        "hourly_rate": "6000.00",
+        "travel_fee": "500.00"
+      },
+      {
+        "id": "804d09ec-cb08-4f77-8aad-9a30b8f7e3ee",
+        "name": "Éclairage / LED",
+        "slug": "eclairage",
+        "category": "Électricité",
+        "proficiency": 5,
+        "hourly_rate": "5000.00",
+        "travel_fee": "1500.00"
+      }
+    ],
+    "service_perimeter": {
+      "city": "Yaounde",
+      "address": "Adresse de démonstration",
+      "zones": [],
+      "latitude": 3.848,
+      "longitude": 11.5021,
+      "radius": 50
+    },
+    "badges": [],
+    "recent_reviews": []
+  }
+}

@@ -20,6 +20,9 @@ export default function ProfilLayout() {
       <Stack.Screen name="locations" />
       <Stack.Screen name="settings" />
       <Stack.Protected guard={role === 'technicien'}>
+        <Stack.Screen name="professional" />
+        <Stack.Screen name="skills" />
+        <Stack.Screen name="zone" />
         <Stack.Screen name="kyc" />
       </Stack.Protected>
       <Stack.Protected guard={role === 'client'}>

@@ -1,0 +1,8 @@
+{
+  "message": "The skill id field is required. (and 2 more errors)",
+  "errors": {
+    "skill_id": ["The skill id field is required."],
+    "proficiency": ["The proficiency field is required."],
+    "experience_years": ["The experience years field is required."]
+  }
+}
