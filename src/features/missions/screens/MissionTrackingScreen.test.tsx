@@ -95,4 +95,22 @@ describe('MissionTrackingScreen (E15)', () => {
 
     expect(onOpenQuotes).toHaveBeenCalledWith(clientMission.data.request.id);
   });
+
+  it('ouvre une conversation avec le technicien', async () => {
+    const onContact = jest.fn();
+    const api = axios.create({ baseURL: 'http://api.test/api/v1' });
+    const mock = new MockAdapter(api);
+    mock.onGet('/mission/active').reply(200, clientMission);
+    mock.onGet(`/jobs/${JOB_ID}/tracking`).reply(200, clientTracking);
+    mock.onGet('/position/technician').reply(200, technicianPosition);
+    await renderWithProviders(<MissionTrackingScreen onContact={onContact} />, {
+      api,
+      translations: [missionsTranslations],
+    });
+    const user = userEvent.setup();
+
+    await user.press(await screen.findByRole('button', { name: 'Contacter le technicien' }));
+
+    expect(onContact).toHaveBeenCalledWith(clientMission.data.technician.id);
+  });
 });

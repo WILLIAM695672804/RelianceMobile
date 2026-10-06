@@ -8,10 +8,12 @@ import { startConnectivitySync } from '@/core/offline';
 import { createMmkvStore } from '@/core/storage';
 import { authTranslations } from '@/features/auth';
 import { billingTranslations } from '@/features/billing';
+import { chatTranslations } from '@/features/chat';
 import { directoryTranslations } from '@/features/directory';
 import { kycTranslations } from '@/features/kyc';
 import { matchingTranslations } from '@/features/matching';
 import { missionsTranslations } from '@/features/missions';
+import { notificationsTranslations } from '@/features/notifications';
 import { profileTranslations } from '@/features/profile';
 import { requestsTranslations } from '@/features/requests';
 
@@ -39,6 +41,8 @@ export const services = createServices({
     matchingTranslations,
     missionsTranslations,
     billingTranslations,
+    notificationsTranslations,
+    chatTranslations,
     directoryTranslations,
   ],
 });

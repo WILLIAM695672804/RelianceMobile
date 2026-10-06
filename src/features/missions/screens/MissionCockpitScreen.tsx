@@ -25,10 +25,16 @@ export interface MissionCockpitScreenProps {
   onOpenHistory: () => void;
   /** Ouverture des devis de la demande en cours. */
   onOpenQuotes?: (requestId: string) => void;
+  /** Ouverture d'une conversation avec le client. */
+  onContact?: (userId: string) => void;
 }
 
 /** E13, E14 — Cockpit du technicien : avancement, position et phases de la mission acceptée. */
-export function MissionCockpitScreen({ onOpenHistory, onOpenQuotes }: MissionCockpitScreenProps) {
+export function MissionCockpitScreen({
+  onOpenHistory,
+  onOpenQuotes,
+  onContact,
+}: MissionCockpitScreenProps) {
   const { t } = useTranslation();
   const mission = useActiveMission();
   const jobId = mission.data?.job?.id ?? null;
@@ -44,7 +50,9 @@ export function MissionCockpitScreen({ onOpenHistory, onOpenQuotes }: MissionCoc
     if (mission.data === null) {
       return <StateView status="empty" message={t('missions:cockpit.none')} />;
     }
-    return <MissionCockpit mission={mission.data} onOpenQuotes={onOpenQuotes} />;
+    return (
+      <MissionCockpit mission={mission.data} onOpenQuotes={onOpenQuotes} onContact={onContact} />
+    );
   };
 
   return (
@@ -61,9 +69,11 @@ export function MissionCockpitScreen({ onOpenHistory, onOpenQuotes }: MissionCoc
 function MissionCockpit({
   mission,
   onOpenQuotes,
+  onContact,
 }: {
   mission: ActiveMission;
   onOpenQuotes?: (requestId: string) => void;
+  onContact?: (userId: string) => void;
 }) {
   const { t } = useTranslation();
   const job = mission.job;
@@ -78,6 +88,7 @@ function MissionCockpit({
     defaultValues: { notes: '' },
   });
 
+  const client = mission.client;
   const place = [mission.address?.address, mission.address?.city].filter(Boolean).join(', ');
   const next = job ? nextStatusOf(job.status) : null;
   const phases: JobPhase[] = (job?.phases ?? []).map((phase) => ({
@@ -204,6 +215,14 @@ function MissionCockpit({
             />
           ) : null}
         </>
+      ) : null}
+
+      {onContact && client ? (
+        <Button
+          label={t('missions:cockpit.contact')}
+          onPress={() => onContact(client.id)}
+          variant="secondary"
+        />
       ) : null}
 
       {onOpenQuotes ? (

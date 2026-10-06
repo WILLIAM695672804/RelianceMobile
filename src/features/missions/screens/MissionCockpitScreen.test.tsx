@@ -152,4 +152,20 @@ describe('MissionCockpitScreen (E13, E14)', () => {
 
     expect(onOpenQuotes).toHaveBeenCalledWith(activeMission.data.request.id);
   });
+
+  it('ouvre une conversation avec le client', async () => {
+    const onContact = jest.fn();
+    const api = axios.create({ baseURL: 'http://api.test/api/v1' });
+    const mock = new MockAdapter(api);
+    mock.onGet('/proposals/active-mission').reply(200, missionWith(null));
+    await renderWithProviders(
+      <MissionCockpitScreen onOpenHistory={jest.fn()} onContact={onContact} />,
+      { api, translations: [missionsTranslations, matchingTranslations] },
+    );
+    const user = userEvent.setup();
+
+    await user.press(await screen.findByRole('button', { name: 'Contacter le client' }));
+
+    expect(onContact).toHaveBeenCalledWith(activeMission.data.client.id);
+  });
 });

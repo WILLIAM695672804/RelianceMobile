@@ -2,13 +2,16 @@ import { router } from 'expo-router';
 
 import { MissionCockpitScreen } from '@/features/missions';
 
-/** Onglet « Mission » du technicien : cockpit relié à l'historique et aux devis. */
+/** Onglet « Mission » du technicien : cockpit relié à l'historique, aux devis et à la messagerie. */
 export function MissionRoute() {
   return (
     <MissionCockpitScreen
       onOpenHistory={() => router.push('/jobs')}
       onOpenQuotes={(requestId) =>
         router.push({ pathname: '/quotes/[requestId]', params: { requestId } })
+      }
+      onContact={(userId) =>
+        router.push({ pathname: '/conversations/new', params: { member: userId } })
       }
     />
   );
