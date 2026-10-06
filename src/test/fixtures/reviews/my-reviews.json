@@ -1,0 +1,53 @@
+{
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": "d0bc4a20-89ad-4851-abba-12c79cfae248",
+        "reviewer_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "target_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+        "rating": 5,
+        "comment": "Intervention rapide et soignée.",
+        "created_at": "2026-10-06T20:04:48.000000Z",
+        "updated_at": "2026-10-06T20:04:48.000000Z",
+        "reviewer": {
+          "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+          "name": "Client Démo",
+          "avatar_url": null
+        },
+        "request": {
+          "id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+          "title": "Prise murale"
+        }
+      }
+    ],
+    "first_page_url": "http://api.test/api/v1/reviews/mine?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://api.test/api/v1/reviews/mine?page=1",
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/reviews/mine?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "next_page_url": null,
+    "path": "http://api.test/api/v1/reviews/mine",
+    "per_page": 10,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+  }
+}

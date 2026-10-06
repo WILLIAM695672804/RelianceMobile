@@ -5,7 +5,9 @@ import pathlib
 import re
 import sys
 
-SENSITIVE_KEYS = {"two_factor_secret", "two_factor_recovery_codes", "remember_token", "meta", "geom"}
+# `meta` n'est plus retiré en bloc : il porte des informations utiles (transactions,
+# périmètre d'intervention) et son contenu est parcouru comme le reste.
+SENSITIVE_KEYS = {"two_factor_secret", "two_factor_recovery_codes", "remember_token", "geom"}
 USER_ID = "9d3f6a2e-0000-4000-8000-000000000001"
 # Identifiants d'utilisateur pseudonymisés : un par identifiant réel rencontré,
 # pour ne pas confondre deux personnes distinctes dans une même fixture.
@@ -37,6 +39,7 @@ PERSON_KEYS = {
     "counterpart": "Technicien Démo",
     "reviewer": "Client Démo",
     "issuer": "Technicien Démo",
+    "target": "Technicien Démo",
 }
 # Objets qui décrivent eux-mêmes un technicien (résultat de rapprochement, profil public).
 TECHNICIAN_MARKERS = {"match_score", "kyc_approved"}
@@ -84,13 +87,12 @@ def scrub(node):
             node[key] = USER_ID
     # Personne non couverte par PERSON_KEYS (membre de conversation, expéditeur d'un message).
     name = node.get("name")
-    if (
-        isinstance(name, str)
-        and name
-        and not name.endswith("Démo")
-        and PERSON_MARKER_KEYS & node.keys()
-    ):
-        node["name"] = "Personne Démo"
+    if isinstance(name, str) and name and PERSON_MARKER_KEYS & node.keys():
+        if not name.endswith("Démo"):
+            node["name"] = "Personne Démo"
+        email = node.get("email")
+        if isinstance(email, str) and not email.endswith("example.test"):
+            node["email"] = "personne@example.test"
     if isinstance(node.get("phone"), str):
         node["phone"] = None
     # Seules les adresses textuelles sont remplacées : un objet adresse est parcouru récursivement.

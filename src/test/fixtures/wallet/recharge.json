@@ -1,0 +1,5 @@
+{
+  "message": "Échec de l'initiation du paiement",
+  "payment_id": "f4d2525d-b95f-4078-a6e2-a2803ac14af4",
+  "status": "failed"
+}
