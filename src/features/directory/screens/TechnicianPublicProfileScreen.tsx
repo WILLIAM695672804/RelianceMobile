@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { TechnicianProfileSummary, useTechnicianProfile } from '@/features/matching';
+import { FollowButton } from '@/features/social';
 import { Screen, StateView, Text } from '@/shared/components';
 
 export interface TechnicianPublicProfileScreenProps {
@@ -21,7 +22,12 @@ export function TechnicianPublicProfileScreen({
         <StateView status="error" error={profile.error} onRetry={() => void profile.refetch()} />
       );
     }
-    return <TechnicianProfileSummary profile={profile.data} />;
+    return (
+      <>
+        <TechnicianProfileSummary profile={profile.data} />
+        <FollowButton userId={technicianId} name={profile.data.name} />
+      </>
+    );
   };
 
   return (

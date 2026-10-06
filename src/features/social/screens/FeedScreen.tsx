@@ -10,6 +10,7 @@ import { Button, Card, FormTextField, Screen, StateView, Text } from '@/shared/c
 import { useCreatePost, useExplore, useFeed, useToggleLike } from '../hooks/useSocial';
 import { postFormSchema } from '../schemas/socialSchemas';
 import { PostCard } from './PostCard';
+import { SuggestionsCard } from './SuggestionsCard';
 
 type Tab = 'mine' | 'explore';
 
@@ -113,6 +114,7 @@ export function FeedScreen({ onOpen }: FeedScreenProps) {
           loading={createPost.isPending}
         />
       </Card>
+      <SuggestionsCard />
       {renderPosts()}
     </Screen>
   );
