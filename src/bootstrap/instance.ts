@@ -7,6 +7,7 @@ import { createLanguagePreference, resolveLanguage } from '@/core/i18n';
 import { startConnectivitySync } from '@/core/offline';
 import { createMmkvStore } from '@/core/storage';
 import { authTranslations } from '@/features/auth';
+import { billingTranslations } from '@/features/billing';
 import { directoryTranslations } from '@/features/directory';
 import { kycTranslations } from '@/features/kyc';
 import { matchingTranslations } from '@/features/matching';
@@ -37,6 +38,7 @@ export const services = createServices({
     requestsTranslations,
     matchingTranslations,
     missionsTranslations,
+    billingTranslations,
     directoryTranslations,
   ],
 });

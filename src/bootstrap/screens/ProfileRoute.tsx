@@ -7,6 +7,7 @@ export const PROFILE_HREF: Record<ProfileDestination, Href> = {
   edit: '/edit',
   password: '/password',
   locations: '/locations',
+  invoices: '/invoices',
   professional: '/professional',
   skills: '/skills',
   zone: '/zone',

@@ -2,6 +2,7 @@ import { act } from '@testing-library/react-native';
 
 import { createRealtimeService } from '@/core/realtime';
 import { createSessionStore } from '@/core/session';
+import { billingKeys } from '@/features/billing';
 import { kycKeys } from '@/features/kyc';
 import { matchingKeys } from '@/features/matching';
 import { createFakeRealtimeClient } from '@/test/fakeRealtime';
@@ -73,5 +74,24 @@ describe('RealtimeBridge', () => {
     });
 
     expect(invalidate).toHaveBeenCalledWith({ queryKey: matchingKeys.all });
+  });
+
+  it('relit la facturation à la réception d’un devis', async () => {
+    const fake = createFakeRealtimeClient();
+    const realtime = createRealtimeService(() => fake.client);
+    const sessionStore = createSessionStore();
+    sessionStore.getState().setAuthenticated(buildSessionUser('client', { id: 'u1' }));
+    realtime.start();
+
+    const { queryClient } = await renderWithProviders(<RealtimeBridge />, {
+      realtime,
+      sessionStore,
+    });
+    const invalidate = jest.spyOn(queryClient, 'invalidateQueries');
+    await act(async () => {
+      fake.channels.get('quotes.u1')?.emit('QuoteSubmitted', { quote_id: 'q1' });
+    });
+
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: billingKeys.all });
   });
 });

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { bindAppStateLifecycle, channels, useChannelEvent, useRealtime } from '@/core/realtime';
 import { useSession, useSessionActions } from '@/core/session';
+import { useQuotesSync } from '@/features/billing';
 import { useKycStatusSync } from '@/features/kyc';
 import { useProposalsSync } from '@/features/matching';
 
@@ -23,6 +24,9 @@ export function RealtimeBridge() {
 
   // Propositions reçues, acceptées ou refusées : relecture des propositions et des demandes.
   useProposalsSync();
+
+  // Devis reçu ou facture émise : relecture de la facturation.
+  useQuotesSync();
 
   return null;
 }

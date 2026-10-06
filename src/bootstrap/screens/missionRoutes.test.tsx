@@ -6,11 +6,16 @@ import { MissionRoute } from './MissionRoute';
 
 jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
 
-const mockCockpitProps: { current?: { onOpenHistory: () => void } } = {};
+const mockCockpitProps: {
+  current?: { onOpenHistory: () => void; onOpenQuotes?: (requestId: string) => void };
+} = {};
 const mockJobsProps: { current?: { onOpen: (id: string) => void } } = {};
 
 jest.mock('@/features/missions', () => ({
-  MissionCockpitScreen: (props: { onOpenHistory: () => void }) => {
+  MissionCockpitScreen: (props: {
+    onOpenHistory: () => void;
+    onOpenQuotes?: (requestId: string) => void;
+  }) => {
     mockCockpitProps.current = props;
     return null;
   },
@@ -35,5 +40,16 @@ describe('routes du suivi d’intervention', () => {
     mockJobsProps.current?.onOpen('j1');
 
     expect(router.push).toHaveBeenCalledWith({ pathname: '/jobs/[id]', params: { id: 'j1' } });
+  });
+
+  it('ouvre les devis depuis le cockpit', async () => {
+    await render(<MissionRoute />);
+
+    mockCockpitProps.current?.onOpenQuotes?.('r1');
+
+    expect(router.push).toHaveBeenCalledWith({
+      pathname: '/quotes/[requestId]',
+      params: { requestId: 'r1' },
+    });
   });
 });

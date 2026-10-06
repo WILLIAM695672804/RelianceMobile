@@ -23,10 +23,12 @@ import { MissionTimeline } from './MissionTimeline';
 export interface MissionCockpitScreenProps {
   /** Ouverture de l'historique des missions. */
   onOpenHistory: () => void;
+  /** Ouverture des devis de la demande en cours. */
+  onOpenQuotes?: (requestId: string) => void;
 }
 
 /** E13, E14 — Cockpit du technicien : avancement, position et phases de la mission acceptée. */
-export function MissionCockpitScreen({ onOpenHistory }: MissionCockpitScreenProps) {
+export function MissionCockpitScreen({ onOpenHistory, onOpenQuotes }: MissionCockpitScreenProps) {
   const { t } = useTranslation();
   const mission = useActiveMission();
   const jobId = mission.data?.job?.id ?? null;
@@ -42,7 +44,7 @@ export function MissionCockpitScreen({ onOpenHistory }: MissionCockpitScreenProp
     if (mission.data === null) {
       return <StateView status="empty" message={t('missions:cockpit.none')} />;
     }
-    return <MissionCockpit mission={mission.data} />;
+    return <MissionCockpit mission={mission.data} onOpenQuotes={onOpenQuotes} />;
   };
 
   return (
@@ -56,7 +58,13 @@ export function MissionCockpitScreen({ onOpenHistory }: MissionCockpitScreenProp
   );
 }
 
-function MissionCockpit({ mission }: { mission: ActiveMission }) {
+function MissionCockpit({
+  mission,
+  onOpenQuotes,
+}: {
+  mission: ActiveMission;
+  onOpenQuotes?: (requestId: string) => void;
+}) {
   const { t } = useTranslation();
   const job = mission.job;
   const createJob = useCreateJob();
@@ -196,6 +204,14 @@ function MissionCockpit({ mission }: { mission: ActiveMission }) {
             />
           ) : null}
         </>
+      ) : null}
+
+      {onOpenQuotes ? (
+        <Button
+          label={t('missions:cockpit.quotes')}
+          onPress={() => onOpenQuotes(mission.request.id)}
+          variant="secondary"
+        />
       ) : null}
 
       {job && working ? (
