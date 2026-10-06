@@ -13,6 +13,9 @@ export function MissionRoute() {
       onContact={(userId) =>
         router.push({ pathname: '/conversations/new', params: { member: userId } })
       }
+      onPlanAppointment={(requestId, technicianId) =>
+        router.push({ pathname: '/appointments/new', params: { requestId, technicianId } })
+      }
     />
   );
 }

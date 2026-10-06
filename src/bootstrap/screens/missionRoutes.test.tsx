@@ -11,6 +11,7 @@ const mockCockpitProps: {
     onOpenHistory: () => void;
     onOpenQuotes?: (requestId: string) => void;
     onContact?: (userId: string) => void;
+    onPlanAppointment?: (requestId: string, technicianId: string) => void;
   };
 } = {};
 const mockJobsProps: { current?: { onOpen: (id: string) => void } } = {};
@@ -20,6 +21,7 @@ jest.mock('@/features/missions', () => ({
     onOpenHistory: () => void;
     onOpenQuotes?: (requestId: string) => void;
     onContact?: (userId: string) => void;
+    onPlanAppointment?: (requestId: string, technicianId: string) => void;
   }) => {
     mockCockpitProps.current = props;
     return null;
@@ -66,6 +68,17 @@ describe('routes du suivi d’intervention', () => {
     expect(router.push).toHaveBeenCalledWith({
       pathname: '/conversations/new',
       params: { member: 'u2' },
+    });
+  });
+
+  it('planifie un rendez-vous depuis le cockpit', async () => {
+    await render(<MissionRoute />);
+
+    mockCockpitProps.current?.onPlanAppointment?.('r1', 't1');
+
+    expect(router.push).toHaveBeenCalledWith({
+      pathname: '/appointments/new',
+      params: { requestId: 'r1', technicianId: 't1' },
     });
   });
 });

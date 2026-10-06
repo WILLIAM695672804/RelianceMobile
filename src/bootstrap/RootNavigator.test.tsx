@@ -54,6 +54,7 @@ describe('RootNavigator', () => {
     expect(screen.getByText('écran:(messagerie)')).toBeOnTheScreen();
     expect(screen.getByText('écran:(portefeuille)')).toBeOnTheScreen();
     expect(screen.getByText('écran:(avis)')).toBeOnTheScreen();
+    expect(screen.getByText('écran:(planning)')).toBeOnTheScreen();
     expect(screen.queryByText('écran:(auth)')).not.toBeOnTheScreen();
   });
 
