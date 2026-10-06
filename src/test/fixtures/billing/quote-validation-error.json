@@ -1,0 +1,7 @@
+{
+  "message": "The request id field is required. (and 1 more error)",
+  "errors": {
+    "request_id": ["The request id field is required."],
+    "total_amount": ["The total amount field is required."]
+  }
+}

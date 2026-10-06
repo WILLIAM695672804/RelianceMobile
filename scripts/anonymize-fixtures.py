@@ -31,6 +31,7 @@ PERSON_KEYS = {
     "technician": "Technicien Démo",
     "counterpart": "Technicien Démo",
     "reviewer": "Client Démo",
+    "issuer": "Technicien Démo",
 }
 # Objets qui décrivent eux-mêmes un technicien (résultat de rapprochement, profil public).
 TECHNICIAN_MARKERS = {"match_score", "kyc_approved"}

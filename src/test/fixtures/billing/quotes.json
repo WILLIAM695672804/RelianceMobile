@@ -1,0 +1,35 @@
+{
+  "data": [
+    {
+      "id": "517a8406-37bd-46cd-a29c-62d690643c13",
+      "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+      "issuer_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "total_amount": "25000.00",
+      "breakdown": null,
+      "status": "sent",
+      "valid_until": null,
+      "created_at": "2026-10-06T19:17:20.000000Z",
+      "updated_at": "2026-10-06T19:17:20.000000Z"
+    },
+    {
+      "id": "30c114cb-2cfc-4892-9c15-e7b0aa550ccf",
+      "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+      "issuer_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "total_amount": "18000.00",
+      "breakdown": [
+        {
+          "label": "Main d'œuvre",
+          "amount": 12000
+        },
+        {
+          "label": "Pièces",
+          "amount": 6000
+        }
+      ],
+      "status": "sent",
+      "valid_until": "2026-10-13",
+      "created_at": "2026-10-06T19:17:19.000000Z",
+      "updated_at": "2026-10-06T19:17:19.000000Z"
+    }
+  ]
+}

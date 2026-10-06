@@ -1,4 +1,4 @@
-import { screen, userEvent, waitFor } from '@testing-library/react-native';
+import { act, screen, userEvent, waitFor } from '@testing-library/react-native';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
@@ -71,7 +71,9 @@ describe('MissionTrackingScreen (E15)', () => {
     await screen.findByText(clientMission.data.request.title);
     const before = mock.history.get.length;
 
-    await screen.getByTestId('screen-scroll').props.refreshControl.props.onRefresh();
+    await act(async () => {
+      screen.getByTestId('screen-scroll').props.refreshControl.props.onRefresh();
+    });
 
     await waitFor(() => expect(mock.history.get.length).toBeGreaterThan(before));
   });
