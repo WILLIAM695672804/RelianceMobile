@@ -1,0 +1,143 @@
+{
+  "status": "success",
+  "data": {
+    "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+    "timezone": "Africa/Douala",
+    "recurring_slots": [
+      {
+        "id": "8e8c027c-450c-4459-b98e-a923d7f87fba",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 0,
+        "start_time": "09:00:00",
+        "end_time": "14:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "a5f3c8ef-6386-4a93-aafd-18daf67a3e32",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 1,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "f04f56ba-df46-48ad-9549-f48650bf1929",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 2,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "efd3f78f-67b9-4e34-b6be-4b2204a5afd9",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 3,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "84652339-abfd-46c3-8118-4932a7b279c4",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 4,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "91c23992-e15f-4669-9175-285233fd7bba",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 5,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "ec60b475-1f67-41e2-82b5-43de3998c51f",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 6,
+        "start_time": "07:00:00",
+        "end_time": "20:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-09-15T12:02:24.000000Z"
+      },
+      {
+        "id": "d535045d-47b0-4bb1-b504-5c0aa64d9008",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "day_of_week": 1,
+        "start_time": "08:00:00",
+        "end_time": "17:00:00",
+        "repeat_weekly": true,
+        "meta": null,
+        "created_at": "2026-10-06T20:22:07.000000Z",
+        "updated_at": "2026-10-06T20:22:07.000000Z"
+      }
+    ],
+    "exceptions": [
+      {
+        "id": "74d13a20-6948-41cf-ace8-b4c26476c598",
+        "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+        "start_ts": "2026-10-09T00:00:00.000000Z",
+        "end_ts": "2026-10-10T23:59:00.000000Z",
+        "reason": "Congé de démonstration",
+        "created_at": "2026-10-06T20:22:07.000000Z",
+        "updated_at": "2026-10-06T20:22:07.000000Z"
+      }
+    ],
+    "appointments": [
+      {
+        "id": "de8676ef-401b-497b-8619-0dfc9b823ed8",
+        "request_id": "890a1828-ff6b-42b9-bbf5-46f7ba01ad8b",
+        "technician_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "scheduled_start": "2026-10-07T08:00:00.000000Z",
+        "scheduled_end": "2026-10-07T10:00:00.000000Z",
+        "location_id": null,
+        "status": "scheduled",
+        "notes": "Intervention de démonstration",
+        "assigned_at": "2026-10-06T20:22:08.000000Z",
+        "created_at": "2026-10-06T20:22:07.000000Z",
+        "updated_at": "2026-10-06T20:22:07.000000Z",
+        "request": {
+          "id": "890a1828-ff6b-42b9-bbf5-46f7ba01ad8b",
+          "client_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+          "title": "Panne de courant",
+          "description": "Plus de courant dans la cuisine depuis ce matin, le disjoncteur saute.",
+          "status": "quoted",
+          "created_at": "2026-09-16T22:52:57.000000Z",
+          "updated_at": "2026-09-16T22:52:57.000000Z",
+          "deleted_at": null,
+          "address_id": "62981b00-659b-4b46-aa64-11fd2bce1c5e",
+          "detected_category": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+          "diagnostic_fee": null,
+          "photos": ["requests/photos/kbyyVlZq7EYiNvwomVE0fbneqsKlqM8LErMNDkzU.png"],
+          "metadata": null
+        }
+      }
+    ],
+    "insights": {
+      "capacity_percent": 2,
+      "booked_hours": 2,
+      "total_hours": 92
+    }
+  }
+}

@@ -20,6 +20,7 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | `chat`          | Livré (Plan 7, recette appareil en attente)       | `conversations` (GET, POST), `conversations/{id}`, `conversations/unread-count`, `conversations/{id}/messages` (GET, POST), `conversations/{id}/messages/read`                                                                                                  |
 | `wallet`        | Livré (Plan 8, recette appareil en attente)       | `wallet`, `wallet/transactions`, `wallet/recharge`, `wallet/withdraw`                                                                                                                                                                                           |
 | `reviews`       | Livré (Plan 8, recette appareil en attente)       | `reviews` (POST), `reviews/technician/{id}`, `reviews/mine`, `badges/user/{id}`, `reputation/{id}`                                                                                                                                                              |
+| `planning`      | Livré (Plan 9, recette appareil en attente)       | `technician/calendar`, `technician/time-slots`, `technician/time-slots/{id}`, `technician/exceptions`, `technician/exceptions/{id}`, `appointments`, `appointments/upcoming`, `appointments/{id}`, `appointments/{id}/status`                                   |
 | Autres features | Plans 4 et suivants                               | —                                                                                                                                                                                                                                                               |
 
 ## 2. Réponses d'authentification constatées
@@ -129,6 +130,20 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | Avis d'un technicien          | 200    | `{ data: paginator }` (pagination **imbriquée**)                  |
 | Réputation                    | 200    | `{ data: paginator, total }`                                      |
 
+### Planning et rendez-vous
+
+| Cas                    | Statut | Corps                                                                                              |
+| ---------------------- | ------ | -------------------------------------------------------------------------------------------------- |
+| Calendrier             | 200    | `{ status, data: { schedule_id, timezone, recurring_slots, exceptions, appointments, insights } }` |
+| Créneau créé           | 201    | `{ status, data: slot }` (`start_time` tel que soumis)                                             |
+| Créneau invalide       | 422    | `{ message, errors: { day_of_week, start_time, end_time } }`                                       |
+| Créneau supprimé       | 200    | `{ status: "success" }`                                                                            |
+| Indisponibilité créée  | 201    | `{ status, data: exception }`                                                                      |
+| Rendez-vous créé       | 201    | `{ data: appointment }` (`status` à `null`)                                                        |
+| Rendez-vous invalide   | 422    | `{ message, errors }`                                                                              |
+| Statut mis à jour      | 200    | `{ data: appointment }`                                                                            |
+| Rendez-vous d'un tiers | 403    | `{ message: "Non autorisé" }`                                                                      |
+
 ## 3. Statuts
 
 | Objet       | Valeurs                                                                                                                                                            |
@@ -177,3 +192,6 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `POST /reviews` renvoie le technicien brut sous `data.target`, courriel compris ; le mobile l'écarte.
 - Les routes d'avis, de badges et de réputation imbriquent la pagination sous `data`, contrairement au reste de l'API.
 - `JobController::updateStatus` ne clôturait pas la demande : l'avis était alors impossible (`ReviewController` exige `completed`). Corrigé dans `RelianceBackend` (commit `fix(operations)`).
+- `POST /appointments` ne vérifie ni que le technicien est celui de la demande, ni l'absence de chevauchement avec un autre rendez-vous.
+- `GET /technician/calendar` renvoie `insights.total_hours` à 45 heures par défaut : la charge affichée peut dépasser 100 %.
+- Les créneaux renvoient `start_time` au format `HH:MM:SS` en lecture et `HH:MM` à la création ; le mobile normalise.

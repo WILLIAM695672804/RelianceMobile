@@ -14,6 +14,7 @@ import { kycTranslations } from '@/features/kyc';
 import { matchingTranslations } from '@/features/matching';
 import { missionsTranslations } from '@/features/missions';
 import { notificationsTranslations } from '@/features/notifications';
+import { planningTranslations } from '@/features/planning';
 import { profileTranslations } from '@/features/profile';
 import { requestsTranslations } from '@/features/requests';
 import { reviewsTranslations } from '@/features/reviews';
@@ -47,6 +48,7 @@ export const services = createServices({
     chatTranslations,
     walletTranslations,
     reviewsTranslations,
+    planningTranslations,
     directoryTranslations,
   ],
 });

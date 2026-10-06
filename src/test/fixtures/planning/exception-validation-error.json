@@ -1,0 +1,7 @@
+{
+  "message": "The start ts field is required. (and 1 more error)",
+  "errors": {
+    "start_ts": ["The start ts field is required."],
+    "end_ts": ["The end ts field is required."]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "data": {
+    "start_ts": "2026-10-09T00:00:00.000000Z",
+    "end_ts": "2026-10-10T23:59:00.000000Z",
+    "reason": "Congé de démonstration",
+    "schedule_id": "c9fcdfd5-89b2-4ba9-987d-773265116500",
+    "id": "74d13a20-6948-41cf-ace8-b4c26476c598",
+    "updated_at": "2026-10-06T20:22:07.000000Z",
+    "created_at": "2026-10-06T20:22:07.000000Z"
+  }
+}

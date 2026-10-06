@@ -9,6 +9,8 @@ export type ProfileDestination =
   | 'edit'
   | 'password'
   | 'locations'
+  | 'planning'
+  | 'appointments'
   | 'invoices'
   | 'wallet'
   | 'reviews'
@@ -31,9 +33,11 @@ export function destinationsFor(role: Role): ProfileDestination[] {
     'edit',
     'password',
     'locations',
-    ...(role === 'technicien' ? (['professional', 'skills', 'zone', 'kyc'] as const) : []),
+    ...(role === 'technicien'
+      ? (['professional', 'skills', 'zone', 'planning', 'kyc'] as const)
+      : []),
     ...(role === 'client' ? (['upgrade'] as const) : []),
-    ...(role === 'client' || role === 'technicien' ? (['invoices'] as const) : []),
+    ...(role === 'client' || role === 'technicien' ? (['invoices', 'appointments'] as const) : []),
     'wallet',
     ...(role === 'technicien' ? (['reviews'] as const) : []),
     'notifications',

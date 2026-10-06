@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { describeError, normalizeError } from '@/core/errors';
+import { useSession } from '@/core/session';
 import { useActiveMission, type ActiveMission } from '@/features/matching';
 import { Badge, Button, Card, FormTextField, Screen, StateView, Text } from '@/shared/components';
 import { formatAmount } from '@/shared/format';
@@ -27,6 +28,8 @@ export interface MissionCockpitScreenProps {
   onOpenQuotes?: (requestId: string) => void;
   /** Ouverture d'une conversation avec le client. */
   onContact?: (userId: string) => void;
+  /** Planification d'un rendez-vous pour la demande en cours. */
+  onPlanAppointment?: (requestId: string, technicianId: string) => void;
 }
 
 /** E13, E14 — Cockpit du technicien : avancement, position et phases de la mission acceptée. */
@@ -34,6 +37,7 @@ export function MissionCockpitScreen({
   onOpenHistory,
   onOpenQuotes,
   onContact,
+  onPlanAppointment,
 }: MissionCockpitScreenProps) {
   const { t } = useTranslation();
   const mission = useActiveMission();
@@ -51,7 +55,12 @@ export function MissionCockpitScreen({
       return <StateView status="empty" message={t('missions:cockpit.none')} />;
     }
     return (
-      <MissionCockpit mission={mission.data} onOpenQuotes={onOpenQuotes} onContact={onContact} />
+      <MissionCockpit
+        mission={mission.data}
+        onOpenQuotes={onOpenQuotes}
+        onContact={onContact}
+        onPlanAppointment={onPlanAppointment}
+      />
     );
   };
 
@@ -70,10 +79,12 @@ function MissionCockpit({
   mission,
   onOpenQuotes,
   onContact,
+  onPlanAppointment,
 }: {
   mission: ActiveMission;
   onOpenQuotes?: (requestId: string) => void;
   onContact?: (userId: string) => void;
+  onPlanAppointment?: (requestId: string, technicianId: string) => void;
 }) {
   const { t } = useTranslation();
   const job = mission.job;
@@ -89,6 +100,7 @@ function MissionCockpit({
   });
 
   const client = mission.client;
+  const technicianId = useSession((state) => state.user?.id ?? null);
   const place = [mission.address?.address, mission.address?.city].filter(Boolean).join(', ');
   const next = job ? nextStatusOf(job.status) : null;
   const phases: JobPhase[] = (job?.phases ?? []).map((phase) => ({
@@ -221,6 +233,14 @@ function MissionCockpit({
         <Button
           label={t('missions:cockpit.contact')}
           onPress={() => onContact(client.id)}
+          variant="secondary"
+        />
+      ) : null}
+
+      {onPlanAppointment && technicianId ? (
+        <Button
+          label={t('missions:cockpit.appointment')}
+          onPress={() => onPlanAppointment(mission.request.id, technicianId)}
           variant="secondary"
         />
       ) : null}

@@ -2,11 +2,13 @@ import { fireEvent, screen, userEvent, waitFor } from '@testing-library/react-na
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
+import { createSessionStore } from '@/core/session';
 import { matchingTranslations } from '@/features/matching';
 import activeMission from '@/test/fixtures/missions/active-mission.json';
 import jobCreated from '@/test/fixtures/missions/job-created.json';
 import jobInProgress from '@/test/fixtures/missions/job-in-progress.json';
 import positionUpdated from '@/test/fixtures/missions/position-updated.json';
+import { buildSessionUser } from '@/test/fixtures/users';
 import { renderWithProviders } from '@/test/render';
 
 import { missionsTranslations } from '../i18n';
@@ -167,5 +169,23 @@ describe('MissionCockpitScreen (E13, E14)', () => {
     await user.press(await screen.findByRole('button', { name: 'Contacter le client' }));
 
     expect(onContact).toHaveBeenCalledWith(activeMission.data.client.id);
+  });
+
+  it('planifie un rendez-vous pour la demande en cours', async () => {
+    const onPlanAppointment = jest.fn();
+    const api = axios.create({ baseURL: 'http://api.test/api/v1' });
+    const mock = new MockAdapter(api);
+    mock.onGet('/proposals/active-mission').reply(200, missionWith(null));
+    const sessionStore = createSessionStore();
+    sessionStore.getState().setAuthenticated(buildSessionUser('technicien', { id: 'u1' }));
+    await renderWithProviders(
+      <MissionCockpitScreen onOpenHistory={jest.fn()} onPlanAppointment={onPlanAppointment} />,
+      { api, sessionStore, translations: [missionsTranslations, matchingTranslations] },
+    );
+    const user = userEvent.setup();
+
+    await user.press(await screen.findByRole('button', { name: 'Planifier un rendez-vous' }));
+
+    expect(onPlanAppointment).toHaveBeenCalledWith(activeMission.data.request.id, 'u1');
   });
 });
