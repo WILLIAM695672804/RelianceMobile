@@ -19,4 +19,5 @@ export {
 export { ClientHomeScreen, type ClientHomeScreenProps } from './screens/ClientHomeScreen';
 export { NewRequestScreen, type NewRequestScreenProps } from './screens/NewRequestScreen';
 export { RequestDetailScreen, type RequestDetailScreenProps } from './screens/RequestDetailScreen';
+export { RequestsListScreen, type RequestsListScreenProps } from './screens/RequestsListScreen';
 export type { CreateRequestPayload, RequestStatus, ServiceRequest } from './schemas/requestSchemas';

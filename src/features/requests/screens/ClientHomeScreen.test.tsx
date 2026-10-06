@@ -94,4 +94,20 @@ describe('ClientHomeScreen (E05)', () => {
 
     await waitFor(() => expect(mock.history.get).toHaveLength(2));
   });
+
+  it('ouvre la liste complète des demandes', async () => {
+    const onOpenAll = jest.fn();
+    const api = axios.create({ baseURL: 'http://api.test/api/v1' });
+    const mock = new MockAdapter(api);
+    mock.onGet('/requests').reply(200, buildRequestPage([buildServiceRequest()]));
+    await renderWithProviders(
+      <ClientHomeScreen onNewRequest={jest.fn()} onOpenRequest={jest.fn()} onOpenAll={onOpenAll} />,
+      { api, translations: [requestsTranslations] },
+    );
+    const user = userEvent.setup();
+
+    await user.press(await screen.findByRole('button', { name: 'Toutes mes demandes' }));
+
+    expect(onOpenAll).toHaveBeenCalledTimes(1);
+  });
 });

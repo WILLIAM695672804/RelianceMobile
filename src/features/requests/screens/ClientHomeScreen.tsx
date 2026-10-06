@@ -13,12 +13,18 @@ import type { ServiceRequest } from '../schemas/requestSchemas';
 const RECENT_LIMIT = 5;
 
 export interface ClientHomeScreenProps {
+  /** Ouverture de la liste complète des demandes. */
+  onOpenAll?: () => void;
   onNewRequest: () => void;
   onOpenRequest: (requestId: string) => void;
 }
 
 /** E05 — Accueil client : demandes en cours, demandes récentes, création d'une demande. */
-export function ClientHomeScreen({ onNewRequest, onOpenRequest }: ClientHomeScreenProps) {
+export function ClientHomeScreen({
+  onNewRequest,
+  onOpenRequest,
+  onOpenAll,
+}: ClientHomeScreenProps) {
   const { t } = useTranslation();
   const user = useSession((state) => state.user);
   const requests = useRequests();
@@ -87,6 +93,9 @@ export function ClientHomeScreen({ onNewRequest, onOpenRequest }: ClientHomeScre
       />
       {limitReached ? (
         <Text tone="muted">{t('requests:home.limitReached', { max: MAX_OPEN_REQUESTS })}</Text>
+      ) : null}
+      {onOpenAll ? (
+        <Button label={t('requests:home.openAll')} onPress={onOpenAll} variant="ghost" />
       ) : null}
       {renderRequests()}
     </Screen>
