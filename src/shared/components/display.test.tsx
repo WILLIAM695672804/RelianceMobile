@@ -4,7 +4,9 @@ import { renderWithProviders } from '@/test/render';
 
 import { Avatar, initialsOf } from './Avatar';
 import { Badge } from './Badge';
+import { Card } from './Card';
 import { ListItem } from './ListItem';
+import { Text } from './Text';
 
 describe('initialsOf', () => {
   it.each([
@@ -54,5 +56,61 @@ describe('ListItem', () => {
   it('n’est pas un bouton sans action', async () => {
     await renderWithProviders(<ListItem label="Double authentification" detail="Désactivée" />);
     expect(screen.queryByRole('button')).not.toBeOnTheScreen();
+  });
+});
+
+describe('Card actionnable', () => {
+  it('se presse et porte le rôle de bouton', async () => {
+    const onPress = jest.fn();
+    await renderWithProviders(
+      <Card onPress={onPress} accessibilityLabel="Ouvrir la demande" testID="carte">
+        <Text>Contenu</Text>
+      </Card>,
+    );
+
+    await userEvent.press(screen.getByTestId('carte'));
+    expect(onPress).toHaveBeenCalledTimes(1);
+    expect(screen.getByLabelText('Ouvrir la demande')).toBeTruthy();
+  });
+
+  it('reste une simple surface sans action', async () => {
+    await renderWithProviders(
+      <Card testID="carte">
+        <Text>Contenu</Text>
+      </Card>,
+    );
+
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+});
+
+describe('ListItem enrichie', () => {
+  it('affiche une icône de tête', async () => {
+    await renderWithProviders(
+      <ListItem label="Portefeuille" icon="wallet" onPress={jest.fn()} testID="ligne" />,
+    );
+
+    expect(screen.getByTestId('ligne-icon')).toBeTruthy();
+  });
+
+  it('affiche un chevron vectoriel lorsqu’elle est actionnable', async () => {
+    await renderWithProviders(<ListItem label="Profil" onPress={jest.fn()} testID="ligne" />);
+
+    expect(screen.getByTestId('ligne-chevron')).toBeTruthy();
+  });
+
+  it('n’affiche aucun chevron lorsqu’elle est informative', async () => {
+    await renderWithProviders(<ListItem label="Solde" detail="12 000 FCFA" testID="ligne" />);
+
+    expect(screen.queryByTestId('ligne-chevron')).toBeNull();
+  });
+});
+
+describe('Badge enrichie', () => {
+  it('porte une icône et une teinte de fond', async () => {
+    await renderWithProviders(<Badge label="Vérifié" tone="success" icon="check" testID="b" />);
+
+    expect(screen.getByTestId('b-icon')).toBeTruthy();
+    expect(screen.getByText('Vérifié')).toHaveStyle({ color: '#16A34A' });
   });
 });

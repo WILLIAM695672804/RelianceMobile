@@ -44,9 +44,9 @@ export function Avatar({ name, uri, size = 64, testID }: AvatarProps) {
       accessible
       accessibilityLabel={name}
       accessibilityRole="image"
-      style={[styles.fallback, shape, { backgroundColor: theme.colors.surfaceMuted }]}
+      style={[styles.fallback, shape, { backgroundColor: theme.colors.primary }]}
     >
-      <Text variant="subtitle" tone="primary">
+      <Text variant="subtitle" tone="onPrimary" style={{ fontSize: Math.round(size * 0.36) }}>
         {initialsOf(name)}
       </Text>
     </View>

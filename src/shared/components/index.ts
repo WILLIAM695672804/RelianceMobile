@@ -2,7 +2,7 @@ export { AppBar, type AppBarProps } from './AppBar';
 export { Avatar, initialsOf, type AvatarProps } from './Avatar';
 export { Badge, type BadgeProps, type BadgeTone } from './Badge';
 export { Button, type ButtonProps, type ButtonSize, type ButtonVariant } from './Button';
-export { Card } from './Card';
+export { Card, type CardProps, type CardTone } from './Card';
 export { ConfirmDialog, type ConfirmDialogProps } from './ConfirmDialog';
 export { FormTextField, type FormTextFieldProps } from './FormTextField';
 export { Icon, type IconProps, type IconTone } from './Icon';
