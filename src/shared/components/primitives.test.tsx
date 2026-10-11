@@ -21,6 +21,18 @@ describe('Text', () => {
   });
 });
 
+describe('Text adaptatif', () => {
+  it('plafonne la mise à l’échelle demandée par le système', async () => {
+    await renderWithProviders(<Text>Bonjour</Text>);
+    expect(screen.getByText('Bonjour').props.maxFontSizeMultiplier).toBe(1.4);
+  });
+
+  it('expose la variante label', async () => {
+    await renderWithProviders(<Text variant="label">Quartier</Text>);
+    expect(screen.getByText('Quartier')).toHaveStyle({ fontSize: 13 });
+  });
+});
+
 describe('Button', () => {
   it('déclenche onPress', async () => {
     const user = userEvent.setup();
