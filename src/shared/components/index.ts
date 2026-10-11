@@ -4,6 +4,8 @@ export { Button, type ButtonProps, type ButtonVariant } from './Button';
 export { Card } from './Card';
 export { ConfirmDialog, type ConfirmDialogProps } from './ConfirmDialog';
 export { FormTextField, type FormTextFieldProps } from './FormTextField';
+export { Icon, type IconProps, type IconTone } from './Icon';
+export { ICON_NAMES, ICON_SHAPES, type IconName, type Shape } from './icons';
 export { ListItem, type ListItemProps } from './ListItem';
 export { OfflineBanner } from './OfflineBanner';
 export { PlaceholderScreen, type PlaceholderScreenProps } from './PlaceholderScreen';
