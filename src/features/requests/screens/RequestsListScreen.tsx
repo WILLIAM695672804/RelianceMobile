@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
-import { Badge, Button, Card, Screen, StateView, Text } from '@/shared/components';
+import { Badge, Card, Icon, Screen, StateView, Text } from '@/shared/components';
 import { formatDate } from '@/shared/format';
 
 import { useRequests } from '../hooks/useRequests';
+import { iconForSkillSlug } from '../model/categoryIcons';
 import { stageOf, STAGE_TONES } from '../model/requestStage';
 
 export interface RequestsListScreenProps {
@@ -32,18 +34,22 @@ export function RequestsListScreen({ onOpenRequest }: RequestsListScreenProps) {
         {requests.data.data.map((request) => {
           const stage = stageOf(request.status);
           return (
-            <Card key={request.id}>
-              <Text variant="subtitle">{request.title}</Text>
+            <Card
+              key={request.id}
+              onPress={() => onOpenRequest(request.id)}
+              accessibilityLabel={t('requests:list.openNamed', { title: request.title })}
+            >
+              <View style={styles.row}>
+                <Icon name={iconForSkillSlug(request.category?.slug)} size={20} tone="primary" />
+                <Text variant="subtitle" style={styles.title} numberOfLines={2}>
+                  {request.title}
+                </Text>
+                <Icon name="chevronR" size={18} tone="muted" />
+              </View>
               <Badge label={t(`requests:stages.${stage}`)} tone={STAGE_TONES[stage]} />
               <Text variant="caption" tone="muted">
                 {t('requests:list.createdAt', { date: formatDate(request.created_at) })}
               </Text>
-              <Button
-                label={t('requests:list.open')}
-                accessibilityLabel={t('requests:list.openNamed', { title: request.title })}
-                onPress={() => onOpenRequest(request.id)}
-                variant="secondary"
-              />
             </Card>
           );
         })}
@@ -52,11 +58,17 @@ export function RequestsListScreen({ onOpenRequest }: RequestsListScreenProps) {
   };
 
   return (
-    <Screen onRefresh={() => void requests.refetch()} refreshing={requests.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('requests:list.title')}
-      </Text>
+    <Screen
+      title={t('requests:list.title')}
+      onRefresh={() => void requests.refetch()}
+      refreshing={requests.isRefetching}
+    >
       {renderRequests()}
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  row: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  title: { flex: 1 },
+});

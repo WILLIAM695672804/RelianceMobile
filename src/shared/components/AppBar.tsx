@@ -43,7 +43,7 @@ export function AppBar({ title, onBack, actions }: AppBarProps) {
           <Icon name="arrowL" size={24} />
         </Pressable>
       ) : null}
-      <Text variant="subtitle" numberOfLines={1} style={styles.title}>
+      <Text variant="subtitle" accessibilityRole="header" numberOfLines={1} style={styles.title}>
         {title}
       </Text>
       {actions ? <View style={styles.actions}>{actions}</View> : null}
