@@ -9,6 +9,7 @@ export { ConfirmDialog, type ConfirmDialogProps } from './ConfirmDialog';
 export { FormTextField, type FormTextFieldProps } from './FormTextField';
 export { Icon, type IconProps, type IconTone } from './Icon';
 export { ICON_NAMES, ICON_SHAPES, type IconName, type Shape } from './icons';
+export { IconButton, type IconButtonProps } from './IconButton';
 export { IconTile, type IconTileProps } from './IconTile';
 export { ListItem, type ListItemProps } from './ListItem';
 export { OfflineBanner } from './OfflineBanner';

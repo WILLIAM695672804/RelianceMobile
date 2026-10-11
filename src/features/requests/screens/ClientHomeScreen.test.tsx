@@ -7,6 +7,8 @@ import { buildRequestPage, buildServiceRequest } from '@/test/fixtures/serviceRe
 import { buildSessionUser } from '@/test/fixtures/users';
 import { renderWithProviders } from '@/test/render';
 
+import skillsFixture from '@/test/fixtures/profile/skills.json';
+
 import { requestsTranslations } from '../i18n';
 import { ClientHomeScreen } from './ClientHomeScreen';
 
@@ -92,7 +94,11 @@ describe('ClientHomeScreen (E05)', () => {
       screen.getByTestId('screen-scroll').props.refreshControl.props.onRefresh();
     });
 
-    await waitFor(() => expect(mock.history.get).toHaveLength(2));
+    // Seuls les appels à `/requests` sont comptés : l'écran interroge aussi le catalogue
+    // des compétences pour la grille des services.
+    await waitFor(() =>
+      expect(mock.history.get.filter((call) => call.url === '/requests')).toHaveLength(2),
+    );
   });
 
   it('ouvre la liste complète des demandes', async () => {
@@ -109,5 +115,33 @@ describe('ClientHomeScreen (E05)', () => {
     await user.press(await screen.findByRole('button', { name: 'Toutes mes demandes' }));
 
     expect(onOpenAll).toHaveBeenCalledTimes(1);
+  });
+
+  it('présente la grille des domaines de service et la barre de recherche', async () => {
+    const api = axios.create({ baseURL: 'http://api.test/api/v1' });
+    const mock = new MockAdapter(api);
+    mock.onGet('/requests').reply(200, buildRequestPage([]));
+    mock.onGet('/skills').reply(200, skillsFixture);
+    const onSearch = jest.fn();
+    const onNewRequest = jest.fn();
+    await renderWithProviders(
+      <ClientHomeScreen
+        onNewRequest={onNewRequest}
+        onOpenRequest={jest.fn()}
+        onSearch={onSearch}
+        onOpenNotifications={jest.fn()}
+      />,
+      { api, translations: [requestsTranslations] },
+    );
+    const user = userEvent.setup();
+
+    expect(await screen.findByText('Nos services')).toBeOnTheScreen();
+    await user.press(screen.getByLabelText('Plomberie'));
+    expect(onNewRequest).toHaveBeenCalledTimes(1);
+
+    await user.press(screen.getByLabelText('Rechercher un service, un technicien…'));
+    expect(onSearch).toHaveBeenCalledTimes(1);
+
+    expect(screen.getByLabelText('Mes notifications')).toBeOnTheScreen();
   });
 });
