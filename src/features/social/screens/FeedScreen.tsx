@@ -82,10 +82,12 @@ export function FeedScreen({ onOpen }: FeedScreenProps) {
   };
 
   return (
-    <Screen scroll onRefresh={() => void active.refetch()} refreshing={active.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('social:feed.title')}
-      </Text>
+    <Screen
+      title={t('social:feed.title')}
+      scroll
+      onRefresh={() => void active.refetch()}
+      refreshing={active.isRefetching}
+    >
       <View style={styles.tabs}>
         <Button
           label={t('social:feed.mine')}

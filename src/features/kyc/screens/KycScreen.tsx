@@ -82,10 +82,7 @@ export function KycScreen() {
   };
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('kyc:title')}
-      </Text>
+    <Screen title={t('kyc:title')} scroll>
       <Text tone="muted">{t('kyc:hint')}</Text>
       {feedback ? <Text tone={feedback.tone}>{feedback.text}</Text> : null}
       {documents.isPending ? <StateView status="loading" /> : null}

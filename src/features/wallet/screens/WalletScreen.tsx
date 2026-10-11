@@ -1,6 +1,17 @@
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
-import { Badge, Button, Card, Screen, StateView, Text } from '@/shared/components';
+import {
+  AdaptiveGrid,
+  Badge,
+  Button,
+  Card,
+  Icon,
+  Screen,
+  StateView,
+  StatTile,
+  Text,
+} from '@/shared/components';
 import { formatAmount, formatDate } from '@/shared/format';
 
 import { useWallet, useWalletTransactions } from '../hooks/useWallet';
@@ -28,29 +39,32 @@ export function WalletScreen({ onRecharge, onWithdraw }: WalletScreenProps) {
 
   const renderBalances = (data: Wallet) => (
     <>
-      <Card>
-        <Text variant="caption" tone="muted">
-          {t('wallet:balance')}
-        </Text>
-        <Text variant="title">{formatAmount(data.balance)}</Text>
+      <Card tone="primary">
+        <View style={styles.balanceHeader}>
+          <Icon name="wallet" size={22} tone="primary" />
+          <Text variant="caption" tone="muted" style={styles.flex}>
+            {t('wallet:balance')}
+          </Text>
+        </View>
+        <Text variant="display">{formatAmount(data.balance)}</Text>
         {data.updated_at ? (
           <Text variant="caption" tone="muted">
             {t('wallet:updatedAt', { date: formatDate(data.updated_at) })}
           </Text>
         ) : null}
       </Card>
-      <Card>
-        <Text variant="caption" tone="muted">
-          {t('wallet:available')}
-        </Text>
-        <Text variant="subtitle">{formatAmount(data.available_balance)}</Text>
-      </Card>
-      <Card>
-        <Text variant="caption" tone="muted">
-          {t('wallet:held')}
-        </Text>
-        <Text variant="subtitle">{formatAmount(data.held_amount ?? 0)}</Text>
-      </Card>
+      <AdaptiveGrid minTileWidth={140} gap={12}>
+        <StatTile
+          icon="check"
+          value={formatAmount(data.available_balance)}
+          label={t('wallet:available')}
+        />
+        <StatTile
+          icon="shield"
+          value={formatAmount(data.held_amount ?? 0)}
+          label={t('wallet:held')}
+        />
+      </AdaptiveGrid>
     </>
   );
 
@@ -94,19 +108,24 @@ export function WalletScreen({ onRecharge, onWithdraw }: WalletScreenProps) {
   };
 
   return (
-    <Screen onRefresh={refresh} refreshing={wallet.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('wallet:title')}
-      </Text>
+    <Screen title={t('wallet:title')} onRefresh={refresh} refreshing={wallet.isRefetching}>
       {wallet.isPending ? <StateView status="loading" /> : null}
       {wallet.isError ? (
         <StateView status="error" error={wallet.error} onRetry={() => void wallet.refetch()} />
       ) : null}
       {wallet.isSuccess ? renderBalances(wallet.data) : null}
-      <Button label={t('wallet:recharge')} onPress={onRecharge} />
-      <Button label={t('wallet:withdraw')} onPress={onWithdraw} variant="secondary" />
+      <View style={styles.actions}>
+        <Button label={t('wallet:recharge')} icon="arrowUp" onPress={onRecharge} />
+        <Button label={t('wallet:withdraw')} icon="send" onPress={onWithdraw} variant="secondary" />
+      </View>
       <Text variant="subtitle">{t('wallet:history')}</Text>
       {renderHistory()}
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  balanceHeader: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  flex: { flex: 1 },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+});

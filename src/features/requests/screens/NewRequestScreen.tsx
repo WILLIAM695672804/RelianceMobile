@@ -4,7 +4,14 @@ import { Controller, useForm, useWatch, type FieldError } from 'react-hook-form'
 import { useTranslation } from 'react-i18next';
 
 import { describeError, normalizeError } from '@/core/errors';
-import { Button, ConfirmDialog, FormTextField, Screen, Text } from '@/shared/components';
+import {
+  Button,
+  ConfirmDialog,
+  FormTextField,
+  Screen,
+  StepIndicator,
+  Text,
+} from '@/shared/components';
 
 import { useCreateRequest } from '../hooks/useRequests';
 import {
@@ -35,8 +42,22 @@ export function NewRequestScreen({ onCreated, onCancel }: NewRequestScreenProps)
     resolver: zodResolver(requestFormSchema),
     defaultValues: { categorySlug: '', title: '', description: '', photos: [], place: null },
   });
-  const description = useWatch({ control: form.control, name: 'description' });
+  const values = useWatch({ control: form.control });
+  const description = values.description ?? '';
   const { isDirty } = form.formState;
+
+  /**
+   * Avancement du formulaire : quatre groupes dans l'ordre des maquettes (service,
+   * description, adresse, photos). Il s'agit d'une jauge, non d'un assistant par étapes :
+   * tous les champs restent accessibles sur la même page.
+   */
+  const completed = [
+    Boolean(values.categorySlug),
+    Boolean(values.title?.trim() && description.trim()),
+    values.place !== null && values.place !== undefined,
+    (values.photos?.length ?? 0) > 0,
+  ];
+  const currentStep = Math.max(0, completed.filter(Boolean).length - 1);
 
   const messageOf = (error: FieldError | undefined) => {
     if (!error?.message) return undefined;
@@ -73,10 +94,21 @@ export function NewRequestScreen({ onCreated, onCancel }: NewRequestScreenProps)
   };
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('requests:form.title')}
-      </Text>
+    <Screen
+      scroll
+      title={t('requests:form.title')}
+      onBack={requestCancel}
+      footer={
+        <Button
+          label={t('requests:form.submit')}
+          size="lg"
+          fullWidth
+          onPress={() => void onSubmit()}
+          loading={createRequest.isPending}
+        />
+      }
+    >
+      <StepIndicator steps={completed.length} current={currentStep} testID="new-request-steps" />
       {formError ? <Text tone="danger">{formError}</Text> : null}
       <Controller
         control={form.control}
@@ -123,11 +155,6 @@ export function NewRequestScreen({ onCreated, onCancel }: NewRequestScreenProps)
             error={messageOf(fieldState.error)}
           />
         )}
-      />
-      <Button
-        label={t('requests:form.submit')}
-        onPress={() => void onSubmit()}
-        loading={createRequest.isPending}
       />
       <Button
         label={t('requests:form.cancel')}

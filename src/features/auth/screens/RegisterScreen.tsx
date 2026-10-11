@@ -168,6 +168,9 @@ export function RegisterScreen({ onLogin }: RegisterScreenProps) {
 
       <Button
         label={t('auth:register.submit')}
+        icon="check"
+        size="lg"
+        fullWidth
         onPress={() => void onSubmit()}
         loading={registerMutation.isPending}
       />

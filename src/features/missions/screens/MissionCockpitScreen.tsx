@@ -2,11 +2,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
 import { useSession } from '@/core/session';
 import { useActiveMission, type ActiveMission } from '@/features/matching';
-import { Badge, Button, Card, FormTextField, Screen, StateView, Text } from '@/shared/components';
+import {
+  Badge,
+  Button,
+  Card,
+  FormTextField,
+  Icon,
+  ListItem,
+  Screen,
+  StateView,
+  Text,
+} from '@/shared/components';
 import { formatAmount } from '@/shared/format';
 import { locateDevice, openAppSettings } from '@/shared/location';
 
@@ -65,12 +76,19 @@ export function MissionCockpitScreen({
   };
 
   return (
-    <Screen scroll onRefresh={() => void mission.refetch()} refreshing={mission.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('missions:cockpit.title')}
-      </Text>
+    <Screen
+      scroll
+      title={t('missions:cockpit.title')}
+      onRefresh={() => void mission.refetch()}
+      refreshing={mission.isRefetching}
+    >
       {renderContent()}
-      <Button label={t('missions:cockpit.history')} onPress={onOpenHistory} variant="secondary" />
+      <Button
+        label={t('missions:cockpit.history')}
+        icon="clock"
+        onPress={onOpenHistory}
+        variant="secondary"
+      />
     </Screen>
   );
 }
@@ -172,38 +190,77 @@ function MissionCockpit({
 
   return (
     <>
-      <Card>
-        <Text variant="subtitle">{mission.request.title}</Text>
+      <Card elevated>
+        <View style={styles.cardHeader}>
+          <Icon name="wrench" size={22} tone="primary" />
+          <Text variant="subtitle" style={styles.cardTitle} numberOfLines={2}>
+            {mission.request.title}
+          </Text>
+          {job ? (
+            <Badge label={t(`missions:status.${job.status}`)} tone={toneOf(job.status)} />
+          ) : null}
+        </View>
         {mission.request.category ? <Text tone="muted">{mission.request.category}</Text> : null}
-        {job ? (
-          <Badge label={t(`missions:status.${job.status}`)} tone={toneOf(job.status)} />
-        ) : null}
         {mission.client ? (
-          <Text>{t('missions:cockpit.client', { name: mission.client.name })}</Text>
+          <ListItem
+            label={t('missions:cockpit.client', { name: mission.client.name })}
+            icon="user"
+          />
         ) : null}
-        {place ? <Text>{t('missions:cockpit.place', { place })}</Text> : null}
-        <Text>{t('missions:cockpit.amount', { amount: formatAmount(mission.price) })}</Text>
-        {job ? <MissionTimeline status={job.status} /> : null}
+        {place ? <ListItem label={t('missions:cockpit.place', { place })} icon="pin" /> : null}
+        <ListItem
+          label={t('missions:cockpit.amount', { amount: formatAmount(mission.price) })}
+          icon="wallet"
+        />
       </Card>
 
-      {error ? <Text tone="danger">{error}</Text> : null}
-      {notice ? <Text tone="primary">{notice}</Text> : null}
+      {job ? (
+        <Card>
+          <MissionTimeline status={job.status} />
+        </Card>
+      ) : null}
+
+      {error ? (
+        <View style={styles.notice}>
+          <Icon name="info" size={18} tone="danger" />
+          <Text tone="danger" style={styles.noticeText}>
+            {error}
+          </Text>
+        </View>
+      ) : null}
+      {notice ? (
+        <View style={styles.notice}>
+          <Icon name="check" size={18} tone="primary" />
+          <Text tone="primary" style={styles.noticeText}>
+            {notice}
+          </Text>
+        </View>
+      ) : null}
 
       {!job ? (
         <Button
           label={t('missions:cockpit.start')}
+          icon="flash"
+          size="lg"
+          fullWidth
           onPress={() => void start()}
           loading={createJob.isPending}
         />
       ) : next === 'completed' ? (
         <Button
           label={t('missions:cockpit.advance.completed')}
+          icon="check"
+          size="lg"
+          fullWidth
           onPress={() => setConfirming(true)}
           loading={updateStatus.isPending}
         />
       ) : next ? (
         <Button
           label={t(`missions:cockpit.advance.${next}`)}
+          icon="arrowR"
+          size="lg"
+          fullWidth
           onPress={() => void advance(next)}
           loading={updateStatus.isPending}
         />
@@ -215,6 +272,7 @@ function MissionCockpit({
         <>
           <Button
             label={t('missions:cockpit.sharePosition')}
+            icon="location"
             onPress={() => void share()}
             loading={sharePosition.isPending}
             variant="secondary"
@@ -232,6 +290,7 @@ function MissionCockpit({
       {onContact && client ? (
         <Button
           label={t('missions:cockpit.contact')}
+          icon="chat"
           onPress={() => onContact(client.id)}
           variant="secondary"
         />
@@ -240,6 +299,7 @@ function MissionCockpit({
       {onPlanAppointment && technicianId ? (
         <Button
           label={t('missions:cockpit.appointment')}
+          icon="calendar"
           onPress={() => onPlanAppointment(mission.request.id, technicianId)}
           variant="secondary"
         />
@@ -248,6 +308,7 @@ function MissionCockpit({
       {onOpenQuotes ? (
         <Button
           label={t('missions:cockpit.quotes')}
+          icon="file"
           onPress={() => onOpenQuotes(mission.request.id)}
           variant="secondary"
         />
@@ -283,3 +344,10 @@ function MissionCockpit({
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  cardHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  cardTitle: { flex: 1 },
+  notice: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
+  noticeText: { flex: 1 },
+});

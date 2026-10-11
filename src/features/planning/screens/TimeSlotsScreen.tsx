@@ -91,10 +91,12 @@ export function TimeSlotsScreen() {
   };
 
   return (
-    <Screen scroll onRefresh={() => void calendar.refetch()} refreshing={calendar.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('planning:slots.title')}
-      </Text>
+    <Screen
+      title={t('planning:slots.title')}
+      scroll
+      onRefresh={() => void calendar.refetch()}
+      refreshing={calendar.isRefetching}
+    >
       <Text tone="muted">{t('planning:slots.hint')}</Text>
       {notice ? <Text tone="primary">{notice}</Text> : null}
       {error ? <Text tone="danger">{error}</Text> : null}

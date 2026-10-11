@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
-import { Badge, Button, Card, Screen, StateView, Text } from '@/shared/components';
+import { Badge, Button, Card, Icon, Screen, StateView, Text } from '@/shared/components';
 import { formatDate } from '@/shared/format';
 
 import {
@@ -45,8 +46,13 @@ export function NotificationsScreen({ onOpenSettings }: NotificationsScreenProps
   };
 
   const renderNotification = (notification: AppNotification) => (
-    <Card key={notification.id}>
-      <Text variant="subtitle">{notification.title}</Text>
+    <Card key={notification.id} tone={notification.is_read ? 'surface' : 'primary'}>
+      <View style={styles.header}>
+        <Icon name="bell" size={20} tone={notification.is_read ? 'muted' : 'primary'} />
+        <Text variant="subtitle" style={styles.title}>
+          {notification.title}
+        </Text>
+      </View>
       {notification.body ? <Text>{notification.body}</Text> : null}
       {notification.created_at ? (
         <Text variant="caption" tone="muted">
@@ -56,6 +62,8 @@ export function NotificationsScreen({ onOpenSettings }: NotificationsScreenProps
       {notification.is_read ? null : (
         <Button
           label={t('notifications:markOne', { title: notification.title })}
+          icon="check"
+          size="sm"
           accessibilityLabel={t('notifications:markOne', { title: notification.title })}
           onPress={() =>
             void run(() => markOne.mutateAsync(notification.id), t('notifications:marked'))
@@ -85,10 +93,11 @@ export function NotificationsScreen({ onOpenSettings }: NotificationsScreenProps
   };
 
   return (
-    <Screen onRefresh={refresh} refreshing={notifications.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('notifications:title')}
-      </Text>
+    <Screen
+      title={t('notifications:title')}
+      onRefresh={refresh}
+      refreshing={notifications.isRefetching}
+    >
       {unread.isSuccess ? (
         unread.data > 0 ? (
           <Badge label={t('notifications:unread', { count: unread.data })} tone="warning" />
@@ -109,3 +118,8 @@ export function NotificationsScreen({ onOpenSettings }: NotificationsScreenProps
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  header: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  title: { flex: 1 },
+});

@@ -44,10 +44,7 @@ export function ReviewFormScreen({ requestId, onDone }: ReviewFormScreenProps) {
   const ratingError = form.formState.errors.rating?.message;
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('reviews:form.title')}
-      </Text>
+    <Screen title={t('reviews:form.title')} scroll>
       <Text tone="muted">{t('reviews:form.hint')}</Text>
       {notice ? <Text tone="primary">{notice}</Text> : null}
       {error ? <Text tone="danger">{error}</Text> : null}

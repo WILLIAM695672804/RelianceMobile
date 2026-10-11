@@ -97,10 +97,7 @@ function EditProfileForm({ account, onDone }: { account: ApiUser; onDone: () => 
   });
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:edit.title')}
-      </Text>
+    <Screen title={t('profile:edit.title')} scroll>
       {formError ? <Text tone="danger">{formError}</Text> : null}
       {notice ? <Text tone="primary">{notice}</Text> : null}
 

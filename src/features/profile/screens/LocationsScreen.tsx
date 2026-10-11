@@ -77,10 +77,7 @@ export function LocationsScreen() {
   };
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:locations.title')}
-      </Text>
+    <Screen title={t('profile:locations.title')} scroll>
       {actionError ? <Text tone="danger">{actionError}</Text> : null}
       {renderList()}
       {adding ? (

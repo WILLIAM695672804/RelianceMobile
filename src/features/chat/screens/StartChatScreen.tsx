@@ -40,10 +40,7 @@ export function StartChatScreen({ memberId, subject, onOpened }: StartChatScreen
   }, []);
 
   return (
-    <Screen>
-      <Text variant="title" accessibilityRole="header">
-        {t('chat:start.title')}
-      </Text>
+    <Screen title={t('chat:start.title')}>
       {failed ? (
         <>
           <Text tone="danger">{t('chat:start.failed')}</Text>

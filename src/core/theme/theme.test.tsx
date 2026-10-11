@@ -15,6 +15,12 @@ describe('buildTheme', () => {
     expect(theme.radius).toBe(radius);
   });
 
+  it('expose les teintes et les élévations', () => {
+    const theme = buildTheme('light');
+    expect(theme.tint.primary).toBe('rgba(31,91,196,0.10)');
+    expect(theme.elevation.medium).toEqual({ elevation: 3 });
+  });
+
   it('reprend les jetons sombres des maquettes', () => {
     expect(buildTheme('dark').colors).toMatchObject({
       background: '#0B1220',

@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import { groupSkillsByCategory, useSkillCatalog } from '@/features/profile';
-import { ListItem, StateView, Text } from '@/shared/components';
+import { Chip, Icon, ListItem, StateView, Text } from '@/shared/components';
+
+import { iconForCategory } from '../model/categoryIcons';
 
 export interface CategoryFieldProps {
   /** Slug de la compétence retenue, chaîne vide sinon. */
@@ -28,18 +30,24 @@ export function CategoryField({ value, onChange, error }: CategoryFieldProps) {
       );
     }
     return groupSkillsByCategory(catalog.data, t('requests:form.otherCategory')).map((group) => (
-      <View key={group.category}>
-        <Text variant="subtitle">{group.category}</Text>
-        {group.skills.map((skill) => (
-          <ListItem
-            key={skill.id}
-            label={skill.name}
-            onPress={() => {
-              onChange(skill.slug);
-              setExpanded(false);
-            }}
-          />
-        ))}
+      <View key={group.category} style={styles.group}>
+        <View style={styles.groupHeader}>
+          <Icon name={iconForCategory(group.category)} size={18} tone="primary" />
+          <Text variant="label">{group.category}</Text>
+        </View>
+        <View style={styles.chips}>
+          {group.skills.map((skill) => (
+            <Chip
+              key={skill.id}
+              label={skill.name}
+              selected={skill.slug === value}
+              onPress={() => {
+                onChange(skill.slug);
+                setExpanded(false);
+              }}
+            />
+          ))}
+        </View>
       </View>
     ));
   };
@@ -52,6 +60,7 @@ export function CategoryField({ value, onChange, error }: CategoryFieldProps) {
       <ListItem
         label={selected?.name ?? t('requests:form.chooseCategory')}
         detail={selected?.category ?? undefined}
+        icon={iconForCategory(selected?.category)}
         onPress={() => setExpanded((current) => !current)}
       />
       {error ? (
@@ -66,4 +75,7 @@ export function CategoryField({ value, onChange, error }: CategoryFieldProps) {
 
 const styles = StyleSheet.create({
   field: { gap: 4 },
+  group: { gap: 8, paddingTop: 12 },
+  groupHeader: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
 });

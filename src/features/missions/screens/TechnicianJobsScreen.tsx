@@ -48,10 +48,11 @@ export function TechnicianJobsScreen({ onOpen }: TechnicianJobsScreenProps) {
   };
 
   return (
-    <Screen onRefresh={() => void jobs.refetch()} refreshing={jobs.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('missions:jobs.title')}
-      </Text>
+    <Screen
+      title={t('missions:jobs.title')}
+      onRefresh={() => void jobs.refetch()}
+      refreshing={jobs.isRefetching}
+    >
       {renderJobs()}
     </Screen>
   );

@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
 import { useSession } from '@/core/session';
-import { Badge, Button, Card, Screen, StateView, Text } from '@/shared/components';
+import { Avatar, Badge, Card, Icon, Screen, StateView, Text } from '@/shared/components';
 
 import { useConversations, useUnreadMessageCount } from '../hooks/useChat';
 import { conversationTitle } from '../model/conversation';
@@ -28,14 +29,27 @@ export function ConversationsScreen({ onOpen }: ConversationsScreenProps) {
     const title = conversationTitle(conversation, selfId, t('chat:list.fallbackTitle'));
     const last = conversation.last_message;
     return (
-      <Card key={conversation.id}>
-        <Text variant="subtitle">{title}</Text>
-        {conversation.unread_count ? (
-          <Badge
-            label={t('chat:list.unread', { count: conversation.unread_count })}
-            tone="warning"
-          />
-        ) : null}
+      <Card
+        key={conversation.id}
+        onPress={() => onOpen(conversation.id)}
+        accessibilityLabel={t('chat:list.openNamed', { title })}
+      >
+        <View style={styles.row}>
+          <Avatar name={title} size={44} />
+          <View style={styles.identity}>
+            <Text variant="subtitle" numberOfLines={1}>
+              {title}
+            </Text>
+            {conversation.unread_count ? (
+              <Badge
+                label={t('chat:list.unread', { count: conversation.unread_count })}
+                tone="warning"
+                icon="chat"
+              />
+            ) : null}
+          </View>
+          <Icon name="chevronR" size={18} tone="muted" />
+        </View>
         {last?.body ? (
           <Text tone="muted">
             {t('chat:list.lastMessage', {
@@ -46,12 +60,6 @@ export function ConversationsScreen({ onOpen }: ConversationsScreenProps) {
         ) : (
           <Text tone="muted">{t('chat:list.noMessage')}</Text>
         )}
-        <Button
-          label={t('chat:list.open')}
-          accessibilityLabel={t('chat:list.openNamed', { title })}
-          onPress={() => onOpen(conversation.id)}
-          variant="secondary"
-        />
       </Card>
     );
   };
@@ -74,10 +82,11 @@ export function ConversationsScreen({ onOpen }: ConversationsScreenProps) {
   };
 
   return (
-    <Screen onRefresh={refresh} refreshing={conversations.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('chat:list.title')}
-      </Text>
+    <Screen
+      title={t('chat:list.title')}
+      onRefresh={refresh}
+      refreshing={conversations.isRefetching}
+    >
       {unread.isSuccess && unread.data > 0 ? (
         <Text tone="primary">{t('chat:list.totalUnread', { count: unread.data })}</Text>
       ) : null}
@@ -85,3 +94,8 @@ export function ConversationsScreen({ onOpen }: ConversationsScreenProps) {
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  identity: { flex: 1, gap: 4 },
+});

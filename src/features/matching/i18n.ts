@@ -35,6 +35,8 @@ const fr = {
   technicianHome: {
     greeting: 'Bonjour, {{name}}',
     mission: 'Mission en cours',
+    statusFree: 'Disponible',
+    statusBusy: 'En mission',
     noMission: 'Aucune mission en cours.',
     client: 'Client : {{name}}',
     place: 'Lieu : {{place}}',
@@ -89,6 +91,8 @@ const en: typeof fr = {
   technicianHome: {
     greeting: 'Hello, {{name}}',
     mission: 'Current job',
+    statusFree: 'Available',
+    statusBusy: 'On mission',
     noMission: 'No job in progress.',
     client: 'Client: {{name}}',
     place: 'Location: {{place}}',

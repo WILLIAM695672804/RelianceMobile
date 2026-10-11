@@ -89,10 +89,12 @@ export function ExceptionsScreen() {
   };
 
   return (
-    <Screen scroll onRefresh={() => void calendar.refetch()} refreshing={calendar.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('planning:exceptions.title')}
-      </Text>
+    <Screen
+      title={t('planning:exceptions.title')}
+      scroll
+      onRefresh={() => void calendar.refetch()}
+      refreshing={calendar.isRefetching}
+    >
       <Text tone="muted">{t('planning:exceptions.hint')}</Text>
       {notice ? <Text tone="primary">{notice}</Text> : null}
       {error ? <Text tone="danger">{error}</Text> : null}

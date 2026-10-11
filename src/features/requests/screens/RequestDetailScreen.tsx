@@ -2,10 +2,21 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
 
 import { useStorageUrl } from '@/core/api';
-import { Badge, Button, Screen, StateView, Text } from '@/shared/components';
+import {
+  AdaptiveGrid,
+  Badge,
+  Button,
+  Card,
+  Icon,
+  ListItem,
+  Screen,
+  StateView,
+  Text,
+} from '@/shared/components';
 import { formatAmount, formatDate } from '@/shared/format';
 
 import { useRequest } from '../hooks/useRequests';
+import { iconForSkillSlug } from '../model/categoryIcons';
 import { stageOf, STAGE_TONES } from '../model/requestStage';
 import type { ServiceRequest } from '../schemas/requestSchemas';
 
@@ -33,27 +44,41 @@ export function RequestDetailScreen({
     const suggestedPrice = data.analysis?.suggested_price;
     return (
       <>
-        <Text variant="title" accessibilityRole="header">
-          {data.title}
-        </Text>
-        <Badge label={t(`requests:stages.${stage}`)} tone={STAGE_TONES[stage]} />
-        {data.category ? (
-          <Text tone="muted">{t('requests:detail.category', { name: data.category.name })}</Text>
-        ) : null}
-        <Text tone="muted">
-          {t('requests:detail.createdAt', { date: formatDate(data.created_at) })}
-        </Text>
-        <Text>{data.description}</Text>
-        {address ? <Text>{t('requests:detail.address', { address })}</Text> : null}
-        {suggestedPrice != null ? (
-          <Text>
-            {t('requests:detail.suggestedPrice', { amount: formatAmount(suggestedPrice) })}
-          </Text>
-        ) : null}
+        <Card>
+          <View style={styles.titleRow}>
+            <Icon name={iconForSkillSlug(data.category?.slug)} size={22} tone="primary" />
+            <Text variant="title" accessibilityRole="header" style={styles.title}>
+              {data.title}
+            </Text>
+          </View>
+          <Badge label={t(`requests:stages.${stage}`)} tone={STAGE_TONES[stage]} />
+          <Text>{data.description}</Text>
+        </Card>
+        <Card>
+          {data.category ? (
+            <ListItem
+              label={t('requests:detail.category', { name: data.category.name })}
+              icon="list"
+            />
+          ) : null}
+          <ListItem
+            label={t('requests:detail.createdAt', { date: formatDate(data.created_at) })}
+            icon="calendar"
+          />
+          {address ? (
+            <ListItem label={t('requests:detail.address', { address })} icon="pin" />
+          ) : null}
+          {suggestedPrice != null ? (
+            <ListItem
+              label={t('requests:detail.suggestedPrice', { amount: formatAmount(suggestedPrice) })}
+              icon="wallet"
+            />
+          ) : null}
+        </Card>
         {data.photos.length > 0 ? (
           <>
             <Text variant="subtitle">{t('requests:detail.photos')}</Text>
-            <View style={styles.photos}>
+            <AdaptiveGrid minTileWidth={96} gap={8}>
               {data.photos.map((path, index) => (
                 <Image
                   key={path}
@@ -62,11 +87,17 @@ export function RequestDetailScreen({
                   style={styles.photo}
                 />
               ))}
-            </View>
+            </AdaptiveGrid>
           </>
         ) : null}
         {stage === 'toMatch' ? (
-          <Button label={t('requests:detail.findTechnicians')} onPress={onFindTechnicians} />
+          <Button
+            label={t('requests:detail.findTechnicians')}
+            icon="search"
+            size="lg"
+            fullWidth
+            onPress={onFindTechnicians}
+          />
         ) : null}
         {stage === 'awaitingTechnician' ? (
           <>
@@ -106,6 +137,7 @@ export function RequestDetailScreen({
 }
 
 const styles = StyleSheet.create({
-  photos: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  photo: { width: 96, height: 96, borderRadius: 8 },
+  titleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  title: { flex: 1 },
+  photo: { width: '100%', aspectRatio: 1, borderRadius: 10 },
 });

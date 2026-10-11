@@ -21,10 +21,11 @@ export function TechnicianStatsScreen() {
   };
 
   return (
-    <Screen onRefresh={() => void stats.refetch()} refreshing={stats.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:activity.title')}
-      </Text>
+    <Screen
+      title={t('profile:activity.title')}
+      onRefresh={() => void stats.refetch()}
+      refreshing={stats.isRefetching}
+    >
       {renderContent()}
     </Screen>
   );

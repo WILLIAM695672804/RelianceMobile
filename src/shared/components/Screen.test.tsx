@@ -1,4 +1,4 @@
-import { act, screen } from '@testing-library/react-native';
+import { act, fireEvent, screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
 
 import { renderWithProviders } from '@/test/render';
@@ -38,5 +38,42 @@ describe('Screen', () => {
     );
 
     expect(refreshControlOf()).toBeUndefined();
+  });
+});
+
+describe('Screen avec barre supérieure', () => {
+  it('affiche le titre et déclenche le retour', async () => {
+    const onBack = jest.fn();
+    await renderWithProviders(
+      <Screen title="Nouvelle demande" onBack={onBack}>
+        <Text>Contenu</Text>
+      </Screen>,
+    );
+
+    expect(screen.getByTestId('app-bar')).toBeTruthy();
+    expect(screen.getByText('Nouvelle demande')).toBeOnTheScreen();
+    fireEvent.press(screen.getByLabelText('Retour'));
+    expect(onBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('n’affiche pas de barre supérieure sans titre', async () => {
+    await renderWithProviders(
+      <Screen>
+        <Text>Contenu</Text>
+      </Screen>,
+    );
+
+    expect(screen.queryByTestId('app-bar')).toBeNull();
+  });
+
+  it('place le pied d’écran hors de la zone défilante', async () => {
+    await renderWithProviders(
+      <Screen scroll footer={<Text>Envoyer</Text>}>
+        <Text>Contenu</Text>
+      </Screen>,
+    );
+
+    expect(screen.getByTestId('screen-footer')).toBeTruthy();
+    expect(screen.getByTestId('screen-scroll').props.children).toBeTruthy();
   });
 });

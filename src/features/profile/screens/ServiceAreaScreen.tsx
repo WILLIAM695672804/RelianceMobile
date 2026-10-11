@@ -126,10 +126,7 @@ function ServiceAreaForm({ identity }: { identity: TechnicianIdentity }) {
   });
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:zone.title')}
-      </Text>
+    <Screen title={t('profile:zone.title')} scroll>
       <Text tone="muted">{t('profile:zone.hint')}</Text>
       <Card>
         {perimeter?.city && perimeter.radius != null ? (

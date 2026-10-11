@@ -67,3 +67,10 @@ export function nextPhaseStatus(status: PhaseStatus): PhaseStatus {
   const index = PHASE_STATUSES.indexOf(status);
   return PHASE_STATUSES[(index + 1) % PHASE_STATUSES.length] ?? 'pending';
 }
+
+/** Tonalité de la pastille d'une phase de travail. */
+export const PHASE_TONES: Record<PhaseStatus, BadgeTone> = {
+  pending: 'neutral',
+  in_progress: 'warning',
+  completed: 'success',
+};

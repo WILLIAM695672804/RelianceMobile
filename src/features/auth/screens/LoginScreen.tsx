@@ -117,12 +117,16 @@ export function LoginScreen({ onRegister, onForgotPassword }: LoginScreenProps) 
           />
           <Button
             label={t('auth:login.submit')}
+            icon="arrowR"
+            size="lg"
+            fullWidth
             onPress={() => void onSubmitCredentials()}
             disabled={!canSubmit}
             loading={loginMutation.isPending}
           />
           <Button
             label={t('auth:login.forgotPassword')}
+            icon="info"
             onPress={onForgotPassword}
             variant="ghost"
           />

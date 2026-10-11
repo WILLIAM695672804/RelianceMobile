@@ -58,10 +58,7 @@ function SettingsForm({ initial }: { initial: ChannelMap }) {
   };
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('notifications:settings.title')}
-      </Text>
+    <Screen title={t('notifications:settings.title')} scroll>
       <Text tone="muted">{t('notifications:settings.hint')}</Text>
       {notice ? <Text tone="primary">{notice}</Text> : null}
       {error ? <Text tone="danger">{error}</Text> : null}

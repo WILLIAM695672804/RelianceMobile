@@ -82,10 +82,7 @@ function TechnicianProfileForm({ identity }: { identity: TechnicianIdentity }) {
   });
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:technician.title')}
-      </Text>
+    <Screen title={t('profile:technician.title')} scroll>
       <Card>
         <View style={styles.identity}>
           <Avatar name={identity.name} uri={identity.avatar_url} size={72} />

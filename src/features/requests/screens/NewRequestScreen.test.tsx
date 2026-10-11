@@ -128,4 +128,16 @@ describe('NewRequestScreen (E10)', () => {
 
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
+
+  it('affiche la jauge d’avancement du formulaire', async () => {
+    await setup();
+
+    const bars = screen.getAllByTestId(/^new-request-steps-bar-/);
+    expect(bars).toHaveLength(4);
+    expect(screen.getByTestId('new-request-steps').props.accessibilityValue).toEqual({
+      min: 1,
+      max: 4,
+      now: 1,
+    });
+  });
 });

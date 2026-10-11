@@ -155,10 +155,12 @@ export function RequestQuotesScreen({ requestId, onOpenInvoices }: RequestQuotes
   const decision = pending?.decision ?? 'accept';
 
   return (
-    <Screen scroll onRefresh={() => void quotes.refetch()} refreshing={quotes.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('billing:quotes.title')}
-      </Text>
+    <Screen
+      title={t('billing:quotes.title')}
+      scroll
+      onRefresh={() => void quotes.refetch()}
+      refreshing={quotes.isRefetching}
+    >
       {notice ? <Text tone="primary">{notice}</Text> : null}
       {error ? <Text tone="danger">{error}</Text> : null}
       {accepted && onOpenInvoices ? (

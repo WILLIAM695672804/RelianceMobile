@@ -3,7 +3,16 @@ import { StyleSheet, View } from 'react-native';
 
 import { useSession, type Role } from '@/core/session';
 import { useLogout } from '@/features/auth';
-import { Avatar, Badge, Button, Card, ListItem, Screen, Text } from '@/shared/components';
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  ListItem,
+  Screen,
+  Text,
+  type IconName,
+} from '@/shared/components';
 
 export type ProfileDestination =
   | 'edit'
@@ -48,6 +57,27 @@ export function destinationsFor(role: Role): ProfileDestination[] {
   ];
 }
 
+/** Icône de chaque destination du menu, reprise du jeu des maquettes. */
+const DESTINATION_ICONS: Record<ProfileDestination, IconName> = {
+  edit: 'user',
+  password: 'shield',
+  locations: 'pin',
+  professional: 'badge',
+  skills: 'wrench',
+  zone: 'map',
+  planning: 'calendar',
+  kyc: 'file',
+  upgrade: 'arrowUp',
+  invoices: 'file',
+  appointments: 'calendar',
+  wallet: 'wallet',
+  reviews: 'star',
+  notifications: 'bell',
+  messages: 'chat',
+  feed: 'list',
+  settings: 'settings',
+};
+
 /** E08 — Profil : identité, accès aux réglages du compte et déconnexion. */
 export function ProfileScreen({ onOpen }: ProfileScreenProps) {
   const { t } = useTranslation();
@@ -57,17 +87,14 @@ export function ProfileScreen({ onOpen }: ProfileScreenProps) {
   if (!user) return null;
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:title')}
-      </Text>
+    <Screen title={t('profile:title')} scroll>
       <Card>
         <View style={styles.identity}>
-          <Avatar name={user.name} uri={user.avatarUrl} />
+          <Avatar name={user.name} uri={user.avatarUrl} size={72} />
           <View style={styles.identityText}>
             <Text variant="subtitle">{user.name}</Text>
             <Text tone="muted">{user.email}</Text>
-            <Text tone="primary">{t(`common:roles.${user.role}`)}</Text>
+            <Badge label={t(`common:roles.${user.role}`)} tone="primary" icon="user" />
           </View>
         </View>
         <Badge
@@ -80,12 +107,15 @@ export function ProfileScreen({ onOpen }: ProfileScreenProps) {
           <ListItem
             key={destination}
             label={t(`profile:menu.${destination}`)}
+            icon={DESTINATION_ICONS[destination]}
             onPress={() => onOpen(destination)}
           />
         ))}
       </Card>
       <Button
         label={t('common:actions.logout')}
+        icon="arrowL"
+        fullWidth
         onPress={() => logout.mutate()}
         loading={logout.isPending}
         variant="secondary"

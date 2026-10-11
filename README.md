@@ -55,6 +55,28 @@ npm start         # serveur Metro pour les lancements suivants
 
 Le dossier `android/` est généré (`npx expo prebuild`) et ignoré par git. Sur une machine à mémoire limitée, brider la compilation dans `android/gradle.properties` — `org.gradle.parallel=false`, `org.gradle.workers.max=2`, `kotlin.compiler.execution.strategy=in-process` — et lancer `taskset -c 0-1 ./gradlew app:assembleDebug -PreactNativeArchitectures=arm64-v8a`. Ces réglages sont perdus à chaque `prebuild --clean`.
 
+## Adaptativité
+
+L'interface suit les conventions Android (Material 3) et s'ajuste à la fenêtre courante.
+
+| Classe de taille | Largeur      | Gouttière | Largeur de contenu | Échelle du texte |
+| ---------------- | ------------ | --------- | ------------------ | ---------------- |
+| `compact`        | < 360 dp     | 12 dp     | non bornée         | 0,92             |
+| `medium`         | 360 à 599 dp | 16 dp     | non bornée         | 1                |
+| `expanded`       | 600 à 839 dp | 24 dp     | 640 dp, centrée    | 1,08             |
+| `large`          | ≥ 840 dp     | 32 dp     | 720 dp, centrée    | 1,12             |
+
+La mise à l'échelle du texte demandée par le système est honorée jusqu'à un facteur de 1,4.
+Les grilles déduisent leur nombre de colonnes de la largeur utile, les cibles tactiles mesurent
+au moins 48 dp, le thème suit le réglage clair/sombre du système et la rotation est permise.
+
+`react-native-svg` étant un module natif, et l'orientation comme le thème relevant du manifeste,
+toute recette sur appareil exige une recompilation :
+
+```bash
+npx expo run:android
+```
+
 ## Comptes de test
 
 | Rôle           | Compte                                         | Source                                                 |

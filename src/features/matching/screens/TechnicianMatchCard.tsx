@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
-import { Avatar, Badge, Button, Card, Text } from '@/shared/components';
+import { Avatar, Badge, Button, Card, Icon, Text } from '@/shared/components';
 import { formatAmount, formatDistance, formatRating } from '@/shared/format';
 
 import type { MatchedTechnician } from '../schemas/matchingSchemas';
@@ -34,20 +34,32 @@ export function TechnicianMatchCard({ technician, onSelect }: TechnicianMatchCar
           ) : null}
         </View>
       </View>
-      <Text tone="primary">{t('matching:results.score', { score: technician.match_score })}</Text>
-      {technician.rating != null ? (
-        <Text tone="muted">
-          {t('matching:results.rating', {
-            rating: formatRating(technician.rating),
-            count: technician.num_reviews ?? 0,
-          })}
-        </Text>
-      ) : null}
-      {technician.distance_km != null ? (
-        <Text tone="muted">
-          {t('matching:results.distance', { distance: formatDistance(technician.distance_km) })}
-        </Text>
-      ) : null}
+      <Badge
+        label={t('matching:results.score', { score: technician.match_score })}
+        tone="primary"
+        icon="sparkle"
+      />
+      <View style={styles.metrics}>
+        {technician.rating != null ? (
+          <View style={styles.metric}>
+            <Icon name="star" size={16} tone="warning" />
+            <Text variant="caption" tone="muted">
+              {t('matching:results.rating', {
+                rating: formatRating(technician.rating),
+                count: technician.num_reviews ?? 0,
+              })}
+            </Text>
+          </View>
+        ) : null}
+        {technician.distance_km != null ? (
+          <View style={styles.metric}>
+            <Icon name="pin" size={16} tone="muted" />
+            <Text variant="caption" tone="muted">
+              {t('matching:results.distance', { distance: formatDistance(technician.distance_km) })}
+            </Text>
+          </View>
+        ) : null}
+      </View>
       {technician.skills.length > 0 ? (
         <Text>
           {t('matching:results.skills', {
@@ -59,10 +71,15 @@ export function TechnicianMatchCard({ technician, onSelect }: TechnicianMatchCar
         </Text>
       ) : null}
       {lowestRate != null ? (
-        <Text>{t('matching:results.fromRate', { amount: formatAmount(lowestRate) })}</Text>
+        <View style={styles.metric}>
+          <Icon name="wallet" size={16} tone="muted" />
+          <Text>{t('matching:results.fromRate', { amount: formatAmount(lowestRate) })}</Text>
+        </View>
       ) : null}
       <Button
         label={chooseLabel}
+        icon="arrowR"
+        fullWidth
         accessibilityLabel={`${chooseLabel} : ${technician.name}`}
         onPress={() => onSelect(technician.id)}
       />
@@ -73,4 +90,6 @@ export function TechnicianMatchCard({ technician, onSelect }: TechnicianMatchCar
 const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   identity: { flex: 1, gap: 4 },
+  metrics: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
+  metric: { flexDirection: 'row', alignItems: 'center', gap: 6 },
 });

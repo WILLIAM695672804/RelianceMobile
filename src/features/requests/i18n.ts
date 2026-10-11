@@ -11,6 +11,10 @@ const fr = {
     empty: 'Vous n’avez pas encore de demande en cours',
     loadError: 'Impossible de charger vos informations. Vérifiez votre connexion.',
     openAll: 'Toutes mes demandes',
+    seeAll: 'Tout voir',
+    services: 'Nos services',
+    searchPlaceholder: 'Rechercher un service, un technicien…',
+    notifications: 'Mes notifications',
   },
   list: {
     title: 'Mes demandes',
@@ -101,6 +105,10 @@ const en: typeof fr = {
     empty: 'You have no open request yet',
     loadError: 'Unable to load your information. Check your connection.',
     openAll: 'All my requests',
+    seeAll: 'See all',
+    services: 'Our services',
+    searchPlaceholder: 'Search a service or a technician…',
+    notifications: 'My notifications',
   },
   list: {
     title: 'My requests',

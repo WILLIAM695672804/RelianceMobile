@@ -91,10 +91,12 @@ export function TechnicianSkillsScreen() {
   };
 
   return (
-    <Screen scroll onRefresh={() => void mine.refetch()} refreshing={mine.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:skills.title')}
-      </Text>
+    <Screen
+      title={t('profile:skills.title')}
+      scroll
+      onRefresh={() => void mine.refetch()}
+      refreshing={mine.isRefetching}
+    >
       {notice ? <Text tone="primary">{notice}</Text> : null}
       {error ? <Text tone="danger">{error}</Text> : null}
       {renderSkills()}

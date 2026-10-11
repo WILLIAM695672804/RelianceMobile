@@ -69,10 +69,11 @@ export function MissionTrackingScreen({
   };
 
   return (
-    <Screen onRefresh={refresh} refreshing={mission.isRefetching || tracking.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('missions:tracking.title')}
-      </Text>
+    <Screen
+      title={t('missions:tracking.title')}
+      onRefresh={refresh}
+      refreshing={mission.isRefetching || tracking.isRefetching}
+    >
       {renderContent()}
     </Screen>
   );

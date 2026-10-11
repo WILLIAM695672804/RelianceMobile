@@ -36,10 +36,12 @@ export function AgencyScreen({ onOpenTeam }: AgencyScreenProps) {
   };
 
   return (
-    <Screen scroll onRefresh={() => void agency.refetch()} refreshing={agency.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('agency:overview.title')}
-      </Text>
+    <Screen
+      title={t('agency:overview.title')}
+      scroll
+      onRefresh={() => void agency.refetch()}
+      refreshing={agency.isRefetching}
+    >
       {renderContent()}
     </Screen>
   );
