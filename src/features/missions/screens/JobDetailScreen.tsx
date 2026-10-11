@@ -28,10 +28,12 @@ export function JobDetailScreen({ jobId }: JobDetailScreenProps) {
   };
 
   return (
-    <Screen scroll onRefresh={() => void job.refetch()} refreshing={job.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('missions:jobs.detailTitle')}
-      </Text>
+    <Screen
+      title={t('missions:jobs.detailTitle')}
+      scroll
+      onRefresh={() => void job.refetch()}
+      refreshing={job.isRefetching}
+    >
       {renderContent()}
     </Screen>
   );

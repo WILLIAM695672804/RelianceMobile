@@ -3,6 +3,7 @@ import {
   JOB_TIMELINE,
   JOB_STATUS_TONES,
   nextPhaseStatus,
+  PHASE_TONES,
   nextStatusOf,
   timelineIndexOf,
 } from './jobStatus';
@@ -36,5 +37,15 @@ describe('modèle des statuts de mission', () => {
     expect(nextPhaseStatus('pending')).toBe('in_progress');
     expect(nextPhaseStatus('in_progress')).toBe('completed');
     expect(nextPhaseStatus('completed')).toBe('pending');
+  });
+});
+
+describe('PHASE_TONES', () => {
+  it('associe une tonalité à chaque état de phase', () => {
+    expect(PHASE_TONES).toEqual({
+      pending: 'neutral',
+      in_progress: 'warning',
+      completed: 'success',
+    });
   });
 });

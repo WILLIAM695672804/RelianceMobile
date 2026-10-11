@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
-import { Button, Card, FormTextField, Text } from '@/shared/components';
+import { Badge, Button, Card, FormTextField, Text } from '@/shared/components';
 
 import { useUpdateJobPhases } from '../hooks/useMissions';
-import { nextPhaseStatus, PHASE_STATUSES, type PhaseStatus } from '../model/jobStatus';
+import { nextPhaseStatus, PHASE_STATUSES, PHASE_TONES, type PhaseStatus } from '../model/jobStatus';
 import { phaseFormSchema, toPhasePayload, type JobPhase } from '../schemas/missionSchemas';
 
 export interface MissionPhasesCardProps {
@@ -76,10 +76,13 @@ export function MissionPhasesCard({ jobId, phases }: MissionPhasesCardProps) {
       ) : (
         draft.map((phase, index) => (
           <View key={`${phase.title}-${index}`} style={styles.phase}>
-            <Text>{phase.title}</Text>
-            <Text tone="muted">
-              {t(`missions:phases.statusLabel.${asPhaseStatus(phase.status)}`)}
-            </Text>
+            <View style={styles.phaseHeader}>
+              <Text style={styles.phaseTitle}>{phase.title}</Text>
+              <Badge
+                label={t(`missions:phases.statusLabel.${asPhaseStatus(phase.status)}`)}
+                tone={PHASE_TONES[asPhaseStatus(phase.status)]}
+              />
+            </View>
             {phase.notes ? (
               <Text variant="caption" tone="muted">
                 {phase.notes}
@@ -88,12 +91,16 @@ export function MissionPhasesCard({ jobId, phases }: MissionPhasesCardProps) {
             <View style={styles.actions}>
               <Button
                 label={t('missions:phases.advance')}
+                icon="arrowR"
+                size="sm"
                 accessibilityLabel={t('missions:phases.toggle', { title: phase.title })}
                 onPress={() => togglePhase(index)}
                 variant="secondary"
               />
               <Button
                 label={t('missions:phases.remove', { title: phase.title })}
+                icon="close"
+                size="sm"
                 accessibilityLabel={t('missions:phases.remove', { title: phase.title })}
                 onPress={() => removePhase(index)}
                 variant="ghost"
@@ -105,11 +112,14 @@ export function MissionPhasesCard({ jobId, phases }: MissionPhasesCardProps) {
       <FormTextField control={form.control} name="title" label={t('missions:phases.newTitle')} />
       <Button
         label={t('missions:phases.add')}
+        icon="plus"
         onPress={() => void addPhase()}
         variant="secondary"
       />
       <Button
         label={t('missions:phases.save')}
+        icon="check"
+        fullWidth
         onPress={() => void save()}
         loading={savePhases.isPending}
         disabled={draft.length === 0}
@@ -119,6 +129,8 @@ export function MissionPhasesCard({ jobId, phases }: MissionPhasesCardProps) {
 }
 
 const styles = StyleSheet.create({
-  phase: { gap: 4 },
+  phase: { gap: 6 },
+  phaseHeader: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  phaseTitle: { flex: 1 },
   actions: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
 });

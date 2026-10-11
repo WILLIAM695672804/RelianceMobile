@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
-import { Screen, StateView, Text } from '@/shared/components';
+import { Icon, Screen, StateView, Text } from '@/shared/components';
 
 import { useMatchResults } from '../hooks/useMatching';
 import { TechnicianMatchCard } from './TechnicianMatchCard';
@@ -19,10 +20,11 @@ export function MatchingScreen({ requestId, onSelect }: MatchingScreenProps) {
   const renderResults = () => {
     if (matches.isPending) {
       return (
-        <>
-          <Text tone="muted">{t('matching:results.searching')}</Text>
+        <View style={styles.searching}>
+          <Icon name="sparkle" size={40} tone="primary" />
+          <Text variant="subtitle">{t('matching:results.searching')}</Text>
           <StateView status="loading" />
-        </>
+        </View>
       );
     }
     if (matches.isError) {
@@ -39,11 +41,16 @@ export function MatchingScreen({ requestId, onSelect }: MatchingScreenProps) {
   };
 
   return (
-    <Screen onRefresh={() => void matches.refetch()} refreshing={matches.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('matching:results.title')}
-      </Text>
+    <Screen
+      title={t('matching:results.title')}
+      onRefresh={() => void matches.refetch()}
+      refreshing={matches.isRefetching}
+    >
       {renderResults()}
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  searching: { alignItems: 'center', gap: 12, paddingVertical: 24 },
+});

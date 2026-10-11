@@ -1,9 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
 import { useSession } from '@/core/session';
-import { Button, Card, ConfirmDialog, Screen, StateView, Text } from '@/shared/components';
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  ConfirmDialog,
+  Icon,
+  Screen,
+  SectionHeader,
+  StateView,
+  Text,
+} from '@/shared/components';
 import { formatAmount } from '@/shared/format';
 
 import {
@@ -37,6 +49,7 @@ function useNow(intervalMs: number): number {
 export function TechnicianHomeScreen() {
   const { t } = useTranslation();
   const name = useSession((state) => state.user?.name ?? '');
+  const avatarUrl = useSession((state) => state.user?.avatarUrl);
   const proposals = useReceivedProposals();
   const mission = useActiveMission();
   const accept = useAcceptProposal();
@@ -95,42 +108,63 @@ export function TechnicianHomeScreen() {
     const acceptLabel = t('matching:technicianHome.accept');
     const refuseLabel = t('matching:technicianHome.refuse');
     return (
-      <Card key={proposal.id}>
-        <Text variant="subtitle">{title}</Text>
+      <Card key={proposal.id} elevated>
+        <View style={styles.cardHeader}>
+          <Icon name="inbox" size={22} tone="primary" />
+          <Text variant="subtitle" style={styles.cardTitle} numberOfLines={2}>
+            {title}
+          </Text>
+        </View>
         {proposal.request?.category ? (
           <Text tone="muted">{proposal.request.category.name}</Text>
         ) : null}
         {proposal.request?.description ? <Text>{proposal.request.description}</Text> : null}
-        {place ? <Text>{t('matching:technicianHome.place', { place })}</Text> : null}
-        <Text>
-          {t('matching:technicianHome.proposedPrice', { amount: formatAmount(proposal.price) })}
-        </Text>
+        {place ? (
+          <View style={styles.meta}>
+            <Icon name="pin" size={16} tone="muted" />
+            <Text style={styles.metaText}>{t('matching:technicianHome.place', { place })}</Text>
+          </View>
+        ) : null}
+        <Badge
+          label={t('matching:technicianHome.proposedPrice', {
+            amount: formatAmount(proposal.price),
+          })}
+          tone="primary"
+          icon="wallet"
+        />
         {proposal.message ? (
           <Text tone="muted">
             {t('matching:technicianHome.clientMessage', { message: proposal.message })}
           </Text>
         ) : null}
         {expiry?.status === 'active' ? (
-          <Text variant="caption" tone="muted">
-            {t('matching:technicianHome.expiresIn', {
-              hours: expiry.hours,
-              minutes: expiry.minutes,
-            })}
-          </Text>
+          <View style={styles.meta}>
+            <Icon name="clock" size={16} tone="muted" />
+            <Text variant="caption" tone="muted" style={styles.metaText}>
+              {t('matching:technicianHome.expiresIn', {
+                hours: expiry.hours,
+                minutes: expiry.minutes,
+              })}
+            </Text>
+          </View>
         ) : null}
-        <Button
-          label={acceptLabel}
-          accessibilityLabel={`${acceptLabel} : ${title}`}
-          onPress={() => setPending({ proposal, decision: 'accept' })}
-          disabled={hasMission || deciding}
-        />
-        <Button
-          label={refuseLabel}
-          accessibilityLabel={`${refuseLabel} : ${title}`}
-          onPress={() => setPending({ proposal, decision: 'refuse' })}
-          disabled={deciding}
-          variant="ghost"
-        />
+        <View style={styles.actions}>
+          <Button
+            label={acceptLabel}
+            icon="check"
+            accessibilityLabel={`${acceptLabel} : ${title}`}
+            onPress={() => setPending({ proposal, decision: 'accept' })}
+            disabled={hasMission || deciding}
+          />
+          <Button
+            label={refuseLabel}
+            icon="close"
+            accessibilityLabel={`${refuseLabel} : ${title}`}
+            onPress={() => setPending({ proposal, decision: 'refuse' })}
+            disabled={deciding}
+            variant="ghost"
+          />
+        </View>
       </Card>
     );
   };
@@ -164,13 +198,38 @@ export function TechnicianHomeScreen() {
 
   return (
     <Screen onRefresh={refresh} refreshing={proposals.isRefetching || mission.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('matching:technicianHome.greeting', { name })}
-      </Text>
-      {feedback ? <Text tone={feedback.tone}>{feedback.text}</Text> : null}
-      <Text variant="subtitle">{t('matching:technicianHome.mission')}</Text>
+      <View style={styles.header}>
+        <Avatar name={name} uri={avatarUrl} size={48} />
+        <View style={styles.headerText}>
+          <Text variant="title" accessibilityRole="header">
+            {t('matching:technicianHome.greeting', { name })}
+          </Text>
+          <Badge
+            label={t(
+              hasMission
+                ? 'matching:technicianHome.statusBusy'
+                : 'matching:technicianHome.statusFree',
+            )}
+            tone={hasMission ? 'warning' : 'success'}
+            icon={hasMission ? 'wrench' : 'check'}
+          />
+        </View>
+      </View>
+      {feedback ? (
+        <View style={styles.feedback}>
+          <Icon
+            name={feedback.tone === 'danger' ? 'info' : 'check'}
+            size={18}
+            tone={feedback.tone}
+          />
+          <Text tone={feedback.tone} style={styles.feedbackText}>
+            {feedback.text}
+          </Text>
+        </View>
+      ) : null}
+      <SectionHeader title={t('matching:technicianHome.mission')} />
       {renderMission()}
-      <Text variant="subtitle">{t('matching:technicianHome.proposals')}</Text>
+      <SectionHeader title={t('matching:technicianHome.proposals')} />
       {renderProposals()}
       <ConfirmDialog
         visible={pending !== null}
@@ -185,3 +244,15 @@ export function TechnicianHomeScreen() {
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  header: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  headerText: { flex: 1, gap: 6 },
+  feedback: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
+  feedbackText: { flex: 1 },
+  cardHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  cardTitle: { flex: 1 },
+  meta: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  metaText: { flex: 1 },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+});

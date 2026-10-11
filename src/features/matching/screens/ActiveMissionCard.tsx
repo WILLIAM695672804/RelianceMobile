@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
-import { Card, Text } from '@/shared/components';
+import { Badge, Card, Icon, ListItem, Text } from '@/shared/components';
 import { formatAmount } from '@/shared/format';
 
 import type { ActiveMission } from '../schemas/matchingSchemas';
@@ -9,15 +10,30 @@ import type { ActiveMission } from '../schemas/matchingSchemas';
 export function ActiveMissionCard({ mission }: { mission: ActiveMission }) {
   const { t } = useTranslation();
   const place = [mission.address?.address, mission.address?.city].filter(Boolean).join(', ');
+  const client = mission.client;
   return (
-    <Card>
-      <Text variant="subtitle">{mission.request.title}</Text>
+    <Card elevated>
+      <View style={styles.header}>
+        <Icon name="wrench" size={22} tone="primary" />
+        <Text variant="subtitle" style={styles.title} numberOfLines={2}>
+          {mission.request.title}
+        </Text>
+        <Badge
+          label={t('matching:technicianHome.amount', { amount: formatAmount(mission.price) })}
+          tone="primary"
+          icon="wallet"
+        />
+      </View>
       {mission.request.category ? <Text tone="muted">{mission.request.category}</Text> : null}
-      {mission.client ? (
-        <Text>{t('matching:technicianHome.client', { name: mission.client.name })}</Text>
+      {client ? (
+        <ListItem label={t('matching:technicianHome.client', { name: client.name })} icon="user" />
       ) : null}
-      {place ? <Text>{t('matching:technicianHome.place', { place })}</Text> : null}
-      <Text>{t('matching:technicianHome.amount', { amount: formatAmount(mission.price) })}</Text>
+      {place ? <ListItem label={t('matching:technicianHome.place', { place })} icon="pin" /> : null}
     </Card>
   );
 }
+
+const styles = StyleSheet.create({
+  header: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  title: { flex: 1 },
+});
