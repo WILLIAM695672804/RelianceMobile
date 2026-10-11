@@ -37,6 +37,23 @@ export const brand = {
 export const radius = { sm: 10, md: 14, lg: 20, xl: 28, pill: 999 };
 export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 };
 
+/** Teintes de fond dérivées des couleurs sémantiques (`accent + '18'` des maquettes). */
+export const tint = {
+  primary: 'rgba(31,91,196,0.10)',
+  danger: 'rgba(229,72,77,0.10)',
+  warning: 'rgba(245,166,35,0.12)',
+  success: 'rgba(22,163,74,0.10)',
+  neutral: 'rgba(16,24,40,0.06)',
+};
+
+/** Élévations Material 3, exprimées en ombres portées Android. */
+export const elevation = {
+  none: { elevation: 0 },
+  low: { elevation: 1 },
+  medium: { elevation: 3 },
+  high: { elevation: 6 },
+};
+
 /** Noms des polices chargées par `useAppFonts`. */
 export const fontFamily = {
   display: 'BricolageGrotesque_700Bold',
@@ -46,7 +63,7 @@ export const fontFamily = {
   bodySemiBold: 'Inter_600SemiBold',
 };
 
-export const fontSize = { caption: 12, body: 15, subtitle: 17, title: 22, display: 28 };
+export const fontSize = { caption: 12, label: 13, body: 15, subtitle: 17, title: 22, display: 28 };
 
 export type ColorScheme = 'light' | 'dark';
 
@@ -57,6 +74,8 @@ export interface Theme {
   spacing: typeof spacing;
   fontFamily: typeof fontFamily;
   fontSize: typeof fontSize;
+  tint: typeof tint;
+  elevation: typeof elevation;
 }
 
 export function buildTheme(scheme: ColorScheme): Theme {
@@ -67,5 +86,7 @@ export function buildTheme(scheme: ColorScheme): Theme {
     spacing,
     fontFamily,
     fontSize,
+    tint,
+    elevation,
   };
 }
