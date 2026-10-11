@@ -30,10 +30,12 @@ export function InvoiceDetailScreen({ invoiceId }: InvoiceDetailScreenProps) {
   };
 
   return (
-    <Screen scroll onRefresh={() => void invoice.refetch()} refreshing={invoice.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('billing:invoices.detailTitle')}
-      </Text>
+    <Screen
+      title={t('billing:invoices.detailTitle')}
+      scroll
+      onRefresh={() => void invoice.refetch()}
+      refreshing={invoice.isRefetching}
+    >
       {renderContent()}
     </Screen>
   );

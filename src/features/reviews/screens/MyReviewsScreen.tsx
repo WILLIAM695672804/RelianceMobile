@@ -54,10 +54,7 @@ export function MyReviewsScreen() {
   };
 
   return (
-    <Screen onRefresh={refresh} refreshing={reviews.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('reviews:mine.title')}
-      </Text>
+    <Screen title={t('reviews:mine.title')} onRefresh={refresh} refreshing={reviews.isRefetching}>
       {reputation.isSuccess ? (
         <Card>
           <Text variant="subtitle">

@@ -36,6 +36,7 @@ export function SearchField({
       <View style={shell} testID={testID}>
         <Icon name="search" size={18} tone="muted" />
         <TextInput
+          accessibilityLabel={placeholder}
           placeholder={placeholder}
           placeholderTextColor={theme.colors.textMuted}
           value={value}

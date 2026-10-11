@@ -90,10 +90,11 @@ export function PlanningScreen({
   };
 
   return (
-    <Screen onRefresh={refresh} refreshing={calendar.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('planning:overview.title')}
-      </Text>
+    <Screen
+      title={t('planning:overview.title')}
+      onRefresh={refresh}
+      refreshing={calendar.isRefetching}
+    >
       {calendar.isPending ? <StateView status="loading" /> : null}
       {calendar.isError ? (
         <StateView status="error" error={calendar.error} onRetry={() => void calendar.refetch()} />

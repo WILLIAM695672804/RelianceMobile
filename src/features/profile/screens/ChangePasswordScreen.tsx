@@ -36,10 +36,7 @@ export function ChangePasswordScreen({ onDone }: ChangePasswordScreenProps) {
   });
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:password.title')}
-      </Text>
+    <Screen title={t('profile:password.title')} scroll>
       {formError ? <Text tone="danger">{formError}</Text> : null}
       <FormTextField
         control={form.control}

@@ -40,10 +40,7 @@ export function SettingsScreen({ onLanguageChange }: SettingsScreenProps) {
   };
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:settings.title')}
-      </Text>
+    <Screen title={t('profile:settings.title')} scroll>
       {feedback ? <Text tone={feedback.tone}>{feedback.text}</Text> : null}
 
       <Card>

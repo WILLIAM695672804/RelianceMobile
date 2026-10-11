@@ -8,9 +8,9 @@ import {
   Button,
   Card,
   Screen,
+  SearchField,
   StateView,
   Text,
-  TextField,
 } from '@/shared/components';
 import { formatAmount, formatDistance, formatRating } from '@/shared/format';
 import { locateDevice, openAppSettings, type Coordinates } from '@/shared/location';
@@ -85,18 +85,33 @@ export function TechnicianDirectoryScreen({ onOpen }: TechnicianDirectoryScreenP
   };
 
   return (
-    <Screen onRefresh={() => void directory.refetch()} refreshing={directory.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('directory:title')}
-      </Text>
-      <TextField label={t('directory:searchLabel')} value={draft} onChangeText={setDraft} />
-      <Button label={t('directory:submit')} onPress={() => setSearch(draft)} />
-      <Button
-        label={t('directory:nearby')}
-        onPress={() => void toggleNearby()}
-        loading={locating}
-        variant={coordinates ? 'primary' : 'secondary'}
+    <Screen
+      title={t('directory:title')}
+      onRefresh={() => void directory.refetch()}
+      refreshing={directory.isRefetching}
+    >
+      <SearchField
+        placeholder={t('directory:searchLabel')}
+        value={draft}
+        onChangeText={setDraft}
+        onSubmitEditing={() => setSearch(draft)}
       />
+      <View style={styles.filters}>
+        <Button
+          label={t('directory:submit')}
+          icon="search"
+          size="sm"
+          onPress={() => setSearch(draft)}
+        />
+        <Button
+          label={t('directory:nearby')}
+          icon="location"
+          size="sm"
+          onPress={() => void toggleNearby()}
+          loading={locating}
+          variant={coordinates ? 'primary' : 'secondary'}
+        />
+      </View>
       <Text variant="caption" tone="muted">
         {t(coordinates ? 'directory:nearbyActive' : 'directory:nearbyOff')}
       </Text>
@@ -181,4 +196,5 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   identity: { flex: 1, gap: 4 },
   notice: { gap: 8 },
+  filters: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 8 },
 });

@@ -130,10 +130,12 @@ export function AgencyTeamScreen({ agencyId }: AgencyTeamScreenProps) {
   };
 
   return (
-    <Screen scroll onRefresh={() => void members.refetch()} refreshing={members.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('agency:team.title')}
-      </Text>
+    <Screen
+      title={t('agency:team.title')}
+      scroll
+      onRefresh={() => void members.refetch()}
+      refreshing={members.isRefetching}
+    >
       {notice ? <Text tone="primary">{notice}</Text> : null}
       {error ? <Text tone="danger">{error}</Text> : null}
       {renderMembers()}

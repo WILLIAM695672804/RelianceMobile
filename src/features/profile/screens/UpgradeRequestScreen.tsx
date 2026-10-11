@@ -37,10 +37,7 @@ export function UpgradeRequestScreen({ onDone }: UpgradeRequestScreenProps) {
   });
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('profile:upgrade.title')}
-      </Text>
+    <Screen title={t('profile:upgrade.title')} scroll>
       {sent ? (
         <>
           <Text tone="primary">{t('profile:upgrade.sent')}</Text>

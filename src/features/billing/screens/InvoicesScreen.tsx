@@ -53,10 +53,11 @@ export function InvoicesScreen({ onOpen }: InvoicesScreenProps) {
   };
 
   return (
-    <Screen onRefresh={() => void invoices.refetch()} refreshing={invoices.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('billing:invoices.title')}
-      </Text>
+    <Screen
+      title={t('billing:invoices.title')}
+      onRefresh={() => void invoices.refetch()}
+      refreshing={invoices.isRefetching}
+    >
       {renderInvoices()}
     </Screen>
   );

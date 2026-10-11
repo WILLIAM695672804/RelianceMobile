@@ -50,10 +50,7 @@ export function NewAppointmentScreen({
   });
 
   return (
-    <Screen scroll>
-      <Text variant="title" accessibilityRole="header">
-        {t('planning:appointments.newTitle')}
-      </Text>
+    <Screen title={t('planning:appointments.newTitle')} scroll>
       <Text tone="muted">{t('planning:appointments.newHint')}</Text>
       {notice ? <Text tone="primary">{notice}</Text> : null}
       {error ? <Text tone="danger">{error}</Text> : null}

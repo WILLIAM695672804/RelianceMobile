@@ -52,10 +52,11 @@ export function AppointmentsScreen() {
   };
 
   return (
-    <Screen onRefresh={() => void appointments.refetch()} refreshing={appointments.isRefetching}>
-      <Text variant="title" accessibilityRole="header">
-        {t('planning:appointments.title')}
-      </Text>
+    <Screen
+      title={t('planning:appointments.title')}
+      onRefresh={() => void appointments.refetch()}
+      refreshing={appointments.isRefetching}
+    >
       {notice ? <Text tone="primary">{notice}</Text> : null}
       {error ? <Text tone="danger">{error}</Text> : null}
       {renderList()}

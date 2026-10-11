@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { Avatar, Button, Card, Text } from '@/shared/components';
+import { Avatar, Button, Card, Text, Icon } from '@/shared/components';
 import { formatDate } from '@/shared/format';
 import { StyleSheet, View } from 'react-native';
 
@@ -35,34 +35,51 @@ export function PostCard({ post, onToggleLike, onOpen, pending }: PostCardProps)
         </View>
       </View>
       {post.content ? <Text>{post.content}</Text> : null}
-      <Text variant="caption" tone="muted">
-        {t('social:feed.likes', { count: post.likes_count })}
-      </Text>
-      <Text variant="caption" tone="muted">
-        {t('social:feed.comments', { count: post.comments_count })}
-      </Text>
-      {onToggleLike ? (
-        <Button
-          label={likeAction}
-          accessibilityLabel={t('social:feed.likeNamed', { action: likeAction, name: author })}
-          onPress={() => onToggleLike(post.id)}
-          disabled={pending}
-          variant={post.is_liked ? 'primary' : 'secondary'}
-        />
-      ) : null}
-      {onOpen ? (
-        <Button
-          label={t('social:feed.open')}
-          accessibilityLabel={t('social:feed.openNamed', { name: author })}
-          onPress={() => onOpen(post.id)}
-          variant="ghost"
-        />
-      ) : null}
+      <View style={styles.counters}>
+        <View style={styles.counter}>
+          <Icon name="heart" size={16} tone="muted" />
+          <Text variant="caption" tone="muted">
+            {t('social:feed.likes', { count: post.likes_count })}
+          </Text>
+        </View>
+        <View style={styles.counter}>
+          <Icon name="chat" size={16} tone="muted" />
+          <Text variant="caption" tone="muted">
+            {t('social:feed.comments', { count: post.comments_count })}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.actions}>
+        {onToggleLike ? (
+          <Button
+            label={likeAction}
+            icon="heart"
+            size="sm"
+            accessibilityLabel={t('social:feed.likeNamed', { action: likeAction, name: author })}
+            onPress={() => onToggleLike(post.id)}
+            disabled={pending}
+            variant={post.is_liked ? 'primary' : 'secondary'}
+          />
+        ) : null}
+        {onOpen ? (
+          <Button
+            label={t('social:feed.open')}
+            icon="chat"
+            size="sm"
+            accessibilityLabel={t('social:feed.openNamed', { name: author })}
+            onPress={() => onOpen(post.id)}
+            variant="ghost"
+          />
+        ) : null}
+      </View>
     </Card>
   );
 }
 
 const styles = StyleSheet.create({
+  counters: { flexDirection: 'row', gap: 16 },
+  counter: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   identity: { flex: 1, gap: 2 },
 });
