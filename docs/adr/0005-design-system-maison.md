@@ -14,3 +14,8 @@ Jetons TypeScript (`src/core/theme/tokens.ts`) et primitives `StyleSheet` dans `
 
 - Maîtrise complète du rendu et de l'accessibilité ; aucune dépendance de style à maintenir.
 - Chaque primitive est testée et expose un libellé d'accessibilité.
+
+## Voir aussi
+
+Le port du jeu d'icônes, les conventions Android et l'adaptativité sont décidés par
+l'[ADR 0009](./0009-habillage-android-adaptatif.md).

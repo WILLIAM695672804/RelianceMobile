@@ -17,7 +17,11 @@ La règle est imposée par `import/no-restricted-paths` (ESLint). Toute importat
 
 Dépendances entre features autorisées à ce jour : `profile` → `auth` (compte, double authentification, déconnexion) ; `requests` → `profile` (catalogue des compétences) ; `matching` → `requests` (clés de cache, lecture d'une demande) ; `directory` → `matching` (profil public d'un technicien) ; `agency` → `directory` (choix d'un technicien à rattacher) ; `directory` → `social` (bouton de suivi du profil public) ; `missions` → `matching` (mission acceptée, clés de cache) ; `billing` → `requests` (clés de cache des demandes). Les features `notifications`, `chat`, `wallet`, `reviews` et `planning` ne dépendent d'aucune autre feature. `src/shared/format/geo.ts` fournit la distance à vol d'oiseau entre deux points. `src/shared/location/` encapsule `expo-location` (position, géocodage) et `src/shared/format/` les formats d'affichage (montants FCFA, distances, notes, dates). `src/shared/media/` encapsule `expo-image-picker` (galerie, appareil photo) pour les features qui téléversent des fichiers ; l'envoi `multipart/form-data` passe par `core/api/upload.ts`.
 
-**Écarts avec la spécification** : groupes de rôle sous forme de répertoires nommés (`app/client`, `app/technicien`, `app/agence`) pour éviter le conflit de trois routes `/` ; ajout de `src/core/query/` et de `src/bootstrap/`.
+`src/core/responsive/` expose les classes de taille de fenêtre (`compact` < 360 dp, `medium`, `expanded` ≥ 600 dp, `large` ≥ 840 dp), la gouttière de l'écran, le nombre de colonnes tenant dans la largeur utile et l'échelle typographique. Il n'est consommé que par les primitives partagées, jamais directement par un écran.
+
+**Règle d'habillage** : aucun écran n'écrit de dimension en dur. Les espacements, rayons et teintes viennent du thème, le nombre de colonnes d'`AdaptiveGrid`, la gouttière et la largeur maximale de `Screen`. Les primitives de composition sont `AppBar`, `SectionHeader`, `IconTile`, `SearchField`, `Chip`, `StepIndicator`, `AdaptiveGrid`, `Rail`, `StatTile`, `IconButton` et `Icon` (53 tracés repris des maquettes). Voir l'ADR 0009.
+
+**Écarts avec la spécification** : groupes de rôle sous forme de répertoires nommés (`app/client`, `app/technicien`, `app/agence`) pour éviter le conflit de trois routes `/` ; ajout de `src/core/query/`, de `src/core/responsive/` et de `src/bootstrap/`.
 
 ## 2. Session Sanctum par cookie
 
