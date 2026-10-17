@@ -18,6 +18,7 @@ export default function DemandeLayout() {
       <Stack.Screen name="requests/[id]/matching" />
       <Stack.Screen name="requests/[id]/technicians/[technicianId]" />
       <Stack.Screen name="requests/[id]/report" />
+      <Stack.Screen name="requests/[id]/quality" />
     </Stack>
   );
 }

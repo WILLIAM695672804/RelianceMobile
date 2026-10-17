@@ -11,6 +11,18 @@ export default function RequestDetailRoute() {
       onReview={(requestId) =>
         router.push({ pathname: '/reviews/new/[requestId]', params: { requestId } })
       }
+      onOpenReport={(requestId) =>
+        router.push({ pathname: '/requests/[id]/report', params: { id: requestId } })
+      }
+      onOpenQuality={(requestId, technicianId) =>
+        router.push({
+          pathname: '/requests/[id]/quality',
+          params: { id: requestId, technicianId },
+        })
+      }
+      onOpenDispute={(requestId, against) =>
+        router.push({ pathname: '/disputes/new', params: { requestId, against } })
+      }
     />
   );
 }

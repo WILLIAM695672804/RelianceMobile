@@ -26,6 +26,12 @@ export interface RequestDetailScreenProps {
   onFindTechnicians: () => void;
   /** Dépôt d'un avis sur une demande clôturée. */
   onReview?: (requestId: string) => void;
+  /** Consultation du rapport d'intervention. */
+  onOpenReport?: (requestId: string) => void;
+  /** Contrôle qualité puis libération du séquestre, demande clôturée. */
+  onOpenQuality?: (requestId: string, technicianId: string) => void;
+  /** Ouverture d'un litige contre le technicien intervenu. */
+  onOpenDispute?: (requestId: string, against: string) => void;
 }
 
 /** Détail d'une demande : description, lieu, photos, prix indicatif et étape du rapprochement. */
@@ -33,6 +39,9 @@ export function RequestDetailScreen({
   requestId,
   onFindTechnicians,
   onReview,
+  onOpenReport,
+  onOpenQuality,
+  onOpenDispute,
 }: RequestDetailScreenProps) {
   const { t } = useTranslation();
   const request = useRequest(requestId);
@@ -109,11 +118,37 @@ export function RequestDetailScreen({
             />
           </>
         ) : null}
+        {onOpenQuality && stage === 'closed' && data.counterpart ? (
+          <Button
+            label={t('requests:detail.quality')}
+            icon="shield"
+            size="lg"
+            fullWidth
+            onPress={() => onOpenQuality(requestId, data.counterpart!.id)}
+          />
+        ) : null}
+        {onOpenReport && (stage === 'closed' || stage === 'assigned') ? (
+          <Button
+            label={t('requests:detail.report')}
+            icon="file"
+            onPress={() => onOpenReport(requestId)}
+            variant="secondary"
+          />
+        ) : null}
         {onReview && stage === 'closed' ? (
           <Button
             label={t('requests:detail.review')}
+            icon="star"
             onPress={() => onReview(requestId)}
             variant="secondary"
+          />
+        ) : null}
+        {onOpenDispute && data.counterpart && (stage === 'closed' || stage === 'assigned') ? (
+          <Button
+            label={t('requests:detail.dispute')}
+            icon="shield"
+            onPress={() => onOpenDispute(requestId, data.counterpart!.id)}
+            variant="ghost"
           />
         ) : null}
         {stage === 'assigned' && data.counterpart ? (

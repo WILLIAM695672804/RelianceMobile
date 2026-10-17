@@ -4,6 +4,7 @@
  */
 
 export { walletKeys } from './hooks/walletKeys';
+export { useCaptureHold, useHolds, usePlaceHold, useReleaseHold } from './hooks/useHolds';
 export {
   useRechargeWallet,
   useRequestWithdrawal,
@@ -12,8 +13,10 @@ export {
   useWalletTransactions,
 } from './hooks/useWallet';
 export { walletTranslations } from './i18n';
+export { holdForRequest } from './model/holdForRequest';
 export { isMobileMethod, PAYMENT_METHODS, transactionToneOf } from './model/transaction';
 export { RechargeScreen, type RechargeScreenProps } from './screens/RechargeScreen';
 export { WalletScreen, type WalletScreenProps } from './screens/WalletScreen';
 export { WithdrawScreen, type WithdrawScreenProps } from './screens/WithdrawScreen';
+export { HOLD_MIN_AMOUNT, isHoldActive, type Hold, type HoldStatus } from './schemas/holdSchemas';
 export type { PaymentPayload, Transaction, Wallet } from './schemas/walletSchemas';

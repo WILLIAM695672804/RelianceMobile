@@ -35,7 +35,14 @@ export {
   MissionCockpitScreen,
   type MissionCockpitScreenProps,
 } from './screens/MissionCockpitScreen';
-export { MissionTrackingScreen } from './screens/MissionTrackingScreen';
+export {
+  QualityControlScreen,
+  type QualityControlScreenProps,
+} from './screens/QualityControlScreen';
+export {
+  MissionTrackingScreen,
+  type MissionTrackingScreenProps,
+} from './screens/MissionTrackingScreen';
 export {
   TechnicianJobsScreen,
   type TechnicianJobsScreenProps,
