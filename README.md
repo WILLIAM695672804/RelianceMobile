@@ -53,6 +53,10 @@ npm start         # serveur Metro pour les lancements suivants
   URL de `storage` renvoyées par l'API restent injoignables depuis le téléphone :
   `APP_URL=http://192.168.1.159:8010` et l'ajout de `192.168.1.159:8010` à
   `SANCTUM_STATEFUL_DOMAINS`, suivis de `php artisan config:clear`.
+- Appareil physique sans Wi-Fi (données mobiles seules) : ouvrir deux tunnels inverses par USB,
+  `adb reverse tcp:8010 tcp:8010` et `adb reverse tcp:6001 tcp:6001`, puis viser `127.0.0.1`
+  dans `.env` (`EXPO_PUBLIC_API_URL`, `EXPO_PUBLIC_WS_HOST`) et dans `APP_URL` côté backend.
+  Les tunnels disparaissent à chaque redémarrage du démon `adb`.
 - Pare-feu, le cas échéant : `sudo ufw allow from 192.168.1.0/24 to any port 8010,6001 proto tcp`.
 
 ### Compilation sur poste à mémoire contrainte
