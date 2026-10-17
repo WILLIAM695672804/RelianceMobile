@@ -1,12 +1,5 @@
-import { router } from 'expo-router';
+import { WithdrawRoute } from '@/bootstrap/screens/paymentRoutes';
 
-import { WithdrawScreen } from '@/features/wallet';
-
-export default function WithdrawRouteScreen() {
-  return (
-    <WithdrawScreen
-      onDone={() => router.back()}
-      onPending={(id) => router.replace({ pathname: '/wallet/payments/[id]', params: { id } })}
-    />
-  );
+export default function WithdrawScreenRoute() {
+  return <WithdrawRoute />;
 }

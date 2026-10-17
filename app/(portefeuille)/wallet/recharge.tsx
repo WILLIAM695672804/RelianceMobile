@@ -1,12 +1,5 @@
-import { router } from 'expo-router';
+import { RechargeRoute } from '@/bootstrap/screens/paymentRoutes';
 
-import { RechargeScreen } from '@/features/wallet';
-
-export default function RechargeRouteScreen() {
-  return (
-    <RechargeScreen
-      onDone={() => router.back()}
-      onPending={(id) => router.replace({ pathname: '/wallet/payments/[id]', params: { id } })}
-    />
-  );
+export default function RechargeScreenRoute() {
+  return <RechargeRoute />;
 }

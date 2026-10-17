@@ -1,7 +1,5 @@
-import { router } from 'expo-router';
+import { KycRoute } from '@/bootstrap/screens/KycRoute';
 
-import { KycScreen } from '@/features/kyc';
-
-export default function KycRoute() {
-  return <KycScreen onContinue={() => router.push('/setup')} />;
+export default function KycScreenRoute() {
+  return <KycRoute />;
 }
