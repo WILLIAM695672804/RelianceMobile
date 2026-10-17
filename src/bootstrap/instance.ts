@@ -7,7 +7,7 @@ import { createLanguagePreference, resolveLanguage } from '@/core/i18n';
 import { startConnectivitySync } from '@/core/offline';
 import { createMmkvStore } from '@/core/storage';
 import { agencyTranslations } from '@/features/agency';
-import { authTranslations } from '@/features/auth';
+import { authTranslations, createOnboardingFlag } from '@/features/auth';
 import { billingTranslations } from '@/features/billing';
 import { chatTranslations } from '@/features/chat';
 import { directoryTranslations } from '@/features/directory';
@@ -28,6 +28,9 @@ startConnectivitySync();
 
 /** Langue choisie dans les paramètres ; stockage distinct, conservé à la déconnexion. */
 export const languagePreference = createLanguagePreference(createMmkvStore('reliance.preferences'));
+
+/** Fil d'accueil : vu une fois pour toutes, dans le même stockage que la langue. */
+export const onboardingFlag = createOnboardingFlag(createMmkvStore('reliance.preferences'));
 
 /** Services de l'application, créés une fois au chargement du module. */
 export const services = createServices({
