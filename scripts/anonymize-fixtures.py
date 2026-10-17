@@ -40,6 +40,10 @@ PERSON_KEYS = {
     "reviewer": "Client Démo",
     "issuer": "Technicien Démo",
     "target": "Technicien Démo",
+    "opener": "Client Démo",
+    "defendant": "Technicien Démo",
+    "payer": "Client Démo",
+    "payee": "Technicien Démo",
 }
 # Objets qui décrivent eux-mêmes un technicien (résultat de rapprochement, profil public).
 TECHNICIAN_MARKERS = {"match_score", "kyc_approved"}

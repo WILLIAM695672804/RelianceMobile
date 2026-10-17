@@ -1,3 +1,16 @@
 {
-  "data": []
+  "data": [
+    {
+      "code": "first-mission",
+      "title": "Première mission",
+      "icon_ref": "check",
+      "awarded_at": "2026-10-17T20:23:31.000000Z"
+    },
+    {
+      "code": "five-stars",
+      "title": "Cinq étoiles",
+      "icon_ref": "star",
+      "awarded_at": "2026-10-17T20:23:31.000000Z"
+    }
+  ]
 }

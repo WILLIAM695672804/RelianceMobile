@@ -103,7 +103,7 @@ describe('MyReviewsScreen', () => {
     expect(screen.getByText('5,0 / 5')).toBeOnTheScreen();
     expect(screen.getByText(`Mission : ${FIRST.request.title}`)).toBeOnTheScreen();
     expect(await screen.findByText(`Réputation : ${reputation.total} points`)).toBeOnTheScreen();
-    expect(await screen.findByText('Aucun badge obtenu.')).toBeOnTheScreen();
+    expect(await screen.findByText(userBadges.data[0]!.title)).toBeOnTheScreen();
   });
 
   it('annonce l’absence d’avis', async () => {

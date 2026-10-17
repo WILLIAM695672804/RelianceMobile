@@ -1,0 +1,30 @@
+{
+  "message": "Message ajouté",
+  "data": {
+    "dispute_id": "4d67a923-04a1-41b8-8677-11feabedb7ab",
+    "sender_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+    "message": "Voici une photo de la prise descellée.",
+    "attachments": null,
+    "id": "e892d88e-9468-413d-b47d-1e5e12ead1e4",
+    "updated_at": "2026-10-17T21:23:32.000000Z",
+    "created_at": "2026-10-17T21:23:32.000000Z",
+    "sender": {
+      "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "name": "Personne Démo",
+      "email": "client.capture@example.test",
+      "phone": null,
+      "is_active": true,
+      "two_factor_enabled": false,
+      "email_verified_at": null,
+      "created_at": "2026-09-16T22:18:19.000000Z",
+      "updated_at": "2026-10-17T21:23:32.000000Z",
+      "deleted_at": null,
+      "avatar_url": null,
+      "rating": "0.00",
+      "num_reviews": 0,
+      "verified": false,
+      "last_login": "2026-10-17T21:23:32.000000Z",
+      "meta": null
+    }
+  }
+}

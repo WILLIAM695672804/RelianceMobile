@@ -1,0 +1,18 @@
+{
+  "data": {
+    "id": "6556ac12-3bb3-4d23-81d9-1727371ff7d6",
+    "payer_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+    "payee_id": null,
+    "method": "bank_transfer",
+    "amount": 25000,
+    "currency": "XAF",
+    "status": "settled",
+    "external_ref": "68adccb5-ebc4-4149-9920-f02491a2fff5",
+    "metadata": {
+      "type": "wallet_recharge",
+      "phone_number": null
+    },
+    "created_at": "2026-10-17T21:23:33.000000Z",
+    "settled_at": "2026-10-17T20:23:33.000000Z"
+  }
+}

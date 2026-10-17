@@ -1,0 +1,7 @@
+{
+  "message": "The amount field is required. (and 1 more error)",
+  "errors": {
+    "amount": ["The amount field is required."],
+    "reason": ["The reason field is required."]
+  }
+}

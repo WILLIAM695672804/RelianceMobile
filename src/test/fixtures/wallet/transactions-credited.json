@@ -1,0 +1,46 @@
+{
+  "data": [
+    {
+      "id": "4c8e073d-3614-476a-bc99-95737cde3624",
+      "amount": 25000,
+      "balance_after": 25000,
+      "type": "credit",
+      "meta": {
+        "source": "recharge"
+      },
+      "created_at": "2026-10-17T21:23:33.000000Z"
+    }
+  ],
+  "links": {
+    "first": "http://api.test/api/v1/wallet/transactions?page=1",
+    "last": "http://api.test/api/v1/wallet/transactions?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/wallet/transactions?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http://api.test/api/v1/wallet/transactions",
+    "per_page": 20,
+    "to": 1,
+    "total": 1
+  }
+}

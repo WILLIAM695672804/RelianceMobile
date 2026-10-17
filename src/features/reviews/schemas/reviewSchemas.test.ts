@@ -34,7 +34,9 @@ describe('reviewSchemas', () => {
   });
 
   it('lit les badges et la réputation', () => {
-    expect(badgeListResponseSchema.parse(userBadges).data).toEqual([]);
+    const badges = badgeListResponseSchema.parse(userBadges).data;
+    expect(badges).toHaveLength(userBadges.data.length);
+    expect(badges[0]?.code).toBe(userBadges.data[0]!.code);
     expect(
       badgeListResponseSchema.parse({
         data: [{ code: 'first_mission', title: 'Première mission', awarded_at: null }],

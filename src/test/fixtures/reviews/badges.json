@@ -1,9 +1,40 @@
 {
   "data": {
     "current_page": 1,
-    "data": [],
+    "data": [
+      {
+        "id": "4b5567c8-d542-44ab-b463-5844b7ee1335",
+        "code": "first-mission",
+        "title": "Première mission",
+        "description": "Première intervention menée à son terme.",
+        "icon_ref": "check",
+        "criteria": null,
+        "created_at": "2026-10-17T21:23:31.000000Z",
+        "updated_at": "2026-10-17T21:23:31.000000Z"
+      },
+      {
+        "id": "74120766-dc90-464a-b27f-6328d138cb77",
+        "code": "five-stars",
+        "title": "Cinq étoiles",
+        "description": "Dix avis à cinq étoiles consécutifs.",
+        "icon_ref": "star",
+        "criteria": null,
+        "created_at": "2026-10-17T21:23:31.000000Z",
+        "updated_at": "2026-10-17T21:23:31.000000Z"
+      },
+      {
+        "id": "d331323f-92dd-42d7-acea-5a39f19c75c4",
+        "code": "punctual",
+        "title": "Ponctuel",
+        "description": "Vingt interventions sans retard.",
+        "icon_ref": "clock",
+        "criteria": null,
+        "created_at": "2026-10-17T21:23:31.000000Z",
+        "updated_at": "2026-10-17T21:23:31.000000Z"
+      }
+    ],
     "first_page_url": "http://api.test/api/v1/badges?page=1",
-    "from": null,
+    "from": 1,
     "last_page": 1,
     "last_page_url": "http://api.test/api/v1/badges?page=1",
     "links": [
@@ -27,7 +58,7 @@
     "path": "http://api.test/api/v1/badges",
     "per_page": 20,
     "prev_page_url": null,
-    "to": null,
-    "total": 0
+    "to": 3,
+    "total": 3
   }
 }
