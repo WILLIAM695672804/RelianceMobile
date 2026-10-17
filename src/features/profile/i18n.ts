@@ -4,6 +4,38 @@ const fr = {
   title: 'Mon profil',
   emailVerified: 'Adresse vérifiée',
   emailNotVerified: 'Adresse non vérifiée',
+  setup: {
+    title: 'Mon installation',
+    progress: '{{done}} étape(s) sur {{total}}',
+    hint: 'Complétez votre installation pour recevoir des propositions de mission.',
+    complete: 'Votre installation est complète : vous recevez les propositions de mission.',
+    stepsTitle: 'Étapes',
+    doneLabel: 'Terminé',
+    doneMark: 'Fait',
+    todoMark: 'À faire',
+    steps: {
+      professional: {
+        title: 'Profil professionnel',
+        hint: 'Présentez votre expérience et vos références.',
+      },
+      skills: {
+        title: 'Compétences et tarifs',
+        hint: 'Déclarez au moins une compétence et son tarif horaire.',
+      },
+      zone: {
+        title: 'Zone d’intervention',
+        hint: 'Indiquez votre ville et votre rayon d’intervention.',
+      },
+      kyc: {
+        title: 'Justificatifs d’identité',
+        hint: 'Déposez vos pièces pour validation.',
+      },
+      planning: {
+        title: 'Disponibilités',
+        hint: 'Déclarez vos créneaux hebdomadaires.',
+      },
+    },
+  },
   menu: {
     edit: 'Modifier le profil',
     password: 'Mot de passe',
@@ -23,6 +55,7 @@ const fr = {
     upgrade: 'Devenir technicien',
     disputes: 'Mes litiges',
     reputation: 'Ma réputation',
+    setup: 'Mon installation',
     settings: 'Paramètres',
   },
   edit: {
@@ -201,6 +234,38 @@ const en: typeof fr = {
   title: 'My profile',
   emailVerified: 'Verified address',
   emailNotVerified: 'Unverified address',
+  setup: {
+    title: 'My setup',
+    progress: '{{done}} of {{total}} steps',
+    hint: 'Complete your setup to receive job proposals.',
+    complete: 'Your setup is complete: you now receive job proposals.',
+    stepsTitle: 'Steps',
+    doneLabel: 'Done',
+    doneMark: 'Done',
+    todoMark: 'To do',
+    steps: {
+      professional: {
+        title: 'Professional profile',
+        hint: 'Describe your experience and references.',
+      },
+      skills: {
+        title: 'Skills and rates',
+        hint: 'Declare at least one skill and its hourly rate.',
+      },
+      zone: {
+        title: 'Service area',
+        hint: 'Give your city and service radius.',
+      },
+      kyc: {
+        title: 'Identity documents',
+        hint: 'Upload your documents for review.',
+      },
+      planning: {
+        title: 'Availability',
+        hint: 'Declare your weekly time slots.',
+      },
+    },
+  },
   menu: {
     edit: 'Edit profile',
     password: 'Password',
@@ -220,6 +285,7 @@ const en: typeof fr = {
     upgrade: 'Become a technician',
     disputes: 'My disputes',
     reputation: 'My reputation',
+    setup: 'My setup',
     settings: 'Settings',
   },
   edit: {

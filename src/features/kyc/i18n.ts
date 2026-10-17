@@ -3,6 +3,7 @@ import type { TranslationResources } from '@/core/i18n';
 const fr = {
   title: 'Justificatifs d’identité',
   hint: 'Transmettez chaque justificatif : un administrateur les vérifie avant d’activer votre profil.',
+  continueSetup: 'Poursuivre mon installation',
   types: {
     cni: 'Carte nationale d’identité',
     casier: 'Extrait de casier judiciaire',
@@ -25,6 +26,7 @@ const fr = {
 const en: typeof fr = {
   title: 'Identity documents',
   hint: 'Submit each document: an administrator reviews them before activating your profile.',
+  continueSetup: 'Continue my setup',
   types: {
     cni: 'National identity card',
     casier: 'Criminal record extract',

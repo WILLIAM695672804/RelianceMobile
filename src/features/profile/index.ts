@@ -30,6 +30,14 @@ export {
   useUploadAvatar,
 } from './hooks/useProfileMutations';
 export { profileTranslations } from './i18n';
+export {
+  completedSteps,
+  SETUP_STEPS,
+  setupStepsFor,
+  type SetupSnapshot,
+  type SetupStep,
+  type SetupStepKey,
+} from './model/setupSteps';
 export { groupSkillsByCategory, type SkillGroup } from './model/skillGroups';
 export {
   ChangePasswordScreen,
@@ -46,6 +54,10 @@ export {
 export { ServiceAreaScreen } from './screens/ServiceAreaScreen';
 export { SettingsScreen, type SettingsScreenProps } from './screens/SettingsScreen';
 export { TechnicianProfileScreen } from './screens/TechnicianProfileScreen';
+export {
+  TechnicianSetupScreen,
+  type TechnicianSetupScreenProps,
+} from './screens/TechnicianSetupScreen';
 export { TechnicianSkillsScreen } from './screens/TechnicianSkillsScreen';
 export { TechnicianStatsScreen } from './screens/TechnicianStatsScreen';
 export {

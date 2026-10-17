@@ -6,7 +6,12 @@ import { Badge, Button, Card, Screen, StateView, Text, type BadgeTone } from '@/
 import { pickImage, type ImageSource } from '@/shared/media';
 
 import { useKycDocuments, useUploadKycDocument } from '../hooks/useKyc';
-import { buildKycOverview, type KycItem, type KycItemStatus } from '../model/kycOverview';
+import {
+  allSubmitted,
+  buildKycOverview,
+  type KycItem,
+  type KycItemStatus,
+} from '../model/kycOverview';
 import type { KycDocumentType } from '../schemas/kycSchemas';
 
 const TONE_BY_STATUS: Record<KycItemStatus, BadgeTone> = {
@@ -18,8 +23,13 @@ const TONE_BY_STATUS: Record<KycItemStatus, BadgeTone> = {
 
 type Feedback = { tone: 'primary' | 'danger'; text: string };
 
+export interface KycScreenProps {
+  /** Poursuite du parcours d'installation, une fois les pièces déposées. */
+  onContinue?: () => void;
+}
+
 /** Justificatifs d'identité : état de chaque pièce et envoi des pièces manquantes ou refusées. */
-export function KycScreen() {
+export function KycScreen({ onContinue }: KycScreenProps = {}) {
   const { t } = useTranslation();
   const documents = useKycDocuments();
   const upload = useUploadKycDocument();
@@ -94,6 +104,9 @@ export function KycScreen() {
         />
       ) : null}
       {documents.isSuccess ? buildKycOverview(documents.data).map(renderItem) : null}
+      {onContinue && documents.isSuccess && allSubmitted(documents.data) ? (
+        <Button label={t('kyc:continueSetup')} icon="arrowR" onPress={onContinue} />
+      ) : null}
     </Screen>
   );
 }

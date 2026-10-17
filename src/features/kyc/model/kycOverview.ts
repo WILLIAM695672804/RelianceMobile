@@ -32,3 +32,10 @@ export function buildKycOverview(documents: readonly KycDocument[]): KycItem[] {
     };
   });
 }
+
+/** Vrai lorsqu'aucune pièce ne manque ni n'est refusée : le parcours peut se poursuivre. */
+export function allSubmitted(documents: readonly KycDocument[]): boolean {
+  return buildKycOverview(documents).every(
+    (item) => item.status === 'pending' || item.status === 'approved',
+  );
+}
