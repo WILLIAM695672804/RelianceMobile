@@ -13,6 +13,8 @@ export default function AnnuaireLayout() {
       }}
     >
       <Stack.Screen name="technicians/[id]" />
+      <Stack.Screen name="leaderboard" />
+      <Stack.Screen name="search" />
     </Stack>
   );
 }

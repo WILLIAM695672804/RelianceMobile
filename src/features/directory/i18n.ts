@@ -1,6 +1,14 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  leaderboard: {
+    title: 'Classement',
+    basis: 'Classement établi sur les notes reçues et le nombre d’avis.',
+    score: '{{rating}} / 5 ({{count}})',
+    unrated: 'Sans note',
+    empty: 'Aucun technicien classé.',
+    open: 'Ouvrir le profil de {{name}}, rang {{rank}}',
+  },
   title: 'Annuaire des techniciens',
   searchLabel: 'Rechercher un technicien',
   submit: 'Rechercher',
@@ -23,6 +31,14 @@ const fr = {
 };
 
 const en: typeof fr = {
+  leaderboard: {
+    title: 'Leaderboard',
+    basis: 'Ranking based on received ratings and number of reviews.',
+    score: '{{rating}} / 5 ({{count}})',
+    unrated: 'Unrated',
+    empty: 'No ranked technician.',
+    open: 'Open {{name}}’s profile, rank {{rank}}',
+  },
   title: 'Technician directory',
   searchLabel: 'Search for a technician',
   submit: 'Search',

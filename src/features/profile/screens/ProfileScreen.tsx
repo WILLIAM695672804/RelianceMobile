@@ -32,6 +32,7 @@ export type ProfileDestination =
   | 'kyc'
   | 'upgrade'
   | 'disputes'
+  | 'reputation'
   | 'settings';
 
 export interface ProfileScreenProps {
@@ -50,7 +51,7 @@ export function destinationsFor(role: Role): ProfileDestination[] {
     ...(role === 'client' ? (['upgrade'] as const) : []),
     ...(role === 'client' || role === 'technicien' ? (['invoices', 'appointments'] as const) : []),
     'wallet',
-    ...(role === 'technicien' ? (['reviews'] as const) : []),
+    ...(role === 'technicien' ? (['reviews', 'reputation'] as const) : []),
     'notifications',
     'messages',
     'feed',
@@ -78,6 +79,7 @@ const DESTINATION_ICONS: Record<ProfileDestination, IconName> = {
   messages: 'chat',
   feed: 'list',
   disputes: 'shield',
+  reputation: 'badge',
   settings: 'settings',
 };
 

@@ -21,6 +21,7 @@ export const PROFILE_HREF: Record<ProfileDestination, Href> = {
   kyc: '/kyc',
   upgrade: '/upgrade',
   disputes: '/disputes',
+  reputation: '/reputation',
   settings: '/settings',
 };
 

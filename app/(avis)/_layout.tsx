@@ -14,6 +14,8 @@ export default function AvisLayout() {
     >
       <Stack.Screen name="reviews/new/[requestId]" />
       <Stack.Screen name="my-reviews" />
+      <Stack.Screen name="reputation" />
+      <Stack.Screen name="badges/[code]" />
     </Stack>
   );
 }

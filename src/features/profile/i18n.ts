@@ -22,6 +22,7 @@ const fr = {
     kyc: 'Justificatifs d’identité',
     upgrade: 'Devenir technicien',
     disputes: 'Mes litiges',
+    reputation: 'Ma réputation',
     settings: 'Paramètres',
   },
   edit: {
@@ -218,6 +219,7 @@ const en: typeof fr = {
     kyc: 'Identity documents',
     upgrade: 'Become a technician',
     disputes: 'My disputes',
+    reputation: 'My reputation',
     settings: 'Settings',
   },
   edit: {

@@ -45,6 +45,24 @@ export const reviewPageResponseSchema = z.object({
 
 export const badgeListResponseSchema = z.object({ data: z.array(badgeSchema) });
 
+/** Badge du catalogue : porte une description, absente des badges attribués. */
+export const catalogBadgeSchema = z.object({
+  id: z.string().nullish(),
+  code: z.string(),
+  title: z.string(),
+  description: z.string().nullish(),
+  icon_ref: z.string().nullish(),
+});
+export type CatalogBadge = z.infer<typeof catalogBadgeSchema>;
+
+/** `GET /badges` : pagination Laravel imbriquée sous `data`. */
+export const badgeCatalogResponseSchema = z.object({
+  data: z.object({
+    data: z.array(catalogBadgeSchema),
+    total: z.number().nullish(),
+  }),
+});
+
 export const reputationResponseSchema = z.object({
   data: z.object({
     data: z.array(

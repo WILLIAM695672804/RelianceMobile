@@ -8,6 +8,8 @@
 export { directoryKeys } from './hooks/directoryKeys';
 export { useTechnicianDirectory } from './hooks/useDirectory';
 export { directoryTranslations } from './i18n';
+export { rankTechnicians, type RankedTechnician } from './model/ranking';
+export { LeaderboardScreen, type LeaderboardScreenProps } from './screens/LeaderboardScreen';
 export {
   TechnicianDirectoryScreen,
   type TechnicianDirectoryScreenProps,
