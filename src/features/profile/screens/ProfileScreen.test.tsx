@@ -59,6 +59,7 @@ describe('ProfileScreen (E08)', () => {
         'Notifications',
         'Messagerie',
         'Fil Reliance',
+        'Mes litiges',
         'Paramètres',
       ],
     ],
@@ -75,6 +76,7 @@ describe('ProfileScreen (E08)', () => {
         'Notifications',
         'Messagerie',
         'Fil Reliance',
+        'Mes litiges',
         'Paramètres',
       ],
     ],
@@ -129,6 +131,7 @@ describe('ProfileScreen (E08)', () => {
       'notifications',
       'messages',
       'feed',
+      'disputes',
       'settings',
     ]);
     expect(destinationsFor('client')).toEqual([
@@ -142,6 +145,7 @@ describe('ProfileScreen (E08)', () => {
       'notifications',
       'messages',
       'feed',
+      'disputes',
       'settings',
     ]);
   });

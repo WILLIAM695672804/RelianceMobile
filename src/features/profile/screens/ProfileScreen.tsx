@@ -31,6 +31,7 @@ export type ProfileDestination =
   | 'zone'
   | 'kyc'
   | 'upgrade'
+  | 'disputes'
   | 'settings';
 
 export interface ProfileScreenProps {
@@ -53,6 +54,7 @@ export function destinationsFor(role: Role): ProfileDestination[] {
     'notifications',
     'messages',
     'feed',
+    ...(role === 'client' || role === 'technicien' ? (['disputes'] as const) : []),
     'settings',
   ];
 }
@@ -75,6 +77,7 @@ const DESTINATION_ICONS: Record<ProfileDestination, IconName> = {
   notifications: 'bell',
   messages: 'chat',
   feed: 'list',
+  disputes: 'shield',
   settings: 'settings',
 };
 

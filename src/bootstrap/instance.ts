@@ -11,6 +11,7 @@ import { authTranslations, createOnboardingFlag } from '@/features/auth';
 import { billingTranslations } from '@/features/billing';
 import { chatTranslations } from '@/features/chat';
 import { directoryTranslations } from '@/features/directory';
+import { disputesTranslations } from '@/features/disputes';
 import { interventionsTranslations } from '@/features/interventions';
 import { kycTranslations } from '@/features/kyc';
 import { matchingTranslations } from '@/features/matching';
@@ -50,6 +51,7 @@ export const services = createServices({
     matchingTranslations,
     missionsTranslations,
     interventionsTranslations,
+    disputesTranslations,
     billingTranslations,
     notificationsTranslations,
     chatTranslations,

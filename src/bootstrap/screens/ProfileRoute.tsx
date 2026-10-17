@@ -20,6 +20,7 @@ export const PROFILE_HREF: Record<ProfileDestination, Href> = {
   zone: '/zone',
   kyc: '/kyc',
   upgrade: '/upgrade',
+  disputes: '/disputes',
   settings: '/settings',
 };
 

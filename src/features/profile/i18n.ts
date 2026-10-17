@@ -21,6 +21,7 @@ const fr = {
     appointments: 'Mes rendez-vous',
     kyc: 'Justificatifs d’identité',
     upgrade: 'Devenir technicien',
+    disputes: 'Mes litiges',
     settings: 'Paramètres',
   },
   edit: {
@@ -216,6 +217,7 @@ const en: typeof fr = {
     appointments: 'My appointments',
     kyc: 'Identity documents',
     upgrade: 'Become a technician',
+    disputes: 'My disputes',
     settings: 'Settings',
   },
   edit: {
