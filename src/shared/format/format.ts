@@ -24,6 +24,12 @@ export function formatRating(rating: number): string {
   return rating.toFixed(1).replace('.', ',');
 }
 
+/** Durée en heures, décimale séparée par une virgule et entiers sans décimale : « 1,5 h », « 2 h ». */
+export function formatHours(hours: number): string {
+  const rounded = Math.round(hours * 10) / 10;
+  return `${rounded.toString().replace('.', ',')}${NBSP}h`;
+}
+
 /** Date locale jour/mois/année ; chaîne vide si la date est illisible. */
 export function formatDate(iso: string): string {
   const date = new Date(iso);

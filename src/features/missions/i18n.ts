@@ -39,6 +39,8 @@ const fr = {
     appointment: 'Planifier un rendez-vous',
     contact: 'Contacter le client',
     history: 'Historique des missions',
+    report: 'Rapport d’intervention',
+    cancel: 'Annuler la mission',
     updateFailed: 'La mise à jour a échoué. Veuillez réessayer.',
     errors: {
       notesTooLong: 'Le compte rendu ne doit pas dépasser 2000 caractères.',
@@ -92,6 +94,8 @@ const fr = {
     positionUnknown: 'Position du technicien non communiquée.',
     quotes: 'Devis reçus',
     contact: 'Contacter le technicien',
+    report: 'Consulter le rapport',
+    quality: 'Contrôler et libérer le paiement',
   },
 };
 
@@ -132,6 +136,8 @@ const en: typeof fr = {
     confirm: 'Complete',
     quotes: 'Quotes',
     appointment: 'Schedule an appointment',
+    report: 'Job report',
+    cancel: 'Cancel the job',
     contact: 'Contact the client',
     history: 'Job history',
     updateFailed: 'The update failed. Please try again.',
@@ -187,6 +193,8 @@ const en: typeof fr = {
     positionUnknown: 'Technician position not shared.',
     quotes: 'Received quotes',
     contact: 'Contact the technician',
+    report: 'Read the report',
+    quality: 'Review and release the payment',
   },
 };
 

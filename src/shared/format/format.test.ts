@@ -1,4 +1,11 @@
-import { formatAmount, formatClockTime, formatDate, formatDistance, formatRating } from './format';
+import {
+  formatAmount,
+  formatClockTime,
+  formatDate,
+  formatDistance,
+  formatHours,
+  formatRating,
+} from './format';
 
 const NBSP = ' ';
 
@@ -34,5 +41,19 @@ describe('formatClockTime', () => {
   it('rend une chaîne vide pour une date absente ou illisible', () => {
     expect(formatClockTime(null)).toBe('');
     expect(formatClockTime('illisible')).toBe('');
+  });
+});
+
+describe('formatHours', () => {
+  it('sépare la décimale par une virgule', () => {
+    expect(formatHours(1.5)).toBe(`1,5${NBSP}h`);
+  });
+
+  it('omet la décimale nulle', () => {
+    expect(formatHours(2)).toBe(`2${NBSP}h`);
+  });
+
+  it('arrondit au dixième', () => {
+    expect(formatHours(1.26)).toBe(`1,3${NBSP}h`);
   });
 });

@@ -1,6 +1,6 @@
 {
   "data": {
-    "id": "66d7f8e9-f6f4-4fc8-8509-a22b079c0fb6",
+    "id": "b7ff503f-d3bd-4ba4-b1a2-fc503e2d0e2e",
     "job_id": "88c848e5-7f32-4f8d-a4ed-18fbc9f334e5",
     "technician_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
     "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
@@ -12,9 +12,9 @@
     "materials_used": ["Disjoncteur 16 A", "Gaine thermorétractable"],
     "duration_hours": "1.50",
     "scheduled_at": null,
-    "started_at": "2026-10-17T21:23:32.000000Z",
-    "completed_at": "2026-10-17T21:23:32.000000Z",
-    "created_at": "2026-10-17T21:23:31.000000Z",
-    "updated_at": "2026-10-17T21:23:32.000000Z"
+    "started_at": "2026-10-17T21:34:52.000000Z",
+    "completed_at": "2026-10-17T21:34:52.000000Z",
+    "created_at": "2026-10-17T21:34:52.000000Z",
+    "updated_at": "2026-10-17T21:34:52.000000Z"
   }
 }

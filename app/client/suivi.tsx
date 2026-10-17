@@ -11,6 +11,7 @@ export default function SuiviRoute() {
       onContact={(userId) =>
         router.push({ pathname: '/conversations/new', params: { member: userId } })
       }
+      onOpenReport={(id) => router.push({ pathname: '/requests/[id]/report', params: { id } })}
     />
   );
 }

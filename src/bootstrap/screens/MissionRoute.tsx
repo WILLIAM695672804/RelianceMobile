@@ -16,6 +16,9 @@ export function MissionRoute() {
       onPlanAppointment={(requestId, technicianId) =>
         router.push({ pathname: '/appointments/new', params: { requestId, technicianId } })
       }
+      onOpenReport={(jobId, requestId) =>
+        router.push({ pathname: '/reports/[jobId]', params: { jobId, requestId } })
+      }
     />
   );
 }

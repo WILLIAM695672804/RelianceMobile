@@ -27,12 +27,18 @@ export interface MissionTrackingScreenProps {
   onOpenQuotes?: (requestId: string) => void;
   /** Ouverture d'une conversation avec le technicien. */
   onContact?: (userId: string) => void;
+  /** Consultation du rapport d'intervention de la demande suivie. */
+  onOpenReport?: (requestId: string) => void;
+  /** Contrôle qualité puis libération du séquestre, mission terminée. */
+  onOpenQuality?: (requestId: string) => void;
 }
 
 /** E15 — Suivi client : avancement de l'intervention et dernière position du technicien. */
 export function MissionTrackingScreen({
   onOpenQuotes,
   onContact,
+  onOpenReport,
+  onOpenQuality,
 }: MissionTrackingScreenProps = {}) {
   const { t } = useTranslation();
   const mission = useClientMission();
@@ -64,6 +70,8 @@ export function MissionTrackingScreen({
         position={position.data ?? null}
         onOpenQuotes={onOpenQuotes}
         onContact={onContact}
+        onOpenReport={onOpenReport}
+        onOpenQuality={onOpenQuality}
       />
     );
   };
@@ -85,12 +93,16 @@ function MissionTracking({
   position,
   onOpenQuotes,
   onContact,
+  onOpenReport,
+  onOpenQuality,
 }: {
   mission: ClientMission;
   tracking: JobTracking | null;
   position: LivePosition | null;
   onOpenQuotes?: (requestId: string) => void;
   onContact?: (userId: string) => void;
+  onOpenReport?: (requestId: string) => void;
+  onOpenQuality?: (requestId: string) => void;
 }) {
   const { t } = useTranslation();
   const technician = mission.technician;
@@ -145,8 +157,28 @@ function MissionTracking({
       {onOpenQuotes ? (
         <Button
           label={t('missions:tracking.quotes')}
+          icon="file"
           onPress={() => onOpenQuotes(mission.request.id)}
           variant="secondary"
+        />
+      ) : null}
+
+      {onOpenReport ? (
+        <Button
+          label={t('missions:tracking.report')}
+          icon="file"
+          onPress={() => onOpenReport(mission.request.id)}
+          variant="secondary"
+        />
+      ) : null}
+
+      {onOpenQuality && tracking?.status === 'completed' ? (
+        <Button
+          label={t('missions:tracking.quality')}
+          icon="shield"
+          size="lg"
+          fullWidth
+          onPress={() => onOpenQuality(mission.request.id)}
         />
       ) : null}
 

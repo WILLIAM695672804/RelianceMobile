@@ -1,12 +1,32 @@
 {
   "data": [
     {
-      "id": "2a94baaf-4f51-48a2-bce4-ffaf09de2170",
+      "id": "94b9bb44-59cd-418f-a05f-70f19ba81849",
       "wallet_id": "1e3c29e0-eb37-4ea3-8c92-428b94d60fe0",
       "amount": 15000,
       "reason": "Séquestre de la demande 2ac8b63e-398f-42b5-b6aa-2822bfb42322",
       "status": "held",
       "released_at": null,
+      "related_payment": null,
+      "created_at": "2026-10-17T21:34:53.000000Z"
+    },
+    {
+      "id": "2a94baaf-4f51-48a2-bce4-ffaf09de2170",
+      "wallet_id": "1e3c29e0-eb37-4ea3-8c92-428b94d60fe0",
+      "amount": 15000,
+      "reason": "Séquestre de la demande 2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+      "status": "captured",
+      "released_at": "2026-10-17T20:23:33.000000Z",
+      "related_payment": "17ae0623-eb89-43a7-9d6b-926591e3b0ce",
+      "created_at": "2026-10-17T21:23:34.000000Z"
+    },
+    {
+      "id": "b99b004e-9cb9-4203-9b1b-3cbeb18b4f86",
+      "wallet_id": "1e3c29e0-eb37-4ea3-8c92-428b94d60fe0",
+      "amount": 5000,
+      "reason": "Séquestre à libérer",
+      "status": "released",
+      "released_at": "2026-10-17T20:23:33.000000Z",
       "related_payment": null,
       "created_at": "2026-10-17T21:23:34.000000Z"
     }
