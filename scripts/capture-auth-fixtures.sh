@@ -3,7 +3,7 @@
 # Prérequis : backend démarré (php artisan serve), compte technicien issu des seeders.
 set -euo pipefail
 
-API="${API_URL:-http://127.0.0.1:8000}"
+API="${API_URL:-http://127.0.0.1:8010}"
 ORIGIN="${STATEFUL_ORIGIN:-http://127.0.0.1:5173}"
 EMAIL="${CAPTURE_EMAIL:-tech.electricien@reliance.cm}"
 PASSWORD="${CAPTURE_PASSWORD:-password123}"
