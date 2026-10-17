@@ -8,10 +8,12 @@ import { PaymentForm } from './PaymentForm';
 export interface WithdrawScreenProps {
   /** Demande enregistrée : retour au portefeuille. */
   onDone: () => void;
+  /** Paiement initié, à confirmer auprès de l'opérateur. */
+  onPending?: (paymentId: string) => void;
 }
 
 /** E21 — Demande de retrait du solde disponible. */
-export function WithdrawScreen({ onDone }: WithdrawScreenProps) {
+export function WithdrawScreen({ onDone, onPending }: WithdrawScreenProps) {
   const { t } = useTranslation();
   const withdrawal = useRequestWithdrawal();
 
@@ -25,6 +27,7 @@ export function WithdrawScreen({ onDone }: WithdrawScreenProps) {
       submit={(payload) => withdrawal.mutateAsync(payload)}
       pending={withdrawal.isPending}
       onDone={onDone}
+      onPending={onPending}
     />
   );
 }

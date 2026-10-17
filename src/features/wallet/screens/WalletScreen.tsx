@@ -24,10 +24,12 @@ const LISTED_TRANSACTIONS = 10;
 export interface WalletScreenProps {
   onRecharge: () => void;
   onWithdraw: () => void;
+  /** Ouverture du détail d'un mouvement. */
+  onOpenTransaction?: (transactionId: string) => void;
 }
 
 /** E19 — Portefeuille : soldes, actions et derniers mouvements. */
-export function WalletScreen({ onRecharge, onWithdraw }: WalletScreenProps) {
+export function WalletScreen({ onRecharge, onWithdraw, onOpenTransaction }: WalletScreenProps) {
   const { t } = useTranslation();
   const wallet = useWallet();
   const transactions = useWalletTransactions();
@@ -69,7 +71,15 @@ export function WalletScreen({ onRecharge, onWithdraw }: WalletScreenProps) {
   );
 
   const renderTransaction = (transaction: Transaction) => (
-    <Card key={transaction.id}>
+    <Card
+      key={transaction.id}
+      onPress={onOpenTransaction ? () => onOpenTransaction(transaction.id) : undefined}
+      accessibilityLabel={
+        onOpenTransaction
+          ? t('wallet:detail.open', { amount: formatAmount(transaction.amount) })
+          : undefined
+      }
+    >
       <Badge
         label={t(`wallet:transaction.${transaction.type}`, {
           defaultValue: t('wallet:transaction.unknown'),
