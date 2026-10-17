@@ -46,6 +46,23 @@ const fr = {
       notesTooLong: 'Le compte rendu ne doit pas dépasser 2000 caractères.',
     },
   },
+  cancel: {
+    title: 'Annuler la mission',
+    hint: 'Pourquoi souhaitez-vous annuler cette mission ?',
+    reason: 'Motif',
+    reasons: {
+      unavailable: 'Je ne suis plus disponible',
+      client: 'Le client n’est pas joignable',
+      delay: 'Délai intenable',
+      other: 'Autre raison',
+    },
+    continue: 'Continuer',
+    confirm: 'Confirmer l’annulation',
+    confirmTitle: 'Confirmer l’annulation ?',
+    confirmMessage:
+      'Cette action est irréversible : la demande du client sera close et les fonds séquestrés lui seront rendus.',
+    chosenReason: 'Motif retenu : {{reason}}',
+  },
   quality: {
     title: 'Contrôle qualité',
     hint: 'Le technicien a marqué l’intervention comme terminée. Vérifiez le travail avant de libérer le paiement.',
@@ -162,6 +179,23 @@ const en: typeof fr = {
     errors: {
       notesTooLong: 'The report must not exceed 2000 characters.',
     },
+  },
+  cancel: {
+    title: 'Cancel the job',
+    hint: 'Why do you want to cancel this job?',
+    reason: 'Reason',
+    reasons: {
+      unavailable: 'I am no longer available',
+      client: 'The client cannot be reached',
+      delay: 'Unworkable deadline',
+      other: 'Other reason',
+    },
+    continue: 'Continue',
+    confirm: 'Confirm the cancellation',
+    confirmTitle: 'Confirm the cancellation?',
+    confirmMessage:
+      'This cannot be undone: the client request will be closed and the escrowed funds returned.',
+    chosenReason: 'Chosen reason: {{reason}}',
   },
   quality: {
     title: 'Quality control',

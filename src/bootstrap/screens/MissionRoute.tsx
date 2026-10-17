@@ -19,6 +19,7 @@ export function MissionRoute() {
       onOpenReport={(jobId, requestId) =>
         router.push({ pathname: '/reports/[jobId]', params: { jobId, requestId } })
       }
+      onCancel={(jobId) => router.push({ pathname: '/cancel/[jobId]', params: { jobId } })}
     />
   );
 }
