@@ -37,10 +37,23 @@ iOS (`ios-frame.jsx`) : rien n'y est transposable tel quel.
 - Les tests s'exécutent sur un gabarit de téléphone Android (412 × 915) imposé par
   `jest.setup.ts` : la fenêtre par défaut de jest-expo mesure 750 points et plaçait tous les
   écrans dans la classe `expanded`.
-- Treize maquettes restent sans correspondance, décrivant des fonctions hors périmètre
-  (litiges, séquestre, classement, parcours d'accueil) ou n'étant pas des écrans (catalogues
-  d'états vides et de bandeaux). `MapScreen` reste hors d'atteinte faute de bibliothèque de
-  cartographie.
+- Recensement vérifié le 17/10/2026 : sur les 48 écrans de maquette, 32 sont transposés,
+  2 le sont partiellement et 14 restent sans correspondance.
+  - Transposition partielle : `TechOnboardingScreen` (ses cinq étapes existent, réparties
+    entre profil professionnel, compétences, zone et demande de passage, sans assistant) et
+    `SearchScreen` (la recherche existe dans l'annuaire, sans historique des recherches).
+  - Sans correspondance faute de point d'API : `DiagnosticReportScreen`, `ValidationScreen`,
+    `CancelScreen`, `WalletOTPScreen`, `TransactionDetailScreen`, `AssignJobScreen`
+    (seul `POST /admin/requests/{id}/assign`, réservé à l'administration, existe) et
+    `LeaderboardScreen`.
+  - Sans correspondance alors que l'API le permet : `DisputeScreen` (`/disputes`),
+    `EscrowReleaseScreen` (`/holds`), `ReputationScreen` et `BadgeDetailScreen`
+    (`/reputation/{id}`, `/badges`). Ces quatre écrans relèvent d'un plan fonctionnel, non
+    de l'habillage.
+  - Hors de portée technique : `MapScreen`, faute de bibliothèque de cartographie.
+  - Non-écrans : `EmptyStatesScreen` (catalogue couvert par `StateView`) et `ToastsScreen`
+    (l'application emploie des messages en ligne, sans composant de bandeau éphémère).
+  - `OnboardingScreen` reste à faire, sans dépendance serveur.
 - L'onde de pression n'est pas observable sous Jest (`android_ripple` est consommé par la
   couche native) : elle relève de la recette appareil.
 
