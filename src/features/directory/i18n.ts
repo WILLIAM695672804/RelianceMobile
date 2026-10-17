@@ -1,6 +1,15 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  search: {
+    title: 'Rechercher',
+    recent: 'Recherches récentes',
+    noHistory: 'Aucune recherche récente.',
+    clear: 'Effacer',
+    results: 'Résultats',
+    noResult: 'Aucun technicien ne correspond à « {{search}} ».',
+    open: 'Ouvrir le profil de {{name}}',
+  },
   leaderboard: {
     title: 'Classement',
     basis: 'Classement établi sur les notes reçues et le nombre d’avis.',
@@ -31,6 +40,15 @@ const fr = {
 };
 
 const en: typeof fr = {
+  search: {
+    title: 'Search',
+    recent: 'Recent searches',
+    noHistory: 'No recent search.',
+    clear: 'Clear',
+    results: 'Results',
+    noResult: 'No technician matches “{{search}}”.',
+    open: 'Open {{name}}’s profile',
+  },
   leaderboard: {
     title: 'Leaderboard',
     basis: 'Ranking based on received ratings and number of reviews.',

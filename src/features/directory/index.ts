@@ -9,7 +9,9 @@ export { directoryKeys } from './hooks/directoryKeys';
 export { useTechnicianDirectory } from './hooks/useDirectory';
 export { directoryTranslations } from './i18n';
 export { rankTechnicians, type RankedTechnician } from './model/ranking';
+export { createSearchHistory, HISTORY_LIMIT, type SearchHistory } from './model/searchHistory';
 export { LeaderboardScreen, type LeaderboardScreenProps } from './screens/LeaderboardScreen';
+export { SearchScreen, type SearchScreenProps } from './screens/SearchScreen';
 export {
   TechnicianDirectoryScreen,
   type TechnicianDirectoryScreenProps,

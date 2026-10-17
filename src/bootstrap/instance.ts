@@ -10,7 +10,7 @@ import { agencyTranslations } from '@/features/agency';
 import { authTranslations, createOnboardingFlag } from '@/features/auth';
 import { billingTranslations } from '@/features/billing';
 import { chatTranslations } from '@/features/chat';
-import { directoryTranslations } from '@/features/directory';
+import { createSearchHistory, directoryTranslations } from '@/features/directory';
 import { disputesTranslations } from '@/features/disputes';
 import { interventionsTranslations } from '@/features/interventions';
 import { kycTranslations } from '@/features/kyc';
@@ -33,6 +33,9 @@ export const languagePreference = createLanguagePreference(createMmkvStore('reli
 
 /** Fil d'accueil : vu une fois pour toutes, dans le même stockage que la langue. */
 export const onboardingFlag = createOnboardingFlag(createMmkvStore('reliance.preferences'));
+
+/** Historique des recherches de l'annuaire, dans le stockage des préférences. */
+export const searchHistory = createSearchHistory(createMmkvStore('reliance.preferences'));
 
 /** Services de l'application, créés une fois au chargement du module. */
 export const services = createServices({
