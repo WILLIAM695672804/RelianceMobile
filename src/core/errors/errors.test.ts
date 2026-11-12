@@ -75,6 +75,22 @@ describe('normalizeError', () => {
     expect(error.kind).toBe('emailNotVerified');
   });
 
+  it('distingue l’e-mail non vérifié signalé par la connexion (requires_email_verification)', () => {
+    const error = normalizeError(
+      httpError(403, { message: 'Adresse e-mail non vérifiée', requires_email_verification: true }),
+    );
+    expect(error.kind).toBe('emailNotVerified');
+  });
+
+  it('traduit un solde insuffisant (402) en validation portant le message serveur', () => {
+    const error = normalizeError(httpError(402, { message: 'Solde insuffisant' }));
+    expect(error).toMatchObject({
+      kind: 'validation',
+      status: 402,
+      serverMessage: 'Solde insuffisant',
+    });
+  });
+
   it('traduit un autre 403 en forbidden', () => {
     const error = normalizeError(httpError(403, { message: 'Compte désactivé' }));
     expect(error).toMatchObject({ kind: 'forbidden', serverMessage: 'Compte désactivé' });
