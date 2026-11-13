@@ -238,3 +238,8 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `POST /reviews` accepte `stage` (`pre` : demande `assigned`/`in_progress` ; `post` : `completed`, défaut) ; un avis par étape.
 - `POST /subscriptions/subscribe` débite le portefeuille (**402** si solde insuffisant) ; `POST /payments/{id}/confirm` est réservé au payeur (vérification passerelle) ou à l'admin (virement).
 - Refus ou expiration d'une proposition : la demande repasse à `analyzed` et le client est notifié. Les notifications push utilisent les jetons Expo enregistrés via `POST /push-tokens`.
+- **Limitation de débit** (**429**, `rateLimited`) : `POST /auth/login` à 5 tentatives par minute et par couple e-mail + IP ; `POST /auth/register`, `/auth/forgot-password`, `/auth/reset-password` et `POST /contact` à 10 requêtes par minute et par IP.
+- `POST /auth/forgot-password` répond **200** `{ message }` que le compte existe ou non (plus de 422 « Aucun compte trouvé » : énumération de comptes impossible). Le message est neutre (« Si un compte correspond… »).
+- Le secret 2FA chiffré (`two_factor_secret`) n'est plus présent dans l'objet `user` (`/auth/me`, connexion, inscription).
+- `GET /jobs/{id}/tracking` expose désormais `request_id` (ajout, compatible).
+- `POST /disputes` : l'auteur et la partie adverse doivent être le client de la demande et le technicien de la proposition acceptée (**403** sinon).
