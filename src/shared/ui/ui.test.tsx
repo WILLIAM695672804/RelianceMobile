@@ -225,7 +225,7 @@ describe('TabBar', () => {
     });
     // (300 − 2 × 6) / 2 onglets − 2 × 5 de marge = 134.
     expect(screen.getByTestId('goutte-active')).toHaveStyle({ width: 134, left: 11 });
-    // Au repos, la goutte de verre est invisible : la capsule reste pleine.
+    // Au repos, aucune goutte : seule la couleur signale l'onglet actif.
     expect(screen.getByTestId('goutte-verre')).toHaveStyle({ opacity: 0 });
   });
 });

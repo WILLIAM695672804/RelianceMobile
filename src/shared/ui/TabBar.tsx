@@ -16,7 +16,7 @@ export const TAB_BAR_OFFSET = 24;
 /** Espace à réserver sous un contenu défilant pour qu'il ne passe pas sous la barre. */
 export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_OFFSET + 16;
 
-/** Marge entre la capsule active et le bord de son onglet. */
+/** Marge entre la goutte et le bord de son onglet. */
 const DROP_INSET = 5;
 /** Marge intérieure horizontale de la rangée d'onglets. */
 const ROW_PADDING = 6;
@@ -36,8 +36,8 @@ export interface TabBarProps {
 
 /**
  * Barre de navigation flottante des maquettes, à la manière de Telegram : au repos, l'onglet
- * actif repose sur une capsule pleine ; pendant la transition seulement, la capsule se soulève
- * en goutte de verre, glisse en s'étirant vers l'onglet choisi, puis retombe et redevient pleine.
+ * actif ne se distingue que par sa couleur ; pendant la transition seulement, une goutte de verre
+ * se soulève sur l'onglet quitté, glisse en s'étirant vers l'onglet choisi, puis s'efface.
  */
 export function TabBar({ items, activeKey, onSelect, testID }: TabBarProps) {
   const theme = useTheme();
@@ -54,7 +54,7 @@ export function TabBar({ items, activeKey, onSelect, testID }: TabBarProps) {
   const slot = rowWidth > 0 ? (rowWidth - ROW_PADDING * 2) / items.length : 0;
 
   const position = useState(() => new Animated.Value(activeIndex))[0];
-  /** 0 : capsule posée et pleine ; 1 : goutte de verre soulevée. */
+  /** 0 : aucune goutte (repos) ; 1 : goutte de verre soulevée. */
   const lift = useState(() => new Animated.Value(0))[0];
   const previous = useRef(activeIndex);
 
@@ -79,7 +79,7 @@ export function TabBar({ items, activeKey, onSelect, testID }: TabBarProps) {
         useNativeDriver: true,
       }),
       Animated.sequence([
-        // La capsule se soulève en verre dès le départ…
+        // La goutte de verre se soulève dès le départ…
         Animated.timing(lift, {
           toValue: 1,
           duration: 110,
@@ -88,12 +88,11 @@ export function TabBar({ items, activeKey, onSelect, testID }: TabBarProps) {
         }),
         // … reste en vol le temps du trajet, plus long vers un onglet éloigné…
         Animated.delay(90 + distance * 55),
-        // … puis retombe en gélatine et redevient pleine.
-        Animated.spring(lift, {
+        // … puis s'efface en se rétractant à l'arrivée.
+        Animated.timing(lift, {
           toValue: 0,
-          damping: 7,
-          stiffness: 210,
-          mass: 0.8,
+          duration: 220,
+          easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
       ]),
@@ -158,17 +157,6 @@ export function TabBar({ items, activeKey, onSelect, testID }: TabBarProps) {
               ],
             }}
           >
-            {/* Au repos : capsule pleine, sans effet. */}
-            <Animated.View
-              style={[
-                StyleSheet.absoluteFill,
-                {
-                  borderRadius: dropRadius,
-                  backgroundColor: theme.colors.primaryFixed,
-                  opacity: lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }),
-                },
-              ]}
-            />
             {/* En transition : goutte de verre translucide, liseré et reflet lumineux. */}
             <Animated.View
               testID="goutte-verre"
