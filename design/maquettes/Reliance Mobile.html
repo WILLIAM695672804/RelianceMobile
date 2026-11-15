@@ -6,16 +6,16 @@
   <title>Reliance · Mobile</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; height: 100%; background: #FFFFFF; font-family: 'Inter', system-ui, sans-serif; color: #0F2C63; -webkit-font-smoothing: antialiased; }
+    html, body { margin: 0; padding: 0; height: 100%; background: #f6f6f8; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; color: #17161f; -webkit-font-smoothing: antialiased; }
     #root { width: 100%; min-height: 100%; }
     /* hide scrollbars on horizontal scroll containers */
     *::-webkit-scrollbar { width: 6px; height: 6px; }
     *::-webkit-scrollbar-track { background: transparent; }
-    *::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 3px; }
+    *::-webkit-scrollbar-thumb { background: #d6d5df; border-radius: 9999px; }
     button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
     input, textarea { font-family: inherit; }
   </style>
@@ -30,9 +30,7 @@
   <!-- design system + components -->
   <script type="text/babel" src="design-system.jsx"></script>
   <script type="text/babel" src="ios-frame.jsx"></script>
-  <script type="text/babel" src="design-canvas.jsx"></script>
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
-
+  
   <!-- screens -->
   <script type="text/babel" src="screens-auth.jsx"></script>
   <script type="text/babel" src="screens-client.jsx"></script>
@@ -48,7 +46,7 @@
   <script type="text/babel" src="screens-agency.jsx"></script>
   <script type="text/babel" src="screens-system.jsx"></script>
 
-  <!-- main app -->
+  <!-- espace de travail + app -->
   <script type="text/babel" src="app.jsx"></script>
 </body>
 </html>

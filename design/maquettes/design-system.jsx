@@ -1,66 +1,97 @@
-// design-system.jsx — Reliance mobile design system
+// design-system.jsx — Reliance mobile, sur le système Clean Lavender
 // Tokens, icons, shared primitives used across all screens.
 
 const REL = {
-  // Color tokens — blue + white identity
+  // Color tokens — Clean Lavender (blanc d'abord, un seul accent violet)
   colors: {
     light: {
-      bg: '#FFFFFF',
-      surface: '#FFFFFF',
-      surfaceMuted: '#EEF3FB',
-      text: '#101828',
-      textMuted: '#5B6472',
-      border: 'rgba(31,91,196,0.16)',
-      divider: 'rgba(31,91,196,0.10)',
-      ink: '#0F2C63'
+      bg: '#ffffff',                 // surface
+      surface: '#ffffff',            // surface-container-lowest (cartes)
+      surfaceMuted: '#f6f6f8',       // surface-container-low
+      surfaceContainer: '#f0f0f3',
+      surfaceHigh: '#eaeaef',        // surface-container-high
+      text: '#17161f',               // on-surface
+      textMuted: '#57556a',          // on-surface-variant
+      border: '#ececf1',             // hairline
+      divider: '#ececf1',            // hairline
+      outlineVariant: '#d6d5df',
+      outline: '#85839a',
+      ink: '#17161f',
+      primaryFixed: '#efeaff',
+      onPrimaryFixed: '#4918c8',
+      onPrimary: '#ffffff',
+      scrim: 'rgba(10, 10, 18, 0.45)',
+      shadowCard: '0 2px 8px rgba(23, 22, 31, 0.04)',
+      shadowNav: '0 12px 32px -6px rgba(23, 22, 31, 0.14)',
+      shadowSheet: '0 -12px 40px rgba(10, 10, 18, 0.18)'
     },
     dark: {
-      bg: '#0B1220',
-      surface: '#111A2B',
-      surfaceMuted: '#1A2437',
-      text: '#F2F6FF',
-      textMuted: 'rgba(240,245,255,0.55)',
-      border: 'rgba(240,245,255,0.08)',
-      divider: 'rgba(240,245,255,0.06)',
-      ink: '#FFFFFF'
+      bg: '#0e0e12',
+      surface: '#16161b',
+      surfaceMuted: '#1b1b21',
+      surfaceContainer: '#212128',
+      surfaceHigh: '#292931',
+      text: '#ededf2',
+      textMuted: '#a8a6b8',
+      border: '#26262e',
+      divider: '#26262e',
+      outlineVariant: '#3a3946',
+      outline: '#7a788c',
+      ink: '#ededf2',
+      primaryFixed: '#2a2350',
+      onPrimaryFixed: '#cdc1ff',
+      onPrimary: '#1f0a5c',
+      scrim: 'rgba(0, 0, 0, 0.6)',
+      shadowCard: 'none',
+      shadowNav: '0 12px 32px -6px rgba(0, 0, 0, 0.5)',
+      shadowSheet: '0 -12px 40px rgba(0, 0, 0, 0.5)'
     },
-    accents: {
-      red: '#1F5BC4', // legacy key → Reliance blue
-      blue: '#1F5BC4', // Reliance blue
-      amber: '#3B82D6', // bleu clair
-      green: '#0F2C63', // bleu nuit
-      emerald: '#0EA5E9' // cyan
-    }
+    // Accents sémantiques (clés héritées conservées pour les écrans)
+    accentsLight: {
+      red: '#5f3add',     // primary (ancienne clé de marque)
+      blue: '#5f3add',    // primary
+      amber: '#825100',   // tertiary
+      green: '#006c49',   // secondary
+      emerald: '#4918c8', // on-primary-fixed-variant
+      error: '#ba1a1a'
+    },
+    accentsDark: {
+      red: '#b5a3ff',
+      blue: '#b5a3ff',
+      amber: '#ffb95f',
+      green: '#5ee0a8',
+      emerald: '#cdc1ff',
+      error: '#ff8a80'
+    },
+    accents: null
   },
   font: {
-    display: '"Bricolage Grotesque", "Montserrat", -apple-system, system-ui, sans-serif',
-    body: '"Inter", "Roboto", -apple-system, system-ui, sans-serif',
-    mono: '"JetBrains Mono", ui-monospace, monospace'
+    display: '"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
+    body: '"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
+    mono: '"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif'
   },
-  radius: { sm: 10, md: 14, lg: 20, xl: 28, pill: 999 }
+  // Échelle d'arrondis Clean Lavender
+  radius: { xs: 8, sm: 10, md: 12, tile: 14, lg: 20, card: 20, xl: 28, sheet: 28, pill: 9999 }
 };
+REL.colors.accents = { ...REL.colors.accentsLight };
 
-// Theme hook — returns palette for current dark/accent
+// Theme hook — palette Clean Lavender pour le thème courant
 function useReliance(tweaks) {
-  const c = REL.colors[tweaks.dark ? 'dark' : 'light'];
-  const accent = REL.colors.accents[tweaks.accent] || REL.colors.accents.red;
+  const dark = !!tweaks.dark;
+  const c = REL.colors[dark ? 'dark' : 'light'];
+  // Les écrans lisent REL.colors.accents : on l'aligne sur le thème courant.
+  Object.assign(REL.colors.accents, dark ? REL.colors.accentsDark : REL.colors.accentsLight);
+  const accent = REL.colors.accents.blue; // primary
   const density = { compact: 0.85, regular: 1, comfy: 1.15 }[tweaks.density] || 1;
-  const fonts = {
-    display: tweaks.font === 'helvetica' ? '"Helvetica Neue", Helvetica, Arial, sans-serif' :
-    tweaks.font === 'serif' ? '"Fraunces", "Playfair Display", Georgia, serif' :
-    tweaks.font === 'mono' ? '"JetBrains Mono", ui-monospace, monospace' :
-    REL.font.display,
-    body: tweaks.font === 'helvetica' ? '"Helvetica Neue", Helvetica, Arial, sans-serif' :
-    tweaks.font === 'mono' ? '"JetBrains Mono", ui-monospace, monospace' :
-    REL.font.body
-  };
-  return { ...c, accent, density, fonts, _t: tweaks };
+  const fonts = { display: REL.font.display, body: REL.font.body, mono: REL.font.mono };
+  return { ...c, accent, primary: accent, density, fonts, _t: tweaks };
 }
 
 // ── Icon set — minimal stroke icons. NEVER complex SVGs — only geometric primitives.
-function Icon({ name, size = 22, color = 'currentColor', strokeWidth = 1.8 }) {
-  const s = strokeWidth;
-  const props = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: color, strokeWidth: s, strokeLinecap: 'round', strokeLinejoin: 'round' };
+function Icon({ name, size = 20, color = 'currentColor' }) {
+  // Trait Lucide : 2 jusqu'à 14 px, 1,85 de 15 à 18 px, 1,75 à partir de 20 px
+  const s = size <= 14 ? 2 : size <= 18 ? 1.85 : 1.75;
+  const props = { 'aria-hidden': true, width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: color, strokeWidth: s, strokeLinecap: 'round', strokeLinejoin: 'round' };
   const paths = {
     home: <><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /></>,
     search: <><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></>,
@@ -127,9 +158,9 @@ function Avatar({ name = 'AB', size = 40, color, src }) {
     return (
       <div style={{
         width: size, height: size, borderRadius: '50%', flexShrink: 0,
-        background: `repeating-linear-gradient(45deg, ${color || '#1F5BC4'}22, ${color || '#1F5BC4'}22 4px, ${color || '#1F5BC4'}33 4px, ${color || '#1F5BC4'}33 8px)`,
+        background: `repeating-linear-gradient(45deg, ${color || REL.colors.accents.blue}22, ${color || REL.colors.accents.blue}22 4px, ${color || REL.colors.accents.blue}33 4px, ${color || REL.colors.accents.blue}33 8px)`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color: color || '#1F5BC4', fontWeight: 700, fontSize: size * 0.36,
+        color: color || REL.colors.accents.blue, fontWeight: 700, fontSize: size * 0.36,
         fontFamily: REL.font.display
       }}>{initials}</div>);
 
@@ -137,10 +168,10 @@ function Avatar({ name = 'AB', size = 40, color, src }) {
   return (
     <div style={{
       width: size, height: size, borderRadius: '50%', flexShrink: 0,
-      background: color || '#1F5BC4',
+      background: color || REL.colors.accents.blue,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       color: '#fff', fontWeight: 700, fontSize: size * 0.36,
-      fontFamily: REL.font.display, letterSpacing: -0.5
+      fontFamily: REL.font.display
     }}>{initials}</div>);
 
 }
@@ -148,10 +179,10 @@ function Avatar({ name = 'AB', size = 40, color, src }) {
 // Image placeholder — striped, with a label
 function ImagePlaceholder({ label = 'image', height = 120, width = '100%', radius = 14, tone = 'neutral' }) {
   const tones = {
-    neutral: ['#E4ECF8', '#CFDDF2'],
-    dark: ['#123A7A', '#1B2C4B'],
-    red: ['#DCE7FA', '#C6D8F4'],
-    blue: ['#D6DEEF', '#C0CCE6']
+    neutral: ['#f6f6f8', '#eaeaef'],
+    dark: ['#212128', '#292931'],
+    red: ['#efeaff', '#e4dcff'],
+    blue: ['#f0f0f3', '#e4e4ea']
   };
   const [a, b] = tones[tone] || tones.neutral;
   return (
@@ -159,7 +190,7 @@ function ImagePlaceholder({ label = 'image', height = 120, width = '100%', radiu
       width, height, borderRadius: radius, overflow: 'hidden',
       background: `repeating-linear-gradient(135deg, ${a}, ${a} 8px, ${b} 8px, ${b} 16px)`,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontFamily: REL.font.mono, fontSize: 10, color: tone === 'dark' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)',
+      fontFamily: REL.font.body, fontSize: 12, fontWeight: 600, color: tone === 'dark' ? '#a8a6b8' : '#57556a',
       letterSpacing: 0.5, textTransform: 'uppercase', flexShrink: 0
     }}>{label}</div>);
 
@@ -168,18 +199,18 @@ function ImagePlaceholder({ label = 'image', height = 120, width = '100%', radiu
 // Pill / chip
 function Pill({ children, color, bg, border, size = 'md', icon }) {
   const sizes = {
-    sm: { fs: 11, pad: '4px 8px', h: 22 },
-    md: { fs: 12, pad: '5px 10px', h: 26 },
+    sm: { fs: 12, pad: '4px 10px', h: 24 },
+    md: { fs: 13, pad: '5px 12px', h: 28 },
     lg: { fs: 13, pad: '7px 14px', h: 32 }
   }[size];
   return (
-    <span style={{ ...{
-        display: 'inline-flex', alignItems: 'center', gap: 5,
+    <span style={{
+        display: 'inline-flex', alignItems: 'center', gap: 6,
         fontSize: sizes.fs, height: sizes.h, padding: sizes.pad,
-        borderRadius: 999, background: bg || 'rgba(0,0,0,0.06)',
+        borderRadius: 9999, background: bg || 'rgba(127,127,140,0.12)',
         color: color || 'inherit', border: border || 'none',
-        fontWeight: 500, lineHeight: 1, whiteSpace: 'nowrap'
-      }, background: "rgb(214, 82, 47)" }}>{icon}{children}</span>);
+        fontWeight: 600, lineHeight: 1, whiteSpace: 'nowrap', fontFamily: REL.font.body
+      }}>{icon}{children}</span>);
 
 }
 
@@ -187,25 +218,25 @@ function Pill({ children, color, bg, border, size = 'md', icon }) {
 function Button({ children, variant = 'primary', size = 'md', icon, iconRight, accent, dark, onClick, full, style: extra = {} }) {
   const base = {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-    fontFamily: REL.font.body, fontWeight: 600, letterSpacing: -0.1,
+    fontFamily: REL.font.body, fontWeight: 600,
     border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
     width: full ? '100%' : 'auto'
   };
   const sizes = {
-    sm: { fs: 13, pad: '8px 14px', radius: 10, h: 34 },
-    md: { fs: 14, pad: '12px 18px', radius: 12, h: 44 },
-    lg: { fs: 15, pad: '15px 22px', radius: 14, h: 52 }
+    sm: { fs: 13, pad: '8px 16px', borderRadius: 9999, h: 36 },
+    md: { fs: 15, pad: '12px 20px', borderRadius: 9999, h: 44 },
+    lg: { fs: 15, pad: '15px 24px', borderRadius: 9999, h: 52 }
   }[size];
   const variants = {
-    primary: { bg: accent, color: '#fff' },
-    dark: { bg: dark ? '#fff' : '#0F2C63', color: dark ? '#0F2C63' : '#fff' },
-    ghost: { bg: 'transparent', color: dark ? '#fff' : '#0F2C63', border: `1px solid ${dark ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.12)'}` },
-    soft: { bg: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)', color: dark ? '#fff' : '#0F2C63' }
+    primary: { bg: accent || REL.colors.accents.blue, color: '#fff' },
+    dark: { bg: REL.colors.accents.blue, color: dark ? '#1f0a5c' : '#ffffff' },
+    ghost: { bg: 'transparent', color: dark ? '#ededf2' : '#17161f', border: `1px solid ${dark ? '#3a3946' : '#d6d5df'}` },
+    soft: { bg: dark ? '#292931' : '#eaeaef', color: dark ? '#ededf2' : '#17161f' }
   }[variant];
   return (
-    <button onClick={onClick} style={{
+    <button type="button" onClick={onClick} style={{
       ...base, ...sizes, background: variants.bg, color: variants.color,
-      border: variants.border || 'none', height: sizes.h,
+      border: variants.border || 'none', height: sizes.h, padding: sizes.pad, fontSize: sizes.fs,
       ...extra
     }}>
       {icon}{children}{iconRight}
@@ -214,11 +245,12 @@ function Button({ children, variant = 'primary', size = 'md', icon, iconRight, a
 }
 
 // Card
-function Card({ children, theme, padding = 16, radius = 18, style: extra = {} }) {
+function Card({ children, theme, padding = 16, radius, style: extra = {} }) {
+  // radius-card (20) pour toutes les cartes
   return (
     <div style={{
-      background: theme.surface, borderRadius: radius, padding,
-      border: `1px solid ${theme.border}`,
+      background: theme.surface, borderRadius: REL.radius.card, padding,
+      border: `1px solid ${theme.border}`, boxShadow: theme.shadowCard,
       ...extra
     }}>{children}</div>);
 
@@ -227,10 +259,10 @@ function Card({ children, theme, padding = 16, radius = 18, style: extra = {} })
 // Section title
 function Section({ title, action, children, style: extra = {} }) {
   return (
-    <div style={{ marginBottom: 18, ...extra }}>
+    <div style={{ marginBottom: 24, ...extra }}>
       {title &&
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', marginBottom: 12 }}>
-          <h3 style={{ margin: 0, fontFamily: REL.font.display, fontSize: 17, fontWeight: 700, letterSpacing: -0.3 }}>{title}</h3>
+          <h3 style={{ margin: 0, fontFamily: REL.font.display, fontSize: 17, lineHeight: '24px', fontWeight: 600 }}>{title}</h3>
           {action}
         </div>
       }
@@ -241,7 +273,7 @@ function Section({ title, action, children, style: extra = {} }) {
 
 // Status bar (custom for screens that don't use IOSDevice nav)
 function CustomStatusBar({ dark, time = '9:41' }) {
-  const c = dark ? '#fff' : '#000';
+  const c = dark ? '#ededf2' : '#17161f';
   return (
     <div style={{
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',

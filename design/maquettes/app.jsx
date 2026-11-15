@@ -1,325 +1,476 @@
-// app.jsx — router, phone frame, tab bar, design canvas composition
+// app.jsx — Reliance mobile prototype
+// Main shell + navigation + bottom tab bar + composes all screens
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  dark: false,
-  accent: 'red',
-  font: 'bricolage',
-  density: 'regular',
-  view: 'canvas'
+  "dark": false,
+  "accent": "blue",
+  "font": "jakarta",
+  "density": "regular",
+  "view": "canvas"
 }/*EDITMODE-END*/;
 
-function TabBar({ theme, active, onChange, role = 'client' }) {
-  const tabs = {
-    client: [{ key: 'home', icon: 'home', label: 'Accueil' }, { key: 'map', icon: 'map', label: 'Carte' }, { key: 'feed', icon: 'grid', label: 'Fil' }, { key: 'wallet', icon: 'wallet', label: 'Portefeuille' }, { key: 'profile', icon: 'user', label: 'Profil' }],
-    tech: [{ key: 'home', icon: 'home', label: 'Missions' }, { key: 'inbox', icon: 'inbox', label: 'Messages' }, { key: 'feed', icon: 'grid', label: 'Fil' }, { key: 'planning', icon: 'calendar', label: 'Planning' }, { key: 'profile', icon: 'user', label: 'Profil' }],
-    agency: [{ key: 'home', icon: 'home', label: 'Tableau' }, { key: 'team', icon: 'user', label: 'Équipe' }, { key: 'feed', icon: 'grid', label: 'Fil' }, { key: 'wallet', icon: 'wallet', label: 'Portefeuille' }, { key: 'profile', icon: 'user', label: 'Profil' }]
-  }[role] || [];
-
+// ── Bottom tab bar ─────────────────────────────────────────────────────
+function TabBar({ theme, tab, setTab, role }) {
+  const tabs = role === 'tech'
+    ? [
+        { id: 'home', icon: 'home', label: 'Missions' },
+        { id: 'map', icon: 'map', label: 'Carte' },
+        { id: 'inbox', icon: 'chat', label: 'Messages' },
+        { id: 'wallet', icon: 'wallet', label: 'Gains' },
+        { id: 'profile', icon: 'user', label: 'Profil' },
+      ]
+    : [
+        { id: 'home', icon: 'home', label: 'Accueil' },
+        { id: 'map', icon: 'map', label: 'Carte' },
+        { id: 'inbox', icon: 'chat', label: 'Messages' },
+        { id: 'wallet', icon: 'wallet', label: 'Wallet' },
+        { id: 'profile', icon: 'user', label: 'Profil' },
+      ];
+  // Barre de navigation flottante Clean Lavender : pilule à 16 px des bords, onglet actif sur pastille primary-fixed
   return (
-    <div style={{
-      position: 'absolute', bottom: 0, left: 0, right: 0, display: 'flex',
-      background: theme._t.dark ? 'rgba(17,26,43,0.85)' : 'rgba(255,255,255,0.85)',
-      backdropFilter: 'blur(12px) saturate(180%)', WebkitBackdropFilter: 'blur(12px) saturate(180%)',
-      borderTop: `1px solid ${theme.border}`, padding: '10px 6px 26px', zIndex: 40
+    <nav aria-label="Navigation principale" style={{
+      position: 'absolute', bottom: 24, left: 16, right: 16, zIndex: 30,
+      height: 72, padding: '0 8px', borderRadius: 28,
+      background: theme.surface, border: `1px solid ${theme.border}`,
+      boxShadow: theme.shadowNav,
+      display: 'flex', alignItems: 'center', justifyContent: 'space-around',
     }}>
-      {tabs.map((t) =>
-      <div key={t.key} onClick={() => onChange(t.key)} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, cursor: 'pointer' }}>
-          <Icon name={t.icon} size={22} color={active === t.key ? theme.accent : theme.textMuted} />
-          <span style={{ fontSize: 10, fontWeight: 600, color: active === t.key ? theme.accent : theme.textMuted }}>{t.label}</span>
-        </div>
-      )}
-    </div>);
-
+      {tabs.map((t) => {
+        const active = tab === t.id;
+        return (
+          <button type="button" key={t.id} onClick={() => setTab(t.id)} aria-current={active ? 'page' : undefined} style={{
+            background: 'transparent', border: 'none', cursor: 'pointer',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
+            color: active ? theme.onPrimaryFixed : theme.textMuted, padding: 0, minWidth: 56,
+          }}>
+            <span style={{
+              width: 52, height: 30, borderRadius: 9999,
+              background: active ? theme.primaryFixed : 'transparent',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <Icon name={t.icon} size={22}/>
+            </span>
+            <span style={{ fontSize: 12, lineHeight: '16px', fontWeight: active ? 700 : 500, fontFamily: theme.fonts.body }}>{t.label}</span>
+          </button>
+        );
+      })}
+    </nav>
+  );
 }
 
+// ── Floating Action Button (clients) ───────────────────────────────────
 function FAB({ theme, onClick }) {
   return (
-    <div onClick={onClick} style={{
-      position: 'absolute', right: 20, bottom: 106, width: 54, height: 54, borderRadius: 18,
-      background: theme.accent, display: 'flex', alignItems: 'center', justifyContent: 'center',
-      boxShadow: `0 10px 24px ${theme.accent}55`, zIndex: 41, cursor: 'pointer'
+    <button onClick={onClick} style={{
+      position: 'absolute', bottom: 90, right: 18, zIndex: 25,
+      width: 60, height: 60, borderRadius: 20,
+      background: theme.accent, color: theme.onPrimary, border: '3px solid ' + theme.bg,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      boxShadow: `0 12px 30px ${theme.accent}55`,
+      cursor: 'pointer',
     }}>
-      <Icon name="plus" size={24} color="#fff" />
-    </div>);
-
+      <Icon name="plus" size={26} strokeWidth={2.5}/>
+    </button>
+  );
 }
 
-function PhoneApp({ theme, initial = 'onboarding', initialRole = 'client' }) {
+// ── App router — manages screen + role state ──────────────────────────
+function PhoneApp({ tweaks, initial = 'home', role: initialRole = 'client' }) {
+  const theme = useReliance(tweaks);
   const [route, setRoute] = React.useState(initial);
   const [role, setRole] = React.useState(initialRole);
-  const [tab, setTab] = React.useState('home');
-  const nav = (r) => setRoute(r);
+  const [selectedTech, setSelectedTech] = React.useState(TECHS[0]);
+  const [tab, setTab] = React.useState(['home','map','inbox','wallet','profile'].includes(initial) ? initial : 'home');
 
-  const withTabs = (screen, roleForTabs = role) =>
-  <div style={{ height: '100%', position: 'relative' }}>
-      {screen}
-      <TabBar theme={theme} active={tab} role={roleForTabs} onChange={(k) => {
-        setTab(k);
-        const map = {
-          client: { home: 'client-home', map: 'map', feed: 'feed', wallet: 'wallet', profile: 'profile' },
-          tech: { home: 'tech-home', inbox: 'inbox', feed: 'feed', planning: 'planning-week', profile: 'profile' },
-          agency: { home: 'agency-dashboard', team: 'agency-team', feed: 'feed', wallet: 'wallet', profile: 'profile' }
-        };
-        nav(map[roleForTabs][k]);
-      }} />
-    </div>;
+  // Sync tab when route changes to a tab-route
+  React.useEffect(() => {
+    if (['home','map','inbox','wallet','profile'].includes(route)) setTab(route);
+  }, [route]);
 
+  const goTab = (t) => { setTab(t); setRoute(t); };
 
+  // Render current screen
+  let screen;
   switch (route) {
-    // ── Auth / onboarding
-    case 'onboarding': return <OnboardingScreen theme={theme} onNext={() => nav('role-select')} onSkip={() => nav('login')} />;
-    case 'role-select': return <RoleSelectScreen theme={theme} onSelect={(r) => { setRole(r);nav('login'); }} />;
-    case 'login': return <LoginScreen theme={theme} onLogin={() => nav(role === 'tech' ? 'kyc-start' : role === 'agency' ? 'agency-dashboard' : 'client-home')} />;
-
-    // ── Client
-    case 'client-home': return withTabs(<ClientHomeScreen theme={theme} onCategory={() => nav('new-request')} onSearch={() => nav('search')} onNotifications={() => nav('notifications')} onTech={() => nav('tech-profile')} />, 'client');
-    case 'map': return withTabs(<MapScreen theme={theme} onTech={() => nav('tech-profile')} />, 'client');
-    case 'new-request': return <NewRequestScreen theme={theme} onBack={() => nav('client-home')} onSubmit={() => nav('matching')} />;
-    case 'matching': return <MatchingScreen theme={theme} onMatched={() => nav('tech-profile')} />;
-    case 'tech-profile': return <TechProfileScreen theme={theme} onBack={() => nav('client-home')} onRequest={() => nav('quote')} />;
-    case 'search': return <SearchScreen theme={theme} onBack={() => nav('client-home')} />;
-
-    // ── Intervention flow
-    case 'quote': return <QuoteScreen theme={theme} onBack={() => nav('tech-profile')} onAccept={() => nav('intervention')} />;
-    case 'intervention': return <InterventionScreen theme={theme} onBack={() => nav('client-home')} onChat={() => nav('chat')} />;
-    case 'chat': return <ChatScreen theme={theme} onBack={() => nav('intervention')} />;
-    case 'diagnostic-report': return <DiagnosticReportScreen theme={theme} mode="client" onBack={() => nav('intervention')} onValidate={() => nav('quote')} />;
-    case 'diagnostic-report-tech': return <DiagnosticReportScreen theme={theme} mode="tech-edit" onBack={() => nav('tech-home')} onValidate={() => nav('tech-home')} />;
-    case 'validation': return <ValidationScreen theme={theme} onBack={() => nav('intervention')} onValidate={() => nav('escrow-release')} />;
-    case 'escrow-release': return <EscrowReleaseScreen theme={theme} onBack={() => nav('client-home')} onDone={() => nav('rating')} />;
-    case 'rating': return <RatingScreen theme={theme} onBack={() => nav('client-home')} onSubmit={() => nav('invoice')} />;
-    case 'invoice': return <InvoiceScreen theme={theme} onBack={() => nav('client-home')} />;
-    case 'dispute': return <DisputeScreen theme={theme} onBack={() => nav('intervention')} onSubmit={() => nav('client-home')} />;
-    case 'cancel': return <CancelScreen theme={theme} onBack={() => nav('intervention')} onConfirm={() => nav('client-home')} />;
-
-    // ── Wallet
-    case 'wallet': return withTabs(<WalletScreen theme={theme} onTopUp={() => nav('wallet-topup')} onWithdraw={() => nav('wallet-withdraw')} onTx={() => nav('tx-detail')} />, role);
-    case 'wallet-topup': return <WalletTopUpScreen theme={theme} onBack={() => nav('wallet')} onNext={() => nav('wallet-otp')} />;
-    case 'wallet-withdraw': return <WalletWithdrawScreen theme={theme} onBack={() => nav('wallet')} onNext={() => nav('wallet-otp')} />;
-    case 'wallet-otp': return <WalletOTPScreen theme={theme} onBack={() => nav('wallet')} onVerify={() => nav('wallet')} />;
-    case 'tx-detail': return <TransactionDetailScreen theme={theme} onBack={() => nav('wallet')} />;
-
-    // ── Technician role
-    case 'tech-home': return withTabs(<TechHomeScreen theme={theme} onJob={() => nav('intervention')} onPlanning={() => nav('planning-week')} />, 'tech');
-    case 'inbox': return withTabs(<InboxScreen theme={theme} onOpenChat={() => nav('chat')} />, 'tech');
-    case 'planning-week': return withTabs(<PlanningWeekScreen theme={theme} onBack={() => nav('tech-home')} />, 'tech');
-    case 'leave-request': return <LeaveRequestScreen theme={theme} onBack={() => nav('planning-week')} onSubmit={() => nav('planning-week')} />;
-    case 'availability': return <AvailabilityScreen theme={theme} onBack={() => nav('profile')} />;
-
-    // ── KYC / onboarding technicien
-    case 'kyc-start': return <KYCStartScreen theme={theme} onBack={() => nav('login')} onStart={() => nav('kyc-scan')} />;
-    case 'kyc-scan': return <KYCScanScreen theme={theme} onBack={() => nav('kyc-start')} onNext={() => nav('kyc-selfie')} />;
-    case 'kyc-selfie': return <KYCSelfieScreen theme={theme} onBack={() => nav('kyc-scan')} onNext={() => nav('kyc-pending')} />;
-    case 'kyc-pending': return <KYCPendingScreen theme={theme} onDone={() => nav('tech-onboarding')} />;
-    case 'kyc-rejected': return <KYCRejectedScreen theme={theme} onRetry={() => nav('kyc-scan')} />;
-    case 'tech-onboarding': return <TechOnboardingScreen theme={theme} onBack={() => nav('kyc-pending')} onDone={() => nav('tech-home')} />;
-
-    // ── Social
-    case 'feed': return withTabs(<FeedScreen theme={theme} onCreate={() => nav('create-post')} onOpen={() => nav('post-detail')} />, role);
-    case 'create-post': return <CreatePostScreen theme={theme} onBack={() => nav('feed')} onPublish={() => nav('feed')} />;
-    case 'post-detail': return <PostDetailScreen theme={theme} onBack={() => nav('feed')} />;
-
-    // ── Reputation
-    case 'reputation': return <ReputationScreen theme={theme} onBack={() => nav('profile')} onBadge={() => nav('badge-detail')} onLeaderboard={() => nav('leaderboard')} />;
-    case 'badge-detail': return <BadgeDetailScreen theme={theme} onBack={() => nav('reputation')} />;
-    case 'leaderboard': return <LeaderboardScreen theme={theme} onBack={() => nav('reputation')} />;
-
-    // ── Agency
-    case 'agency-dashboard': return withTabs(<AgencyDashboardScreen theme={theme} onTeam={() => nav('agency-team')} onAssign={() => nav('assign-job')} />, 'agency');
-    case 'agency-team': return withTabs(<AgencyTeamScreen theme={theme} onTech={() => nav('tech-profile')} />, 'agency');
-    case 'assign-job': return <AssignJobScreen theme={theme} onBack={() => nav('agency-dashboard')} onAssign={() => nav('agency-dashboard')} />;
-
-    // ── System
-    case 'notifications': return <NotificationsScreen theme={theme} onBack={() => nav('client-home')} />;
-    case 'empty-requests': return <EmptyStatesScreen theme={theme} variant="requests" />;
-    case 'empty-search': return <EmptyStatesScreen theme={theme} variant="search" />;
-    case 'empty-chat': return <EmptyStatesScreen theme={theme} variant="chat" />;
-    case 'empty-wallet': return <EmptyStatesScreen theme={theme} variant="wallet" />;
-    case 'empty-notifications': return <EmptyStatesScreen theme={theme} variant="notifications" />;
-    case 'empty-error': return <EmptyStatesScreen theme={theme} variant="error" />;
-    case 'toasts': return <ToastsScreen theme={theme} />;
-
-    // ── Profile
-    case 'profile': return withTabs(<ProfileScreen theme={theme} role={role} onSwitchRole={(r) => { setRole(r);setTab('home'); }} onNav={() => {}} />, role);
-
-    default: return <ClientHomeScreen theme={theme} />;
+    case 'onboarding': screen = <OnboardingScreen theme={theme} onDone={() => setRoute('role')} onSkip={() => setRoute('home')}/>; break;
+    case 'role': screen = <RoleSelectScreen theme={theme} onSelect={(r) => { setRole(r); setRoute('login'); }}/>; break;
+    case 'login': screen = <LoginScreen theme={theme} onLogin={() => setRoute('home')} onBack={() => setRoute('role')}/>; break;
+    case 'home':
+      screen = role === 'tech'
+        ? <TechHomeScreen theme={theme}/>
+        : <ClientHomeScreen theme={theme}
+            onCategory={() => setRoute('map')}
+            onTech={(t) => { setSelectedTech(t); setRoute('tech'); }}
+            onMap={() => setRoute('map')}
+            onNewRequest={() => setRoute('request')}/>;
+      break;
+    case 'map': screen = <MapScreen theme={theme} onTech={(t) => { setSelectedTech(t); setRoute('tech'); }} onBack={() => setRoute('home')}/>; break;
+    case 'request': screen = <NewRequestScreen theme={theme} onBack={() => setRoute('home')} onMatch={() => setRoute('matching')}/>; break;
+    case 'matching': screen = <MatchingScreen theme={theme} onBack={() => setRoute('home')} onSelect={(t) => { setSelectedTech(t); setRoute('intervention'); }}/>; break;
+    case 'tech': screen = <TechProfileScreen theme={theme} tech={selectedTech} onBack={() => setRoute('home')} onBook={() => setRoute('intervention')}/>; break;
+    case 'intervention': screen = <InterventionScreen theme={theme} tech={selectedTech} onBack={() => setRoute('home')} onChat={() => setRoute('chat')}/>; break;
+    case 'chat': screen = <ChatScreen theme={theme} tech={selectedTech} onBack={() => setRoute('intervention')}/>; break;
+    case 'diagnostic': screen = <DiagnosticReportScreen theme={theme} tech={selectedTech} mode="client" onBack={() => setRoute('intervention')} onAccept={() => setRoute('quote')} onReject={() => setRoute('intervention')}/>; break;
+    case 'diagnostic-edit': screen = <DiagnosticReportScreen theme={theme} tech={selectedTech} mode="tech-edit" onBack={() => setRoute('home')} onAccept={() => setRoute('home')}/>; break;
+    case 'quote': screen = <QuoteScreen theme={theme} tech={selectedTech} onBack={() => setRoute('diagnostic')} onAccept={() => setRoute('intervention')} onReject={() => setRoute('intervention')}/>; break;
+    case 'validation': screen = <ValidationScreen theme={theme} tech={selectedTech} onBack={() => setRoute('intervention')} onValidate={() => setRoute('escrow-release')} onDispute={() => setRoute('intervention')}/>; break;
+    case 'escrow-release': screen = <EscrowReleaseScreen theme={theme} tech={selectedTech} onDone={() => setRoute('home')} onRate={() => setRoute('home')} onInvoice={() => setRoute('invoice')}/>; break;
+    case 'invoice': screen = <InvoiceScreen theme={theme} tech={selectedTech} onBack={() => setRoute('home')}/>; break;
+    case 'kyc-start': screen = <KYCStartScreen theme={theme} onBack={() => setRoute('profile')} onSelect={() => setRoute('kyc-scan')}/>; break;
+    case 'kyc-scan': screen = <KYCScanScreen theme={theme} onBack={() => setRoute('kyc-start')} onNext={() => setRoute('kyc-selfie')}/>; break;
+    case 'kyc-selfie': screen = <KYCSelfieScreen theme={theme} onBack={() => setRoute('kyc-scan')} onNext={() => setRoute('kyc-pending')}/>; break;
+    case 'kyc-pending': screen = <KYCPendingScreen theme={theme} onDone={() => setRoute('home')}/>; break;
+    case 'kyc-rejected': screen = <KYCRejectedScreen theme={theme} onRetry={() => setRoute('kyc-start')} onSupport={() => setRoute('home')}/>; break;
+    case 'tech-onboarding': screen = <TechOnboardingScreen theme={theme} onBack={() => setRoute('role')} onDone={() => setRoute('kyc-pending')}/>; break;
+    case 'rating': screen = <RatingScreen theme={theme} tech={selectedTech} onBack={() => setRoute('home')} onSubmit={() => setRoute('home')}/>; break;
+    case 'dispute': screen = <DisputeScreen theme={theme} tech={selectedTech} onBack={() => setRoute('intervention')} onSubmit={() => setRoute('home')}/>; break;
+    case 'cancel': screen = <CancelScreen theme={theme} tech={selectedTech} onBack={() => setRoute('intervention')} onConfirm={() => setRoute('home')}/>; break;
+    case 'wallet-topup': screen = <WalletTopUpScreen theme={theme} onBack={() => setRoute('wallet')} onNext={() => setRoute('wallet-otp')}/>; break;
+    case 'wallet-withdraw': screen = <WalletWithdrawScreen theme={theme} onBack={() => setRoute('wallet')} onNext={() => setRoute('wallet-otp')}/>; break;
+    case 'wallet-otp': screen = <WalletOTPScreen theme={theme} onBack={() => setRoute('wallet')} onSuccess={() => setRoute('wallet')}/>; break;
+    case 'transaction': screen = <TransactionDetailScreen theme={theme} onBack={() => setRoute('wallet')}/>; break;
+    case 'planning': screen = <PlanningWeekScreen theme={theme} onBack={() => setRoute('home')} onLeave={() => setRoute('leave')} onAvailability={() => setRoute('availability')}/>; break;
+    case 'leave': screen = <LeaveRequestScreen theme={theme} onBack={() => setRoute('planning')} onSubmit={() => setRoute('planning')}/>; break;
+    case 'availability': screen = <AvailabilityScreen theme={theme} onBack={() => setRoute('planning')} onSave={() => setRoute('planning')}/>; break;
+    case 'inbox': screen = <InboxScreen theme={theme} onChat={() => { setSelectedTech(TECHS[0]); setRoute('chat'); }}/>; break;
+    case 'feed': screen = <FeedScreen theme={theme} onBack={() => setRoute('home')} onPost={() => setRoute('post-detail')} onCreate={() => setRoute('post-create')}/>; break;
+    case 'post-create': screen = <CreatePostScreen theme={theme} onBack={() => setRoute('feed')} onPost={() => setRoute('feed')}/>; break;
+    case 'post-detail': screen = <PostDetailScreen theme={theme} onBack={() => setRoute('feed')}/>; break;
+    case 'reputation': screen = <ReputationScreen theme={theme} onBack={() => setRoute('profile')} onBadge={() => setRoute('badge-detail')}/>; break;
+    case 'badge-detail': screen = <BadgeDetailScreen theme={theme} onBack={() => setRoute('reputation')}/>; break;
+    case 'leaderboard': screen = <LeaderboardScreen theme={theme} onBack={() => setRoute('reputation')}/>; break;
+    case 'agency': screen = <AgencyDashboardScreen theme={theme} onTeam={() => setRoute('agency-team')} onAssign={() => setRoute('agency-assign')} onSettings={() => setRoute('profile')}/>; break;
+    case 'agency-team': screen = <AgencyTeamScreen theme={theme} onBack={() => setRoute('agency')} onMember={(m) => { setSelectedTech(m); setRoute('tech'); }} onAdd={() => setRoute('tech-onboarding')}/>; break;
+    case 'agency-assign': screen = <AssignJobScreen theme={theme} onBack={() => setRoute('agency')} onAssign={() => setRoute('agency')}/>; break;
+    case 'notifications': screen = <NotificationsScreen theme={theme} onBack={() => setRoute('home')}/>; break;
+    case 'search': screen = <SearchScreen theme={theme} onBack={() => setRoute('home')}/>; break;
+    case 'empty-states': screen = <EmptyStatesScreen theme={theme} onBack={() => setRoute('home')}/>; break;
+    case 'toasts': screen = <ToastsScreen theme={theme} onBack={() => setRoute('home')}/>; break;
+    case 'wallet': screen = <WalletScreen theme={theme}/>; break;
+    case 'profile': screen = <ProfileScreen theme={theme} role={role} onSwitchRole={setRole}/>; break;
+    default: screen = <ClientHomeScreen theme={theme} onCategory={() => {}} onTech={() => {}} onMap={() => setRoute('map')} onNewRequest={() => setRoute('request')}/>;
   }
-}
 
-function PhoneFrame({ theme, initial, initialRole, dark }) {
+  // Show tab bar only on top-level tab screens
+  const showTabBar = ['home','map','inbox','wallet','profile'].includes(route);
+  const showFAB = route === 'home' && role === 'client';
+
   return (
-    <IOSDevice width={390} height={844} dark={dark !== undefined ? dark : theme._t.dark} statusBar={false}>
-      <PhoneApp theme={theme} initial={initial} initialRole={initialRole} />
-    </IOSDevice>);
-
+    <div style={{ position: 'relative', width: '100%', height: '100%', background: theme.bg, overflow: 'hidden', fontFamily: theme.fonts.body }}>
+      {screen}
+      {showFAB && <FAB theme={theme} onClick={() => setRoute('request')}/>}
+      {showTabBar && <TabBar theme={theme} tab={tab} setTab={goTab} role={role}/>}
+    </div>
+  );
 }
 
-function BrandCover({ theme }) {
+// ── Wrap in iOS device ─────────────────────────────────────────────────
+function PhoneFrame({ tweaks, initial, role, label }) {
+  const theme = useReliance(tweaks);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+      <IOSDevice width={390} height={844} dark={tweaks.dark}>
+        <PhoneApp tweaks={tweaks} initial={initial} role={role}/>
+      </IOSDevice>
+      {label && <div style={{ fontSize: 12, fontFamily: REL.font.body, color: '#57556a', fontWeight: 500 }}>{label}</div>}
+    </div>
+  );
+}
+
+// ── Brand cover artboard ───────────────────────────────────────────────
+function BrandCover({ tweaks }) {
+  const accents = REL.colors.accents;
   return (
     <div style={{
-      width: 1200, height: 700, background: `linear-gradient(135deg, ${theme.accent}, #0F2C63)`,
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#fff', borderRadius: 4
+      width: 1200, height: 700, padding: 64, position: 'relative', overflow: 'hidden',
+      background: '#ffffff', color: '#17161f',
+      fontFamily: REL.font.body, display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
     }}>
-      <div style={{ fontFamily: theme.fonts.display, fontSize: 64, fontWeight: 800, letterSpacing: -1.5 }}>Reliance</div>
-      <div style={{ fontSize: 20, opacity: 0.85, marginTop: 10 }}>Services à domicile · Yaoundé, Cameroun</div>
-    </div>);
+      {/* Background shapes */}
+      <div style={{ position: 'absolute', top: -120, right: -100, width: 520, height: 520, borderRadius: '50%', background: '#efeaff' }}/>
+      <div style={{ position: 'absolute', top: 100, right: 220, width: 220, height: 220, borderRadius: '50%', background: '#5f3add' }}/>
+      <div style={{ position: 'absolute', inset: 0, opacity: 1, backgroundImage: `radial-gradient(rgba(23,22,31,0.06) 1.2px, transparent 1.2px)`, backgroundSize: '20px 20px' }}/>
 
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '8px 14px', borderRadius: 999, background: '#ffffff', border: '1px solid #ececf1', fontSize: 13, fontWeight: 600 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#5f3add' }}/>
+          Reliance · Mobile · v1.0 · Yaoundé
+        </div>
+      </div>
+
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: 760 }}>
+        <div style={{ fontFamily: REL.font.display, fontSize: 96, lineHeight: 1.02, fontWeight: 700, letterSpacing: -2, marginBottom: 24 }}>
+          Le bon technicien.<br/>
+          <span style={{ color: '#5f3add' }}>Sans le mauvais</span><br/>
+          stress.
+        </div>
+        <p style={{ margin: 0, fontSize: 20, lineHeight: 1.45, color: '#57556a', maxWidth: 620 }}>
+          Adaptation mobile de la marque Reliance — exploration des écrans clés du parcours client et technicien sur iOS.
+        </p>
+      </div>
+
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 32 }}>
+        <div style={{ display: 'flex', gap: 32 }}>
+          {[
+            { v: '13', lbl: 'écrans' },
+            { v: '2', lbl: 'rôles' },
+            { v: '5', lbl: 'tweaks live' },
+          ].map(s => (
+            <div key={s.lbl}>
+              <div style={{ fontFamily: REL.font.display, fontSize: 48, fontWeight: 700, letterSpacing: -1, lineHeight: 1 }}>{s.v}</div>
+              <div style={{ fontSize: 13, color: '#57556a', marginTop: 6, fontWeight: 600 }}>{s.lbl}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ fontSize: 12, color: '#57556a', fontWeight: 600 }}>
+          v1.0 · Cameroun · Bilingue FR · 2026
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Main entry : uniquement les écrans de l'app ─────────────────────────
+const SCREENS = [
+  {
+    "name": "Onboarding",
+    "initial": "onboarding"
+  },
+  {
+    "name": "Choix du rôle",
+    "initial": "role"
+  },
+  {
+    "name": "Connexion",
+    "initial": "login"
+  },
+  {
+    "name": "Accueil client",
+    "initial": "home",
+    "role": "client"
+  },
+  {
+    "name": "Carte techniciens",
+    "initial": "map",
+    "role": "client"
+  },
+  {
+    "name": "Profil technicien",
+    "initial": "tech"
+  },
+  {
+    "name": "Nouvelle demande (4 étapes)",
+    "initial": "request"
+  },
+  {
+    "name": "Matching",
+    "initial": "matching"
+  },
+  {
+    "name": "Suivi d'intervention",
+    "initial": "intervention"
+  },
+  {
+    "name": "Chat client ↔ technicien",
+    "initial": "chat"
+  },
+  {
+    "name": "Inbox messages",
+    "initial": "inbox"
+  },
+  {
+    "name": "Portefeuille",
+    "initial": "wallet"
+  },
+  {
+    "name": "Profil & préférences",
+    "initial": "profile"
+  },
+  {
+    "name": "Accueil technicien",
+    "initial": "home",
+    "role": "tech"
+  },
+  {
+    "name": "Rapport diagnostic (vue client)",
+    "initial": "diagnostic"
+  },
+  {
+    "name": "Rédaction diagnostic (tech)",
+    "initial": "diagnostic-edit",
+    "role": "tech"
+  },
+  {
+    "name": "Devis formel",
+    "initial": "quote"
+  },
+  {
+    "name": "Validation client (post-travaux)",
+    "initial": "validation"
+  },
+  {
+    "name": "Libération escrow",
+    "initial": "escrow-release"
+  },
+  {
+    "name": "Facture PDF",
+    "initial": "invoice"
+  },
+  {
+    "name": "KYC · Choix document",
+    "initial": "kyc-start"
+  },
+  {
+    "name": "KYC · Scan recto/verso",
+    "initial": "kyc-scan"
+  },
+  {
+    "name": "KYC · Selfie de vérification",
+    "initial": "kyc-selfie"
+  },
+  {
+    "name": "KYC · En attente",
+    "initial": "kyc-pending"
+  },
+  {
+    "name": "KYC · Rejeté",
+    "initial": "kyc-rejected"
+  },
+  {
+    "name": "Onboarding technicien (5 étapes)",
+    "initial": "tech-onboarding"
+  },
+  {
+    "name": "Notation post-mission",
+    "initial": "rating"
+  },
+  {
+    "name": "Ouvrir un litige",
+    "initial": "dispute"
+  },
+  {
+    "name": "Annuler la demande",
+    "initial": "cancel"
+  },
+  {
+    "name": "Recharger",
+    "initial": "wallet-topup"
+  },
+  {
+    "name": "Retirer",
+    "initial": "wallet-withdraw"
+  },
+  {
+    "name": "Code SMS de vérification",
+    "initial": "wallet-otp"
+  },
+  {
+    "name": "Détail d'une transaction",
+    "initial": "transaction"
+  },
+  {
+    "name": "Calendrier hebdomadaire",
+    "initial": "planning",
+    "role": "tech"
+  },
+  {
+    "name": "Bloquer mon agenda (congés)",
+    "initial": "leave",
+    "role": "tech"
+  },
+  {
+    "name": "Réglages de disponibilité",
+    "initial": "availability",
+    "role": "tech"
+  },
+  {
+    "name": "Feed communauté",
+    "initial": "feed"
+  },
+  {
+    "name": "Créer un post",
+    "initial": "post-create",
+    "role": "tech"
+  },
+  {
+    "name": "Post & commentaires",
+    "initial": "post-detail"
+  },
+  {
+    "name": "Profil réputation public",
+    "initial": "reputation",
+    "role": "tech"
+  },
+  {
+    "name": "Détail d'un badge",
+    "initial": "badge-detail",
+    "role": "tech"
+  },
+  {
+    "name": "Classement quartier",
+    "initial": "leaderboard",
+    "role": "tech"
+  },
+  {
+    "name": "Dashboard agence",
+    "initial": "agency",
+    "role": "tech"
+  },
+  {
+    "name": "Équipe (annuaire)",
+    "initial": "agency-team",
+    "role": "tech"
+  },
+  {
+    "name": "Affecter une mission",
+    "initial": "agency-assign",
+    "role": "tech"
+  },
+  {
+    "name": "Centre de notifications",
+    "initial": "notifications",
+    "role": "client"
+  },
+  {
+    "name": "Recherche universelle + filtres",
+    "initial": "search",
+    "role": "client"
+  },
+  {
+    "name": "États vides & erreurs (6 variantes)",
+    "initial": "empty-states",
+    "role": "client"
+  },
+  {
+    "name": "Toasts & bannières",
+    "initial": "toasts",
+    "role": "client"
+  }
+];
+
+function Screen({ tweaks, initial, role }) {
+  const theme = useReliance(tweaks);
+  return (
+    <div style={{ width: 390, height: 844, position: 'relative', overflow: 'hidden', background: theme.bg, borderRadius: 28, border: '1px solid #ececf1', boxShadow: '0 2px 8px rgba(23, 22, 31, 0.04)' }}>
+      <div style={{ height: '100%', overflow: 'auto' }}>
+        <PhoneApp tweaks={tweaks} initial={initial} role={role}/>
+      </div>
+    </div>
+  );
 }
 
 function App() {
-  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const theme = useReliance(tweaks);
-
-  if (tweaks.view === 'prototype') {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: theme.bg }}>
-        <PhoneFrame theme={theme} initial="onboarding" initialRole="client" />
-        <TweaksPanel dark={theme._t.dark}>
-          <TweakSection title="Apparence">
-            <TweakRow label="Mode sombre"><TweakToggle value={tweaks.dark} onChange={(v) => setTweak('dark', v)} /></TweakRow>
-            <TweakRow label="Accent"><TweakSelect value={tweaks.accent} onChange={(v) => setTweak('accent', v)} options={[{ value: 'red', label: 'Bleu Reliance' }, { value: 'blue', label: 'Bleu' }, { value: 'amber', label: 'Bleu clair' }, { value: 'green', label: 'Bleu nuit' }, { value: 'emerald', label: 'Cyan' }]} /></TweakRow>
-            <TweakRow label="Police"><TweakSelect value={tweaks.font} onChange={(v) => setTweak('font', v)} options={[{ value: 'bricolage', label: 'Bricolage' }, { value: 'helvetica', label: 'Helvetica' }, { value: 'serif', label: 'Serif' }, { value: 'mono', label: 'Mono' }]} /></TweakRow>
-            <TweakRow label="Densité"><TweakRadio value={tweaks.density} onChange={(v) => setTweak('density', v)} options={[{ value: 'compact', label: 'Compact' }, { value: 'regular', label: 'Normal' }, { value: 'comfy', label: 'Confort' }]} /></TweakRow>
-          </TweakSection>
-          <TweakSection title="Vue">
-            <TweakButton label="Retour au canevas" onClick={() => setTweak('view', 'canvas')} />
-          </TweakSection>
-        </TweaksPanel>
-      </div>);
-
-  }
-
+  const tweaks = TWEAK_DEFAULTS;
   return (
-    <div>
-      <DesignCanvas>
-        <DCSection title="Couverture">
-          <BrandCover theme={theme} />
-        </DCSection>
-
-        <DCSection title="Prototype interactif">
-          <PhoneFrame theme={theme} initial="onboarding" initialRole="client" />
-        </DCSection>
-
-        <DCSection title="Onboarding & authentification">
-          <PhoneFrame theme={theme} initial="onboarding" initialRole="client" />
-          <PhoneFrame theme={theme} initial="role-select" initialRole="client" />
-          <PhoneFrame theme={theme} initial="login" initialRole="client" />
-        </DCSection>
-
-        <DCSection title="Découverte client">
-          <PhoneFrame theme={theme} initial="client-home" initialRole="client" />
-          <PhoneFrame theme={theme} initial="map" initialRole="client" />
-          <PhoneFrame theme={theme} initial="search" initialRole="client" />
-          <PhoneFrame theme={theme} initial="tech-profile" initialRole="client" />
-        </DCSection>
-
-        <DCSection title="Nouvelle demande">
-          <PhoneFrame theme={theme} initial="new-request" initialRole="client" />
-          <PhoneFrame theme={theme} initial="matching" initialRole="client" />
-        </DCSection>
-
-        <DCSection title="Cycle d'intervention">
-          <PhoneFrame theme={theme} initial="diagnostic-report" initialRole="client" />
-          <PhoneFrame theme={theme} initial="quote" initialRole="client" />
-          <PhoneFrame theme={theme} initial="intervention" initialRole="client" />
-          <PhoneFrame theme={theme} initial="chat" initialRole="client" />
-          <PhoneFrame theme={theme} initial="validation" initialRole="client" />
-          <PhoneFrame theme={theme} initial="escrow-release" initialRole="client" />
-          <PhoneFrame theme={theme} initial="rating" initialRole="client" />
-          <PhoneFrame theme={theme} initial="invoice" initialRole="client" />
-          <PhoneFrame theme={theme} initial="dispute" initialRole="client" />
-          <PhoneFrame theme={theme} initial="cancel" initialRole="client" />
-        </DCSection>
-
-        <DCSection title="Portefeuille">
-          <PhoneFrame theme={theme} initial="wallet" initialRole="client" />
-          <PhoneFrame theme={theme} initial="wallet-topup" initialRole="client" />
-          <PhoneFrame theme={theme} initial="wallet-withdraw" initialRole="client" />
-          <PhoneFrame theme={theme} initial="wallet-otp" initialRole="client" />
-          <PhoneFrame theme={theme} initial="tx-detail" initialRole="client" />
-        </DCSection>
-
-        <DCSection title="Rôle technicien">
-          <PhoneFrame theme={theme} initial="tech-home" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="inbox" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="diagnostic-report-tech" initialRole="tech" />
-        </DCSection>
-
-        <DCSection title="Rapports & facturation">
-          <PhoneFrame theme={theme} initial="diagnostic-report" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="quote" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="invoice" initialRole="tech" />
-        </DCSection>
-
-        <DCSection title="Vérification KYC">
-          <PhoneFrame theme={theme} initial="kyc-start" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="kyc-scan" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="kyc-selfie" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="kyc-pending" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="kyc-rejected" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="tech-onboarding" initialRole="tech" />
-        </DCSection>
-
-        <DCSection title="Retours & litiges">
-          <PhoneFrame theme={theme} initial="rating" initialRole="client" />
-          <PhoneFrame theme={theme} initial="dispute" initialRole="client" />
-          <PhoneFrame theme={theme} initial="cancel" initialRole="client" />
-        </DCSection>
-
-        <DCSection title="Flux portefeuille détaillé">
-          <PhoneFrame theme={theme} initial="wallet-topup" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="wallet-otp" initialRole="tech" />
-        </DCSection>
-
-        <DCSection title="Fil social">
-          <PhoneFrame theme={theme} initial="feed" initialRole="client" />
-          <PhoneFrame theme={theme} initial="create-post" initialRole="client" />
-          <PhoneFrame theme={theme} initial="post-detail" initialRole="client" />
-        </DCSection>
-
-        <DCSection title="Planning">
-          <PhoneFrame theme={theme} initial="planning-week" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="leave-request" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="availability" initialRole="tech" />
-        </DCSection>
-
-        <DCSection title="Agence">
-          <PhoneFrame theme={theme} initial="agency-dashboard" initialRole="agency" />
-          <PhoneFrame theme={theme} initial="agency-team" initialRole="agency" />
-          <PhoneFrame theme={theme} initial="assign-job" initialRole="agency" />
-        </DCSection>
-
-        <DCSection title="Réputation">
-          <PhoneFrame theme={theme} initial="reputation" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="badge-detail" initialRole="tech" />
-          <PhoneFrame theme={theme} initial="leaderboard" initialRole="tech" />
-        </DCSection>
-
-        <DCSection title="Système">
-          <PhoneFrame theme={theme} initial="notifications" initialRole="client" />
-          <PhoneFrame theme={theme} initial="empty-requests" initialRole="client" />
-          <PhoneFrame theme={theme} initial="empty-search" initialRole="client" />
-          <PhoneFrame theme={theme} initial="empty-chat" initialRole="client" />
-          <PhoneFrame theme={theme} initial="empty-wallet" initialRole="client" />
-          <PhoneFrame theme={theme} initial="empty-notifications" initialRole="client" />
-          <PhoneFrame theme={theme} initial="empty-error" initialRole="client" />
-          <PhoneFrame theme={theme} initial="toasts" initialRole="client" />
-        </DCSection>
-      </DesignCanvas>
-
-      <TweaksPanel dark={theme._t.dark}>
-        <TweakSection title="Apparence">
-          <TweakRow label="Mode sombre"><TweakToggle value={tweaks.dark} onChange={(v) => setTweak('dark', v)} /></TweakRow>
-          <TweakRow label="Accent"><TweakSelect value={tweaks.accent} onChange={(v) => setTweak('accent', v)} options={[{ value: 'red', label: 'Bleu Reliance' }, { value: 'blue', label: 'Bleu' }, { value: 'amber', label: 'Bleu clair' }, { value: 'green', label: 'Bleu nuit' }, { value: 'emerald', label: 'Cyan' }]} /></TweakRow>
-          <TweakRow label="Police"><TweakSelect value={tweaks.font} onChange={(v) => setTweak('font', v)} options={[{ value: 'bricolage', label: 'Bricolage' }, { value: 'helvetica', label: 'Helvetica' }, { value: 'serif', label: 'Serif' }, { value: 'mono', label: 'Mono' }]} /></TweakRow>
-          <TweakRow label="Densité"><TweakRadio value={tweaks.density} onChange={(v) => setTweak('density', v)} options={[{ value: 'compact', label: 'Compact' }, { value: 'regular', label: 'Normal' }, { value: 'comfy', label: 'Confort' }]} /></TweakRow>
-        </TweakSection>
-        <TweakSection title="Vue">
-          <TweakButton label="Prototype plein écran" onClick={() => setTweak('view', 'prototype')} />
-        </TweakSection>
-      </TweaksPanel>
-    </div>);
-
+    <main style={{ minHeight: '100%', padding: 40, background: '#f6f6f8', display: 'flex', flexWrap: 'wrap', gap: 40, justifyContent: 'center', alignContent: 'flex-start' }}>
+      {SCREENS.map((s, i) => (
+        <figure key={i} style={{ margin: 0 }}>
+          <Screen tweaks={tweaks} initial={s.initial} role={s.role}/>
+          <figcaption style={{ marginTop: 12, fontSize: 14, lineHeight: '20px', fontWeight: 500, color: '#57556a', textAlign: 'center' }}>{s.name}</figcaption>
+        </figure>
+      ))}
+    </main>
+  );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
