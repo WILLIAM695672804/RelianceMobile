@@ -96,13 +96,16 @@ npx expo run:android
 
 ## Parcours couverts
 
-| Rôle       | Onglets                            | Depuis « Compte »                                                                                                                           |
-| ---------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| Client     | Accueil, Suivi, Annuaire, Compte   | profil, mot de passe, adresses, factures, rendez-vous, portefeuille, notifications, messagerie, fil                                         |
-| Technicien | Accueil, Mission, Activité, Compte | profil professionnel, compétences, zone, planning, justificatifs, factures, rendez-vous, portefeuille, avis, notifications, messagerie, fil |
-| Agence     | Agence, Compte                     | profil, mot de passe, adresses, notifications, messagerie, fil                                                                              |
+| Rôle       | Onglets                            | Depuis « Compte »                                                                                                                                                              |
+| ---------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Client     | Accueil, Suivi, Annuaire, Compte   | profil, mot de passe, adresses, factures, rendez-vous, portefeuille, notifications, messagerie, fil, litiges                                                                   |
+| Technicien | Accueil, Mission, Activité, Compte | installation, profil professionnel, compétences, zone, planning, justificatifs, factures, rendez-vous, portefeuille, avis, réputation, notifications, messagerie, fil, litiges |
+| Agence     | Agence, Compte                     | profil, mot de passe, adresses, notifications, messagerie, fil                                                                                                                 |
 
-Parcours d'intervention de bout en bout : demande (E10) → rapprochement (E11) → proposition (E12) → acceptation (E06) → suivi (E13 à E15, E18) → devis (E16, E17) → facture (E22) → avis.
+Parcours d'intervention de bout en bout : demande (E10) → rapprochement (E11) → proposition (E12)
+→ acceptation (E06) → suivi (E13 à E15, E18) → devis (E16, E17) → rapport d'intervention →
+contrôle qualité et libération du séquestre → avis → facture (E22). Un litige peut être ouvert
+depuis le contrôle qualité ou le détail d'une demande ; le technicien peut annuler sa mission.
 
 ## Documentation
 
@@ -115,6 +118,8 @@ Parcours d'intervention de bout en bout : demande (E10) → rapprochement (E11) 
 - [Feature `profile`](src/features/profile/README.md)
 - [Feature `kyc`](src/features/kyc/README.md)
 - [Feature `requests`](src/features/requests/README.md)
+- [Feature `interventions`](src/features/interventions/README.md)
+- [Feature `disputes`](src/features/disputes/README.md)
 - [Feature `matching`](src/features/matching/README.md)
 - [Feature `directory`](src/features/directory/README.md)
 - [Feature `missions`](src/features/missions/README.md)
