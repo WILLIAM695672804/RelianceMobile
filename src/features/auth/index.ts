@@ -34,3 +34,4 @@ export type { RegisterPayload, RegistrableRole } from './schemas/authSchemas';
 export { LoginView, type LoginStep, type LoginViewProps } from './ui/LoginView';
 export { OnboardingView, type OnboardingViewProps } from './ui/OnboardingView';
 export { RoleSelectView, type RoleSelectViewProps } from './ui/RoleSelectView';
+export { ForgotPasswordView, type ForgotPasswordViewProps } from './ui/ForgotPasswordView';

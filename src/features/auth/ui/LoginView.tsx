@@ -5,7 +5,7 @@ import { Pressable, View } from 'react-native';
 
 import { MIN_TOUCH_TARGET } from '@/core/responsive';
 import { useTheme } from '@/core/theme';
-import { Banner, Button, Field, Icon, Screen, Text } from '@/shared/ui';
+import { BackButton, Banner, Button, Field, Screen, Text } from '@/shared/ui';
 
 import { loginFormSchema, twoFactorCodeSchema, type LoginFormValues } from '../schemas/authSchemas';
 
@@ -39,26 +39,7 @@ export function LoginView(props: LoginViewProps) {
   return (
     <Screen testID="connexion">
       <View style={{ paddingHorizontal: 16, paddingVertical: 8, minHeight: 56 }}>
-        {onBack ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t('common:actions.back')}
-            onPress={onBack}
-            hitSlop={(MIN_TOUCH_TARGET - 40) / 2}
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 20,
-              borderWidth: 1,
-              borderColor: theme.colors.border,
-              backgroundColor: theme.colors.surface,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Icon name="chevronL" size={18} />
-          </Pressable>
-        ) : null}
+        {onBack ? <BackButton onPress={onBack} /> : null}
       </View>
       <View style={{ paddingHorizontal: 28, paddingTop: 8, paddingBottom: 24, gap: 6 }}>
         <Text variant="display" accessibilityRole="header" style={{ letterSpacing: -0.8 }}>

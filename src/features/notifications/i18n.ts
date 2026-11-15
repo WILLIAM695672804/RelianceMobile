@@ -41,6 +41,12 @@ const fr = {
     submit: 'Enregistrer les préférences',
     saved: 'Préférences enregistrées.',
     saveFailed: 'L’enregistrement a échoué. Veuillez réessayer.',
+    channels: 'Canaux',
+    hints: {
+      in_app: 'Le centre de notifications de l’application.',
+      email: 'Récapitulatifs et reçus par courriel.',
+      sms: 'Alertes urgentes par SMS.',
+    },
   },
 };
 
@@ -85,6 +91,12 @@ const en: typeof fr = {
     submit: 'Save preferences',
     saved: 'Preferences saved.',
     saveFailed: 'Saving failed. Please try again.',
+    channels: 'Channels',
+    hints: {
+      in_app: 'The in-app notification centre.',
+      email: 'Summaries and receipts by email.',
+      sms: 'Urgent alerts by SMS.',
+    },
   },
 };
 

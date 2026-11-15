@@ -7,10 +7,11 @@ import { ApiProvider } from '@/core/api';
 import { RealtimeProvider } from '@/core/realtime';
 import { SessionProvider } from '@/core/session';
 import { ThemeProvider } from '@/core/theme';
+import { ToastProvider } from '@/shared/ui';
 
 import type { AppServices } from './createServices';
 
-/** Fournisseurs racine : cache persisté, i18n, thème, session, API, temps réel. */
+/** Fournisseurs racine : cache persisté, i18n, thème, session, API, temps réel, toasts. */
 export function AppProviders({
   services,
   children,
@@ -29,7 +30,9 @@ export function AppProviders({
           <ThemeProvider>
             <SessionProvider store={services.sessionStore} actions={services.sessionActions}>
               <ApiProvider client={services.api}>
-                <RealtimeProvider service={services.realtime}>{children}</RealtimeProvider>
+                <RealtimeProvider service={services.realtime}>
+                  <ToastProvider>{children}</ToastProvider>
+                </RealtimeProvider>
               </ApiProvider>
             </SessionProvider>
           </ThemeProvider>

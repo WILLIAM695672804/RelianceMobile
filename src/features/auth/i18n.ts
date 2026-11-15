@@ -39,6 +39,16 @@ const fr = {
       member: 'Déjà membre ?',
       signIn: 'Connexion',
     },
+    forgot: {
+      title: 'Mot de passe oublié',
+      hint: 'Saisissez votre adresse électronique : nous vous enverrons un lien pour choisir un nouveau mot de passe.',
+      email: 'Adresse électronique',
+      submit: 'Envoyer le lien',
+      sentTitle: 'Vérifiez votre boîte de réception',
+      sentBody:
+        'Si un compte correspond à {{email}}, un lien de réinitialisation vient de lui être envoyé.',
+      back: 'Retour à la connexion',
+    },
     signIn: {
       title: 'Connexion',
       subtitle: 'Heureux de vous revoir.',
@@ -163,6 +173,15 @@ const en: typeof fr = {
       agence: { title: 'I am an agency', body: 'Manage a team of professionals' },
       member: 'Already a member?',
       signIn: 'Sign in',
+    },
+    forgot: {
+      title: 'Forgot password',
+      hint: 'Enter your email address: we will send you a link to choose a new password.',
+      email: 'Email address',
+      submit: 'Send the link',
+      sentTitle: 'Check your inbox',
+      sentBody: 'If an account matches {{email}}, a reset link has just been sent to it.',
+      back: 'Back to sign in',
     },
     signIn: {
       title: 'Sign in',

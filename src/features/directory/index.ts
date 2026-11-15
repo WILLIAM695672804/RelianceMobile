@@ -20,4 +20,12 @@ export {
   TechnicianPublicProfileScreen,
   type TechnicianPublicProfileScreenProps,
 } from './screens/TechnicianPublicProfileScreen';
+export { technicianPageSchema } from './schemas/directorySchemas';
 export type { TechnicianCard, TechnicianFilters } from './schemas/directorySchemas';
+export { highlight, technicianResult, type SearchResult } from './model/searchResults';
+export {
+  SearchView,
+  type SearchFilter,
+  type SearchViewProps,
+  type TrendingTopic,
+} from './ui/SearchView';

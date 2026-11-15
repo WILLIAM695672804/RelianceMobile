@@ -1,6 +1,25 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  find: {
+    placeholder: 'Rechercher pros, posts, services…',
+    label: 'Rechercher',
+    back: 'Retour',
+    filters: 'Filtres ·',
+    removeFilter: 'Retirer le filtre {{label}}',
+    results_one: '{{count}} résultat pour « {{query}} »',
+    results_other: '{{count}} résultats pour « {{query}} »',
+    recent: 'Récent',
+    clear: 'Effacer',
+    trending: 'Tendances dans votre quartier',
+    kinds: { pro: 'Pro', post: 'Post' },
+    emptyTitle: 'Aucun résultat',
+    emptyBody:
+      'Rien trouvé pour « {{query}} ». Essayez un mot-clé plus simple ou parcourez les catégories.',
+    browse: 'Voir toutes les catégories',
+    errorTitle: 'Recherche impossible',
+    retry: 'Réessayer',
+  },
   search: {
     title: 'Rechercher',
     recent: 'Recherches récentes',
@@ -40,6 +59,24 @@ const fr = {
 };
 
 const en: typeof fr = {
+  find: {
+    placeholder: 'Search pros, posts, services…',
+    label: 'Search',
+    back: 'Back',
+    filters: 'Filters ·',
+    removeFilter: 'Remove filter {{label}}',
+    results_one: '{{count}} result for “{{query}}”',
+    results_other: '{{count}} results for “{{query}}”',
+    recent: 'Recent',
+    clear: 'Clear',
+    trending: 'Trending in your area',
+    kinds: { pro: 'Pro', post: 'Post' },
+    emptyTitle: 'No result',
+    emptyBody: 'Nothing found for “{{query}}”. Try a simpler keyword or browse the categories.',
+    browse: 'See all categories',
+    errorTitle: 'Search unavailable',
+    retry: 'Retry',
+  },
   search: {
     title: 'Search',
     recent: 'Recent searches',

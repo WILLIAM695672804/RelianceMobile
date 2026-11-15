@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { MIN_TOUCH_TARGET } from '@/core/responsive';
-import { useTheme } from '@/core/theme';
 
-import { Icon } from './Icon';
+import { BackButton } from './BackButton';
 import { Text } from './Text';
 
 export interface TopBarProps {
@@ -29,8 +27,6 @@ export function TopBar({
   align = 'start',
   testID,
 }: TopBarProps) {
-  const theme = useTheme();
-  const { t } = useTranslation();
   const centered = align === 'center';
   return (
     <View
@@ -45,26 +41,7 @@ export function TopBar({
         minHeight: 56,
       }}
     >
-      {onBack ? (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={backLabel ?? t('common:actions.back')}
-          onPress={onBack}
-          hitSlop={(MIN_TOUCH_TARGET - 40) / 2}
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            borderWidth: 1,
-            borderColor: theme.colors.border,
-            backgroundColor: theme.colors.surface,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Icon name="chevronL" size={18} />
-        </Pressable>
-      ) : null}
+      {onBack ? <BackButton onPress={onBack} label={backLabel} /> : null}
       <View style={{ flex: 1 }}>
         <Text
           variant={centered ? 'bodyStrong' : 'title'}

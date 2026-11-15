@@ -18,6 +18,15 @@ export const en: typeof fr = {
     offline: {
       banner: 'You are offline. Some features are limited.',
     },
+    filters: {
+      all: 'All',
+    },
+    toast: {
+      close: 'Dismiss notification',
+    },
+    search: {
+      clear: 'Clear search',
+    },
     field: {
       showPassword: 'Show password',
       hidePassword: 'Hide password',
@@ -26,6 +35,8 @@ export const en: typeof fr = {
       expired: 'Your session has expired. Please sign in again.',
       checkConnection: 'Check your connection.',
       webOnly: 'This area is available on the web platform only.',
+      webOnlyTitle: 'Web-only area',
+      openWeb: 'Open the web platform',
       unknownRole: 'Your role is not supported by the mobile app.',
     },
     navigation: {
@@ -62,5 +73,16 @@ export const en: typeof fr = {
     server: 'An error occurred. Please try again later.',
     contract: 'Unexpected server response.',
     unknown: 'An unexpected error occurred.',
+    states: {
+      offlineTitle: 'No connection',
+      offlineBody:
+        'Reliance cannot reach its servers. Check your mobile data or Wi-Fi. Pending actions will be sent as soon as the network is back.',
+      serverTitle: 'Something broke',
+      limitTitle: 'Too many requests',
+      limitAction: 'OK, I will wait',
+      genericTitle: 'Unable to load',
+      retry: 'Retry',
+      support: 'Contact support',
+    },
   },
 };

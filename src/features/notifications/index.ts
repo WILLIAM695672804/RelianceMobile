@@ -28,3 +28,7 @@ export {
   type NotificationCategory,
 } from './model/notificationGroups';
 export { NotificationsView, type NotificationsViewProps } from './ui/NotificationsView';
+export {
+  NotificationSettingsView,
+  type NotificationSettingsViewProps,
+} from './ui/NotificationSettingsView';

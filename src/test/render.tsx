@@ -14,6 +14,7 @@ import {
   type SessionStore,
 } from '@/core/session';
 import { ThemeProvider } from '@/core/theme';
+import { ToastProvider } from '@/shared/ui';
 
 import { createFakeRealtimeClient } from './fakeRealtime';
 
@@ -58,7 +59,9 @@ export function createTestProviders(options: TestProvidersOptions = {}) {
           <ThemeProvider scheme="light">
             <SessionProvider store={sessionStore} actions={sessionActions}>
               <ApiProvider client={api}>
-                <RealtimeProvider service={realtime}>{children}</RealtimeProvider>
+                <RealtimeProvider service={realtime}>
+                  <ToastProvider>{children}</ToastProvider>
+                </RealtimeProvider>
               </ApiProvider>
             </SessionProvider>
           </ThemeProvider>

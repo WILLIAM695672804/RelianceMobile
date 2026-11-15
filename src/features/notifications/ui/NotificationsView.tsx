@@ -2,9 +2,11 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 
+import type { AppErrorKind } from '@/core/errors';
 import { useTheme } from '@/core/theme';
 import {
   EmptyState,
+  ErrorState,
   Icon,
   Screen,
   Tabs,
@@ -37,6 +39,8 @@ export interface NotificationsViewProps {
   notifications: readonly AppNotification[];
   /** Instant de référence pour les délais et les périodes. */
   now: Date;
+  /** Catégorie de l'erreur de chargement ; choisit l'illustration et le texte. */
+  errorKind?: AppErrorKind;
   errorMessage?: string;
   markingAll?: boolean;
   onBack: () => void;
@@ -50,6 +54,7 @@ export function NotificationsView({
   status,
   notifications,
   now,
+  errorKind = 'unknown',
   errorMessage,
   markingAll = false,
   onBack,
@@ -106,14 +111,7 @@ export function NotificationsView({
           <ActivityIndicator accessibilityLabel={t('common:states.loading')} />
         </View>
       ) : status === 'error' ? (
-        <EmptyState
-          icon="close"
-          tone="danger"
-          title={t('notifications:errorTitle')}
-          message={errorMessage ?? t('notifications:actionFailed')}
-          actionLabel={t('notifications:retry')}
-          onAction={onRetry}
-        />
+        <ErrorState kind={errorKind} message={errorMessage} onRetry={onRetry} />
       ) : groups.length === 0 ? (
         <EmptyState
           icon="bell"

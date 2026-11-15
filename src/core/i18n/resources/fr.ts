@@ -16,6 +16,15 @@ export const fr = {
     offline: {
       banner: 'Vous êtes hors ligne. Certaines fonctionnalités sont limitées.',
     },
+    filters: {
+      all: 'Tous',
+    },
+    toast: {
+      close: 'Fermer la notification',
+    },
+    search: {
+      clear: 'Effacer la recherche',
+    },
     field: {
       showPassword: 'Afficher le mot de passe',
       hidePassword: 'Masquer le mot de passe',
@@ -24,6 +33,8 @@ export const fr = {
       expired: 'Votre session a expiré. Veuillez vous reconnecter.',
       checkConnection: 'Vérifiez votre connexion.',
       webOnly: 'Cet espace est réservé à la plateforme web.',
+      webOnlyTitle: 'Espace réservé au web',
+      openWeb: 'Ouvrir la plateforme web',
       unknownRole: 'Votre rôle n’est pas reconnu par l’application mobile.',
     },
     navigation: {
@@ -60,5 +71,16 @@ export const fr = {
     server: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
     contract: 'Réponse inattendue du serveur.',
     unknown: 'Une erreur inattendue est survenue.',
+    states: {
+      offlineTitle: 'Pas de connexion',
+      offlineBody:
+        'Reliance ne peut pas joindre ses serveurs. Vérifiez vos données mobiles ou votre Wi-Fi. Vos actions en attente seront envoyées dès le retour du réseau.',
+      serverTitle: 'Quelque chose a cassé',
+      limitTitle: 'Trop de demandes',
+      limitAction: 'D’accord, je patiente',
+      genericTitle: 'Chargement impossible',
+      retry: 'Réessayer',
+      support: 'Contacter le support',
+    },
   },
 };
