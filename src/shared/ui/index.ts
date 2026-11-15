@@ -28,3 +28,4 @@ export { EmptyState, type EmptyStateProps, type EmptyStateTone } from './EmptySt
 export { Tabs, type TabItem, type TabsProps } from './Tabs';
 export { TextAction, TopBar, type TextActionProps, type TopBarProps } from './TopBar';
 export { useReducedMotion } from './useReducedMotion';
+export { Banner, type BannerProps, type BannerTone } from './Banner';

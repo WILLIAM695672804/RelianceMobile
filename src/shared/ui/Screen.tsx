@@ -18,6 +18,8 @@ export interface ScreenProps {
   withTabBar?: boolean;
   /** Zone fixe sous le contenu (bouton principal d'un formulaire). */
   footer?: ReactNode;
+  /** Le contenu descend jusqu'au bas de l'écran et gère lui-même la zone sûre inférieure. */
+  bleedBottom?: boolean;
   testID?: string;
 }
 
@@ -31,6 +33,7 @@ export function Screen({
   padded = false,
   withTabBar = false,
   footer,
+  bleedBottom = false,
   testID,
 }: ScreenProps) {
   const theme = useTheme();
@@ -42,11 +45,13 @@ export function Screen({
     alignSelf: 'center' as const,
     paddingHorizontal: padded ? gutter : 0,
   };
-  const bottomSpace = withTabBar
-    ? TAB_BAR_CLEARANCE + insets.bottom
-    : footer
-      ? 16
-      : 24 + insets.bottom;
+  const bottomSpace = bleedBottom
+    ? 0
+    : withTabBar
+      ? TAB_BAR_CLEARANCE + insets.bottom
+      : footer
+        ? 16
+        : 24 + insets.bottom;
 
   return (
     <View

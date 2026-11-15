@@ -71,28 +71,41 @@ export function Field({
         }}
       >
         {icon ? <Icon name={icon} size={18} tone="muted" /> : null}
-        <TextInput
-          testID={testID}
-          accessibilityLabel={label}
-          accessibilityHint={error}
-          value={value}
-          onChangeText={onChangeText}
-          onBlur={onBlur}
-          placeholder={placeholder}
-          placeholderTextColor={theme.colors.textMuted}
-          secureTextEntry={hidden}
-          keyboardType={keyboardType}
-          autoComplete={autoComplete}
-          autoCapitalize={autoCapitalize}
-          maxFontSizeMultiplier={MAX_FONT_SCALE}
-          style={{
-            flex: 1,
-            height: '100%',
-            fontFamily: theme.fontFamily.body,
-            fontSize: 15,
-            color: theme.colors.text,
-          }}
-        />
+        <View style={{ flex: 1, height: '100%', justifyContent: 'center' }}>
+          {/* Texte indicatif dessiné par nos soins : Android rend le texte indicatif natif
+              dans la police du système (relevé sur Galaxy S22), et non dans Plus Jakarta Sans. */}
+          {placeholder && value.length === 0 ? (
+            <Text
+              variant="body"
+              tone="muted"
+              numberOfLines={1}
+              testID={testID ? `${testID}-indicatif` : undefined}
+              style={{ position: 'absolute', left: 0, right: 0 }}
+            >
+              {placeholder}
+            </Text>
+          ) : null}
+          <TextInput
+            testID={testID}
+            accessibilityLabel={label}
+            accessibilityHint={error ?? placeholder}
+            value={value}
+            onChangeText={onChangeText}
+            onBlur={onBlur}
+            secureTextEntry={hidden}
+            keyboardType={keyboardType}
+            autoComplete={autoComplete}
+            autoCapitalize={autoCapitalize}
+            maxFontSizeMultiplier={MAX_FONT_SCALE}
+            style={{
+              flex: 1,
+              padding: 0,
+              fontFamily: theme.fontFamily.body,
+              fontSize: 15,
+              color: theme.colors.text,
+            }}
+          />
+        </View>
         {secure ? (
           <Pressable
             accessibilityRole="button"

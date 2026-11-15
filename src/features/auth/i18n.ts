@@ -1,6 +1,61 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  access: {
+    onboarding: {
+      eyebrow: 'Reliance · 0{{number}}',
+      skip: 'Passer',
+      next: 'Suivant',
+      start: 'Commencer',
+      goTo: 'Aller à la diapositive {{number}}',
+      slides: {
+        '0': {
+          title: 'Le bon technicien.\nEn un geste.',
+          body: 'Décrivez votre panne : nous vous proposons les meilleurs profils près de chez vous en moins de 60 secondes.',
+          cardTitle: 'Rapprochement en 47 s',
+          cardBody: 'Quartier Bastos · plomberie',
+        },
+        '1': {
+          title: 'Paiement bloqué.\nZéro mauvaise surprise.',
+          body: 'Votre paiement reste sécurisé en séquestre. Le technicien n’est payé qu’une fois le travail validé.',
+          cardTitle: 'Séquestre activé',
+          cardBody: '12 500 FCFA gelés',
+        },
+        '2': {
+          title: 'Suivi en direct.\nDe A à Z.',
+          body: 'Diagnostic, devis, intervention, garantie : chaque étape est visible dans l’application, avec messagerie intégrée.',
+          cardTitle: 'Phase 2/4 · diagnostic',
+          cardBody: 'Paul est en route · 8 min',
+        },
+      },
+    },
+    roles: {
+      badge: 'Reliance · Yaoundé',
+      title: 'Bienvenue.',
+      subtitle: 'Vous êtes ici pour…',
+      client: { title: 'Je suis client', body: 'Trouver un technicien qualifié' },
+      technicien: { title: 'Je suis technicien', body: 'Trouver des missions près de moi' },
+      agence: { title: 'Je suis une agence', body: 'Gérer une équipe de professionnels' },
+      member: 'Déjà membre ?',
+      signIn: 'Connexion',
+    },
+    signIn: {
+      title: 'Connexion',
+      subtitle: 'Heureux de vous revoir.',
+      email: 'Adresse électronique',
+      emailPlaceholder: 'vous@exemple.cm',
+      password: 'Mot de passe',
+      forgotPassword: 'Mot de passe oublié ?',
+      submit: 'Se connecter',
+      notMember: 'Pas encore membre ?',
+      register: 'Créer un compte',
+      twoFactorTitle: 'Vérification en deux étapes',
+      twoFactorHint: 'Saisissez le code à six chiffres de votre application d’authentification.',
+      twoFactorCode: 'Code de vérification',
+      twoFactorSubmit: 'Vérifier',
+      back: 'Retour',
+    },
+  },
   onboarding: {
     slides: {
       '0': {
@@ -71,6 +126,61 @@ const fr = {
 };
 
 const en: typeof fr = {
+  access: {
+    onboarding: {
+      eyebrow: 'Reliance · 0{{number}}',
+      skip: 'Skip',
+      next: 'Next',
+      start: 'Get started',
+      goTo: 'Go to slide {{number}}',
+      slides: {
+        '0': {
+          title: 'The right technician.\nIn one tap.',
+          body: 'Describe your issue: we suggest the best profiles near you in under 60 seconds.',
+          cardTitle: 'Matched in 47 s',
+          cardBody: 'Bastos district · plumbing',
+        },
+        '1': {
+          title: 'Payment on hold.\nNo bad surprise.',
+          body: 'Your payment stays secured in escrow. The technician is paid only once the work is validated.',
+          cardTitle: 'Escrow active',
+          cardBody: '12,500 FCFA on hold',
+        },
+        '2': {
+          title: 'Live tracking.\nFrom A to Z.',
+          body: 'Diagnosis, quote, job, warranty: every step is visible in the app, with built-in messaging.',
+          cardTitle: 'Phase 2/4 · diagnosis',
+          cardBody: 'Paul is on his way · 8 min',
+        },
+      },
+    },
+    roles: {
+      badge: 'Reliance · Yaoundé',
+      title: 'Welcome.',
+      subtitle: 'You are here to…',
+      client: { title: 'I am a client', body: 'Find a qualified technician' },
+      technicien: { title: 'I am a technician', body: 'Find jobs near me' },
+      agence: { title: 'I am an agency', body: 'Manage a team of professionals' },
+      member: 'Already a member?',
+      signIn: 'Sign in',
+    },
+    signIn: {
+      title: 'Sign in',
+      subtitle: 'Good to see you again.',
+      email: 'Email address',
+      emailPlaceholder: 'you@example.cm',
+      password: 'Password',
+      forgotPassword: 'Forgot password?',
+      submit: 'Sign in',
+      notMember: 'Not a member yet?',
+      register: 'Create an account',
+      twoFactorTitle: 'Two-step verification',
+      twoFactorHint: 'Enter the six-digit code from your authenticator app.',
+      twoFactorCode: 'Verification code',
+      twoFactorSubmit: 'Verify',
+      back: 'Back',
+    },
+  },
   onboarding: {
     slides: {
       '0': {

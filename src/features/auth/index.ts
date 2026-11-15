@@ -31,3 +31,6 @@ export { OnboardingScreen, type OnboardingScreenProps } from './screens/Onboardi
 export { RegisterScreen, type RegisterScreenProps } from './screens/RegisterScreen';
 export type { LoginPayload, ResetPasswordPayload, TwoFactorSetup } from './api/authApi';
 export type { RegisterPayload, RegistrableRole } from './schemas/authSchemas';
+export { LoginView, type LoginStep, type LoginViewProps } from './ui/LoginView';
+export { OnboardingView, type OnboardingViewProps } from './ui/OnboardingView';
+export { RoleSelectView, type RoleSelectViewProps } from './ui/RoleSelectView';

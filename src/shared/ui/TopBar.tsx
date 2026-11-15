@@ -84,19 +84,30 @@ export interface TextActionProps {
   label: string;
   onPress: () => void;
   disabled?: boolean;
+  tone?: 'primary' | 'muted';
 }
 
 /** Action textuelle d'une barre de titre (« Tout lire », « Rejouer »). */
-export function TextAction({ label, onPress, disabled = false }: TextActionProps) {
+export function TextAction({
+  label,
+  onPress,
+  disabled = false,
+  tone = 'primary',
+}: TextActionProps) {
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ disabled }}
       disabled={disabled}
+      accessibilityLabel={label}
       onPress={onPress}
       style={{ minHeight: MIN_TOUCH_TARGET, justifyContent: 'center', paddingHorizontal: 4 }}
     >
-      <Text variant="labelStrong" tone="primary" style={{ opacity: disabled ? 0.4 : 1 }}>
+      <Text
+        variant={tone === 'muted' ? 'label' : 'labelStrong'}
+        tone={tone}
+        style={{ opacity: disabled ? 0.4 : 1 }}
+      >
         {label}
       </Text>
     </Pressable>

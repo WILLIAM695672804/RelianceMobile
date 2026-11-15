@@ -129,6 +129,19 @@ describe('Field', () => {
     expect(onChangeText).toHaveBeenCalledWith('a');
   });
 
+  it('dessine son texte indicatif dans la police de l’application et l’efface à la saisie', async () => {
+    const { rerender } = await renderWithProviders(
+      <Field label="Email" value="" onChangeText={jest.fn()} placeholder="vous@exemple.cm" />,
+    );
+    expect(screen.getByText('vous@exemple.cm')).toHaveStyle({
+      fontFamily: 'PlusJakartaSans_400Regular',
+    });
+    await rerender(
+      <Field label="Email" value="a" onChangeText={jest.fn()} placeholder="vous@exemple.cm" />,
+    );
+    expect(screen.queryByText('vous@exemple.cm')).toBeNull();
+  });
+
   it('affiche l’erreur et cerne le champ de la couleur de danger', async () => {
     await renderWithProviders(
       <Field label="Email" value="x" onChangeText={jest.fn()} error="Adresse invalide" />,
