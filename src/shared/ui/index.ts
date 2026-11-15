@@ -24,3 +24,6 @@ export {
   type TabBarProps,
 } from './TabBar';
 export { Text, TEXT_VARIANTS, type TextProps, type TextTone, type TextVariant } from './Text';
+export { EmptyState, type EmptyStateProps, type EmptyStateTone } from './EmptyState';
+export { Tabs, type TabItem, type TabsProps } from './Tabs';
+export { TextAction, TopBar, type TextActionProps, type TopBarProps } from './TopBar';

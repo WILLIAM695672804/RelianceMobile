@@ -21,3 +21,10 @@ export type {
   ChannelMap,
   NotificationChannel,
 } from './schemas/notificationSchemas';
+export {
+  categoryOf,
+  elapsedOf,
+  groupByPeriod,
+  type NotificationCategory,
+} from './model/notificationGroups';
+export { NotificationsView, type NotificationsViewProps } from './ui/NotificationsView';
