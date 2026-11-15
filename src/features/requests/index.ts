@@ -21,3 +21,16 @@ export { NewRequestScreen, type NewRequestScreenProps } from './screens/NewReque
 export { RequestDetailScreen, type RequestDetailScreenProps } from './screens/RequestDetailScreen';
 export { RequestsListScreen, type RequestsListScreenProps } from './screens/RequestsListScreen';
 export type { CreateRequestPayload, RequestStatus, ServiceRequest } from './schemas/requestSchemas';
+export type { ServiceCategory } from './model/categories';
+export {
+  ClientHomeView,
+  type ActiveIntervention,
+  type ClientHomeViewProps,
+} from './ui/ClientHomeView';
+export {
+  NewRequestView,
+  type NewRequestValues,
+  type NewRequestViewProps,
+  type RequestPlace,
+  type Urgency,
+} from './ui/NewRequestView';

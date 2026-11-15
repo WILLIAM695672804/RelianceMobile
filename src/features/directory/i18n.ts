@@ -1,6 +1,36 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  map: {
+    back: 'Retour',
+    search: 'Rechercher un technicien',
+    filters: 'Filtres',
+    zoomIn: 'Zoomer',
+    zoomOut: 'Dézoomer',
+    recenter: 'Me localiser',
+    nearby_one: '{{count}} technicien proche',
+    nearby_other: '{{count}} techniciens proches',
+    autoMatch: 'Rapprochement auto',
+    diagnosticRate: 'Tarif diag.',
+    viewProfile: 'Voir le profil',
+  },
+  profile: {
+    back: 'Retour',
+    save: 'Enregistrer ce technicien',
+    saved: 'Technicien enregistré',
+    kyc: 'KYC',
+    rating: 'Note moy.',
+    jobs: 'Missions',
+    success: 'Réussite',
+    tabs: { about: 'À propos', work: 'Réalisations', reviews: 'Avis' },
+    skills: 'Compétences',
+    zone: 'Zone d’intervention',
+    noWork: 'Aucune réalisation publiée pour l’instant.',
+    noReviews: 'Aucun avis pour l’instant.',
+    message: 'Écrire au technicien',
+    book: 'Réserver — {{price}}',
+    bookNoPrice: 'Réserver',
+  },
   find: {
     placeholder: 'Rechercher pros, posts, services…',
     label: 'Rechercher',
@@ -59,6 +89,36 @@ const fr = {
 };
 
 const en: typeof fr = {
+  map: {
+    back: 'Back',
+    search: 'Search a technician',
+    filters: 'Filters',
+    zoomIn: 'Zoom in',
+    zoomOut: 'Zoom out',
+    recenter: 'Locate me',
+    nearby_one: '{{count}} technician nearby',
+    nearby_other: '{{count}} technicians nearby',
+    autoMatch: 'Auto match',
+    diagnosticRate: 'Diag. rate',
+    viewProfile: 'View profile',
+  },
+  profile: {
+    back: 'Back',
+    save: 'Save this technician',
+    saved: 'Technician saved',
+    kyc: 'KYC',
+    rating: 'Avg. rating',
+    jobs: 'Jobs',
+    success: 'Success',
+    tabs: { about: 'About', work: 'Work', reviews: 'Reviews' },
+    skills: 'Skills',
+    zone: 'Service area',
+    noWork: 'No work published yet.',
+    noReviews: 'No review yet.',
+    message: 'Message the technician',
+    book: 'Book — {{price}}',
+    bookNoPrice: 'Book',
+  },
   find: {
     placeholder: 'Search pros, posts, services…',
     label: 'Search',

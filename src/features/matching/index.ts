@@ -30,3 +30,4 @@ export type {
   ReceivedProposal,
   TechnicianProfile,
 } from './schemas/matchingSchemas';
+export { MatchingView, type MatchingViewProps } from './ui/MatchingView';

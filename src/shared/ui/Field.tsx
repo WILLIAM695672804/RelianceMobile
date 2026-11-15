@@ -28,6 +28,11 @@ export interface FieldProps {
   keyboardType?: KeyboardTypeOptions;
   autoComplete?: TextInputProps['autoComplete'];
   autoCapitalize?: TextInputProps['autoCapitalize'];
+  /** Saisie sur plusieurs lignes (description) : cadre de 120 points au moins. */
+  multiline?: boolean;
+  /** Aide affichée sous le champ lorsqu'il n'y a pas d'erreur. */
+  hint?: string;
+  maxLength?: number;
   testID?: string;
 }
 
@@ -44,6 +49,9 @@ export function Field({
   keyboardType,
   autoComplete,
   autoCapitalize,
+  multiline = false,
+  hint,
+  maxLength,
   testID,
 }: FieldProps) {
   const theme = useTheme();
@@ -59,9 +67,11 @@ export function Field({
       <View
         style={{
           flexDirection: 'row',
-          alignItems: 'center',
+          alignItems: multiline ? 'flex-start' : 'center',
           gap: 10,
-          height: 52,
+          height: multiline ? undefined : 52,
+          minHeight: multiline ? 120 : undefined,
+          paddingVertical: multiline ? 14 : 0,
           paddingLeft: 14,
           paddingRight: secure ? 2 : 14,
           borderRadius: theme.radius.tile,
@@ -71,16 +81,23 @@ export function Field({
         }}
       >
         {icon ? <Icon name={icon} size={18} tone="muted" /> : null}
-        <View style={{ flex: 1, height: '100%', justifyContent: 'center' }}>
+        <View
+          style={{
+            flex: 1,
+            height: multiline ? undefined : '100%',
+            minHeight: multiline ? 92 : undefined,
+            justifyContent: multiline ? 'flex-start' : 'center',
+          }}
+        >
           {/* Texte indicatif dessiné par nos soins : Android rend le texte indicatif natif
               dans la police du système (relevé sur Galaxy S22), et non dans Plus Jakarta Sans. */}
           {placeholder && value.length === 0 ? (
             <Text
               variant="body"
               tone="muted"
-              numberOfLines={1}
+              numberOfLines={multiline ? undefined : 1}
               testID={testID ? `${testID}-indicatif` : undefined}
-              style={{ position: 'absolute', left: 0, right: 0 }}
+              style={{ position: 'absolute', left: 0, right: 0, top: multiline ? 0 : undefined }}
             >
               {placeholder}
             </Text>
@@ -96,10 +113,14 @@ export function Field({
             keyboardType={keyboardType}
             autoComplete={autoComplete}
             autoCapitalize={autoCapitalize}
+            multiline={multiline}
+            maxLength={maxLength}
+            textAlignVertical={multiline ? 'top' : 'center'}
             maxFontSizeMultiplier={MAX_FONT_SCALE}
             style={{
               flex: 1,
               padding: 0,
+              lineHeight: multiline ? 22 : undefined,
               fontFamily: theme.fontFamily.body,
               fontSize: 15,
               color: theme.colors.text,
@@ -127,6 +148,10 @@ export function Field({
       {error ? (
         <Text variant="caption" tone="danger" accessibilityRole="text">
           {error}
+        </Text>
+      ) : hint ? (
+        <Text variant="caption" tone="muted" style={{ fontFamily: theme.fontFamily.body }}>
+          {hint}
         </Text>
       ) : null}
     </View>

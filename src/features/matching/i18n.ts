@@ -1,6 +1,22 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  live: {
+    close: 'Fermer',
+    searching: 'Recherche en cours…',
+    searchingHint: 'Analyse du problème et recherche des techniciens disponibles près de vous.',
+    found_one: '{{count}} technicien trouvé',
+    found_other: '{{count}} techniciens trouvés',
+    sorted: 'Triés par compatibilité, distance et note.',
+    top: 'TOP',
+    diagnostic: 'FCFA · diag.',
+    viewProfile: 'Voir le profil',
+    choose: 'Choisir',
+    emptyTitle: 'Aucun technicien disponible',
+    emptyBody:
+      'Personne n’est disponible pour cette demande pour l’instant. Réessayez dans quelques minutes.',
+    retry: 'Relancer la recherche',
+  },
   results: {
     title: 'Techniciens disponibles',
     searching: 'Recherche des techniciens vérifiés les plus proches…',
@@ -57,6 +73,21 @@ const fr = {
 };
 
 const en: typeof fr = {
+  live: {
+    close: 'Close',
+    searching: 'Searching…',
+    searchingHint: 'Analysing the problem and looking for available technicians near you.',
+    found_one: '{{count}} technician found',
+    found_other: '{{count}} technicians found',
+    sorted: 'Sorted by fit, distance and rating.',
+    top: 'TOP',
+    diagnostic: 'FCFA · diag.',
+    viewProfile: 'View profile',
+    choose: 'Choose',
+    emptyTitle: 'No technician available',
+    emptyBody: 'Nobody is available for this request right now. Try again in a few minutes.',
+    retry: 'Search again',
+  },
   results: {
     title: 'Available technicians',
     searching: 'Searching for the nearest verified technicians…',

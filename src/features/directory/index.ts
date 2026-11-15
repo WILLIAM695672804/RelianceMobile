@@ -29,3 +29,11 @@ export {
   type SearchViewProps,
   type TrendingTopic,
 } from './ui/SearchView';
+export { MapView, type MapViewProps } from './ui/MapView';
+export {
+  TechProfileView,
+  type TechProfile,
+  type TechProfileViewProps,
+  type TechReview,
+  type TechWork,
+} from './ui/TechProfileView';

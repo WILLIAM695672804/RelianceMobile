@@ -36,3 +36,8 @@ export { TOAST_DURATION, ToastProvider, useToast, type ToastRequest } from './To
 export { ErrorState, type ErrorStateProps } from './ErrorState';
 export { BackButton, type BackButtonProps } from './BackButton';
 export { SwitchRow, type SwitchRowProps } from './SwitchRow';
+export { IllustratedMap, type IllustratedMapProps, type MapPin } from './IllustratedMap';
+export { PhaseBar } from './PhaseBar';
+export { VerifiedMark } from './VerifiedMark';
+export { Segmented, type SegmentedProps } from './Segmented';
+export { Stars } from './Stars';
