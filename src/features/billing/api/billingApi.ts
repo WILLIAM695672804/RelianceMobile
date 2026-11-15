@@ -91,7 +91,7 @@ export async function fetchInvoice(client: AxiosInstance, invoiceId: string): Pr
   return invoice(data);
 }
 
-/** `POST /invoices/{id}/pay` : marque la facture payée (aucun mouvement financier). */
+/** `POST /invoices/{id}/pay` : règle la facture depuis le portefeuille (séquestre puis capture ; 402 si solde insuffisant). */
 export async function payInvoice(client: AxiosInstance, invoiceId: string): Promise<Invoice> {
   const { data } = await client.post(`/invoices/${segment(invoiceId)}/pay`);
   return invoice(data);

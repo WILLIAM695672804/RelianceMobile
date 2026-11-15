@@ -18,6 +18,7 @@ export { Rail, type RailProps } from './Rail';
 export { Screen, type ScreenProps } from './Screen';
 export { SearchField, type SearchFieldProps } from './SearchField';
 export { SectionHeader, type SectionHeaderProps } from './SectionHeader';
+export { Snackbar, type SnackbarProps, type SnackbarTone } from './Snackbar';
 export { StateView, type StateViewProps } from './StateView';
 export { StatTile, type StatTileProps } from './StatTile';
 export { StepIndicator, type StepIndicatorProps } from './StepIndicator';

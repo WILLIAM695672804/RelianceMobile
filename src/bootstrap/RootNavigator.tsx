@@ -39,6 +39,7 @@ export function RootNavigator() {
           <Stack.Screen name="(messagerie)" />
           <Stack.Screen name="(portefeuille)" />
           <Stack.Screen name="(avis)" />
+          <Stack.Screen name="(litiges)" />
           <Stack.Screen name="(planning)" />
           <Stack.Screen name="(social)" />
         </Stack.Protected>

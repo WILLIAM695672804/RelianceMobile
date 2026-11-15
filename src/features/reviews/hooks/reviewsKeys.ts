@@ -5,4 +5,5 @@ export const reviewsKeys = {
   mine: () => [...reviewsKeys.all, 'mine'] as const,
   badges: (userId: string) => [...reviewsKeys.all, 'badges', userId] as const,
   reputation: (userId: string) => [...reviewsKeys.all, 'reputation', userId] as const,
+  catalog: () => [...reviewsKeys.all, 'catalog'] as const,
 };

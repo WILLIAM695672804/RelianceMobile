@@ -1,7 +1,5 @@
-import { router } from 'expo-router';
+import { WithdrawRoute } from '@/bootstrap/screens/paymentRoutes';
 
-import { WithdrawScreen } from '@/features/wallet';
-
-export default function WithdrawRouteScreen() {
-  return <WithdrawScreen onDone={() => router.back()} />;
+export default function WithdrawScreenRoute() {
+  return <WithdrawRoute />;
 }

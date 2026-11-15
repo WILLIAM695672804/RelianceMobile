@@ -1,6 +1,25 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  onboarding: {
+    slides: {
+      '0': {
+        title: 'Trouvez le bon technicien',
+        body: 'Plomberie, électricité, sécurité, climatisation : des professionnels vérifiés près de chez vous.',
+      },
+      '1': {
+        title: 'Paiement sécurisé par séquestre',
+        body: 'Votre argent reste gelé jusqu’à la validation de l’intervention. Aucune avance non protégée.',
+      },
+      '2': {
+        title: 'Suivez chaque intervention',
+        body: 'Diagnostic, devis, intervention, facture : tout est tracé dans l’application.',
+      },
+    },
+    next: 'Suivant',
+    start: 'Commencer',
+    skip: 'Passer',
+  },
   login: {
     title: 'Connexion',
     subtitle: 'Accédez à votre espace Reliance.',
@@ -52,6 +71,25 @@ const fr = {
 };
 
 const en: typeof fr = {
+  onboarding: {
+    slides: {
+      '0': {
+        title: 'Find the right technician',
+        body: 'Plumbing, electricity, security, air conditioning: vetted professionals close to you.',
+      },
+      '1': {
+        title: 'Escrow-secured payment',
+        body: 'Your money stays on hold until the job is validated. No unprotected advance.',
+      },
+      '2': {
+        title: 'Follow every job',
+        body: 'Diagnosis, quote, job, invoice: everything is tracked in the application.',
+      },
+    },
+    next: 'Next',
+    start: 'Get started',
+    skip: 'Skip',
+  },
   login: {
     title: 'Sign in',
     subtitle: 'Access your Reliance space.',

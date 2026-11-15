@@ -8,10 +8,12 @@ import { PaymentForm } from './PaymentForm';
 export interface RechargeScreenProps {
   /** Demande enregistrée : retour au portefeuille. */
   onDone: () => void;
+  /** Paiement initié, à confirmer auprès de l'opérateur. */
+  onPending?: (paymentId: string) => void;
 }
 
 /** E20 — Recharge du portefeuille par mobile money, carte ou virement. */
-export function RechargeScreen({ onDone }: RechargeScreenProps) {
+export function RechargeScreen({ onDone, onPending }: RechargeScreenProps) {
   const { t } = useTranslation();
   const recharge = useRechargeWallet();
 
@@ -25,6 +27,7 @@ export function RechargeScreen({ onDone }: RechargeScreenProps) {
       submit={(payload) => recharge.mutateAsync(payload)}
       pending={recharge.isPending}
       onDone={onDone}
+      onPending={onPending}
     />
   );
 }

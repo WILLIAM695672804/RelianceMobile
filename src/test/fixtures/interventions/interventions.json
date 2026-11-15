@@ -1,0 +1,144 @@
+{
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": "66d7f8e9-f6f4-4fc8-8509-a22b079c0fb6",
+        "job_id": "88c848e5-7f32-4f8d-a4ed-18fbc9f334e5",
+        "technician_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+        "type": "standard",
+        "status": "completed",
+        "description": "Remise en état du tableau électrique.",
+        "work_performed": "Remplacement du disjoncteur principal et resserrage des bornes.",
+        "notes": "Prévoir le remplacement du tableau sous six mois.",
+        "materials_used": ["Disjoncteur 16 A", "Gaine thermorétractable"],
+        "duration_hours": "1.50",
+        "scheduled_at": null,
+        "started_at": "2026-10-17T21:23:32.000000Z",
+        "completed_at": "2026-10-17T21:23:32.000000Z",
+        "created_at": "2026-10-17T21:23:31.000000Z",
+        "updated_at": "2026-10-17T21:23:32.000000Z",
+        "technician": {
+          "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+          "name": "Technicien Démo",
+          "email": "technicien@example.test",
+          "phone": null,
+          "is_active": true,
+          "two_factor_enabled": false,
+          "email_verified_at": "2026-09-15T12:02:24.000000Z",
+          "created_at": "2026-09-15T12:02:24.000000Z",
+          "updated_at": "2026-10-17T21:34:51.000000Z",
+          "deleted_at": null,
+          "avatar_url": null,
+          "rating": "5.00",
+          "num_reviews": 1,
+          "verified": true,
+          "last_login": "2026-10-17T21:34:51.000000Z",
+          "meta": {
+            "bio": "Électricien certifié, huit ans d’expérience en installations résidentielles.",
+            "competences": ["Mise aux normes", "Tableaux électriques"],
+            "competences_intro": ["electricite", "domotique", "securite"]
+          }
+        },
+        "request": {
+          "id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+          "client_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+          "title": "Prise murale",
+          "description": "Une prise murale du salon ne fonctionne plus depuis hier soir.",
+          "status": "completed",
+          "created_at": "2026-09-16T22:52:57.000000Z",
+          "updated_at": "2026-10-06T20:04:46.000000Z",
+          "deleted_at": null,
+          "address_id": "515fa250-1623-4778-af9a-56498ffca1e3",
+          "detected_category": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+          "diagnostic_fee": null,
+          "photos": [],
+          "metadata": null
+        }
+      },
+      {
+        "id": "b7ff503f-d3bd-4ba4-b1a2-fc503e2d0e2e",
+        "job_id": "88c848e5-7f32-4f8d-a4ed-18fbc9f334e5",
+        "technician_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+        "type": "standard",
+        "status": "completed",
+        "description": "Remise en état du tableau électrique.",
+        "work_performed": "Remplacement du disjoncteur principal et resserrage des bornes.",
+        "notes": "Prévoir le remplacement du tableau sous six mois.",
+        "materials_used": ["Disjoncteur 16 A", "Gaine thermorétractable"],
+        "duration_hours": "1.50",
+        "scheduled_at": null,
+        "started_at": "2026-10-17T21:34:52.000000Z",
+        "completed_at": "2026-10-17T21:34:52.000000Z",
+        "created_at": "2026-10-17T21:34:52.000000Z",
+        "updated_at": "2026-10-17T21:34:52.000000Z",
+        "technician": {
+          "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+          "name": "Technicien Démo",
+          "email": "technicien@example.test",
+          "phone": null,
+          "is_active": true,
+          "two_factor_enabled": false,
+          "email_verified_at": "2026-09-15T12:02:24.000000Z",
+          "created_at": "2026-09-15T12:02:24.000000Z",
+          "updated_at": "2026-10-17T21:34:51.000000Z",
+          "deleted_at": null,
+          "avatar_url": null,
+          "rating": "5.00",
+          "num_reviews": 1,
+          "verified": true,
+          "last_login": "2026-10-17T21:34:51.000000Z",
+          "meta": {
+            "bio": "Électricien certifié, huit ans d’expérience en installations résidentielles.",
+            "competences": ["Mise aux normes", "Tableaux électriques"],
+            "competences_intro": ["electricite", "domotique", "securite"]
+          }
+        },
+        "request": {
+          "id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+          "client_id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+          "title": "Prise murale",
+          "description": "Une prise murale du salon ne fonctionne plus depuis hier soir.",
+          "status": "completed",
+          "created_at": "2026-09-16T22:52:57.000000Z",
+          "updated_at": "2026-10-06T20:04:46.000000Z",
+          "deleted_at": null,
+          "address_id": "515fa250-1623-4778-af9a-56498ffca1e3",
+          "detected_category": "34296d3c-ecf5-48c3-b2c0-c2163d2ed045",
+          "diagnostic_fee": null,
+          "photos": [],
+          "metadata": null
+        }
+      }
+    ],
+    "first_page_url": "http://api.test/api/v1/interventions?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://api.test/api/v1/interventions?page=1",
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/interventions?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "next_page_url": null,
+    "path": "http://api.test/api/v1/interventions",
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 2,
+    "total": 2
+  }
+}

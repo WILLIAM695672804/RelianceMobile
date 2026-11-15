@@ -24,10 +24,12 @@ export interface PaymentFormProps {
   resolver: Resolver<PaymentFormValues>;
   /** Conversion des valeurs en corps de requête. */
   toPayload: (values: PaymentFormValues) => PaymentPayload;
-  /** Exécution de la demande ; renvoie le message du serveur. */
-  submit: (payload: PaymentPayload) => Promise<{ message: string }>;
+  /** Exécution de la demande ; renvoie le message du serveur et le paiement créé. */
+  submit: (payload: PaymentPayload) => Promise<{ message: string; payment_id?: string | null }>;
   pending: boolean;
   onDone: () => void;
+  /** Paiement en attente de confirmation : prioritaire sur `onDone`. */
+  onPending?: (paymentId: string) => void;
 }
 
 /** Formulaire de demande de paiement : montant, moyen, téléphone si mobile money. */
@@ -40,6 +42,7 @@ export function PaymentForm({
   submit,
   pending,
   onDone,
+  onPending,
 }: PaymentFormProps) {
   const { t } = useTranslation();
   const [error, setError] = useState<string | null>(null);
@@ -56,7 +59,9 @@ export function PaymentForm({
     try {
       const result = await submit(toPayload(values));
       setNotice(t('wallet:forms.initiated', { message: result.message }));
-      onDone();
+      // Le paiement reste à confirmer auprès de l'opérateur : l'écran de confirmation prend la suite.
+      if (onPending && result.payment_id) onPending(result.payment_id);
+      else onDone();
     } catch (cause) {
       const appError = normalizeError(cause);
       setError(appError.serverMessage ?? describeError(appError, t));

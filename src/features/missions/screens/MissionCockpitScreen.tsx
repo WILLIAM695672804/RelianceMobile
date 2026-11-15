@@ -41,6 +41,10 @@ export interface MissionCockpitScreenProps {
   onContact?: (userId: string) => void;
   /** Planification d'un rendez-vous pour la demande en cours. */
   onPlanAppointment?: (requestId: string, technicianId: string) => void;
+  /** Rédaction du rapport d'intervention de la mission en cours. */
+  onOpenReport?: (jobId: string, requestId: string) => void;
+  /** Annulation de la mission en cours. */
+  onCancel?: (jobId: string) => void;
 }
 
 /** E13, E14 — Cockpit du technicien : avancement, position et phases de la mission acceptée. */
@@ -49,6 +53,8 @@ export function MissionCockpitScreen({
   onOpenQuotes,
   onContact,
   onPlanAppointment,
+  onOpenReport,
+  onCancel,
 }: MissionCockpitScreenProps) {
   const { t } = useTranslation();
   const mission = useActiveMission();
@@ -71,6 +77,8 @@ export function MissionCockpitScreen({
         onOpenQuotes={onOpenQuotes}
         onContact={onContact}
         onPlanAppointment={onPlanAppointment}
+        onOpenReport={onOpenReport}
+        onCancel={onCancel}
       />
     );
   };
@@ -98,11 +106,15 @@ function MissionCockpit({
   onOpenQuotes,
   onContact,
   onPlanAppointment,
+  onOpenReport,
+  onCancel,
 }: {
   mission: ActiveMission;
   onOpenQuotes?: (requestId: string) => void;
   onContact?: (userId: string) => void;
   onPlanAppointment?: (requestId: string, technicianId: string) => void;
+  onOpenReport?: (jobId: string, requestId: string) => void;
+  onCancel?: (jobId: string) => void;
 }) {
   const { t } = useTranslation();
   const job = mission.job;
@@ -311,6 +323,24 @@ function MissionCockpit({
           icon="file"
           onPress={() => onOpenQuotes(mission.request.id)}
           variant="secondary"
+        />
+      ) : null}
+
+      {onOpenReport && job ? (
+        <Button
+          label={t('missions:cockpit.report')}
+          icon="edit"
+          onPress={() => onOpenReport(job.id, mission.request.id)}
+          variant="secondary"
+        />
+      ) : null}
+
+      {onCancel && job && !isJobClosed(job.status) ? (
+        <Button
+          label={t('missions:cockpit.cancel')}
+          icon="close"
+          onPress={() => onCancel(job.id)}
+          variant="danger"
         />
       ) : null}
 

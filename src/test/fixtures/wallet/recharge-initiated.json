@@ -1,0 +1,6 @@
+{
+  "message": "Paiement initié",
+  "payment_id": "c0503ecf-40fa-418a-affe-dbbb86c60b08",
+  "external_ref": "cf68577a-d76b-4e79-a258-c4b27c67295f",
+  "status": "pending"
+}

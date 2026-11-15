@@ -1,0 +1,14 @@
+{
+  "data": {
+    "job_id": "88c848e5-7f32-4f8d-a4ed-18fbc9f334e5",
+    "technician_id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+    "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+    "type": "standard",
+    "status": "planned",
+    "description": "Remise en état du tableau électrique.",
+    "scheduled_at": null,
+    "id": "b7ff503f-d3bd-4ba4-b1a2-fc503e2d0e2e",
+    "updated_at": "2026-10-17T21:34:52.000000Z",
+    "created_at": "2026-10-17T21:34:52.000000Z"
+  }
+}

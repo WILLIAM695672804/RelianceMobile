@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useApiClient } from '@/core/api';
 
 import {
+  fetchBadgeCatalog,
   fetchMyReviews,
   fetchReputation,
   fetchTechnicianReviews,
@@ -39,6 +40,11 @@ export function useReputation(userId: string) {
     queryKey: reviewsKeys.reputation(userId),
     queryFn: () => fetchReputation(api, userId),
   });
+}
+
+export function useBadgeCatalog() {
+  const api = useApiClient();
+  return useQuery({ queryKey: reviewsKeys.catalog(), queryFn: () => fetchBadgeCatalog(api) });
 }
 
 export function useSubmitReview() {

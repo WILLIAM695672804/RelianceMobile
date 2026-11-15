@@ -9,7 +9,7 @@ export function ClientHomeRoute() {
       onNewRequest={() => router.push('/requests/new')}
       onOpenRequest={(id) => router.push({ pathname: '/requests/[id]', params: { id } })}
       onOpenAll={() => router.push('/requests')}
-      onSearch={() => router.push('/client/annuaire')}
+      onSearch={() => router.push('/search')}
       onOpenNotifications={() => router.push('/notifications')}
     />
   );

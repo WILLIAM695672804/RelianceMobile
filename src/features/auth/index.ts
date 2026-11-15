@@ -21,11 +21,13 @@ export {
   useResetPassword,
 } from './hooks/useAuthMutations';
 export { authTranslations } from './i18n';
+export { createOnboardingFlag, type OnboardingFlag } from './model/onboardingSeen';
 export {
   ForgotPasswordScreen,
   type ForgotPasswordScreenProps,
 } from './screens/ForgotPasswordScreen';
 export { LoginScreen, type LoginScreenProps } from './screens/LoginScreen';
+export { OnboardingScreen, type OnboardingScreenProps } from './screens/OnboardingScreen';
 export { RegisterScreen, type RegisterScreenProps } from './screens/RegisterScreen';
 export type { LoginPayload, ResetPasswordPayload, TwoFactorSetup } from './api/authApi';
 export type { RegisterPayload, RegistrableRole } from './schemas/authSchemas';

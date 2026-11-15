@@ -1,5 +1,5 @@
-import { KycScreen } from '@/features/kyc';
+import { KycRoute } from '@/bootstrap/screens/KycRoute';
 
-export default function KycRoute() {
-  return <KycScreen />;
+export default function KycScreenRoute() {
+  return <KycRoute />;
 }

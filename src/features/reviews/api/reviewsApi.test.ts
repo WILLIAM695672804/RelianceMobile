@@ -62,7 +62,9 @@ describe('reviewsApi', () => {
       technicianReviews.data.data.length,
     );
     await expect(fetchMyReviews(client)).resolves.toHaveLength(myReviews.data.data.length);
-    await expect(fetchUserBadges(client, TECHNICIAN_ID)).resolves.toEqual([]);
+    await expect(fetchUserBadges(client, TECHNICIAN_ID)).resolves.toHaveLength(
+      userBadges.data.length,
+    );
     await expect(fetchReputation(client, TECHNICIAN_ID)).resolves.toMatchObject({
       total: reputation.total,
     });

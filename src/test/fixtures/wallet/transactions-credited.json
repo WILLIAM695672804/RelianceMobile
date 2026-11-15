@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "id": "2a41fcba-9f9d-4b1c-a6b5-7ea5df64ac25",
+      "amount": 25000,
+      "balance_after": 35000,
+      "type": "credit",
+      "meta": {
+        "source": "recharge"
+      },
+      "created_at": "2026-10-17T21:34:53.000000Z"
+    },
+    {
+      "id": "f28ca22b-66d1-4912-aa61-0354bfe28fa3",
+      "amount": -15000,
+      "balance_after": 10000,
+      "type": "debit",
+      "meta": null,
+      "created_at": "2026-10-17T21:23:34.000000Z"
+    },
+    {
+      "id": "4c8e073d-3614-476a-bc99-95737cde3624",
+      "amount": 25000,
+      "balance_after": 25000,
+      "type": "credit",
+      "meta": {
+        "source": "recharge"
+      },
+      "created_at": "2026-10-17T21:23:33.000000Z"
+    }
+  ],
+  "links": {
+    "first": "http://api.test/api/v1/wallet/transactions?page=1",
+    "last": "http://api.test/api/v1/wallet/transactions?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://api.test/api/v1/wallet/transactions?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http://api.test/api/v1/wallet/transactions",
+    "per_page": 20,
+    "to": 3,
+    "total": 3
+  }
+}

@@ -208,13 +208,13 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `GET /technician/stats` ne respecte pas l'enveloppe `{ status, data }` des autres routes : la réponse est l'objet de statistiques lui-même.
 - `POST /technician/skills` écrit `experience_years` dans le `meta` du pivot ; les compétences créées par le seeder renvoient donc `0`.
 - `GET /technicians` ne filtre pas sur le KYC : un technicien listé peut avoir `kyc_approved: false`.
-- `POST /jobs` ne vérifie pas que la demande est attribuée au technicien appelant.
+- ~~`POST /jobs` ne vérifie pas que la demande est attribuée au technicien appelant~~ — corrigé, voir § 7.
 - `POST /position/update` ne respecte pas l'enveloppe `{ status, data }` : la réponse est `{ "status": "ok" }`.
 - `GET /position/technician` renvoie la position du technicien de la dernière proposition `pending` ou `accepted` du client, sans vérifier qu'une mission est en cours.
 - Le statut de la demande n'est pas repassé à `completed` lorsque la mission est achevée : seul `technician_jobs.status` l'est.
 - `Quote::isAcceptable()` autorise l'acceptation d'un devis `draft` : un brouillon jamais envoyé peut être accepté par le client qui en connaît l'identifiant. Le mobile ne présente que les devis `sent`.
 - `GET /requests/{requestId}/quotes` ne vérifie pas que l'appelant est le client ou le technicien de la demande.
-- `POST /invoices/{id}/pay` ne déclenche aucun mouvement financier : la facture est simplement marquée payée.
+- ~~`POST /invoices/{id}/pay` ne déclenche aucun mouvement financier~~ — corrigé, voir § 7.
 - `GET /notifications` ne passe par aucune ressource : les colonnes de la table (dont `user_id`) sont exposées telles quelles, et la pagination n'est pas enveloppée.
 - Deux défauts bloquaient la messagerie, corrigés dans `RelianceBackend` (commit `fix(social)`) : `MessageResource` sérialisait la relation `attachments` non chargée — la colonne JSON homonyme masquant de surcroît la relation — et `Conversation::lastMessage()` employait `latestOfMany()`, qui agrège `MAX(uuid)`, refusé par PostgreSQL.
 - `POST /reviews` renvoie le technicien brut sous `data.target`, courriel compris ; le mobile l'écarte.
@@ -228,3 +228,22 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `GET /my-agency` expose les membres sous forme de comptes bruts (courriel et `meta` compris).
 - `FeedService::suggestionsToFollow` sélectionnait `is_verified`, colonne inexistante (`users.verified`) : `/follows/suggestions` répondait 500. Corrigé dans `RelianceBackend` (`fix(social)`).
 - `GET /follows/suggestions` ne filtre pas par rôle : des clients peuvent être suggérés.
+
+## 7. Évolutions du contrat (correctifs serveur)
+
+- `POST /invoices/{id}/pay` débite le portefeuille du client (hold puis capture au profit du technicien). **402** `{ message }` si le solde est insuffisant : le mobile l'affiche (`normalizeError` : `validation` + message serveur).
+- `POST /quotes/{id}/accept` pose un hold sur la facture si le solde le permet ; la réponse porte `data.escrow` (`held` ou `insufficient_funds`). L'annulation du job le libère.
+- `POST /auth/login` répond **403** `{ requires_email_verification: true, email }` tant que l'adresse n'est pas vérifiée (`emailNotVerified`) ; lien envoyé à l'inscription ; renvoi public : `POST /auth/email/resend { email }`.
+- `POST /jobs` et `POST /quotes` exigent une proposition acceptée du technicien appelant (**403** sinon) ; `POST /jobs` est idempotent par demande.
+- `POST /reviews` accepte `stage` (`pre` : demande `assigned`/`in_progress` ; `post` : `completed`, défaut) ; un avis par étape.
+- `POST /subscriptions/subscribe` débite le portefeuille (**402** si solde insuffisant) ; `POST /payments/{id}/confirm` est réservé au payeur (vérification passerelle) ou à l'admin (virement).
+- Refus ou expiration d'une proposition : la demande repasse à `analyzed` et le client est notifié. Les notifications push utilisent les jetons Expo enregistrés via `POST /push-tokens`.
+- **Limitation de débit** (**429**, `rateLimited`) : `POST /auth/login` à 5 tentatives par minute et par couple e-mail + IP ; `POST /auth/register`, `/auth/forgot-password`, `/auth/reset-password` et `POST /contact` à 10 requêtes par minute et par IP.
+- `POST /auth/forgot-password` répond **200** `{ message }` que le compte existe ou non (plus de 422 « Aucun compte trouvé » : énumération de comptes impossible). Le message est neutre (« Si un compte correspond… »).
+- Le secret 2FA chiffré (`two_factor_secret`) n'est plus présent dans l'objet `user` (`/auth/me`, connexion, inscription).
+- `GET /jobs/{id}/tracking` expose désormais `request_id` (ajout, compatible).
+- `POST /disputes` : l'auteur et la partie adverse doivent être le client de la demande et le technicien de la proposition acceptée (**403** sinon).
+- **Justificatifs KYC et pièces jointes** : l'`url` renvoyée (`auth/kyc/mine`, `auth/kyc/upload`, pièces jointes de messagerie) est désormais une URL absolue, temporaire et signée (`…/fichier?expires=…&signature=…`), valable 10 minutes pour le KYC et 1 heure pour les pièces jointes ; les fichiers ne sont plus sur le disque public. Le mobile doit l'utiliser telle quelle, sans la reconstruire depuis `file_path`, et relire la ressource plutôt que mettre l'URL en cache au-delà de sa validité (**403** une fois expirée).
+- Envoi d'une pièce jointe (`POST /conversations/{id}/messages` avec `attachments[]`) et suppression d'un message qui en porte une : les deux répondaient **500** ; corrigé.
+- **Flux SSE** `GET /proposals/stream` : le jeton Sanctum n'est plus accepté dans l'URL. Obtenir d'abord un jeton éphémère par `POST /proposals/stream-token` (`{ token, expires_in: 60 }`), à usage unique, puis ouvrir `…/proposals/stream?token=…` ; le serveur ferme le flux après `SSE_MAX_SECONDS` (300 s), redemander un jeton avant chaque reconnexion.
+- **Temps réel** : le serveur WebSocket est désormais Laravel Reverb (protocole Pusher, mêmes clé et port 6001) : aucune modification côté mobile. En développement : `php artisan reverb:start --port=6001`.

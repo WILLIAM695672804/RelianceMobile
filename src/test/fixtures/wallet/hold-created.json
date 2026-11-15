@@ -1,0 +1,13 @@
+{
+  "message": "Hold placé avec succès",
+  "data": {
+    "id": "94b9bb44-59cd-418f-a05f-70f19ba81849",
+    "wallet_id": "1e3c29e0-eb37-4ea3-8c92-428b94d60fe0",
+    "amount": 15000,
+    "reason": "Séquestre de la demande 2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+    "status": "held",
+    "released_at": null,
+    "related_payment": null,
+    "created_at": null
+  }
+}

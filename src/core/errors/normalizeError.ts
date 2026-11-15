@@ -44,10 +44,16 @@ export function normalizeError(error: unknown): AppError {
       return new AppError({ ...base, kind: 'unauthenticated' });
     case 403:
       if (body.requires_2fa === true) return new AppError({ ...base, kind: 'twoFactorRequired' });
-      if (serverMessage === EMAIL_NOT_VERIFIED_MESSAGE) {
+      if (
+        body.requires_email_verification === true ||
+        serverMessage === EMAIL_NOT_VERIFIED_MESSAGE
+      ) {
         return new AppError({ ...base, kind: 'emailNotVerified' });
       }
       return new AppError({ ...base, kind: 'forbidden' });
+    case 402:
+      // Solde insuffisant (paiement de facture, abonnement) : le message du serveur est explicite.
+      return new AppError({ ...base, kind: 'validation' });
     case 404:
       return new AppError({ ...base, kind: 'notFound' });
     case 419:

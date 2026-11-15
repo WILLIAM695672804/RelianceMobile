@@ -1,0 +1,7 @@
+{
+  "message": "The job id field is required. (and 1 more error)",
+  "errors": {
+    "job_id": ["The job id field is required."],
+    "request_id": ["The request id field is required."]
+  }
+}

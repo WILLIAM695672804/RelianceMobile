@@ -3,11 +3,13 @@ import type { AxiosInstance } from 'axios';
 import { parseResponse } from '@/core/api';
 
 import {
+  badgeCatalogResponseSchema,
   badgeListResponseSchema,
   reputationResponseSchema,
   reviewCreatedResponseSchema,
   reviewPageResponseSchema,
   type Badge,
+  type CatalogBadge,
   type Reputation,
   type Review,
   type ReviewPayload,
@@ -51,4 +53,10 @@ export async function fetchUserBadges(client: AxiosInstance, userId: string): Pr
 export async function fetchReputation(client: AxiosInstance, userId: string): Promise<Reputation> {
   const { data } = await client.get(`/reputation/${segment(userId)}`);
   return parseResponse(reputationResponseSchema, data);
+}
+
+/** `GET /badges` (route publique) : catalogue complet, badges non obtenus compris. */
+export async function fetchBadgeCatalog(client: AxiosInstance): Promise<CatalogBadge[]> {
+  const { data } = await client.get('/badges');
+  return parseResponse(badgeCatalogResponseSchema, data).data.data;
 }

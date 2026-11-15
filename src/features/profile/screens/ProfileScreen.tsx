@@ -31,6 +31,9 @@ export type ProfileDestination =
   | 'zone'
   | 'kyc'
   | 'upgrade'
+  | 'disputes'
+  | 'reputation'
+  | 'setup'
   | 'settings';
 
 export interface ProfileScreenProps {
@@ -44,15 +47,16 @@ export function destinationsFor(role: Role): ProfileDestination[] {
     'password',
     'locations',
     ...(role === 'technicien'
-      ? (['professional', 'skills', 'zone', 'planning', 'kyc'] as const)
+      ? (['setup', 'professional', 'skills', 'zone', 'planning', 'kyc'] as const)
       : []),
     ...(role === 'client' ? (['upgrade'] as const) : []),
     ...(role === 'client' || role === 'technicien' ? (['invoices', 'appointments'] as const) : []),
     'wallet',
-    ...(role === 'technicien' ? (['reviews'] as const) : []),
+    ...(role === 'technicien' ? (['reviews', 'reputation'] as const) : []),
     'notifications',
     'messages',
     'feed',
+    ...(role === 'client' || role === 'technicien' ? (['disputes'] as const) : []),
     'settings',
   ];
 }
@@ -75,6 +79,9 @@ const DESTINATION_ICONS: Record<ProfileDestination, IconName> = {
   notifications: 'bell',
   messages: 'chat',
   feed: 'list',
+  disputes: 'shield',
+  reputation: 'badge',
+  setup: 'list',
   settings: 'settings',
 };
 

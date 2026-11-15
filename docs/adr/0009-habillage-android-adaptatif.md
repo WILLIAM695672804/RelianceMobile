@@ -60,3 +60,5 @@ iOS (`ios-frame.jsx`) : rien n'y est transposable tel quel.
 ## Voir aussi
 
 - [ADR 0005 — Design system maison](./0005-design-system-maison.md)
+- [ADR 0010 — Transposition complète des maquettes](./0010-transposition-complete-des-maquettes.md),
+  qui achève la transposition et rectifie le recensement ci-dessus.

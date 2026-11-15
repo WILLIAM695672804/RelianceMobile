@@ -39,9 +39,46 @@ const fr = {
     appointment: 'Planifier un rendez-vous',
     contact: 'Contacter le client',
     history: 'Historique des missions',
+    report: 'Rapport d’intervention',
+    cancel: 'Annuler la mission',
     updateFailed: 'La mise à jour a échoué. Veuillez réessayer.',
     errors: {
       notesTooLong: 'Le compte rendu ne doit pas dépasser 2000 caractères.',
+    },
+  },
+  cancel: {
+    title: 'Annuler la mission',
+    hint: 'Pourquoi souhaitez-vous annuler cette mission ?',
+    reason: 'Motif',
+    reasons: {
+      unavailable: 'Je ne suis plus disponible',
+      client: 'Le client n’est pas joignable',
+      delay: 'Délai intenable',
+      other: 'Autre raison',
+    },
+    continue: 'Continuer',
+    confirm: 'Confirmer l’annulation',
+    confirmTitle: 'Confirmer l’annulation ?',
+    confirmMessage:
+      'Cette action est irréversible : la demande du client sera close et les fonds séquestrés lui seront rendus.',
+    chosenReason: 'Motif retenu : {{reason}}',
+  },
+  quality: {
+    title: 'Contrôle qualité',
+    hint: 'Le technicien a marqué l’intervention comme terminée. Vérifiez le travail avant de libérer le paiement.',
+    reportSection: 'Rapport du technicien',
+    noReport: 'Aucun rapport n’a été déposé.',
+    photos: 'Photos de la demande',
+    photo: 'Photo {{index}}',
+    held: '{{amount}} sous séquestre',
+    noHold: 'Aucun montant sous séquestre pour cette demande.',
+    validate: 'Valider et libérer le paiement',
+    report: 'Signaler un problème',
+    released: {
+      title: 'Paiement libéré',
+      message: '{{amount}} ont été transférés au technicien. Merci de votre confiance.',
+      rate: 'Noter le technicien',
+      done: 'Terminer',
     },
   },
   phases: {
@@ -92,6 +129,8 @@ const fr = {
     positionUnknown: 'Position du technicien non communiquée.',
     quotes: 'Devis reçus',
     contact: 'Contacter le technicien',
+    report: 'Consulter le rapport',
+    quality: 'Contrôler et libérer le paiement',
   },
 };
 
@@ -132,11 +171,48 @@ const en: typeof fr = {
     confirm: 'Complete',
     quotes: 'Quotes',
     appointment: 'Schedule an appointment',
+    report: 'Job report',
+    cancel: 'Cancel the job',
     contact: 'Contact the client',
     history: 'Job history',
     updateFailed: 'The update failed. Please try again.',
     errors: {
       notesTooLong: 'The report must not exceed 2000 characters.',
+    },
+  },
+  cancel: {
+    title: 'Cancel the job',
+    hint: 'Why do you want to cancel this job?',
+    reason: 'Reason',
+    reasons: {
+      unavailable: 'I am no longer available',
+      client: 'The client cannot be reached',
+      delay: 'Unworkable deadline',
+      other: 'Other reason',
+    },
+    continue: 'Continue',
+    confirm: 'Confirm the cancellation',
+    confirmTitle: 'Confirm the cancellation?',
+    confirmMessage:
+      'This cannot be undone: the client request will be closed and the escrowed funds returned.',
+    chosenReason: 'Chosen reason: {{reason}}',
+  },
+  quality: {
+    title: 'Quality control',
+    hint: 'The technician marked the job as completed. Check the work before releasing the payment.',
+    reportSection: 'Technician report',
+    noReport: 'No report has been filed.',
+    photos: 'Request photos',
+    photo: 'Photo {{index}}',
+    held: '{{amount}} held in escrow',
+    noHold: 'No amount held in escrow for this request.',
+    validate: 'Approve and release the payment',
+    report: 'Report a problem',
+    released: {
+      title: 'Payment released',
+      message: '{{amount}} has been transferred to the technician. Thank you for your trust.',
+      rate: 'Rate the technician',
+      done: 'Finish',
     },
   },
   phases: {
@@ -187,6 +263,8 @@ const en: typeof fr = {
     positionUnknown: 'Technician position not shared.',
     quotes: 'Received quotes',
     contact: 'Contact the technician',
+    report: 'Read the report',
+    quality: 'Review and release the payment',
   },
 };
 

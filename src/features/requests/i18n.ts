@@ -82,6 +82,9 @@ const fr = {
   },
   detail: {
     review: 'Noter l’intervention',
+    quality: 'Contrôler et libérer le paiement',
+    report: 'Consulter le rapport',
+    dispute: 'Signaler un problème',
     category: 'Catégorie : {{name}}',
     address: 'Adresse : {{address}}',
     createdAt: 'Créée le {{date}}',
@@ -173,6 +176,9 @@ const en: typeof fr = {
   },
   detail: {
     review: 'Rate the job',
+    quality: 'Review and release the payment',
+    report: 'Read the report',
+    dispute: 'Report a problem',
     category: 'Category: {{name}}',
     address: 'Address: {{address}}',
     createdAt: 'Created on {{date}}',

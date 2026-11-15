@@ -1,0 +1,140 @@
+{
+  "current_page": 1,
+  "data": [
+    {
+      "id": "ce3ef1e5-0b45-4ca2-baf7-d857b81c0174",
+      "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+      "opened_by": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "against": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "reason": "quality",
+      "description": "La prise installée ne tient pas dans le mur.",
+      "status": "open",
+      "resolution": null,
+      "resolved_by": null,
+      "resolved_at": null,
+      "created_at": "2026-10-17T21:34:52.000000Z",
+      "updated_at": "2026-10-17T21:34:52.000000Z",
+      "opener": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Client Démo",
+        "email": "client@example.test",
+        "phone": null,
+        "is_active": true,
+        "two_factor_enabled": false,
+        "email_verified_at": null,
+        "created_at": "2026-09-16T22:18:19.000000Z",
+        "updated_at": "2026-10-17T21:34:52.000000Z",
+        "deleted_at": null,
+        "avatar_url": null,
+        "rating": "0.00",
+        "num_reviews": 0,
+        "verified": false,
+        "last_login": "2026-10-17T21:34:52.000000Z",
+        "meta": null
+      },
+      "defendant": {
+        "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "name": "Technicien Démo",
+        "email": "technicien@example.test",
+        "phone": null,
+        "is_active": true,
+        "two_factor_enabled": false,
+        "email_verified_at": "2026-09-15T12:02:24.000000Z",
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-10-17T21:34:51.000000Z",
+        "deleted_at": null,
+        "avatar_url": null,
+        "rating": "5.00",
+        "num_reviews": 1,
+        "verified": true,
+        "last_login": "2026-10-17T21:34:51.000000Z",
+        "meta": {
+          "bio": "Électricien certifié, huit ans d’expérience en installations résidentielles.",
+          "competences": ["Mise aux normes", "Tableaux électriques"],
+          "competences_intro": ["electricite", "domotique", "securite"]
+        }
+      }
+    },
+    {
+      "id": "4d67a923-04a1-41b8-8677-11feabedb7ab",
+      "request_id": "2ac8b63e-398f-42b5-b6aa-2822bfb42322",
+      "opened_by": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+      "against": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+      "reason": "quality",
+      "description": "La prise installée ne tient pas dans le mur.",
+      "status": "open",
+      "resolution": null,
+      "resolved_by": null,
+      "resolved_at": null,
+      "created_at": "2026-10-17T21:23:32.000000Z",
+      "updated_at": "2026-10-17T21:23:32.000000Z",
+      "opener": {
+        "id": "2630bfe3-ca1f-44c9-9bfa-b6798848bb35",
+        "name": "Client Démo",
+        "email": "client@example.test",
+        "phone": null,
+        "is_active": true,
+        "two_factor_enabled": false,
+        "email_verified_at": null,
+        "created_at": "2026-09-16T22:18:19.000000Z",
+        "updated_at": "2026-10-17T21:34:52.000000Z",
+        "deleted_at": null,
+        "avatar_url": null,
+        "rating": "0.00",
+        "num_reviews": 0,
+        "verified": false,
+        "last_login": "2026-10-17T21:34:52.000000Z",
+        "meta": null
+      },
+      "defendant": {
+        "id": "c2976e8d-b624-46dd-81a4-a7eb1f359636",
+        "name": "Technicien Démo",
+        "email": "technicien@example.test",
+        "phone": null,
+        "is_active": true,
+        "two_factor_enabled": false,
+        "email_verified_at": "2026-09-15T12:02:24.000000Z",
+        "created_at": "2026-09-15T12:02:24.000000Z",
+        "updated_at": "2026-10-17T21:34:51.000000Z",
+        "deleted_at": null,
+        "avatar_url": null,
+        "rating": "5.00",
+        "num_reviews": 1,
+        "verified": true,
+        "last_login": "2026-10-17T21:34:51.000000Z",
+        "meta": {
+          "bio": "Électricien certifié, huit ans d’expérience en installations résidentielles.",
+          "competences": ["Mise aux normes", "Tableaux électriques"],
+          "competences_intro": ["electricite", "domotique", "securite"]
+        }
+      }
+    }
+  ],
+  "first_page_url": "http://api.test/api/v1/disputes?page=1",
+  "from": 1,
+  "last_page": 1,
+  "last_page_url": "http://api.test/api/v1/disputes?page=1",
+  "links": [
+    {
+      "url": null,
+      "label": "&laquo; Previous",
+      "active": false
+    },
+    {
+      "url": "http://api.test/api/v1/disputes?page=1",
+      "label": "1",
+      "active": true
+    },
+    {
+      "url": null,
+      "label": "Next &raquo;",
+      "active": false
+    }
+  ],
+  "next_page_url": null,
+  "path": "http://api.test/api/v1/disputes",
+  "per_page": 15,
+  "prev_page_url": null,
+  "to": 2,
+  "total": 2
+}
