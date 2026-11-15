@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import type { ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -52,6 +53,8 @@ export function Screen({
       testID={testID}
       style={{ flex: 1, backgroundColor: theme.colors.background, paddingTop: insets.top }}
     >
+      {/* Icônes de la barre d'état contrastées avec le thème affiché (relevé sur appareil). */}
+      <StatusBar style={theme.scheme === 'dark' ? 'light' : 'dark'} />
       {scroll ? (
         <ScrollView
           keyboardShouldPersistTaps="handled"

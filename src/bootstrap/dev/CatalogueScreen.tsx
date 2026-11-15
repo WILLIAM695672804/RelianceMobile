@@ -21,6 +21,8 @@ import {
   type TextVariant,
 } from '@/shared/ui';
 
+import { CATALOGUE_SCREENS } from './screenRegistry';
+
 const CLIENT_TABS: readonly TabBarItem[] = [
   { key: 'home', label: 'Accueil', icon: 'home' },
   { key: 'map', label: 'Carte', icon: 'map' },
@@ -44,16 +46,32 @@ const SWATCHES = [
   'danger',
 ] as const;
 
-/** Catalogue de développement (hors production) : primitives Clean Lavender, clair et sombre. */
-export function CatalogueScreen() {
+export interface CatalogueScreenProps {
+  /** Écran ouvert d'emblée (`reliance://catalogue?ecran=…`), pour l'épreuve sur appareil. */
+  initialScreen?: string;
+  /** Thème imposé d'emblée (`?theme=dark`). */
+  initialScheme?: ColorScheme;
+}
+
+/** Catalogue de développement (hors production) : primitives et écrans Clean Lavender. */
+export function CatalogueScreen({ initialScreen, initialScheme }: CatalogueScreenProps) {
   const system = useColorScheme();
-  const [scheme, setScheme] = useState<ColorScheme>(system === 'dark' ? 'dark' : 'light');
+  const [scheme, setScheme] = useState<ColorScheme>(
+    initialScheme ?? (system === 'dark' ? 'dark' : 'light'),
+  );
+  const [openKey, setOpenKey] = useState<string | undefined>(initialScreen);
+  const open = CATALOGUE_SCREENS.find((entry) => entry.key === openKey);
   return (
     <ThemeProvider scheme={scheme}>
-      <Catalogue
-        scheme={scheme}
-        onToggle={() => setScheme((current) => (current === 'light' ? 'dark' : 'light'))}
-      />
+      {open ? (
+        open.render(() => setOpenKey(undefined))
+      ) : (
+        <Catalogue
+          scheme={scheme}
+          onToggle={() => setScheme((current) => (current === 'light' ? 'dark' : 'light'))}
+          onOpen={setOpenKey}
+        />
+      )}
     </ThemeProvider>
   );
 }
@@ -75,7 +93,15 @@ function Row({ children }: { children: ReactNode }) {
   );
 }
 
-function Catalogue({ scheme, onToggle }: { scheme: ColorScheme; onToggle: () => void }) {
+function Catalogue({
+  scheme,
+  onToggle,
+  onOpen,
+}: {
+  scheme: ColorScheme;
+  onToggle: () => void;
+  onOpen: (key: string) => void;
+}) {
   const theme = useTheme();
   const { gutter } = useResponsive();
   const [email, setEmail] = useState('');
@@ -100,6 +126,27 @@ function Catalogue({ scheme, onToggle }: { scheme: ColorScheme; onToggle: () => 
           testID="bascule-theme"
         />
       </View>
+
+      <Section title="Écrans">
+        <View style={{ paddingHorizontal: gutter, gap: 8 }}>
+          {CATALOGUE_SCREENS.map((entry) => (
+            <Card
+              key={entry.key}
+              onPress={() => onOpen(entry.key)}
+              accessibilityLabel={`Ouvrir ${entry.label}`}
+              padding={14}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <Pill label={entry.lot} tone="primary" size="sm" />
+                <Text variant="bodyStrong" style={{ flex: 1 }}>
+                  {entry.label}
+                </Text>
+                <Icon name="chevronR" size={16} tone="muted" />
+              </View>
+            </Card>
+          ))}
+        </View>
+      </Section>
 
       <Section title="Typographie">
         <View style={{ paddingHorizontal: gutter, gap: 6 }}>
