@@ -73,7 +73,7 @@ export function Button({
           borderWidth: look.border,
           borderColor: theme.colors.outlineVariant,
           opacity: inactive ? 0.4 : pressed ? 0.85 : 1,
-          alignSelf: full ? 'stretch' : 'auto',
+          alignSelf: full ? 'stretch' : 'flex-start',
         },
       ]}
     >

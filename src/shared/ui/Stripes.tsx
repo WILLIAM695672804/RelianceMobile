@@ -26,10 +26,11 @@ export function Stripes({ width, height, colors, band, angle, radius = 0 }: Stri
           height={band * 2}
           patternTransform={`rotate(${angle})`}
         >
-          <Rect x={0} y={0} width={band} height={band * 2} fill={colors[0]} />
           <Rect x={band} y={0} width={band} height={band * 2} fill={colors[1]} />
         </Pattern>
       </Defs>
+      {/* Teinte de fond pleine sous les bandes : les jointures des motifs n'apparaissent plus. */}
+      <Rect x={0} y={0} width={width} height={height} rx={radius} fill={colors[0]} />
       <Rect x={0} y={0} width={width} height={height} rx={radius} fill={`url(#${id})`} />
     </Svg>
   );

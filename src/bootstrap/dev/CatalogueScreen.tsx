@@ -225,10 +225,14 @@ function Catalogue({ scheme, onToggle }: { scheme: ColorScheme; onToggle: () => 
             </View>
           </Card>
           <ImagePlaceholder label="Photo du chantier" />
-          <Row>
-            <ImagePlaceholder label="Primaire" tone="primary" width={150} height={80} />
-            <ImagePlaceholder label="Sombre" tone="dark" width={150} height={80} />
-          </Row>
+          <View style={{ flexDirection: 'row', gap: 12 }}>
+            <View style={{ flex: 1 }}>
+              <ImagePlaceholder label="Primaire" tone="primary" height={80} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <ImagePlaceholder label="Sombre" tone="dark" height={80} />
+            </View>
+          </View>
         </View>
       </Section>
 
