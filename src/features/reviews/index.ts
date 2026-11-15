@@ -32,3 +32,9 @@ export type {
   Review,
   ReviewPayload,
 } from './schemas/reviewSchemas';
+export {
+  COMMENT_MAX_LENGTH,
+  RatingView,
+  type RatingValues,
+  type RatingViewProps,
+} from './ui/RatingView';

@@ -1,6 +1,21 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  diagnosticView: {
+    readTitle: 'Rapport de diagnostic',
+    writeTitle: 'Rédiger le diagnostic',
+    done: 'Réalisé',
+    findings: 'Constat sur place',
+    photos: 'Photos du diagnostic',
+    recommendations: 'Préconisations',
+    estimate: 'Pièces et main-d’œuvre estimées',
+    total: 'Estimation totale',
+    fee: 'Diagnostic',
+    paid: '{{amount}} (déjà réglé)',
+    reject: 'Refuser',
+    askQuote: 'Demander un devis',
+    send: 'Envoyer au client',
+  },
   home2: {
     hello: 'Bonjour,',
     notifications: 'Notifications',
@@ -149,6 +164,21 @@ const fr = {
 };
 
 const en: typeof fr = {
+  diagnosticView: {
+    readTitle: 'Diagnosis report',
+    writeTitle: 'Write the diagnosis',
+    done: 'Done',
+    findings: 'On-site findings',
+    photos: 'Diagnosis photos',
+    recommendations: 'Recommendations',
+    estimate: 'Estimated parts and labour',
+    total: 'Total estimate',
+    fee: 'Diagnosis',
+    paid: '{{amount}} (already paid)',
+    reject: 'Decline',
+    askQuote: 'Request a quote',
+    send: 'Send to the client',
+  },
   home2: {
     hello: 'Hello,',
     notifications: 'Notifications',

@@ -1,6 +1,26 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  live: {
+    online: 'En ligne',
+    call: 'Appeler {{name}}',
+    me: 'Moi',
+    quoteSent: 'Devis envoyé',
+    total: 'Total',
+    reject: 'Refuser',
+    accept: 'Accepter',
+    attach: 'Joindre un fichier',
+    placeholder: 'Écrire un message…',
+    message: 'Message',
+    send: 'Envoyer',
+  },
+  inbox: {
+    title: 'Messages',
+    new: 'Nouvelle conversation',
+    filters: { all: 'Tous', active: 'Actifs', archive: 'Archives' },
+    emptyTitle: 'Aucune conversation',
+    emptyBody: 'Vos échanges avec les techniciens et le support apparaîtront ici.',
+  },
   list: {
     title: 'Messagerie',
     empty: 'Aucune conversation.',
@@ -34,6 +54,26 @@ const fr = {
 };
 
 const en: typeof fr = {
+  live: {
+    online: 'Online',
+    call: 'Call {{name}}',
+    me: 'Me',
+    quoteSent: 'Quote sent',
+    total: 'Total',
+    reject: 'Decline',
+    accept: 'Accept',
+    attach: 'Attach a file',
+    placeholder: 'Write a message…',
+    message: 'Message',
+    send: 'Send',
+  },
+  inbox: {
+    title: 'Messages',
+    new: 'New conversation',
+    filters: { all: 'All', active: 'Active', archive: 'Archive' },
+    emptyTitle: 'No conversation',
+    emptyBody: 'Your exchanges with technicians and support will appear here.',
+  },
   list: {
     title: 'Messages',
     empty: 'No conversation.',

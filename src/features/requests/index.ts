@@ -34,3 +34,8 @@ export {
   type RequestPlace,
   type Urgency,
 } from './ui/NewRequestView';
+export {
+  DiagnosticView,
+  type DiagnosticReport,
+  type DiagnosticViewProps,
+} from './ui/DiagnosticView';

@@ -25,3 +25,9 @@ export {
   type DisputeReason,
   type DisputeStatus,
 } from './schemas/disputeSchemas';
+export {
+  DisputeView,
+  type DisputeReasonOption,
+  type DisputeValues,
+  type DisputeViewProps,
+} from './ui/DisputeView';

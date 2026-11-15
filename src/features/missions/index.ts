@@ -60,3 +60,13 @@ export type {
   JobTracking,
   LivePosition,
 } from './schemas/missionSchemas';
+export { TrackingView, type TrackingPhase, type TrackingViewProps } from './ui/TrackingView';
+export {
+  CancelView,
+  MissionClosedView,
+  ValidationView,
+  type CancelViewProps,
+  type MissionClosedViewProps,
+  type ValidationViewProps,
+  type WorkCheck,
+} from './ui/CompletionViews';

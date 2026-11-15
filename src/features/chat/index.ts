@@ -20,3 +20,11 @@ export { ChatScreen, type ChatScreenProps } from './screens/ChatScreen';
 export { ConversationsScreen, type ConversationsScreenProps } from './screens/ConversationsScreen';
 export { StartChatScreen, type StartChatScreenProps } from './screens/StartChatScreen';
 export type { Conversation, ConversationMember, Message } from './schemas/chatSchemas';
+export {
+  ChatView,
+  InboxView,
+  type ChatItem,
+  type ChatViewProps,
+  type ConversationSummary,
+  type InboxViewProps,
+} from './ui/ChatViews';

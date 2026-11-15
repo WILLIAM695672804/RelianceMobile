@@ -33,3 +33,5 @@ export { InvoiceDetailScreen, type InvoiceDetailScreenProps } from './screens/In
 export { InvoicesScreen, type InvoicesScreenProps } from './screens/InvoicesScreen';
 export { RequestQuotesScreen, type RequestQuotesScreenProps } from './screens/RequestQuotesScreen';
 export type { Invoice, Quote, QuoteLine, QuotePayload } from './schemas/billingSchemas';
+export { InvoiceView, type InvoiceDocument, type InvoiceViewProps } from './ui/InvoiceView';
+export { QuoteView, type QuoteDocument, type QuoteViewProps } from './ui/QuoteView';

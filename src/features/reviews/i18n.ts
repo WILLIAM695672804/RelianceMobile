@@ -1,6 +1,27 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  rate: {
+    later: 'Plus tard',
+    done: 'Mission terminée',
+    question: 'Comment s’est passée votre mission ?',
+    why: 'Votre avis aide la communauté Reliance à choisir les meilleurs techniciens.',
+    star_one: '{{count}} étoile',
+    star_other: '{{count}} étoiles',
+    tap: 'Touchez pour noter',
+    labels: {
+      '1': 'Très décevant',
+      '2': 'Insatisfait',
+      '3': 'Correct',
+      '4': 'Bien',
+      '5': 'Excellent',
+    },
+    whatGood: 'Qu’est-ce qui était bien ?',
+    whatWrong: 'Qu’est-ce qui n’a pas marché ?',
+    comment: 'Commentaire (facultatif)',
+    commentPlaceholder: 'Décrivez votre expérience…',
+    submit: 'Envoyer la note',
+  },
   form: {
     title: 'Noter l’intervention',
     hint: 'Votre avis aide les prochains clients à choisir.',
@@ -60,6 +81,27 @@ const fr = {
 };
 
 const en: typeof fr = {
+  rate: {
+    later: 'Later',
+    done: 'Job done',
+    question: 'How did your job go?',
+    why: 'Your review helps the Reliance community pick the best technicians.',
+    star_one: '{{count}} star',
+    star_other: '{{count}} stars',
+    tap: 'Tap to rate',
+    labels: {
+      '1': 'Very disappointing',
+      '2': 'Unsatisfied',
+      '3': 'Fair',
+      '4': 'Good',
+      '5': 'Excellent',
+    },
+    whatGood: 'What went well?',
+    whatWrong: 'What went wrong?',
+    comment: 'Comment (optional)',
+    commentPlaceholder: 'Describe your experience…',
+    submit: 'Send the rating',
+  },
   form: {
     title: 'Rate the job',
     hint: 'Your review helps the next clients choose.',

@@ -41,3 +41,6 @@ export { PhaseBar } from './PhaseBar';
 export { VerifiedMark } from './VerifiedMark';
 export { Segmented, type SegmentedProps } from './Segmented';
 export { Stars } from './Stars';
+export { DetailHeader, type DetailHeaderProps } from './DetailHeader';
+export { SectionLabel } from './SectionLabel';
+export { CheckRow, RadioRow, type CheckRowProps, type RadioRowProps } from './ChoiceRows';

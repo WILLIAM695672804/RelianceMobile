@@ -3,9 +3,13 @@
  * (`design/maquettes/`). Personnes et montants fictifs. Elles cèdent la place aux données du
  * serveur lors de la phase de reconnexion.
  */
+import type { InvoiceDocument, QuoteDocument } from '@/features/billing';
+import type { ChatItem, ConversationSummary } from '@/features/chat';
+import type { DisputeReasonOption } from '@/features/disputes';
+import type { TrackingPhase, WorkCheck } from '@/features/missions';
+import type { DiagnosticReport, ActiveIntervention, ServiceCategory } from '@/features/requests';
+import type { LineItem, TechSummary } from '@/shared/model';
 import type { TechProfile, TechReview, TechWork } from '@/features/directory';
-import type { ActiveIntervention, ServiceCategory } from '@/features/requests';
-import type { TechSummary } from '@/shared/model';
 
 export const CATEGORIES: readonly ServiceCategory[] = [
   { slug: 'plomberie', label: 'Plomberie', icon: 'wrench' },
@@ -135,3 +139,205 @@ export const ACTIVE: ActiveIntervention = {
 };
 
 export const CLIENT = { firstName: 'Yves K.', fullName: 'Yves Kamga' };
+
+// ── Parcours d'intervention (lot L4) ─────────────────────────────────────────────
+
+export const PHASES: readonly TrackingPhase[] = [
+  { label: 'Acceptée', detail: 'Paul a accepté à 14 h 22', state: 'done' },
+  { label: 'En route', detail: 'Arrivée prévue dans 8 min', state: 'active' },
+  { label: 'Diagnostic', detail: 'Évaluation du problème', state: 'todo' },
+  { label: 'Intervention', detail: 'Réparation', state: 'todo' },
+  { label: 'Terminé', detail: 'Validation et paiement', state: 'todo' },
+];
+
+export const LINES: readonly LineItem[] = [
+  { label: 'Joint torique 32 mm', detail: 'Pièce détachée', quantity: 1, unitPrice: 500 },
+  { label: 'Main-d’œuvre (45 min)', detail: 'Forfait', quantity: 1, unitPrice: 6000 },
+  { label: 'Déplacement', detail: 'Bastos < 5 km', quantity: 1, unitPrice: 1000 },
+];
+
+export const DIAGNOSTIC: DiagnosticReport = {
+  reference: 'Mission #M-2847',
+  phaseLabel: 'Phase 2/4',
+  technician: { name: 'Paul Mvondo' },
+  performedAt: 'Diagnostic réalisé · Bastos · 14 h 32',
+  findings:
+    'Fuite identifiée au niveau du joint du siphon. Joint vieilli, écrou desserré. Évier en bon état. Pas de dégât apparent au mobilier sous l’évier.',
+  photos: ['siphon', 'joint', 'sous-évier'],
+  recommendations: [
+    'Remplacement du joint torique du siphon (réf. 32 mm)',
+    'Resserrage de l’écrou et test d’étanchéité de 10 min',
+    'Conseil : surveiller dans 6 mois',
+  ],
+  lines: LINES,
+  diagnosticFee: 5000,
+};
+
+export const QUOTE: QuoteDocument = {
+  reference: 'Devis #DV-2847',
+  validUntil: '24 avril à 14 h 32',
+  issuer: { name: 'Paul Mvondo', role: 'Plombier indépendant' },
+  recipient: { name: 'Yves Kamga', place: 'Bastos · Yaoundé' },
+  lines: LINES,
+  feeRate: 0.05,
+  conditions: [
+    'Fonds bloqués en séquestre Reliance jusqu’à validation',
+    'Garantie pièces et main-d’œuvre 30 jours',
+    'Annulation libre plus de 2 h avant l’intervention',
+    'Litige : médiation Reliance sous 48 h',
+  ],
+};
+
+export const INVOICE: InvoiceDocument = {
+  number: 'FAC-2026-0847',
+  status: 'paid',
+  issuedOn: '22 avril 2026',
+  issuer: { name: 'Paul Mvondo', lines: ['Plombier indépendant', 'Bastos · Yaoundé'] },
+  recipient: { name: 'Yves Kamga', lines: ['Particulier', 'Bastos · Yaoundé'] },
+  lines: LINES.map(({ detail: _detail, ...line }) => line),
+  feeRate: 0.05,
+  footer: [
+    'Paiement réglé via le séquestre Reliance · Réf. TX-2847-9482',
+    'Reliance · Yaoundé, Cameroun',
+  ],
+};
+
+export const CHECKS: readonly WorkCheck[] = [
+  { key: 'done', label: 'Travaux conformes au devis', hint: 'Joint remplacé, écrou serré' },
+  { key: 'clean', label: 'Espace propre et rangé', hint: 'Sous-évier nettoyé' },
+  { key: 'working', label: 'Test d’étanchéité validé', hint: '10 min sans fuite' },
+];
+
+export const POSITIVE_TAGS = [
+  'Ponctuel',
+  'Travail soigné',
+  'Bon prix',
+  'Communication claire',
+  'Courtois',
+  'Je recommande',
+];
+export const NEGATIVE_TAGS = [
+  'En retard',
+  'Travail bâclé',
+  'Trop cher',
+  'Mauvaise communication',
+  'Peu professionnel',
+  'Outils manquants',
+];
+
+export const DISPUTE_REASONS: readonly DisputeReasonOption[] = [
+  {
+    key: 'work_not_done',
+    icon: 'wrench',
+    label: 'Travail non terminé',
+    hint: 'Le problème persiste ou n’est pas résolu',
+  },
+  {
+    key: 'quality',
+    icon: 'info',
+    label: 'Travail mal fait ou dégâts',
+    hint: 'Malfaçon, casse ou détérioration pendant l’intervention',
+  },
+  {
+    key: 'amount',
+    icon: 'wallet',
+    label: 'Facturation abusive',
+    hint: 'Montant non conforme au devis',
+  },
+  {
+    key: 'delay',
+    icon: 'clock',
+    label: 'Retard ou absence',
+    hint: 'En retard ou absent au rendez-vous',
+  },
+  {
+    key: 'behaviour',
+    icon: 'user',
+    label: 'Comportement inapproprié',
+    hint: 'Attitude ou propos déplacés',
+  },
+  { key: 'other', icon: 'info', label: 'Autre motif', hint: 'Décrivez votre situation' },
+];
+
+export const CANCEL_REASONS = [
+  { key: 'changemind', label: 'J’ai changé d’avis' },
+  { key: 'found', label: 'J’ai trouvé une autre solution' },
+  { key: 'tech', label: 'Le technicien ne convient pas' },
+  { key: 'late', label: 'Le technicien est en retard' },
+  { key: 'other', label: 'Autre raison' },
+];
+
+export const CHAT: readonly ChatItem[] = [
+  { kind: 'day', id: 'j', label: 'Aujourd’hui · 14 h 22' },
+  {
+    kind: 'message',
+    id: 'm1',
+    mine: false,
+    text: 'Bonjour Yves, j’ai bien reçu votre demande. Je suis en route, j’arrive dans 10 minutes.',
+  },
+  {
+    kind: 'message',
+    id: 'm2',
+    mine: true,
+    text: 'Parfait, merci ! L’eau est coupée, ça peut attendre.',
+  },
+  { kind: 'message', id: 'm3', mine: false, text: 'Pouvez-vous m’envoyer une photo du siphon ?' },
+  {
+    kind: 'message',
+    id: 'm4',
+    mine: false,
+    text: 'C’est un siphon standard, j’ai la pièce. Ça devrait prendre 30 min sur place.',
+  },
+  { kind: 'quote', id: 'q1', title: 'Remplacement siphon cuisine', total: 7875, actionable: true },
+];
+
+export const CONVERSATIONS: readonly ConversationSummary[] = [
+  {
+    id: 'c1',
+    name: 'Paul Mvondo',
+    last: 'C’est un siphon standard, j’ai la pièce.',
+    time: '14:24',
+    unread: 2,
+    online: true,
+    archived: false,
+  },
+  {
+    id: 'c2',
+    name: 'Aïcha Nkoa',
+    last: 'Devis accepté',
+    time: '12:08',
+    unread: 0,
+    online: false,
+    archived: false,
+  },
+  {
+    id: 'c3',
+    name: 'Reliance · Support',
+    color: '#2b2a36',
+    last: 'Votre vérification KYC est validée',
+    time: 'Hier',
+    unread: 0,
+    online: false,
+    archived: false,
+  },
+  {
+    id: 'c4',
+    name: 'Esther Atangana',
+    color: '#006c49',
+    last: 'Merci pour la mission, à bientôt !',
+    time: 'Hier',
+    unread: 0,
+    online: false,
+    archived: true,
+  },
+  {
+    id: 'c5',
+    name: 'Marc Eyenga',
+    color: '#4918c8',
+    last: 'Photo reçue, j’examine ça',
+    time: '22 avr.',
+    unread: 0,
+    online: false,
+    archived: false,
+  },
+];

@@ -1,6 +1,23 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  open: {
+    title: 'Ouvrir un litige',
+    secured:
+      'Vos fonds sont sécurisés : tant que le litige n’est pas résolu, le paiement reste bloqué dans le séquestre Reliance.',
+    missionHeld: '{{reference}} · {{amount}} en séquestre',
+    reason: 'Motif du litige',
+    details: 'Décrivez la situation',
+    detailsPlaceholder: 'Soyez précis : que s’est-il passé ?',
+    evidence: 'Preuves photos',
+    add: 'Ajouter',
+    addEvidence: 'Ajouter une preuve',
+    removeEvidence: 'Retirer la preuve {{number}}',
+    notice:
+      'En soumettant, vous acceptez la médiation Reliance. Les fausses déclarations entraînent la suspension du compte.',
+    cancel: 'Annuler',
+    submit: 'Ouvrir le litige',
+  },
   statuses: {
     open: 'Ouvert',
     in_review: 'En examen',
@@ -54,6 +71,23 @@ const fr = {
 };
 
 const en: typeof fr = {
+  open: {
+    title: 'Open a dispute',
+    secured:
+      'Your funds are safe: until the dispute is resolved, the payment stays held in the Reliance escrow.',
+    missionHeld: '{{reference}} · {{amount}} in escrow',
+    reason: 'Reason',
+    details: 'Describe the situation',
+    detailsPlaceholder: 'Be specific: what happened?',
+    evidence: 'Photo evidence',
+    add: 'Add',
+    addEvidence: 'Add evidence',
+    removeEvidence: 'Remove evidence {{number}}',
+    notice:
+      'By submitting, you accept Reliance mediation. False statements lead to account suspension.',
+    cancel: 'Cancel',
+    submit: 'Open the dispute',
+  },
   statuses: {
     open: 'Open',
     in_review: 'Under review',
