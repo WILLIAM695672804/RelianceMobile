@@ -1,4 +1,5 @@
-import { screen, userEvent } from '@testing-library/react-native';
+import { fireEvent, screen, userEvent } from '@testing-library/react-native';
+import * as Haptics from 'expo-haptics';
 
 import { renderWithProviders } from '@/test/render';
 
@@ -201,6 +202,31 @@ describe('TabBar', () => {
 
   it('réserve un dégagement sous le contenu', () => {
     expect(TAB_BAR_CLEARANCE).toBe(112);
+  });
+
+  it('émet un retour haptique au changement d’onglet seulement', async () => {
+    const user = userEvent.setup();
+    const selection = jest.spyOn(Haptics, 'selectionAsync').mockResolvedValue(undefined);
+    await renderWithProviders(<TabBar items={items} activeKey="home" onSelect={jest.fn()} />);
+    await user.press(screen.getByRole('tab', { name: 'Accueil' }));
+    expect(selection).not.toHaveBeenCalled();
+    await user.press(screen.getByRole('tab', { name: 'Carte' }));
+    expect(selection).toHaveBeenCalledTimes(1);
+    selection.mockRestore();
+  });
+
+  it('dimensionne la goutte active sur la largeur d’un onglet une fois mesurée', async () => {
+    await renderWithProviders(
+      <TabBar items={items} activeKey="map" onSelect={jest.fn()} testID="barre" />,
+    );
+    expect(screen.queryByTestId('goutte-active')).toBeNull();
+    await fireEvent(screen.getByTestId('barre'), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 300, height: 72 } },
+    });
+    // (300 − 2 × 6) / 2 onglets − 2 × 5 de marge = 134.
+    expect(screen.getByTestId('goutte-active')).toHaveStyle({ width: 134, left: 11 });
+    // Au repos, la goutte de verre est invisible : la capsule reste pleine.
+    expect(screen.getByTestId('goutte-verre')).toHaveStyle({ opacity: 0 });
   });
 });
 

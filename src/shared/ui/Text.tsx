@@ -65,6 +65,10 @@ export interface TextProps {
   tone?: TextTone;
   align?: 'left' | 'center' | 'right';
   numberOfLines?: number;
+  /** Réduit la taille pour tenir sur `numberOfLines` lignes (étiquettes d'onglet). */
+  adjustsFontSizeToFit?: boolean;
+  /** Réduction maximale admise avec `adjustsFontSizeToFit`. */
+  minimumFontScale?: number;
   accessibilityRole?: 'header' | 'text';
   /** Réservé aux marges et aux couleurs calculées ; la typographie vient de la variante. */
   style?: StyleProp<TextStyle>;
@@ -78,6 +82,8 @@ export function Text({
   tone = 'default',
   align,
   numberOfLines,
+  adjustsFontSizeToFit,
+  minimumFontScale,
   accessibilityRole,
   style,
   testID,
@@ -89,6 +95,8 @@ export function Text({
     <NativeText
       testID={testID}
       numberOfLines={numberOfLines}
+      adjustsFontSizeToFit={adjustsFontSizeToFit}
+      minimumFontScale={minimumFontScale}
       accessibilityRole={accessibilityRole}
       maxFontSizeMultiplier={MAX_FONT_SCALE}
       style={[
