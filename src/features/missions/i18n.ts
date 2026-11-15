@@ -1,6 +1,26 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  techHome: {
+    hello: 'Bonjour,',
+    online: 'En ligne',
+    offline: 'Hors ligne',
+    notifications: 'Notifications',
+    today: 'Aujourd’hui',
+    missions: 'missions',
+    rating: 'note moy.',
+    time: 'temps',
+    incoming: 'Demandes entrantes ({{count}})',
+    respondQuickly: 'Répondre vite',
+    noIncoming: 'Aucune demande pour l’instant. Restez en ligne pour en recevoir.',
+    decline: 'Refuser',
+    accept: 'Accepter la mission',
+    agenda: 'Planning du jour',
+    planning: 'Voir la semaine',
+    ongoing: 'En cours',
+    freeTitle: 'Journée libre',
+    freeBody: 'Aucun rendez-vous aujourd’hui.',
+  },
   track: {
     chat: 'Écrire à {{name}}',
     call: 'Appeler {{name}}',
@@ -181,6 +201,26 @@ const fr = {
 };
 
 const en: typeof fr = {
+  techHome: {
+    hello: 'Hello,',
+    online: 'Online',
+    offline: 'Offline',
+    notifications: 'Notifications',
+    today: 'Today',
+    missions: 'jobs',
+    rating: 'avg. rating',
+    time: 'time',
+    incoming: 'Incoming requests ({{count}})',
+    respondQuickly: 'Reply quickly',
+    noIncoming: 'No request yet. Stay online to receive some.',
+    decline: 'Decline',
+    accept: 'Accept the job',
+    agenda: 'Today’s schedule',
+    planning: 'See the week',
+    ongoing: 'Ongoing',
+    freeTitle: 'Free day',
+    freeBody: 'No appointment today.',
+  },
   track: {
     chat: 'Message {{name}}',
     call: 'Call {{name}}',

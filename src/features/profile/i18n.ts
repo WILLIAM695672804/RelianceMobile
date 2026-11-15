@@ -1,6 +1,39 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  account: {
+    title: 'Profil',
+  },
+  onboarding: {
+    step: 'Étape {{step}} / {{count}}',
+    previous: 'Retour',
+    continue: 'Continuer',
+    submit: 'Soumettre pour validation',
+    edit: 'Modifier',
+    steps: {
+      profile: {
+        title: 'Votre profil professionnel',
+        hint: 'Photo, présentation, ville d’intervention',
+      },
+      skills: { title: 'Vos compétences', hint: 'Métiers et niveau de maîtrise' },
+      rates: { title: 'Vos tarifs', hint: 'Diagnostic et taux horaire' },
+      zone: { title: 'Zone d’intervention', hint: 'Rayon autour de votre ville' },
+      review: { title: 'Récapitulatif', hint: 'Vérifiez avant de soumettre' },
+    },
+    name: 'Nom complet',
+    phone: 'Téléphone',
+    city: 'Ville',
+    bio: 'Présentation courte',
+    levels: { junior: 'Junior', confirmed: 'Confirmé', expert: 'Expert' },
+    diagnosticFee: 'Diagnostic à domicile (FCFA)',
+    diagnosticHint: 'Facturé même sans intervention.',
+    hourlyRate: 'Taux horaire (FCFA)',
+    hourlyHint: 'Appliqué à la main-d’œuvre des devis.',
+    radius: 'Rayon d’intervention',
+    reviewDiagnostic: 'Diagnostic : {{amount}}',
+    reviewHourly: 'Taux horaire : {{amount}}',
+    reviewZone: '{{radius}} km autour de {{city}}',
+  },
   title: 'Mon profil',
   emailVerified: 'Adresse vérifiée',
   emailNotVerified: 'Adresse non vérifiée',
@@ -231,6 +264,36 @@ const fr = {
 };
 
 const en: typeof fr = {
+  account: {
+    title: 'Profile',
+  },
+  onboarding: {
+    step: 'Step {{step}} / {{count}}',
+    previous: 'Back',
+    continue: 'Continue',
+    submit: 'Submit for review',
+    edit: 'Edit',
+    steps: {
+      profile: { title: 'Your professional profile', hint: 'Photo, introduction, service city' },
+      skills: { title: 'Your skills', hint: 'Trades and proficiency' },
+      rates: { title: 'Your rates', hint: 'Diagnosis and hourly rate' },
+      zone: { title: 'Service area', hint: 'Radius around your city' },
+      review: { title: 'Summary', hint: 'Check before submitting' },
+    },
+    name: 'Full name',
+    phone: 'Phone',
+    city: 'City',
+    bio: 'Short introduction',
+    levels: { junior: 'Junior', confirmed: 'Confirmed', expert: 'Expert' },
+    diagnosticFee: 'Home diagnosis (FCFA)',
+    diagnosticHint: 'Charged even without a job.',
+    hourlyRate: 'Hourly rate (FCFA)',
+    hourlyHint: 'Applied to labour in quotes.',
+    radius: 'Service radius',
+    reviewDiagnostic: 'Diagnosis: {{amount}}',
+    reviewHourly: 'Hourly rate: {{amount}}',
+    reviewZone: '{{radius}} km around {{city}}',
+  },
   title: 'My profile',
   emailVerified: 'Verified address',
   emailNotVerified: 'Unverified address',

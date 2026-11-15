@@ -78,3 +78,15 @@ export type {
   TechnicianSkill,
   TechnicianStats,
 } from './schemas/technicianSchemas';
+export {
+  AccountView,
+  type AccountGroup,
+  type AccountItem,
+  type AccountViewProps,
+} from './ui/AccountView';
+export {
+  TechOnboardingView,
+  type OnboardingValues,
+  type SkillLevel,
+  type TechOnboardingViewProps,
+} from './ui/TechOnboardingView';

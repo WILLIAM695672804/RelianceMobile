@@ -70,3 +70,9 @@ export {
   type ValidationViewProps,
   type WorkCheck,
 } from './ui/CompletionViews';
+export {
+  TechHomeView,
+  type AgendaSlot,
+  type IncomingRequest,
+  type TechHomeViewProps,
+} from './ui/TechHomeView';

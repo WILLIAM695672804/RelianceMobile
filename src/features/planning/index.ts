@@ -34,3 +34,15 @@ export {
 export { PlanningScreen, type PlanningScreenProps } from './screens/PlanningScreen';
 export { TimeSlotsScreen } from './screens/TimeSlotsScreen';
 export type { Appointment, Calendar, ScheduleException, TimeSlot } from './schemas/planningSchemas';
+export {
+  AvailabilityView,
+  BlockAgendaView,
+  daysBetween,
+  PlanningWeekView,
+  type AgendaEvent,
+  type AgendaKind,
+  type AvailabilityValues,
+  type BlockReason,
+  type BlockValues,
+  type WeeklyHours,
+} from './ui/PlanningViews';

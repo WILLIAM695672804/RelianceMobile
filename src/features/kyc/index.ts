@@ -15,3 +15,14 @@ export {
 } from './model/kycOverview';
 export { KycScreen, type KycScreenProps } from './screens/KycScreen';
 export { KYC_DOCUMENT_TYPES, type KycDocument, type KycDocumentType } from './schemas/kycSchemas';
+export {
+  KYC_DOCUMENTS,
+  KycCaptureView,
+  KycStartView,
+  KycStatusView,
+  type KycCaptureViewProps,
+  type KycDocument as KycDocumentKind,
+  type KycShot,
+  type KycStartViewProps,
+  type KycStatusViewProps,
+} from './ui/KycViews';
