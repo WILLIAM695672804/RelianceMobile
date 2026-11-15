@@ -33,8 +33,8 @@ describe('sizeClassOf', () => {
 
 describe('gutterFor', () => {
   it('élargit la gouttière avec la classe de taille', () => {
-    expect(gutterFor('compact')).toBe(12);
-    expect(gutterFor('medium')).toBe(16);
+    expect(gutterFor('compact')).toBe(16);
+    expect(gutterFor('medium')).toBe(20);
     expect(gutterFor('expanded')).toBe(24);
     expect(gutterFor('large')).toBe(32);
   });

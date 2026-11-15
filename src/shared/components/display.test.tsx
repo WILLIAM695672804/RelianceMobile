@@ -111,6 +111,6 @@ describe('Badge enrichie', () => {
     await renderWithProviders(<Badge label="Vérifié" tone="success" icon="check" testID="b" />);
 
     expect(screen.getByTestId('b-icon')).toBeTruthy();
-    expect(screen.getByText('Vérifié')).toHaveStyle({ color: '#16A34A' });
+    expect(screen.getByText('Vérifié')).toHaveStyle({ color: '#006c49' });
   });
 });

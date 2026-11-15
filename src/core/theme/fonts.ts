@@ -1,18 +1,18 @@
 import {
-  BricolageGrotesque_600SemiBold,
-  BricolageGrotesque_700Bold,
-} from '@expo-google-fonts/bricolage-grotesque';
-import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_600SemiBold,
+  PlusJakartaSans_700Bold,
+} from '@expo-google-fonts/plus-jakarta-sans';
 import { useFonts } from 'expo-font';
 
-/** Charge les polices ; renvoie vrai une fois chargées ou en échec (repli sur les polices système). */
+/** Charge Plus Jakarta Sans ; renvoie vrai une fois chargée ou en échec (repli sur la police système). */
 export function useAppFonts(): boolean {
   const [loaded, error] = useFonts({
-    BricolageGrotesque_600SemiBold,
-    BricolageGrotesque_700Bold,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
+    PlusJakartaSans_400Regular,
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_700Bold,
   });
   return loaded || error !== null;
 }

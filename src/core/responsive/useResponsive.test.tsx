@@ -38,7 +38,7 @@ describe('useResponsive', () => {
   it('mesure un téléphone d’entrée de gamme en portrait', async () => {
     const responsive = await measure(320, 640);
     expect(responsive.sizeClass).toBe('compact');
-    expect(responsive.gutter).toBe(12);
+    expect(responsive.gutter).toBe(16);
     expect(responsive.landscape).toBe(false);
     expect(responsive.wide).toBe(false);
     expect(responsive.maxContentWidth).toBeUndefined();

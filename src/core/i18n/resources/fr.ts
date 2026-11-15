@@ -16,6 +16,10 @@ export const fr = {
     offline: {
       banner: 'Vous êtes hors ligne. Certaines fonctionnalités sont limitées.',
     },
+    field: {
+      showPassword: 'Afficher le mot de passe',
+      hidePassword: 'Masquer le mot de passe',
+    },
     session: {
       expired: 'Votre session a expiré. Veuillez vous reconnecter.',
       checkConnection: 'Vérifiez votre connexion.',

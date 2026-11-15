@@ -1,6 +1,8 @@
 /** @type {import('jest').Config} */
 module.exports = {
   preset: 'jest-expo',
+  // Le premier rendu d'un écran dépasse 5 s sous charge parallèle avec mesure de couverture.
+  testTimeout: 15000,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',

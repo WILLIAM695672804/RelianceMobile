@@ -2,33 +2,50 @@ import { renderHook } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
 
 import { ThemeProvider, useTheme } from './ThemeProvider';
-import { buildTheme, radius } from './tokens';
+import { buildTheme, fontFamily, radius } from './tokens';
 
 describe('buildTheme', () => {
-  it('reprend les jetons clairs des maquettes', () => {
+  it('reprend les jetons clairs de Clean Lavender', () => {
     const theme = buildTheme('light');
     expect(theme.colors).toMatchObject({
-      background: '#FFFFFF',
-      text: '#101828',
-      primary: '#1F5BC4',
+      background: '#ffffff',
+      text: '#17161f',
+      textMuted: '#57556a',
+      border: '#ececf1',
+      primary: '#5f3add',
+      onPrimary: '#ffffff',
+      primaryFixed: '#efeaff',
+      onPrimaryFixed: '#4918c8',
+      danger: '#ba1a1a',
     });
     expect(theme.radius).toBe(radius);
+    expect(theme.radius.card).toBe(20);
   });
 
-  it('expose les teintes et les élévations', () => {
-    const theme = buildTheme('light');
-    expect(theme.tint.primary).toBe('rgba(31,91,196,0.10)');
-    expect(theme.elevation.medium).toEqual({ elevation: 3 });
-  });
-
-  it('reprend les jetons sombres des maquettes', () => {
+  it('reprend les jetons sombres de Clean Lavender', () => {
     expect(buildTheme('dark').colors).toMatchObject({
-      background: '#0B1220',
-      surface: '#111A2B',
-      text: '#F2F6FF',
-      primary: '#1F5BC4',
-      danger: '#E5484D',
+      background: '#0e0e12',
+      surface: '#16161b',
+      text: '#ededf2',
+      primary: '#b5a3ff',
+      onPrimary: '#1f0a5c',
+      danger: '#ff8a80',
     });
+  });
+
+  it('accorde teintes et ombres au schéma', () => {
+    expect(buildTheme('light').tint.primary).toBe('#efeaff');
+    expect(buildTheme('dark').tint.primary).toBe('#2a2350');
+    expect(buildTheme('light').shadow.card).toEqual({
+      boxShadow: '0px 2px 8px rgba(23, 22, 31, 0.04)',
+    });
+    expect(buildTheme('dark').shadow.card).toEqual({});
+  });
+
+  it('emploie Plus Jakarta Sans pour toutes les graisses', () => {
+    expect(Object.values(fontFamily).every((name) => name.startsWith('PlusJakartaSans_'))).toBe(
+      true,
+    );
   });
 });
 

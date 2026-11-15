@@ -13,7 +13,7 @@ import { TextField } from './TextField';
 describe('Text', () => {
   it('applique la couleur de la tonalité', async () => {
     await renderWithProviders(<Text tone="danger">Alerte</Text>);
-    expect(screen.getByText('Alerte')).toHaveStyle({ color: '#E5484D' });
+    expect(screen.getByText('Alerte')).toHaveStyle({ color: '#ba1a1a' });
   });
 
   it('applique la taille de la variante', async () => {
@@ -135,7 +135,7 @@ describe('Button aux conventions Android', () => {
     );
     expect(StyleSheet.flatten(screen.getByTestId('ghost').props.style).borderWidth).toBe(1);
     expect(StyleSheet.flatten(screen.getByTestId('plein').props.style)).toMatchObject({
-      backgroundColor: '#1F5BC4',
+      backgroundColor: '#5f3add',
       borderWidth: 0,
     });
   });

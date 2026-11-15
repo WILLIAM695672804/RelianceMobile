@@ -1,15 +1,17 @@
 export { useAppFonts } from './fonts';
 export { ThemeProvider, useTheme } from './ThemeProvider';
 export {
-  brand,
+  accents,
   buildTheme,
   elevation,
   fontFamily,
   fontSize,
-  palette,
   radius,
+  shadows,
   spacing,
-  tint,
+  surfaces,
+  tints,
   type ColorScheme,
+  type Shadows,
   type Theme,
 } from './tokens';

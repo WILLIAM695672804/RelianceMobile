@@ -4,6 +4,9 @@ import { computeGuards, useSession } from '@/core/session';
 
 import { RealtimeBridge } from './RealtimeBridge';
 
+/** Le catalogue (`reliance://catalogue`) n'existe que dans les compilations de développement. */
+const devToolsEnabled = __DEV__;
+
 /** Navigateur racine : chaque espace n'est accessible que si sa garde est vraie. */
 export function RootNavigator() {
   const status = useSession((state) => state.status);
@@ -45,6 +48,9 @@ export function RootNavigator() {
         </Stack.Protected>
         <Stack.Protected guard={guards.isWebOnly}>
           <Stack.Screen name="web-only" />
+        </Stack.Protected>
+        <Stack.Protected guard={devToolsEnabled}>
+          <Stack.Screen name="catalogue" />
         </Stack.Protected>
       </Stack>
       <RealtimeBridge />

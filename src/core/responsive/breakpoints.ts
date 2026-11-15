@@ -14,9 +14,10 @@ export function sizeClassOf(width: number): SizeClass {
   return 'large';
 }
 
+/** Gouttières : 20 points sur téléphone standard, comme les maquettes Clean Lavender. */
 const GUTTERS: Record<SizeClass, number> = {
-  compact: 12,
-  medium: 16,
+  compact: 16,
+  medium: 20,
   expanded: 24,
   large: 32,
 };

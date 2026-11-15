@@ -56,4 +56,40 @@ module.exports = defineConfig([
       ],
     },
   },
+  {
+    // Écrans de présentation (refonte Clean Lavender, § 3.1) : ni données, ni navigation.
+    files: ['src/features/*/ui/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'expo-router',
+              message: 'ui/ ne navigue pas : le conteneur fournit un rappel.',
+            },
+            { name: '@tanstack/react-query', message: 'ui/ reçoit ses données par propriétés.' },
+            { name: 'axios', message: 'ui/ reçoit ses données par propriétés.' },
+          ],
+          patterns: [
+            {
+              group: ['@/features/*/*'],
+              message: "Importer une feature par son API publique : '@/features/<nom>'.",
+            },
+            {
+              group: [
+                '../hooks',
+                '../hooks/*',
+                '../api',
+                '../api/*',
+                '../containers',
+                '../containers/*',
+              ],
+              message: 'ui/ ne dépend ni des hooks, ni de l’API, ni des conteneurs.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 ]);

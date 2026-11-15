@@ -8,7 +8,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: 'reliance-mobile',
   version: '0.1.0',
   scheme: 'reliance',
-  orientation: 'portrait',
+  // Rotation permise (ADR 0009) : ce réglage écrasait le « default » d'app.json.
+  orientation: 'default',
   userInterfaceStyle: 'automatic',
   ios: {
     ...config.ios,

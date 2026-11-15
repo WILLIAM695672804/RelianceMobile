@@ -18,6 +18,10 @@ export const en: typeof fr = {
     offline: {
       banner: 'You are offline. Some features are limited.',
     },
+    field: {
+      showPassword: 'Show password',
+      hidePassword: 'Hide password',
+    },
     session: {
       expired: 'Your session has expired. Please sign in again.',
       checkConnection: 'Check your connection.',
