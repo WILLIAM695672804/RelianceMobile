@@ -44,3 +44,4 @@ export {
   type WalletMovement,
   type WalletViewProps,
 } from './ui/WalletViews';
+export { WalletContainer, type WalletContainerProps } from './containers/WalletContainer';

@@ -40,6 +40,13 @@ export const en: typeof fr = {
       unknownRole: 'Your role is not supported by the mobile app.',
     },
     navigation: {
+      missions: 'Jobs',
+      messages: 'Messages',
+      earnings: 'Earnings',
+      wallet: 'Wallet',
+      profile: 'Profile',
+      map: 'Map',
+      team: 'Team',
       home: 'Home',
       agency: 'Agency',
       mission: 'Job',

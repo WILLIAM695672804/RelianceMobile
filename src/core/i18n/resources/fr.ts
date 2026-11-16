@@ -38,6 +38,13 @@ export const fr = {
       unknownRole: 'Votre rôle n’est pas reconnu par l’application mobile.',
     },
     navigation: {
+      missions: 'Missions',
+      messages: 'Messages',
+      earnings: 'Gains',
+      wallet: 'Portefeuille',
+      profile: 'Profil',
+      map: 'Carte',
+      team: 'Équipe',
       home: 'Accueil',
       agency: 'Agence',
       mission: 'Mission',

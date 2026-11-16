@@ -1,6 +1,16 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  accountTab: {
+    groups: {
+      identity: 'Mon compte',
+      activity: 'Mon activité',
+      money: 'Finances',
+      community: 'Communauté',
+    },
+    verified: 'Identité vérifiée',
+    emailOk: 'Adresse vérifiée',
+  },
   account: {
     title: 'Profil',
   },
@@ -264,6 +274,16 @@ const fr = {
 };
 
 const en: typeof fr = {
+  accountTab: {
+    groups: {
+      identity: 'My account',
+      activity: 'My activity',
+      money: 'Finances',
+      community: 'Community',
+    },
+    verified: 'Verified identity',
+    emailOk: 'Verified address',
+  },
   account: {
     title: 'Profile',
   },

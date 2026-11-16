@@ -1,5 +1,13 @@
-import { TechnicianHomeScreen } from '@/features/matching';
+import { router } from 'expo-router';
 
-export default function HomeRoute() {
-  return <TechnicianHomeScreen />;
+import { TechHomeContainer } from '@/features/missions';
+
+export default function TechHomeRoute() {
+  return (
+    <TechHomeContainer
+      onNotifications={() => router.push('/notifications')}
+      onOpenMission={() => router.push('/technicien/mission')}
+      onPlanning={() => router.push('/planning')}
+    />
+  );
 }

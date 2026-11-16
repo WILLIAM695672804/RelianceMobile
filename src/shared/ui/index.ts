@@ -44,3 +44,4 @@ export { Stars } from './Stars';
 export { DetailHeader, type DetailHeaderProps } from './DetailHeader';
 export { SectionLabel } from './SectionLabel';
 export { CheckRow, RadioRow, type CheckRowProps, type RadioRowProps } from './ChoiceRows';
+export { QueryGate, type GateQuery, type QueryGateProps } from './QueryGate';

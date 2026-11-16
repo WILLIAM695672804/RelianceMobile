@@ -1,5 +1,3 @@
-import { ProfileRoute } from '@/bootstrap/screens/ProfileRoute';
+import { AccountTab } from '@/bootstrap/screens/tabRoutes';
 
-export default function AccountRoute() {
-  return <ProfileRoute />;
-}
+export default AccountTab;

@@ -31,3 +31,4 @@ export type {
   TechnicianProfile,
 } from './schemas/matchingSchemas';
 export { MatchingView, type MatchingViewProps } from './ui/MatchingView';
+export { expiryState, isActionable } from './model/proposalExpiry';

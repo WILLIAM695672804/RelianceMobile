@@ -76,3 +76,4 @@ export {
   type IncomingRequest,
   type TechHomeViewProps,
 } from './ui/TechHomeView';
+export { TechHomeContainer, type TechHomeContainerProps } from './containers/TechHomeContainer';

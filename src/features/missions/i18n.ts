@@ -1,6 +1,13 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  techHub: {
+    thisMonth: 'Ce mois-ci',
+    completion: 'achevées',
+    activeMission: 'Mission en cours',
+    accepted: 'Mission acceptée.',
+    declined: 'Proposition refusée.',
+  },
   techHome: {
     hello: 'Bonjour,',
     online: 'En ligne',
@@ -201,6 +208,13 @@ const fr = {
 };
 
 const en: typeof fr = {
+  techHub: {
+    thisMonth: 'This month',
+    completion: 'completed',
+    activeMission: 'Mission in progress',
+    accepted: 'Mission accepted.',
+    declined: 'Proposal declined.',
+  },
   techHome: {
     hello: 'Hello,',
     online: 'Online',

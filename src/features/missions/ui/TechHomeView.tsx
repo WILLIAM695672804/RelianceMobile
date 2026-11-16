@@ -28,6 +28,10 @@ export interface TechHomeViewProps {
   firstName: string;
   online: boolean;
   today: { earnings: number; missions: number; rating: string; time: string };
+  /** Période du bandeau de gains ; « Aujourd'hui » par défaut. */
+  periodLabel?: string;
+  /** Libellé de la troisième mesure ; « temps » par défaut. */
+  timeLabel?: string;
   incoming: readonly IncomingRequest[];
   agenda: readonly AgendaSlot[];
   respondingId?: string | null;
@@ -108,7 +112,7 @@ export function TechHomeView(props: TechHomeViewProps) {
             }}
           />
           <Text variant="eyebrow" style={{ color: '#ffffff', opacity: 0.7, letterSpacing: 1.5 }}>
-            {t('missions:techHome.today')}
+            {props.periodLabel ?? t('missions:techHome.today')}
           </Text>
           <Text
             variant="display"
@@ -120,7 +124,7 @@ export function TechHomeView(props: TechHomeViewProps) {
             {[
               { value: String(props.today.missions), label: t('missions:techHome.missions') },
               { value: props.today.rating, label: t('missions:techHome.rating') },
-              { value: props.today.time, label: t('missions:techHome.time') },
+              { value: props.today.time, label: props.timeLabel ?? t('missions:techHome.time') },
             ].map((stat) => (
               <View key={stat.label} style={{ flex: 1 }}>
                 <Text

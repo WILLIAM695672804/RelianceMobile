@@ -28,3 +28,4 @@ export {
   type ConversationSummary,
   type InboxViewProps,
 } from './ui/ChatViews';
+export { InboxContainer, type InboxContainerProps } from './containers/InboxContainer';
