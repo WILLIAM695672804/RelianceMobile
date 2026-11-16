@@ -1,17 +1,25 @@
 import { Stack } from 'expo-router';
 
 import { computeGuards, useSession } from '@/core/session';
+import { PROTOTYPE_ENABLED } from '@/prototype/flag';
 
 import { RealtimeBridge } from './RealtimeBridge';
-
-/** Le catalogue (`reliance://catalogue`) n'existe que dans les compilations de développement. */
-const devToolsEnabled = __DEV__;
 
 /** Navigateur racine : chaque espace n'est accessible que si sa garde est vraie. */
 export function RootNavigator() {
   const status = useSession((state) => state.status);
   const user = useSession((state) => state.user);
   const guards = computeGuards({ status, user });
+
+  if (PROTOTYPE_ENABLED) {
+    // Prototype de la refonte : aucune garde de session, données d'exemple.
+    return (
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="prototype" />
+      </Stack>
+    );
+  }
 
   return (
     <>
@@ -48,9 +56,6 @@ export function RootNavigator() {
         </Stack.Protected>
         <Stack.Protected guard={guards.isWebOnly}>
           <Stack.Screen name="web-only" />
-        </Stack.Protected>
-        <Stack.Protected guard={devToolsEnabled}>
-          <Stack.Screen name="catalogue" />
         </Stack.Protected>
       </Stack>
       <RealtimeBridge />
