@@ -132,8 +132,10 @@ function useGo() {
   const router = useRouter();
   return {
     to: (screen: string, params: Record<string, string> = {}) => {
-      const query = new URLSearchParams(params).toString();
-      router.push(`/prototype/${screen}${query ? `?${query}` : ''}` as Href);
+      router.push({
+        pathname: '/prototype/[slug]',
+        params: { ...params, slug: screen },
+      } as unknown as Href);
     },
     replace: (path: string) => router.replace(path as Href),
     back: () => (router.canGoBack() ? router.back() : router.replace('/prototype' as Href)),
