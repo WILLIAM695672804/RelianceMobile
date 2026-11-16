@@ -39,3 +39,4 @@ export {
   type DiagnosticReport,
   type DiagnosticViewProps,
 } from './ui/DiagnosticView';
+export { iconForCategory } from './model/categoryIcons';

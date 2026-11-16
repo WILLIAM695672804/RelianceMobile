@@ -23,10 +23,12 @@ export interface TeamMember {
   id: string;
   name: string;
   role: string;
-  online: boolean;
-  jobs: number;
+  /** `null` : présence inconnue (le serveur ne l'expose pas). */
+  online: boolean | null;
+  jobs: number | null;
   rating: number | null;
-  today: number;
+  /** `null` : charge du jour inconnue. */
+  today: number | null;
   kycPending?: boolean;
 }
 
@@ -42,6 +44,8 @@ export interface PendingJob {
 
 export interface AgencyDashboardViewProps {
   agencyName: string;
+  /** Surtitre (ville, statut) ; « Agence · Yaoundé » par défaut. */
+  eyebrow?: string;
   stats: readonly { label: string; value: string; detail: string }[];
   alerts: readonly { id: string; message: string }[];
   jobs: readonly PendingJob[];
@@ -59,7 +63,7 @@ export function AgencyDashboardView(props: AgencyDashboardViewProps) {
     <Screen withTabBar testID="tableau-agence">
       <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 12 }}>
         <Text variant="eyebrow" tone="muted" style={{ letterSpacing: 1 }}>
-          {t('agency:board.eyebrow')}
+          {props.eyebrow ?? t('agency:board.eyebrow')}
         </Text>
         <Text variant="display" accessibilityRole="header" style={{ fontSize: 28, lineHeight: 32 }}>
           {props.agencyName}
@@ -116,37 +120,39 @@ export function AgencyDashboardView(props: AgencyDashboardViewProps) {
           ))}
         </View>
       ) : null}
-      <Section title={t('agency:board.toAssign')}>
-        <View style={{ paddingHorizontal: 20, gap: 8 }}>
-          {props.jobs.map((job) => (
-            <Card
-              key={job.id}
-              padding={14}
-              onPress={props.onAssign ? () => props.onAssign!(job) : undefined}
-              accessibilityLabel={`${job.service} · ${job.client}`}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-                <View style={{ flex: 1 }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                    <Text variant="labelStrong">{job.service}</Text>
-                    {job.urgent ? (
-                      <Pill label={t('agency:board.urgent')} tone="danger" size="sm" />
-                    ) : null}
+      {props.jobs.length > 0 ? (
+        <Section title={t('agency:board.toAssign')}>
+          <View style={{ paddingHorizontal: 20, gap: 8 }}>
+            {props.jobs.map((job) => (
+              <Card
+                key={job.id}
+                padding={14}
+                onPress={props.onAssign ? () => props.onAssign!(job) : undefined}
+                accessibilityLabel={`${job.service} · ${job.client}`}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                  <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                      <Text variant="labelStrong">{job.service}</Text>
+                      {job.urgent ? (
+                        <Pill label={t('agency:board.urgent')} tone="danger" size="sm" />
+                      ) : null}
+                    </View>
+                    <Text variant="caption" tone="muted" style={{ fontSize: 11 }}>
+                      {job.client} · {job.zone} · {job.when}
+                    </Text>
                   </View>
-                  <Text variant="caption" tone="muted" style={{ fontSize: 11 }}>
-                    {job.client} · {job.zone} · {job.when}
-                  </Text>
+                  {job.estimate != null ? (
+                    <Text variant="labelStrong" style={{ fontFamily: theme.fontFamily.display }}>
+                      {formatAmount(job.estimate)}
+                    </Text>
+                  ) : null}
                 </View>
-                {job.estimate != null ? (
-                  <Text variant="labelStrong" style={{ fontFamily: theme.fontFamily.display }}>
-                    {formatAmount(job.estimate)}
-                  </Text>
-                ) : null}
-              </View>
-            </Card>
-          ))}
-        </View>
-      </Section>
+              </Card>
+            ))}
+          </View>
+        </Section>
+      ) : null}
       <Section
         title={t('agency:board.team')}
         action={
@@ -176,26 +182,30 @@ export function AgencyDashboardView(props: AgencyDashboardViewProps) {
             >
               <View>
                 <Avatar name={member.name} size={56} />
-                <View
-                  style={{
-                    position: 'absolute',
-                    right: 2,
-                    bottom: 2,
-                    width: 14,
-                    height: 14,
-                    borderRadius: 7,
-                    borderWidth: 2,
-                    borderColor: theme.colors.background,
-                    backgroundColor: member.online ? theme.colors.success : theme.colors.outline,
-                  }}
-                />
+                {member.online == null ? null : (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      right: 2,
+                      bottom: 2,
+                      width: 14,
+                      height: 14,
+                      borderRadius: 7,
+                      borderWidth: 2,
+                      borderColor: theme.colors.background,
+                      backgroundColor: member.online ? theme.colors.success : theme.colors.outline,
+                    }}
+                  />
+                )}
               </View>
               <Text variant="caption" numberOfLines={1} style={{ color: theme.colors.text }}>
                 {member.name.split(' ')[0]}
               </Text>
-              <Text variant="caption" tone="muted" style={{ fontSize: 10 }}>
-                {t('agency:board.today', { count: member.today })}
-              </Text>
+              {member.today != null ? (
+                <Text variant="caption" tone="muted" style={{ fontSize: 10 }}>
+                  {t('agency:board.today', { count: member.today })}
+                </Text>
+              ) : null}
             </Pressable>
           ))}
         </ScrollView>
@@ -209,10 +219,12 @@ export interface TeamViewProps {
   onBack: () => void;
   onMember: (member: TeamMember) => void;
   onAdd?: () => void;
+  /** Réserve la place de la barre d'onglets lorsque l'équipe est un onglet. */
+  withTabBar?: boolean;
 }
 
 /** Annuaire de l'équipe (maquette `AgencyTeamScreen`), présentation pure. */
-export function TeamView({ members, onBack, onMember, onAdd }: TeamViewProps) {
+export function TeamView({ members, onBack, onMember, onAdd, withTabBar }: TeamViewProps) {
   const { t } = useTranslation();
   const [filter, setFilter] = useState<'all' | 'online' | 'kyc'>('all');
   const visible = members.filter((member) =>
@@ -220,6 +232,7 @@ export function TeamView({ members, onBack, onMember, onAdd }: TeamViewProps) {
   );
   return (
     <Screen
+      withTabBar={withTabBar}
       testID="equipe"
       footer={
         onAdd ? (
@@ -253,13 +266,18 @@ export function TeamView({ members, onBack, onMember, onAdd }: TeamViewProps) {
                   {member.name}
                 </Text>
                 <Text variant="caption" tone="muted" style={{ fontSize: 11 }}>
-                  {member.role} · {t('agency:crew.jobs', { count: member.jobs })}
-                  {member.rating != null ? ` · ★ ${formatRating(member.rating)}` : ''}
+                  {[
+                    member.role,
+                    member.jobs != null ? t('agency:crew.jobs', { count: member.jobs }) : null,
+                    member.rating != null ? `★ ${formatRating(member.rating)}` : null,
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
                 </Text>
               </View>
               {member.kycPending ? (
                 <Pill label="KYC" tone="warning" size="sm" />
-              ) : (
+              ) : member.online == null ? null : (
                 <Pill
                   label={t(member.online ? 'agency:crew.online' : 'agency:crew.offline')}
                   tone={member.online ? 'success' : 'neutral'}
@@ -326,7 +344,7 @@ export function AssignView({ job, members, assigning = false, onBack, onAssign }
         </Text>
         <View accessibilityRole="radiogroup" style={{ gap: 8 }}>
           {members
-            .filter((member) => member.online)
+            .filter((member) => member.online !== false)
             .map((member) => {
               const active = member.id === selected;
               return (
@@ -351,7 +369,9 @@ export function AssignView({ job, members, assigning = false, onBack, onAssign }
                   <View style={{ flex: 1 }}>
                     <Text variant="labelStrong">{member.name}</Text>
                     <Text variant="caption" tone="muted" style={{ fontSize: 11 }}>
-                      {member.role} · {t('agency:board.today', { count: member.today })}
+                      {member.today != null
+                        ? `${member.role} · ${t('agency:board.today', { count: member.today })}`
+                        : member.role}
                     </Text>
                   </View>
                   {active ? <Icon name="check" size={18} strokeWidth={2.5} tone="primary" /> : null}

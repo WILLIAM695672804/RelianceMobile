@@ -1,6 +1,16 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  hub: {
+    eyebrow: 'Votre agence',
+    members: 'Techniciens',
+    membersDetail: 'dans l’équipe',
+    verified: 'Vérifiés',
+    verifiedDetail: 'identité contrôlée',
+    toVerify_one: '{{count}} technicien attend la vérification de son identité.',
+    toVerify_other: '{{count}} techniciens attendent la vérification de leur identité.',
+    technician: 'Technicien',
+  },
   board: {
     eyebrow: 'Agence · Yaoundé',
     toAssign: 'À distribuer',
@@ -87,6 +97,16 @@ const fr = {
 };
 
 const en: typeof fr = {
+  hub: {
+    eyebrow: 'Your agency',
+    members: 'Technicians',
+    membersDetail: 'in the team',
+    verified: 'Verified',
+    verifiedDetail: 'identity checked',
+    toVerify_one: '{{count}} technician is awaiting identity verification.',
+    toVerify_other: '{{count}} technicians are awaiting identity verification.',
+    technician: 'Technician',
+  },
   board: {
     eyebrow: 'Agency · Yaoundé',
     toAssign: 'To assign',

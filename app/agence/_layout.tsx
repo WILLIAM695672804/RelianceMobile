@@ -1,22 +1,17 @@
-import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { tabIcon, useTabBarStyle } from '@/bootstrap/navigation/tabOptions';
+import { RoleTabs } from '@/bootstrap/navigation/RoleTabs';
 
-/** Espace agence : l'accueil est le tableau de bord de l'agence. */
 export default function AgenceLayout() {
   const { t } = useTranslation();
-  const screenOptions = useTabBarStyle();
   return (
-    <Tabs screenOptions={screenOptions}>
-      <Tabs.Screen
-        name="index"
-        options={{ title: t('common:navigation.agency'), tabBarIcon: tabIcon('shield') }}
-      />
-      <Tabs.Screen
-        name="account"
-        options={{ title: t('common:navigation.account'), tabBarIcon: tabIcon('user') }}
-      />
-    </Tabs>
+    <RoleTabs
+      items={[
+        { key: 'index', label: t('common:navigation.agency'), icon: 'grid' },
+        { key: 'team', label: t('common:navigation.team'), icon: 'user' },
+        { key: 'inbox', label: t('common:navigation.messages'), icon: 'chat' },
+        { key: 'account', label: t('common:navigation.profile'), icon: 'settings' },
+      ]}
+    />
   );
 }

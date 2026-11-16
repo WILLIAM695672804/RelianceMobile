@@ -31,3 +31,10 @@ export {
   type PendingJob,
   type TeamMember,
 } from './ui/AgencyViews';
+export {
+  AgencyHomeContainer,
+  MyTeamContainer,
+  TeamContainer,
+  type AgencyHomeContainerProps,
+  type TeamContainerProps,
+} from './containers/AgencyContainers';

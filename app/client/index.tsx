@@ -1,5 +1,18 @@
-import { ClientHomeRoute } from '@/bootstrap/screens/ClientHomeRoute';
+import { router } from 'expo-router';
 
-export default function HomeRoute() {
-  return <ClientHomeRoute />;
+import { ClientHomeContainer } from '@/bootstrap/containers/ClientHomeContainer';
+
+export default function ClientHomeRoute() {
+  return (
+    <ClientHomeContainer
+      onNotifications={() => router.push('/notifications')}
+      onNewRequest={() => router.push('/requests/new')}
+      onAllCategories={() => router.push('/search')}
+      onMap={() => router.navigate('/client/map')}
+      onTech={(id) => router.push({ pathname: '/technicians/[id]', params: { id } })}
+      onAllTechs={() => router.navigate('/client/annuaire')}
+      onOpenRequest={() => router.navigate('/client/suivi')}
+      onChat={() => router.navigate('/client/inbox')}
+    />
+  );
 }
