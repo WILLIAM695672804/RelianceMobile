@@ -41,7 +41,7 @@ export const fr = {
       missions: 'Missions',
       messages: 'Messages',
       earnings: 'Gains',
-      wallet: 'Portefeuille',
+      wallet: 'Solde',
       profile: 'Profil',
       map: 'Carte',
       team: 'Équipe',

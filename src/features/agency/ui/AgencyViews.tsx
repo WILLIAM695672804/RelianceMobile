@@ -242,14 +242,17 @@ export function TeamView({ members, onBack, onMember, onAdd, withTabBar }: TeamV
     >
       <TopBar title={t('agency:crew.title')} onBack={onBack} />
       <View style={{ flexDirection: 'row', gap: 6, paddingHorizontal: 20, paddingBottom: 12 }}>
-        {(['all', 'online', 'kyc'] as const).map((key) => (
-          <ChoiceChip
-            key={key}
-            label={t(`agency:crew.filters.${key}`)}
-            selected={filter === key}
-            onPress={() => setFilter(key)}
-          />
-        ))}
+        {(['all', 'online', 'kyc'] as const)
+          // Sans information de présence, le filtre « En ligne » n'aurait aucun effet.
+          .filter((key) => key !== 'online' || members.some((member) => member.online != null))
+          .map((key) => (
+            <ChoiceChip
+              key={key}
+              label={t(`agency:crew.filters.${key}`)}
+              selected={filter === key}
+              onPress={() => setFilter(key)}
+            />
+          ))}
       </View>
       <View style={{ paddingHorizontal: 20, gap: 8 }}>
         {visible.map((member) => (
