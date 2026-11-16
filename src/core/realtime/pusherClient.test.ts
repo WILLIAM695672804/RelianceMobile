@@ -1,16 +1,44 @@
 import Echo from 'laravel-echo';
-import Pusher from 'pusher-js/react-native';
+import * as pusherModule from 'pusher-js/react-native';
 
 import { testEnv } from '@/test/fixtures/env';
 
-import { createPusherOptions, createRealtimeClient } from './pusherClient';
+import {
+  createPusherOptions,
+  createRealtimeClient,
+  resolvePusherConstructor,
+} from './pusherClient';
 
-jest.mock('pusher-js/react-native', () =>
-  jest.fn().mockImplementation(() => ({ connect: jest.fn(), disconnect: jest.fn() })),
-);
+const Pusher = resolvePusherConstructor(pusherModule) as unknown as jest.Mock;
+
+// Forme réelle de l'entrée React Native de pusher-js 8.6 : un export nommé `Pusher`.
+jest.mock('pusher-js/react-native', () => ({
+  Pusher: jest.fn().mockImplementation(() => ({ connect: jest.fn(), disconnect: jest.fn() })),
+}));
 jest.mock('laravel-echo', () =>
   jest.fn().mockImplementation(() => ({ private: jest.fn(), leave: jest.fn() })),
 );
+
+describe('resolvePusherConstructor', () => {
+  class FakePusher {}
+
+  it('retient l’export nommé de la version React Native', () => {
+    expect(resolvePusherConstructor({ Pusher: FakePusher })).toBe(FakePusher);
+  });
+
+  it('retient l’export nommé sous un espace de noms à défaut', () => {
+    expect(resolvePusherConstructor({ default: { Pusher: FakePusher } })).toBe(FakePusher);
+  });
+
+  it('retient l’export par défaut ou le module lui-même', () => {
+    expect(resolvePusherConstructor({ default: FakePusher })).toBe(FakePusher);
+    expect(resolvePusherConstructor(FakePusher)).toBe(FakePusher);
+  });
+
+  it('échoue explicitement sans constructeur', () => {
+    expect(() => resolvePusherConstructor({})).toThrow('constructeur introuvable');
+  });
+});
 
 describe('createPusherOptions', () => {
   it('cible le serveur WebSocket configuré', () => {

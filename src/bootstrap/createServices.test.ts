@@ -61,6 +61,20 @@ describe('createServices', () => {
     expect(realtimeFactory).toHaveBeenCalledTimes(1);
   });
 
+  it('ouvre la session même si le temps réel ne démarre pas', () => {
+    const { services, realtimeFactory } = setup();
+    realtimeFactory.mockImplementationOnce(() => {
+      throw new TypeError('Object cannot be used as a constructor.');
+    });
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    expect(() => services.sessionActions.signIn(buildSessionUser('technicien'))).not.toThrow();
+
+    expect(services.sessionStore.getState().status).toBe('authenticated');
+    expect(warn).toHaveBeenCalledWith('[temps réel] démarrage impossible', expect.any(TypeError));
+    warn.mockRestore();
+  });
+
   it('expire la session une seule fois sur des 401 concurrentes', async () => {
     const { services, api, cookies, fake } = setup();
     services.sessionActions.signIn(buildSessionUser('client'));

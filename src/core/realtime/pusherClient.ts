@@ -1,5 +1,6 @@
 import Echo from 'laravel-echo';
-import Pusher, { type ChannelAuthorizationHandler, type Options } from 'pusher-js/react-native';
+import * as pusherModule from 'pusher-js/react-native';
+import type { ChannelAuthorizationHandler, Options } from 'pusher-js/react-native';
 
 import type { AppEnv } from '@/core/config/env';
 
@@ -45,8 +46,26 @@ export function createPusherOptions({ env, authorize }: RealtimeClientDeps): Pus
   };
 }
 
+type PusherConstructor = typeof pusherModule.default;
+
+/**
+ * Constructeur Pusher, quel que soit l'export retenu : la version React Native de pusher-js 8.6
+ * n'expose à l'exécution que `module.exports.Pusher`, alors que ses types déclarent un export
+ * par défaut ; l'import par défaut renvoyait l'objet module (« cannot be used as a constructor »).
+ */
+export function resolvePusherConstructor(mod: unknown): PusherConstructor {
+  const candidates = mod as { Pusher?: unknown; default?: unknown };
+  const nested = candidates.default as { Pusher?: unknown } | undefined;
+  const found = [candidates.Pusher, nested?.Pusher, candidates.default, mod].find(
+    (candidate) => typeof candidate === 'function',
+  );
+  if (!found) throw new Error('pusher-js : constructeur introuvable.');
+  return found as PusherConstructor;
+}
+
 /** Crée la connexion Pusher et l'instance Echo associée (laravel-websockets). */
 export function createRealtimeClient(deps: RealtimeClientDeps): RealtimeClient {
+  const Pusher = resolvePusherConstructor(pusherModule);
   const pusher = new Pusher(deps.env.wsKey, createPusherOptions(deps));
   const echo = new Echo<'pusher'>({
     broadcaster: 'pusher',

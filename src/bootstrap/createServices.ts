@@ -130,7 +130,13 @@ export function createServices(deps: ServicesDeps): AppServices {
 
   // Le temps réel suit la session : démarrage à la connexion, arrêt dans performLogout.
   sessionStore.subscribe((state, previous) => {
-    if (isSignedIn(state.status) && !isSignedIn(previous.status)) realtime.start();
+    if (!isSignedIn(state.status) || isSignedIn(previous.status)) return;
+    // Une défaillance du temps réel ne doit jamais faire échouer l'ouverture de session.
+    try {
+      realtime.start();
+    } catch (error) {
+      console.warn('[temps réel] démarrage impossible', error);
+    }
   });
 
   return {
