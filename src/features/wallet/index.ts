@@ -30,3 +30,17 @@ export { WithdrawScreen, type WithdrawScreenProps } from './screens/WithdrawScre
 export { HOLD_MIN_AMOUNT, isHoldActive, type Hold, type HoldStatus } from './schemas/holdSchemas';
 export { isPaymentPending, type Payment, type PaymentStatus } from './schemas/paymentSchemas';
 export type { PaymentPayload, Transaction, Wallet } from './schemas/walletSchemas';
+export {
+  MoneyFlowView,
+  OtpView,
+  TransactionView,
+  WalletView,
+  type MoneyFlowViewProps,
+  type OtpViewProps,
+  type PaymentSource,
+  type TransactionDetail,
+  type TransactionViewProps,
+  type WalletHold,
+  type WalletMovement,
+  type WalletViewProps,
+} from './ui/WalletViews';

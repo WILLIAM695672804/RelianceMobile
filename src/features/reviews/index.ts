@@ -38,3 +38,12 @@ export {
   type RatingValues,
   type RatingViewProps,
 } from './ui/RatingView';
+export {
+  BadgeView,
+  LeaderboardView,
+  ReputationView,
+  type BadgeRarity,
+  type BadgeSummary,
+  type LeaderEntry,
+  type RankStep,
+} from './ui/ReputationViews';

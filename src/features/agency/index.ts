@@ -24,3 +24,10 @@ export type {
   AgencyMembership,
   AgencyPayload,
 } from './schemas/agencySchemas';
+export {
+  AgencyDashboardView,
+  AssignView,
+  TeamView,
+  type PendingJob,
+  type TeamMember,
+} from './ui/AgencyViews';

@@ -1,6 +1,30 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  board: {
+    eyebrow: 'Agence · Yaoundé',
+    toAssign: 'À distribuer',
+    urgent: 'URGENT',
+    team: 'Équipe',
+    seeTeam: 'Voir l’équipe',
+    today_one: '{{count}} mission aujourd’hui',
+    today_other: '{{count}} missions aujourd’hui',
+  },
+  crew: {
+    title: 'Équipe',
+    add: 'Ajouter un technicien',
+    filters: { all: 'Tous', online: 'En ligne', kyc: 'KYC à faire' },
+    jobs_one: '{{count}} mission',
+    jobs_other: '{{count}} missions',
+    online: 'En ligne',
+    offline: 'Hors ligne',
+  },
+  assign: {
+    title: 'Affecter la mission',
+    estimate: 'Devis estimé : {{amount}}',
+    available: 'Techniciens disponibles',
+    submit: 'Affecter',
+  },
   overview: {
     title: 'Mon agence',
     none: 'Vous n’avez pas encore d’agence : créez-la pour constituer votre équipe.',
@@ -63,6 +87,30 @@ const fr = {
 };
 
 const en: typeof fr = {
+  board: {
+    eyebrow: 'Agency · Yaoundé',
+    toAssign: 'To assign',
+    urgent: 'URGENT',
+    team: 'Team',
+    seeTeam: 'See the team',
+    today_one: '{{count}} job today',
+    today_other: '{{count}} jobs today',
+  },
+  crew: {
+    title: 'Team',
+    add: 'Add a technician',
+    filters: { all: 'All', online: 'Online', kyc: 'KYC pending' },
+    jobs_one: '{{count}} job',
+    jobs_other: '{{count}} jobs',
+    online: 'Online',
+    offline: 'Offline',
+  },
+  assign: {
+    title: 'Assign the job',
+    estimate: 'Estimated quote: {{amount}}',
+    available: 'Available technicians',
+    submit: 'Assign',
+  },
   overview: {
     title: 'My agency',
     none: 'You have no agency yet: create one to build your team.',

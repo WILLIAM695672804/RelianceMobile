@@ -28,3 +28,14 @@ export {
 export { FollowButton, type FollowButtonProps } from './screens/FollowButton';
 export { SuggestionsCard } from './screens/SuggestionsCard';
 export type { FollowCounts, FollowSuggestion } from './schemas/followSchemas';
+export {
+  ComposeView,
+  FeedView,
+  PostView,
+  type ComposeViewProps,
+  type FeedComment,
+  type FeedPost,
+  type FeedViewProps,
+  type PostKind,
+  type PostViewProps,
+} from './ui/SocialViews';

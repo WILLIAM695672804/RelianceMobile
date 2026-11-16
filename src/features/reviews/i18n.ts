@@ -1,6 +1,24 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  standing: {
+    title: 'Réputation',
+    rank: 'Rang actuel',
+    points_one: '{{count}} point',
+    points_other: '{{count}} points',
+    toNext: 'Encore {{count}} points pour le rang {{rank}}',
+    ladder: 'Échelle des rangs',
+    stats: 'Statistiques',
+    earned: 'Badges obtenus ({{count}})',
+    inProgress: 'En progression',
+    locked: 'verrouillé',
+    rarity: { common: 'Standard', rare: 'Rare', epic: 'Épique', legendary: 'Légendaire' },
+    badge: 'Badge',
+    progress: 'Avancement : {{percent}} %',
+    leaderboard: 'Classement du quartier',
+    reviews_one: '{{count}} avis',
+    reviews_other: '{{count}} avis',
+  },
   rate: {
     later: 'Plus tard',
     done: 'Mission terminée',
@@ -81,6 +99,24 @@ const fr = {
 };
 
 const en: typeof fr = {
+  standing: {
+    title: 'Reputation',
+    rank: 'Current rank',
+    points_one: '{{count}} point',
+    points_other: '{{count}} points',
+    toNext: '{{count}} more points for the {{rank}} rank',
+    ladder: 'Rank ladder',
+    stats: 'Statistics',
+    earned: 'Badges earned ({{count}})',
+    inProgress: 'In progress',
+    locked: 'locked',
+    rarity: { common: 'Standard', rare: 'Rare', epic: 'Epic', legendary: 'Legendary' },
+    badge: 'Badge',
+    progress: 'Progress: {{percent}} %',
+    leaderboard: 'Area leaderboard',
+    reviews_one: '{{count}} review',
+    reviews_other: '{{count}} reviews',
+  },
   rate: {
     later: 'Later',
     done: 'Job done',

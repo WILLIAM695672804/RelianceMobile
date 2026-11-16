@@ -1,6 +1,32 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  feedView: {
+    title: 'Communauté',
+    tabs: { all: 'Pour vous', pros: 'Pros', community: 'Quartier', tips: 'Astuces' },
+    compose: 'Partager une astuce, un avant/après…',
+    official: 'Officiel',
+    like: 'J’aime',
+    unlike: 'Je n’aime plus',
+  },
+  postView: {
+    comments_one: '{{count}} commentaire',
+    comments_other: '{{count}} commentaires',
+    comment: 'Commentaire',
+    placeholder: 'Ajouter un commentaire…',
+    send: 'Publier le commentaire',
+  },
+  composer: {
+    title: 'Nouvelle publication',
+    publish: 'Publier',
+    public: 'Public',
+    pros: 'Pros uniquement',
+    kinds: { photo: 'Avant/après', tip: 'Astuce', review: 'Avis', question: 'Question' },
+    titleLabel: 'Titre',
+    bodyLabel: 'Texte',
+    bodyPlaceholder: 'Racontez votre intervention, partagez une astuce…',
+    tags: 'Étiquettes suggérées',
+  },
   feed: {
     title: 'Fil Reliance',
     mine: 'Mon fil',
@@ -57,6 +83,32 @@ const fr = {
 };
 
 const en: typeof fr = {
+  feedView: {
+    title: 'Community',
+    tabs: { all: 'For you', pros: 'Pros', community: 'Area', tips: 'Tips' },
+    compose: 'Share a tip, a before/after…',
+    official: 'Official',
+    like: 'Like',
+    unlike: 'Unlike',
+  },
+  postView: {
+    comments_one: '{{count}} comment',
+    comments_other: '{{count}} comments',
+    comment: 'Comment',
+    placeholder: 'Add a comment…',
+    send: 'Post the comment',
+  },
+  composer: {
+    title: 'New post',
+    publish: 'Publish',
+    public: 'Public',
+    pros: 'Pros only',
+    kinds: { photo: 'Before/after', tip: 'Tip', review: 'Review', question: 'Question' },
+    titleLabel: 'Title',
+    bodyLabel: 'Text',
+    bodyPlaceholder: 'Tell about your job, share a tip…',
+    tags: 'Suggested tags',
+  },
   feed: {
     title: 'Reliance feed',
     mine: 'My feed',
