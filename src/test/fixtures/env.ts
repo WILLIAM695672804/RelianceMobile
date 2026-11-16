@@ -7,4 +7,5 @@ export const testEnv: AppEnv = {
   wsPort: 6001,
   wsKey: 'reliance-key',
   statefulOrigin: 'http://mobile.reliance.local',
+  webUrl: 'http://web.test',
 };

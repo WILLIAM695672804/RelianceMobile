@@ -7,10 +7,14 @@ const envSchema = z.object({
   EXPO_PUBLIC_WS_PORT: z.coerce.number().int().positive(),
   EXPO_PUBLIC_WS_KEY: z.string().min(1),
   EXPO_PUBLIC_STATEFUL_ORIGIN: z.url(),
+  EXPO_PUBLIC_WEB_URL: z.url().optional(),
 });
 
 /** Variables brutes, telles que lues dans `process.env`. */
-export type EnvSource = Record<keyof z.input<typeof envSchema>, string | undefined>;
+export type EnvSource = Record<
+  Exclude<keyof z.input<typeof envSchema>, 'EXPO_PUBLIC_WEB_URL'>,
+  string | undefined
+> & { EXPO_PUBLIC_WEB_URL?: string | undefined };
 
 /** Configuration validée de l'application. */
 export interface AppEnv {
@@ -22,6 +26,8 @@ export interface AppEnv {
   wsKey: string;
   /** Origine envoyée dans `Origin`/`Referer` ; doit figurer dans `SANCTUM_STATEFUL_DOMAINS`. */
   statefulOrigin: string;
+  /** Application web (inscription, fonctions réservées au web) ; absente si non configurée. */
+  webUrl: string | null;
 }
 
 /** Configuration invalide : le lancement de l'application est interrompu. */
@@ -53,5 +59,6 @@ export function parseEnv(source: EnvSource): AppEnv {
     wsPort: data.EXPO_PUBLIC_WS_PORT,
     wsKey: data.EXPO_PUBLIC_WS_KEY,
     statefulOrigin: stripTrailingSlash(data.EXPO_PUBLIC_STATEFUL_ORIGIN),
+    webUrl: data.EXPO_PUBLIC_WEB_URL ? stripTrailingSlash(data.EXPO_PUBLIC_WEB_URL) : null,
   };
 }

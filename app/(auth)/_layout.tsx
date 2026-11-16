@@ -8,7 +8,6 @@ export default function AuthLayout() {
     <OnboardingGate flag={onboardingFlag}>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="login" />
-        <Stack.Screen name="register" />
         <Stack.Screen name="forgot-password" />
       </Stack>
     </OnboardingGate>

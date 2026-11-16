@@ -59,6 +59,7 @@ const fr = {
       submit: 'Se connecter',
       notMember: 'Pas encore membre ?',
       register: 'Créer un compte',
+      registerUnavailable: "L'inscription se fait sur le site web, non configuré sur cet appareil.",
       twoFactorTitle: 'Vérification en deux étapes',
       twoFactorHint: 'Saisissez le code à six chiffres de votre application d’authentification.',
       twoFactorCode: 'Code de vérification',
@@ -193,6 +194,8 @@ const en: typeof fr = {
       submit: 'Sign in',
       notMember: 'Not a member yet?',
       register: 'Create an account',
+      registerUnavailable:
+        'Sign-up happens on the website, which is not configured on this device.',
       twoFactorTitle: 'Two-step verification',
       twoFactorHint: 'Enter the six-digit code from your authenticator app.',
       twoFactorCode: 'Verification code',

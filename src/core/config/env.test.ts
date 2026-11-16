@@ -27,7 +27,14 @@ describe('parseEnv', () => {
       wsPort: 6001,
       wsKey: 'reliance-key',
       statefulOrigin: 'http://mobile.reliance.local',
+      webUrl: null,
     });
+  });
+
+  it('normalise l’adresse web facultative', () => {
+    expect(parseEnv({ ...validSource, EXPO_PUBLIC_WEB_URL: 'http://localhost:5173/' }).webUrl).toBe(
+      'http://localhost:5173',
+    );
   });
 
   it('rejette un environnement inconnu', () => {

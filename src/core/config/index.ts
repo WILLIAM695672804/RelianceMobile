@@ -10,4 +10,5 @@ export const appEnv: AppEnv = parseEnv({
   EXPO_PUBLIC_WS_PORT: process.env.EXPO_PUBLIC_WS_PORT,
   EXPO_PUBLIC_WS_KEY: process.env.EXPO_PUBLIC_WS_KEY,
   EXPO_PUBLIC_STATEFUL_ORIGIN: process.env.EXPO_PUBLIC_STATEFUL_ORIGIN,
+  EXPO_PUBLIC_WEB_URL: process.env.EXPO_PUBLIC_WEB_URL,
 });

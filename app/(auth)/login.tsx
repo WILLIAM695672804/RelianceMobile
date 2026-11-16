@@ -1,11 +1,12 @@
 import { router } from 'expo-router';
 
-import { LoginScreen } from '@/features/auth';
+import { appEnv } from '@/core/config';
+import { LoginContainer } from '@/features/auth';
 
 export default function LoginRoute() {
   return (
-    <LoginScreen
-      onRegister={() => router.push('/register')}
+    <LoginContainer
+      webUrl={appEnv.webUrl}
       onForgotPassword={() => router.push('/forgot-password')}
     />
   );

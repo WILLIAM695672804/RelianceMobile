@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, userEvent, waitFor } from '@testing-library/react-native';
 import MockAdapter from 'axios-mock-adapter';
+import { Linking } from 'react-native';
 
 import { createSessionStore } from '@/core/session';
 import login2faRequired from '@/test/fixtures/auth/login-2fa-required.json';
@@ -7,19 +8,22 @@ import loginSuccess from '@/test/fixtures/auth/login-success.json';
 import { createTestProviders } from '@/test/render';
 
 import { authTranslations } from '../i18n';
-import { LoginScreen } from './LoginScreen';
+import { useChosenRole } from '../model/chosenRole';
+import { LoginContainer } from './LoginContainer';
 
 async function setup(options: { expired?: boolean } = {}) {
   const sessionStore = createSessionStore();
   if (options.expired) sessionStore.getState().setUnauthenticated({ expired: true });
   const providers = createTestProviders({ sessionStore, translations: [authTranslations] });
   const mock = new MockAdapter(providers.api);
-  const onRegister = jest.fn();
   const onForgotPassword = jest.fn();
-  await render(<LoginScreen onRegister={onRegister} onForgotPassword={onForgotPassword} />, {
-    wrapper: providers.TestProviders,
-  });
-  return { ...providers, mock, onRegister, onForgotPassword, user: userEvent.setup() };
+  await render(
+    <LoginContainer webUrl="https://reliance.example" onForgotPassword={onForgotPassword} />,
+    {
+      wrapper: providers.TestProviders,
+    },
+  );
+  return { ...providers, mock, onForgotPassword, user: userEvent.setup() };
 }
 
 async function fillCredentials(email = 'technicien@example.test', password = 'secret') {
@@ -29,18 +33,7 @@ async function fillCredentials(email = 'technicien@example.test', password = 'se
 
 const submitButton = () => screen.getByRole('button', { name: 'Se connecter' });
 
-describe('LoginScreen (E02)', () => {
-  it('désactive la connexion tant que les deux champs ne sont pas renseignés', async () => {
-    await setup();
-    expect(submitButton()).toBeDisabled();
-
-    await fireEvent.changeText(screen.getByLabelText('Adresse électronique'), 'a@example.test');
-    expect(submitButton()).toBeDisabled();
-
-    await fireEvent.changeText(screen.getByLabelText('Mot de passe'), 'secret');
-    expect(submitButton()).toBeEnabled();
-  });
-
+describe('LoginContainer', () => {
   it('ouvre la session avec des identifiants valides', async () => {
     const { mock, sessionActions, user } = await setup();
     mock.onPost('/auth/login').reply(200, loginSuccess);
@@ -59,38 +52,34 @@ describe('LoginScreen (E02)', () => {
     });
   });
 
-  it('signale une adresse invalide sans appeler le serveur', async () => {
+  it('signale des identifiants invalides puis un compte désactivé', async () => {
     const { mock, user } = await setup();
-
-    await fillCredentials('awa', 'secret');
-    await user.press(submitButton());
-
-    expect(await screen.findByText('Adresse électronique invalide.')).toBeOnTheScreen();
-    expect(mock.history.post).toHaveLength(0);
-  });
-
-  it('signale des identifiants invalides', async () => {
-    const { mock, user } = await setup();
-    mock.onPost('/auth/login').reply(401, { message: 'Identifiants invalides' });
+    mock
+      .onPost('/auth/login')
+      .replyOnce(401, { message: 'x' })
+      .onPost('/auth/login')
+      .replyOnce(403, { message: 'x' });
 
     await fillCredentials();
     await user.press(submitButton());
-
     expect(
       await screen.findByText('Adresse électronique ou mot de passe incorrect.'),
     ).toBeOnTheScreen();
+
+    await user.press(submitButton());
+    expect(
+      await screen.findByText('Votre compte est désactivé. Contactez le support.'),
+    ).toBeOnTheScreen();
   });
 
-  it('signale un compte désactivé', async () => {
+  it('reporte les erreurs de champ du serveur', async () => {
     const { mock, user } = await setup();
-    mock.onPost('/auth/login').reply(403, { message: 'Compte désactivé' });
+    mock.onPost('/auth/login').reply(422, { errors: { email: ['Adresse inconnue du serveur.'] } });
 
     await fillCredentials();
     await user.press(submitButton());
 
-    expect(
-      await screen.findByText('Votre compte est désactivé. Contactez le support.'),
-    ).toBeOnTheScreen();
+    expect(await screen.findByText('Adresse inconnue du serveur.')).toBeOnTheScreen();
   });
 
   it('enchaîne l’étape 2FA et renvoie les identifiants avec le code', async () => {
@@ -99,35 +88,36 @@ describe('LoginScreen (E02)', () => {
       .onPost('/auth/login')
       .replyOnce(403, login2faRequired)
       .onPost('/auth/login')
+      .replyOnce(401, { message: 'x' })
+      .onPost('/auth/login')
       .replyOnce(200, loginSuccess);
 
     await fillCredentials();
     await user.press(submitButton());
-    await fireEvent.changeText(await screen.findByLabelText('Code de vérification'), '123456');
+    await fireEvent.changeText(await screen.findByLabelText('Code de vérification'), '654321');
+    await user.press(screen.getByRole('button', { name: 'Vérifier' }));
+    expect(await screen.findByText('Code de vérification invalide.')).toBeOnTheScreen();
+
+    await fireEvent.changeText(screen.getByLabelText('Code de vérification'), '123456');
     await user.press(screen.getByRole('button', { name: 'Vérifier' }));
 
     await waitFor(() => expect(sessionActions.signIn).toHaveBeenCalledTimes(1));
-    expect(JSON.parse(mock.history.post[1]?.data as string)).toEqual({
+    expect(JSON.parse(mock.history.post[2]?.data as string)).toEqual({
       email: 'technicien@example.test',
       password: 'secret',
       code: '123456',
     });
   });
 
-  it('signale un code 2FA invalide', async () => {
+  it('revient aux identifiants depuis l’étape 2FA', async () => {
     const { mock, user } = await setup();
-    mock
-      .onPost('/auth/login')
-      .replyOnce(403, login2faRequired)
-      .onPost('/auth/login')
-      .replyOnce(401, { message: 'Code 2FA invalide' });
+    mock.onPost('/auth/login').reply(403, login2faRequired);
 
     await fillCredentials();
     await user.press(submitButton());
-    await fireEvent.changeText(await screen.findByLabelText('Code de vérification'), '654321');
-    await user.press(screen.getByRole('button', { name: 'Vérifier' }));
+    await user.press(await screen.findByRole('button', { name: 'Retour' }));
 
-    expect(await screen.findByText('Code de vérification invalide.')).toBeOnTheScreen();
+    expect(submitButton()).toBeOnTheScreen();
   });
 
   it('annonce l’expiration de session', async () => {
@@ -137,13 +127,15 @@ describe('LoginScreen (E02)', () => {
     ).toBeOnTheScreen();
   });
 
-  it('mène à l’inscription et au mot de passe oublié', async () => {
-    const { onRegister, onForgotPassword, user } = await setup();
+  it('ouvre l’inscription web du rôle choisi et le mot de passe oublié', async () => {
+    useChosenRole.setState({ role: 'agence' });
+    const openURL = jest.spyOn(Linking, 'openURL').mockResolvedValue(true);
+    const { onForgotPassword, user } = await setup();
 
-    await user.press(screen.getByRole('button', { name: 'Créer un compte' }));
-    await user.press(screen.getByRole('button', { name: 'Mot de passe oublié ?' }));
+    await user.press(screen.getByRole('link', { name: 'Créer un compte' }));
+    await user.press(screen.getByRole('link', { name: 'Mot de passe oublié ?' }));
 
-    expect(onRegister).toHaveBeenCalledTimes(1);
+    expect(openURL).toHaveBeenCalledWith('https://reliance.example/inscription/agence');
     expect(onForgotPassword).toHaveBeenCalledTimes(1);
   });
 });
