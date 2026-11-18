@@ -24,6 +24,7 @@ export function RequestDetailRoute() {
       onOpenDispute={(requestId, against) =>
         router.push({ pathname: '/disputes/new', params: { requestId, against } })
       }
+      onBack={() => router.back()}
     />
   );
 }

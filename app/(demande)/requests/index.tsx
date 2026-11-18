@@ -6,6 +6,7 @@ export default function RequestsListRoute() {
   return (
     <RequestsListScreen
       onOpenRequest={(id) => router.push({ pathname: '/requests/[id]', params: { id } })}
+      onBack={() => router.back()}
     />
   );
 }

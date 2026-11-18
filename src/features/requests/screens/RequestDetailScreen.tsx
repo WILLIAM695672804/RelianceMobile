@@ -1,18 +1,19 @@
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { useStorageUrl } from '@/core/api';
 import {
-  AdaptiveGrid,
-  Badge,
+  Banner,
   Button,
   Card,
-  Icon,
-  ListItem,
+  DetailHeader,
+  ListRow,
+  Pill,
+  QueryGate,
   Screen,
-  StateView,
+  SectionLabel,
   Text,
-} from '@/shared/components';
+} from '@/shared/ui';
 import { formatAmount, formatDate } from '@/shared/format';
 
 import { useRequest } from '../hooks/useRequests';
@@ -32,6 +33,7 @@ export interface RequestDetailScreenProps {
   onOpenQuality?: (requestId: string, technicianId: string) => void;
   /** Ouverture d'un litige contre le technicien intervenu. */
   onOpenDispute?: (requestId: string, against: string) => void;
+  onBack?: () => void;
 }
 
 /** Détail d'une demande : description, lieu, photos, prix indicatif et étape du rapprochement. */
@@ -42,6 +44,7 @@ export function RequestDetailScreen({
   onOpenReport,
   onOpenQuality,
   onOpenDispute,
+  onBack,
 }: RequestDetailScreenProps) {
   const { t } = useTranslation();
   const request = useRequest(requestId);
@@ -51,128 +54,135 @@ export function RequestDetailScreen({
     const stage = stageOf(data.status);
     const address = [data.address?.address, data.address?.city].filter(Boolean).join(', ');
     const suggestedPrice = data.analysis?.suggested_price;
+    const facts = [
+      data.category
+        ? {
+            icon: 'list' as const,
+            label: t('requests:detail.category', { name: data.category.name }),
+          }
+        : null,
+      {
+        icon: 'calendar' as const,
+        label: t('requests:detail.createdAt', { date: formatDate(data.created_at) }),
+      },
+      address ? { icon: 'pin' as const, label: t('requests:detail.address', { address }) } : null,
+      suggestedPrice != null
+        ? {
+            icon: 'wallet' as const,
+            label: t('requests:detail.suggestedPrice', { amount: formatAmount(suggestedPrice) }),
+          }
+        : null,
+    ].filter((fact): fact is { icon: 'list' | 'calendar' | 'pin' | 'wallet'; label: string } =>
+      Boolean(fact),
+    );
     return (
       <>
-        <Card>
-          <View style={styles.titleRow}>
-            <Icon name={iconForSkillSlug(data.category?.slug)} size={22} tone="primary" />
-            <Text variant="title" accessibilityRole="header" style={styles.title}>
-              {data.title}
-            </Text>
-          </View>
-          <Badge label={t(`requests:stages.${stage}`)} tone={STAGE_TONES[stage]} />
-          <Text>{data.description}</Text>
-        </Card>
-        <Card>
-          {data.category ? (
-            <ListItem
-              label={t('requests:detail.category', { name: data.category.name })}
-              icon="list"
+        <DetailHeader
+          eyebrow={`#${data.id.slice(0, 8).toUpperCase()}`}
+          title={data.title}
+          onBack={onBack}
+          trailing={
+            <Pill label={t(`requests:stages.${stage}`)} tone={STAGE_TONES[stage]} size="sm" />
+          }
+        />
+        <View style={{ paddingHorizontal: 20, gap: 14 }}>
+          <Card padding={16}>
+            <Text>{data.description}</Text>
+          </Card>
+          <Card padding={0}>
+            {facts.map((fact, index) => (
+              <ListRow key={fact.label} icon={fact.icon} divider={index > 0} title={fact.label} />
+            ))}
+          </Card>
+          {data.photos.length > 0 ? (
+            <View>
+              <SectionLabel label={t('requests:detail.photos')} icon="camera" />
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                {data.photos.map((path, index) => (
+                  <Image
+                    key={path}
+                    source={{ uri: storageUrl(path) }}
+                    accessibilityLabel={t('requests:detail.photo', { index: index + 1 })}
+                    style={{ width: '31%', aspectRatio: 1, borderRadius: 12 }}
+                  />
+                ))}
+              </View>
+            </View>
+          ) : null}
+          {stage === 'assigned' && data.counterpart ? (
+            <Banner
+              tone="success"
+              message={t('requests:detail.assigned', { name: data.counterpart.name })}
             />
           ) : null}
-          <ListItem
-            label={t('requests:detail.createdAt', { date: formatDate(data.created_at) })}
-            icon="calendar"
-          />
-          {address ? (
-            <ListItem label={t('requests:detail.address', { address })} icon="pin" />
-          ) : null}
-          {suggestedPrice != null ? (
-            <ListItem
-              label={t('requests:detail.suggestedPrice', { amount: formatAmount(suggestedPrice) })}
-              icon="wallet"
-            />
-          ) : null}
-        </Card>
-        {data.photos.length > 0 ? (
-          <>
-            <Text variant="subtitle">{t('requests:detail.photos')}</Text>
-            <AdaptiveGrid minTileWidth={96} gap={8}>
-              {data.photos.map((path, index) => (
-                <Image
-                  key={path}
-                  source={{ uri: storageUrl(path) }}
-                  accessibilityLabel={t('requests:detail.photo', { index: index + 1 })}
-                  style={styles.photo}
-                />
-              ))}
-            </AdaptiveGrid>
-          </>
-        ) : null}
-        {stage === 'toMatch' ? (
-          <Button
-            label={t('requests:detail.findTechnicians')}
-            icon="search"
-            size="lg"
-            fullWidth
-            onPress={onFindTechnicians}
-          />
-        ) : null}
-        {stage === 'awaitingTechnician' ? (
-          <>
-            <Text tone="primary">{t('requests:detail.awaiting')}</Text>
+          {stage === 'toMatch' ? (
             <Button
-              label={t('requests:detail.chooseAnother')}
+              label={t('requests:detail.findTechnicians')}
+              icon="search"
+              size="lg"
+              full
               onPress={onFindTechnicians}
-              variant="secondary"
             />
-          </>
-        ) : null}
-        {onOpenQuality && stage === 'closed' && data.counterpart ? (
-          <Button
-            label={t('requests:detail.quality')}
-            icon="shield"
-            size="lg"
-            fullWidth
-            onPress={() => onOpenQuality(requestId, data.counterpart!.id)}
-          />
-        ) : null}
-        {onOpenReport && (stage === 'closed' || stage === 'assigned') ? (
-          <Button
-            label={t('requests:detail.report')}
-            icon="file"
-            onPress={() => onOpenReport(requestId)}
-            variant="secondary"
-          />
-        ) : null}
-        {onReview && stage === 'closed' ? (
-          <Button
-            label={t('requests:detail.review')}
-            icon="star"
-            onPress={() => onReview(requestId)}
-            variant="secondary"
-          />
-        ) : null}
-        {onOpenDispute && data.counterpart && (stage === 'closed' || stage === 'assigned') ? (
-          <Button
-            label={t('requests:detail.dispute')}
-            icon="shield"
-            onPress={() => onOpenDispute(requestId, data.counterpart!.id)}
-            variant="ghost"
-          />
-        ) : null}
-        {stage === 'assigned' && data.counterpart ? (
-          <Text tone="primary">
-            {t('requests:detail.assigned', { name: data.counterpart.name })}
-          </Text>
-        ) : null}
+          ) : null}
+          {stage === 'awaitingTechnician' ? (
+            <>
+              <Banner tone="warning" message={t('requests:detail.awaiting')} />
+              <Button
+                label={t('requests:detail.chooseAnother')}
+                variant="soft"
+                full
+                onPress={onFindTechnicians}
+              />
+            </>
+          ) : null}
+          {onOpenQuality && stage === 'closed' && data.counterpart ? (
+            <Button
+              label={t('requests:detail.quality')}
+              icon="shield"
+              size="lg"
+              full
+              onPress={() => onOpenQuality(requestId, data.counterpart!.id)}
+            />
+          ) : null}
+          {onOpenReport && (stage === 'closed' || stage === 'assigned') ? (
+            <Button
+              label={t('requests:detail.report')}
+              icon="file"
+              variant="soft"
+              full
+              onPress={() => onOpenReport(requestId)}
+            />
+          ) : null}
+          {onReview && stage === 'closed' ? (
+            <Button
+              label={t('requests:detail.review')}
+              icon="star"
+              variant="soft"
+              full
+              onPress={() => onReview(requestId)}
+            />
+          ) : null}
+          {onOpenDispute && data.counterpart && (stage === 'closed' || stage === 'assigned') ? (
+            <Button
+              label={t('requests:detail.dispute')}
+              icon="shield"
+              variant="ghost"
+              full
+              onPress={() => onOpenDispute(requestId, data.counterpart!.id)}
+            />
+          ) : null}
+        </View>
       </>
     );
   };
 
   return (
-    <Screen onRefresh={() => void request.refetch()} refreshing={request.isRefetching}>
-      {request.isPending ? <StateView status="loading" /> : null}
-      {request.isError ? (
-        <StateView status="error" error={request.error} onRetry={() => void request.refetch()} />
-      ) : null}
-      {request.isSuccess ? renderRequest(request.data) : null}
+    <Screen
+      testID="detail-demande"
+      onRefresh={() => void request.refetch()}
+      refreshing={request.isRefetching}
+    >
+      <QueryGate queries={[request]}>{() => renderRequest(request.data!)}</QueryGate>
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  titleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
-  title: { flex: 1 },
-  photo: { width: '100%', aspectRatio: 1, borderRadius: 10 },
-});
