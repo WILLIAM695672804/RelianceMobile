@@ -3,6 +3,7 @@ import type { TranslationResources } from '@/core/i18n';
 const fr = {
   live: {
     close: 'Fermer',
+    sent: 'Proposition envoyée à {{name}}.',
     searching: 'Recherche en cours…',
     searchingHint: 'Analyse du problème et recherche des techniciens disponibles près de vous.',
     found_one: '{{count}} technicien trouvé',
@@ -75,6 +76,7 @@ const fr = {
 const en: typeof fr = {
   live: {
     close: 'Close',
+    sent: 'Proposal sent to {{name}}.',
     searching: 'Searching…',
     searchingHint: 'Analysing the problem and looking for available technicians near you.',
     found_one: '{{count}} technician found',

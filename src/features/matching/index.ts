@@ -32,3 +32,8 @@ export type {
 } from './schemas/matchingSchemas';
 export { MatchingView, type MatchingViewProps } from './ui/MatchingView';
 export { expiryState, isActionable } from './model/proposalExpiry';
+export {
+  MatchingContainer,
+  matchedToSummary,
+  type MatchingContainerProps,
+} from './containers/MatchingContainer';

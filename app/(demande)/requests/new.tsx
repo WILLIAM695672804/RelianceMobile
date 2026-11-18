@@ -1,12 +1,14 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
-import { NewRequestScreen } from '@/features/requests';
+import { NewRequestContainer } from '@/features/requests';
 
 export default function NewRequestRoute() {
+  const { category } = useLocalSearchParams<{ category?: string }>();
   return (
-    <NewRequestScreen
+    <NewRequestContainer
+      domain={category ?? null}
       onCreated={(id) => router.replace({ pathname: '/requests/[id]/matching', params: { id } })}
-      onCancel={() => router.back()}
+      onBack={() => router.back()}
     />
   );
 }

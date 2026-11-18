@@ -40,3 +40,9 @@ export {
   type DiagnosticViewProps,
 } from './ui/DiagnosticView';
 export { iconForCategory } from './model/categoryIcons';
+export {
+  NewRequestContainer,
+  skillTiles,
+  toRequestPlace,
+  type NewRequestContainerProps,
+} from './containers/NewRequestContainer';
