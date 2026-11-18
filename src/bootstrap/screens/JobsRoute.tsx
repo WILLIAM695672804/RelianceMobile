@@ -7,6 +7,7 @@ export function JobsRoute() {
   return (
     <TechnicianJobsScreen
       onOpen={(id) => router.push({ pathname: '/jobs/[id]', params: { id } })}
+      onBack={() => router.back()}
     />
   );
 }

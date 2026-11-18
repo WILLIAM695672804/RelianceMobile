@@ -20,6 +20,7 @@ export function MissionRoute() {
         router.push({ pathname: '/reports/[jobId]', params: { jobId, requestId } })
       }
       onCancel={(jobId) => router.push({ pathname: '/cancel/[jobId]', params: { jobId } })}
+      onBack={() => router.navigate('/technicien')}
     />
   );
 }

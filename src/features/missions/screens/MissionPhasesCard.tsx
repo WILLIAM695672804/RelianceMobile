@@ -2,9 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Badge, Button, Card, FormTextField, Text } from '@/shared/components';
+import { FormField } from '@/shared/forms';
+import { Banner, Button, Card, Pill, Text } from '@/shared/ui';
 
 import { useUpdateJobPhases } from '../hooks/useMissions';
 import { nextPhaseStatus, PHASE_STATUSES, PHASE_TONES, type PhaseStatus } from '../model/jobStatus';
@@ -64,73 +65,76 @@ export function MissionPhasesCard({ jobId, phases }: MissionPhasesCardProps) {
   };
 
   return (
-    <Card>
-      <Text variant="subtitle">{t('missions:phases.title')}</Text>
-      <Text variant="caption" tone="muted">
-        {t('missions:phases.hint')}
-      </Text>
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      {error ? <Text tone="danger">{error}</Text> : null}
-      {draft.length === 0 ? (
-        <Text tone="muted">{t('missions:phases.empty')}</Text>
-      ) : (
-        draft.map((phase, index) => (
-          <View key={`${phase.title}-${index}`} style={styles.phase}>
-            <View style={styles.phaseHeader}>
-              <Text style={styles.phaseTitle}>{phase.title}</Text>
-              <Badge
-                label={t(`missions:phases.statusLabel.${asPhaseStatus(phase.status)}`)}
-                tone={PHASE_TONES[asPhaseStatus(phase.status)]}
-              />
+    <Card padding={16}>
+      <View style={{ gap: 12 }}>
+        <View style={{ gap: 4 }}>
+          <Text variant="section">{t('missions:phases.title')}</Text>
+          <Text variant="caption" tone="muted">
+            {t('missions:phases.hint')}
+          </Text>
+        </View>
+        {notice ? <Banner tone="success" message={notice} /> : null}
+        {error ? <Banner tone="danger" message={error} /> : null}
+        {draft.length === 0 ? (
+          <Text variant="label" tone="muted">
+            {t('missions:phases.empty')}
+          </Text>
+        ) : (
+          draft.map((phase, index) => (
+            <View key={`${phase.title}-${index}`} style={{ gap: 6 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <Text variant="labelStrong" style={{ flex: 1 }}>
+                  {phase.title}
+                </Text>
+                <Pill
+                  size="sm"
+                  label={t(`missions:phases.statusLabel.${asPhaseStatus(phase.status)}`)}
+                  tone={PHASE_TONES[asPhaseStatus(phase.status)]}
+                />
+              </View>
+              {phase.notes ? (
+                <Text variant="caption" tone="muted">
+                  {phase.notes}
+                </Text>
+              ) : null}
+              <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+                <Button
+                  label={t('missions:phases.advance')}
+                  icon="arrowR"
+                  size="sm"
+                  variant="soft"
+                  accessibilityLabel={t('missions:phases.toggle', { title: phase.title })}
+                  onPress={() => togglePhase(index)}
+                />
+                <Button
+                  label={t('missions:phases.remove', { title: phase.title })}
+                  icon="close"
+                  size="sm"
+                  variant="ghost"
+                  accessibilityLabel={t('missions:phases.remove', { title: phase.title })}
+                  onPress={() => removePhase(index)}
+                />
+              </View>
             </View>
-            {phase.notes ? (
-              <Text variant="caption" tone="muted">
-                {phase.notes}
-              </Text>
-            ) : null}
-            <View style={styles.actions}>
-              <Button
-                label={t('missions:phases.advance')}
-                icon="arrowR"
-                size="sm"
-                accessibilityLabel={t('missions:phases.toggle', { title: phase.title })}
-                onPress={() => togglePhase(index)}
-                variant="secondary"
-              />
-              <Button
-                label={t('missions:phases.remove', { title: phase.title })}
-                icon="close"
-                size="sm"
-                accessibilityLabel={t('missions:phases.remove', { title: phase.title })}
-                onPress={() => removePhase(index)}
-                variant="ghost"
-              />
-            </View>
-          </View>
-        ))
-      )}
-      <FormTextField control={form.control} name="title" label={t('missions:phases.newTitle')} />
-      <Button
-        label={t('missions:phases.add')}
-        icon="plus"
-        onPress={() => void addPhase()}
-        variant="secondary"
-      />
-      <Button
-        label={t('missions:phases.save')}
-        icon="check"
-        fullWidth
-        onPress={() => void save()}
-        loading={savePhases.isPending}
-        disabled={draft.length === 0}
-      />
+          ))
+        )}
+        <FormField control={form.control} name="title" label={t('missions:phases.newTitle')} />
+        <Button
+          label={t('missions:phases.add')}
+          icon="plus"
+          variant="soft"
+          full
+          onPress={() => void addPhase()}
+        />
+        <Button
+          label={t('missions:phases.save')}
+          icon="check"
+          full
+          onPress={() => void save()}
+          loading={savePhases.isPending}
+          disabled={draft.length === 0}
+        />
+      </View>
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  phase: { gap: 6 },
-  phaseHeader: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  phaseTitle: { flex: 1 },
-  actions: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
-});

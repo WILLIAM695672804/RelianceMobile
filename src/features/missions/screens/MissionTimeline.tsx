@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import { useTheme } from '@/core/theme';
-import { Icon, Text } from '@/shared/components';
+import { Icon, Text } from '@/shared/ui';
 
 import { JOB_TIMELINE, timelineIndexOf } from '../model/jobStatus';
 
@@ -51,7 +51,7 @@ export function MissionTimeline({ status }: { status: string }) {
             </View>
             <Text
               tone={reached ? 'primary' : 'muted'}
-              variant={isCurrent ? 'label' : 'body'}
+              variant={isCurrent ? 'labelStrong' : 'label'}
               style={styles.label}
               accessibilityLabel={t(
                 reached ? 'missions:cockpit.stepDone' : 'missions:cockpit.stepTodo',

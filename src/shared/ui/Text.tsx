@@ -70,6 +70,8 @@ export interface TextProps {
   /** Réduction maximale admise avec `adjustsFontSizeToFit`. */
   minimumFontScale?: number;
   accessibilityRole?: 'header' | 'text';
+  /** Énoncé destiné aux lecteurs d'écran, à la place du texte affiché. */
+  accessibilityLabel?: string;
   /** Texte sélectionnable (secret à recopier, référence). */
   selectable?: boolean;
   /** Réservé aux marges et aux couleurs calculées ; la typographie vient de la variante. */
@@ -87,6 +89,7 @@ export function Text({
   adjustsFontSizeToFit,
   minimumFontScale,
   accessibilityRole,
+  accessibilityLabel,
   selectable,
   style,
   testID,
@@ -101,6 +104,7 @@ export function Text({
       adjustsFontSizeToFit={adjustsFontSizeToFit}
       minimumFontScale={minimumFontScale}
       accessibilityRole={accessibilityRole}
+      accessibilityLabel={accessibilityLabel}
       selectable={selectable}
       maxFontSizeMultiplier={MAX_FONT_SCALE}
       style={[

@@ -31,7 +31,7 @@ describe('TechnicianJobsScreen', () => {
     expect(await screen.findByText(JOB.request.title)).toBeOnTheScreen();
     expect(screen.getByText('Travaux en cours')).toBeOnTheScreen();
 
-    await user.press(screen.getByRole('button', { name: 'Voir le détail' }));
+    await user.press(screen.getByRole('button', { name: `Voir le détail : ${JOB.request.title}` }));
     expect(onOpen).toHaveBeenCalledWith(JOB.id);
   });
 
