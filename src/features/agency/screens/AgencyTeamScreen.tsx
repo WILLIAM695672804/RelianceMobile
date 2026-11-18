@@ -3,16 +3,24 @@ import { useTranslation } from 'react-i18next';
 
 import { describeError, normalizeError } from '@/core/errors';
 import { useTechnicianDirectory } from '@/features/directory';
+import { View } from 'react-native';
+
 import {
-  Badge,
+  Avatar,
+  Banner,
   Button,
   Card,
-  ConfirmDialog,
+  ConfirmSheet,
+  EmptyState,
+  ListRow,
+  Pill,
+  QueryGate,
   Screen,
-  StateView,
+  SearchBar,
+  Section,
   Text,
-  TextField,
-} from '@/shared/components';
+  TopBar,
+} from '@/shared/ui';
 import { formatDate } from '@/shared/format';
 
 import { useAddAgencyMember, useAgencyMembers, useRemoveAgencyMember } from '../hooks/useAgency';
@@ -20,10 +28,11 @@ import type { AgencyMembership } from '../schemas/agencySchemas';
 
 export interface AgencyTeamScreenProps {
   agencyId: string;
+  onBack?: () => void;
 }
 
 /** Équipe de l'agence : rôles, retrait d'un membre, rattachement depuis l'annuaire. */
-export function AgencyTeamScreen({ agencyId }: AgencyTeamScreenProps) {
+export function AgencyTeamScreen({ agencyId, onBack }: AgencyTeamScreenProps) {
   const { t } = useTranslation();
   const members = useAgencyMembers(agencyId);
   const addMember = useAddAgencyMember(agencyId);
@@ -68,89 +77,112 @@ export function AgencyTeamScreen({ agencyId }: AgencyTeamScreenProps) {
   const nameOf = (membership: AgencyMembership) =>
     membership.user?.name ?? t('agency:team.role.unknown');
 
-  const renderMembers = () => {
-    if (members.isPending) return <StateView status="loading" />;
-    if (members.isError) {
-      return (
-        <StateView status="error" error={members.error} onRetry={() => void members.refetch()} />
-      );
-    }
-    if (members.data.length === 0) {
-      return <StateView status="empty" message={t('agency:team.empty')} />;
-    }
-    return members.data.map((membership) => (
-      <Card key={membership.id}>
-        <Text variant="subtitle">{nameOf(membership)}</Text>
-        <Badge
-          label={t(`agency:team.role.${membership.role}`, {
-            defaultValue: t('agency:team.role.unknown'),
-          })}
-          tone={membership.role === 'admin' ? 'success' : 'neutral'}
-        />
-        {membership.joined_at ? (
-          <Text variant="caption" tone="muted">
-            {t('agency:team.joinedAt', { date: formatDate(membership.joined_at) })}
-          </Text>
-        ) : null}
-        <Button
-          label={t('agency:team.remove', { name: nameOf(membership) })}
-          accessibilityLabel={t('agency:team.remove', { name: nameOf(membership) })}
-          onPress={() => setPending(membership)}
-          disabled={removeMember.isPending}
-          variant="ghost"
-        />
-      </Card>
-    ));
-  };
-
-  const renderCandidates = () => {
-    if (directory.isPending) return <StateView status="loading" />;
-    if (directory.isError) {
-      return (
-        <StateView
-          status="error"
-          error={directory.error}
-          onRetry={() => void directory.refetch()}
-        />
-      );
-    }
-    if (directory.data.technicians.length === 0) {
-      return <Text tone="muted">{t('agency:team.noResult')}</Text>;
-    }
-    return directory.data.technicians.map((technician) => (
-      <Button
-        key={technician.id}
-        label={t('agency:team.choose', { name: technician.name })}
-        accessibilityLabel={t('agency:team.choose', { name: technician.name })}
-        onPress={() => void attach(technician.id)}
-        disabled={addMember.isPending}
-        variant="secondary"
-      />
-    ));
-  };
-
   return (
     <Screen
-      title={t('agency:team.title')}
-      scroll
+      testID="equipe-agence"
       onRefresh={() => void members.refetch()}
       refreshing={members.isRefetching}
     >
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      {error ? <Text tone="danger">{error}</Text> : null}
-      {renderMembers()}
-      <Card>
-        <Text variant="subtitle">{t('agency:team.add')}</Text>
-        <TextField label={t('agency:team.search')} value={draft} onChangeText={setDraft} />
-        <Button
-          label={t('agency:team.searchSubmit')}
-          onPress={() => setSearch(draft)}
-          variant="secondary"
-        />
-        {renderCandidates()}
-      </Card>
-      <ConfirmDialog
+      <TopBar title={t('agency:team.title')} onBack={onBack} />
+      <View style={{ paddingHorizontal: 20, gap: 12 }}>
+        {notice ? <Banner tone="success" message={notice} /> : null}
+        {error ? <Banner tone="danger" message={error} /> : null}
+        <QueryGate queries={[members]}>
+          {() =>
+            (members.data ?? []).length === 0 ? (
+              <EmptyState
+                icon="user"
+                title={t('agency:team.title')}
+                message={t('agency:team.empty')}
+              />
+            ) : (
+              <Card padding={0}>
+                {members.data!.map((membership, index) => {
+                  const name = nameOf(membership);
+                  return (
+                    <View key={membership.id}>
+                      <ListRow
+                        divider={index > 0}
+                        title={name}
+                        detail={
+                          membership.joined_at
+                            ? t('agency:team.joinedAt', { date: formatDate(membership.joined_at) })
+                            : undefined
+                        }
+                        trailing={
+                          <Pill
+                            size="sm"
+                            label={t(`agency:team.role.${membership.role}`, {
+                              defaultValue: t('agency:team.role.unknown'),
+                            })}
+                            tone={membership.role === 'admin' ? 'success' : 'neutral'}
+                          />
+                        }
+                      />
+                      <View
+                        style={{ alignItems: 'flex-end', paddingHorizontal: 16, paddingBottom: 10 }}
+                      >
+                        <Button
+                          label={t('agency:team.remove', { name })}
+                          accessibilityLabel={t('agency:team.remove', { name })}
+                          variant="ghost"
+                          size="sm"
+                          onPress={() => setPending(membership)}
+                          disabled={removeMember.isPending}
+                        />
+                      </View>
+                    </View>
+                  );
+                })}
+              </Card>
+            )
+          }
+        </QueryGate>
+      </View>
+      <Section title={t('agency:team.add')}>
+        <View style={{ paddingHorizontal: 20, gap: 10 }}>
+          <SearchBar
+            label={t('agency:team.search')}
+            placeholder={t('agency:team.search')}
+            value={draft}
+            onChangeText={setDraft}
+            onSubmit={() => setSearch(draft)}
+          />
+          <Button
+            label={t('agency:team.searchSubmit')}
+            variant="soft"
+            full
+            onPress={() => setSearch(draft)}
+          />
+          <QueryGate queries={[directory]}>
+            {() =>
+              directory.data!.technicians.length === 0 ? (
+                <Text variant="label" tone="muted">
+                  {t('agency:team.noResult')}
+                </Text>
+              ) : (
+                <Card padding={0}>
+                  {directory.data!.technicians.map((technician, index) => (
+                    <ListRow
+                      key={technician.id}
+                      divider={index > 0}
+                      title={technician.name}
+                      trailing={
+                        <Avatar name={technician.name} uri={technician.avatar_url} size={28} />
+                      }
+                      accessibilityLabel={t('agency:team.choose', { name: technician.name })}
+                      onPress={addMember.isPending ? undefined : () => void attach(technician.id)}
+                    />
+                  ))}
+                </Card>
+              )
+            }
+          </QueryGate>
+        </View>
+      </Section>
+      <ConfirmSheet
         visible={pending !== null}
+        destructive
         title={t('agency:team.removeTitle')}
         message={t('agency:team.removeMessage', { name: pending ? nameOf(pending) : '' })}
         onConfirm={() => void detach()}

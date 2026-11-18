@@ -4,7 +4,20 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { describeError, normalizeError } from '@/core/errors';
-import { Button, Card, FormTextField, Screen, StateView, Text } from '@/shared/components';
+import { View } from 'react-native';
+
+import { FormField } from '@/shared/forms';
+import {
+  Banner,
+  Button,
+  Card,
+  ListRow,
+  QueryGate,
+  Screen,
+  Section,
+  Text,
+  TopBar,
+} from '@/shared/ui';
 
 import { useCreateAgency, useMyAgency, useUpdateAgency } from '../hooks/useAgency';
 import {
@@ -24,25 +37,23 @@ export function AgencyScreen({ onOpenTeam }: AgencyScreenProps) {
   const { t } = useTranslation();
   const agency = useMyAgency();
 
-  const renderContent = () => {
-    if (agency.isPending) return <StateView status="loading" />;
-    if (agency.isError) {
-      return (
-        <StateView status="error" error={agency.error} onRetry={() => void agency.refetch()} />
-      );
-    }
-    if (agency.data === null) return <AgencyCreation />;
-    return <AgencyOverview agency={agency.data} onOpenTeam={onOpenTeam} />;
-  };
-
   return (
     <Screen
-      title={t('agency:overview.title')}
-      scroll
+      withTabBar
+      testID="espace-agence"
       onRefresh={() => void agency.refetch()}
       refreshing={agency.isRefetching}
     >
-      {renderContent()}
+      <TopBar title={t('agency:overview.title')} />
+      <QueryGate queries={[agency]}>
+        {() =>
+          agency.data === null || agency.data === undefined ? (
+            <AgencyCreation />
+          ) : (
+            <AgencyOverview agency={agency.data} onOpenTeam={onOpenTeam} />
+          )
+        }
+      </QueryGate>
     </Screen>
   );
 }
@@ -63,33 +74,44 @@ function AgencyForm({
   const form = useForm({ resolver: zodResolver(agencyFormSchema), defaultValues: initial });
 
   return (
-    <Card>
-      <FormTextField control={form.control} name="name" label={t('agency:form.name')} />
-      <FormTextField
-        control={form.control}
-        name="description"
-        label={t('agency:form.description')}
-        multiline
-      />
-      <FormTextField control={form.control} name="address" label={t('agency:form.address')} />
-      <FormTextField
-        control={form.control}
-        name="phone"
-        label={t('agency:form.phone')}
-        keyboardType="phone-pad"
-      />
-      <FormTextField
-        control={form.control}
-        name="email"
-        label={t('agency:form.email')}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <Button
-        label={submitLabel}
-        onPress={() => void form.handleSubmit(onSubmit)()}
-        loading={pending}
-      />
+    <Card padding={16}>
+      <View style={{ gap: 14 }}>
+        <FormField control={form.control} name="name" label={t('agency:form.name')} icon="badge" />
+        <FormField
+          control={form.control}
+          name="description"
+          label={t('agency:form.description')}
+          multiline
+        />
+        <FormField
+          control={form.control}
+          name="address"
+          label={t('agency:form.address')}
+          icon="pin"
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          label={t('agency:form.phone')}
+          icon="phone"
+          keyboardType="phone-pad"
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          label={t('agency:form.email')}
+          icon="inbox"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+        <Button
+          label={submitLabel}
+          size="lg"
+          full
+          onPress={() => void form.handleSubmit(onSubmit)()}
+          loading={pending}
+        />
+      </View>
     </Card>
   );
 }
@@ -121,18 +143,20 @@ function AgencyCreation() {
   };
 
   return (
-    <>
-      <Text tone="muted">{t('agency:overview.none')}</Text>
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      {error ? <Text tone="danger">{error}</Text> : null}
-      <Text variant="subtitle">{t('agency:form.createTitle')}</Text>
+    <View style={{ paddingHorizontal: 20, gap: 12 }}>
+      <Text variant="label" tone="muted">
+        {t('agency:overview.none')}
+      </Text>
+      {notice ? <Banner tone="success" message={notice} /> : null}
+      {error ? <Banner tone="danger" message={error} /> : null}
+      <Text variant="section">{t('agency:form.createTitle')}</Text>
       <AgencyForm
         initial={EMPTY_FORM}
         submitLabel={t('agency:form.create')}
         pending={createAgency.isPending}
         onSubmit={submit}
       />
-    </>
+    </View>
   );
 }
 
@@ -162,37 +186,61 @@ function AgencyOverview({
     }
   };
 
+  const facts = [
+    agency.address
+      ? { icon: 'pin' as const, label: t('agency:overview.address', { address: agency.address }) }
+      : null,
+    agency.contact_phone
+      ? {
+          icon: 'phone' as const,
+          label: t('agency:overview.phone', { phone: agency.contact_phone }),
+        }
+      : null,
+    agency.contact_email
+      ? {
+          icon: 'inbox' as const,
+          label: t('agency:overview.email', { email: agency.contact_email }),
+        }
+      : null,
+  ].filter((fact): fact is { icon: 'pin' | 'phone' | 'inbox'; label: string } => Boolean(fact));
+
   return (
-    <>
-      <Card>
-        <Text variant="subtitle">{agency.name}</Text>
-        <Text tone="muted">{t('agency:overview.members', { count: agency.members.length })}</Text>
-        <Text>
+    <View style={{ paddingHorizontal: 20, gap: 12 }}>
+      <Card padding={16}>
+        <Text variant="title">{agency.name}</Text>
+        <Text variant="label" tone="muted" style={{ marginTop: 4 }}>
+          {t('agency:overview.members', { count: agency.members.length })}
+        </Text>
+        <Text style={{ marginTop: 8 }}>
           {agency.description
             ? t('agency:overview.description', { description: agency.description })
             : t('agency:overview.noDescription')}
         </Text>
-        {agency.address ? (
-          <Text tone="muted">{t('agency:overview.address', { address: agency.address })}</Text>
-        ) : null}
-        {agency.contact_phone ? (
-          <Text tone="muted">{t('agency:overview.phone', { phone: agency.contact_phone })}</Text>
-        ) : null}
-        {agency.contact_email ? (
-          <Text tone="muted">{t('agency:overview.email', { email: agency.contact_email })}</Text>
-        ) : null}
       </Card>
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      {error ? <Text tone="danger">{error}</Text> : null}
-      <Button label={t('agency:overview.openTeam')} onPress={() => onOpenTeam(agency.id)} />
+      {facts.length > 0 ? (
+        <Card padding={0}>
+          {facts.map((fact, index) => (
+            <ListRow key={fact.label} icon={fact.icon} divider={index > 0} title={fact.label} />
+          ))}
+        </Card>
+      ) : null}
+      {notice ? <Banner tone="success" message={notice} /> : null}
+      {error ? <Banner tone="danger" message={error} /> : null}
+      <Button
+        label={t('agency:overview.openTeam')}
+        icon="user"
+        size="lg"
+        full
+        onPress={() => onOpenTeam(agency.id)}
+      />
       <Button
         label={t(editing ? 'agency:overview.cancelEdit' : 'agency:overview.edit')}
+        variant="soft"
+        full
         onPress={() => setEditing((open) => !open)}
-        variant="secondary"
       />
       {editing ? (
-        <>
-          <Text variant="subtitle">{t('agency:form.editTitle')}</Text>
+        <Section title={t('agency:form.editTitle')}>
           <AgencyForm
             initial={{
               name: agency.name,
@@ -205,8 +253,8 @@ function AgencyOverview({
             pending={updateAgency.isPending}
             onSubmit={submit}
           />
-        </>
+        </Section>
       ) : null}
-    </>
+    </View>
   );
 }
