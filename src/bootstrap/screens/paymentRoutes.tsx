@@ -1,13 +1,18 @@
 import { router } from 'expo-router';
 
-import { RechargeScreen, WithdrawScreen } from '@/features/wallet';
+import { MoneyFlowContainer } from '@/features/wallet';
+
+const toConfirmation = (id: string) =>
+  router.replace({ pathname: '/wallet/payments/[id]', params: { id } });
 
 /** Recharge du portefeuille : le paiement initié mène à sa confirmation. */
 export function RechargeRoute() {
   return (
-    <RechargeScreen
+    <MoneyFlowContainer
+      mode="topUp"
+      onBack={() => router.back()}
       onDone={() => router.back()}
-      onPending={(id) => router.replace({ pathname: '/wallet/payments/[id]', params: { id } })}
+      onPending={toConfirmation}
     />
   );
 }
@@ -15,9 +20,11 @@ export function RechargeRoute() {
 /** Retrait : la demande initiée mène à sa confirmation. */
 export function WithdrawRoute() {
   return (
-    <WithdrawScreen
+    <MoneyFlowContainer
+      mode="withdraw"
+      onBack={() => router.back()}
       onDone={() => router.back()}
-      onPending={(id) => router.replace({ pathname: '/wallet/payments/[id]', params: { id } })}
+      onPending={toConfirmation}
     />
   );
 }

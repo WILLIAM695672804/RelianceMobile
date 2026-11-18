@@ -1,11 +1,11 @@
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { PaymentConfirmationScreen, TransactionDetailScreen } from '@/features/wallet';
+import { PaymentConfirmationScreen, TransactionContainer } from '@/features/wallet';
 
 /** Détail d'un mouvement du portefeuille. */
 export function TransactionDetailRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return <TransactionDetailScreen transactionId={id} onBack={() => router.back()} />;
+  return <TransactionContainer transactionId={id} onBack={() => router.back()} />;
 }
 
 /** Confirmation d'un paiement en attente, ouverte après une recharge ou un retrait. */

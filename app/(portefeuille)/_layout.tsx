@@ -13,9 +13,9 @@ export default function PortefeuilleLayout() {
       }}
     >
       <Stack.Screen name="wallet/index" />
-      <Stack.Screen name="wallet/recharge" />
-      <Stack.Screen name="wallet/withdraw" />
-      <Stack.Screen name="wallet/transactions/[id]" />
+      <Stack.Screen name="wallet/recharge" options={{ headerShown: false }} />
+      <Stack.Screen name="wallet/withdraw" options={{ headerShown: false }} />
+      <Stack.Screen name="wallet/transactions/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="wallet/payments/[id]" />
     </Stack>
   );

@@ -75,9 +75,12 @@ jest.mock('@/features/directory', () => ({
   SearchScreen: mockCapture,
 }));
 jest.mock('@/features/wallet', () => ({
+  WalletContainer: mockCapture,
   WalletScreen: mockCapture,
+  MoneyFlowContainer: mockCapture,
   RechargeScreen: mockCapture,
   WithdrawScreen: mockCapture,
+  TransactionContainer: mockCapture,
   TransactionDetailScreen: mockCapture,
   PaymentConfirmationScreen: mockCapture,
 }));
@@ -283,7 +286,7 @@ describe('jointures du portefeuille', () => {
   it('ouvre le détail d’un mouvement', async () => {
     await render(<WalletRoute />);
 
-    call('onOpenTransaction', 'x1');
+    call('onMovement', 'x1');
 
     expect(router.push).toHaveBeenCalledWith({
       pathname: '/wallet/transactions/[id]',

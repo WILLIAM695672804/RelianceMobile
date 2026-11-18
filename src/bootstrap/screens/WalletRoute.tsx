@@ -1,16 +1,14 @@
 import { router } from 'expo-router';
 
-import { WalletScreen } from '@/features/wallet';
+import { WalletContainer } from '@/features/wallet';
 
-/** Portefeuille relié aux formulaires de recharge, de retrait et au détail d'un mouvement. */
+/** Portefeuille hors onglets (agence, liens profonds), relié aux mêmes écrans que l'onglet. */
 export function WalletRoute() {
   return (
-    <WalletScreen
-      onRecharge={() => router.push('/wallet/recharge')}
+    <WalletContainer
+      onTopUp={() => router.push('/wallet/recharge')}
       onWithdraw={() => router.push('/wallet/withdraw')}
-      onOpenTransaction={(id) =>
-        router.push({ pathname: '/wallet/transactions/[id]', params: { id } })
-      }
+      onMovement={(id) => router.push({ pathname: '/wallet/transactions/[id]', params: { id } })}
     />
   );
 }

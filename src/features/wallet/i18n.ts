@@ -14,6 +14,12 @@ const fr = {
     noMovement: 'Aucun mouvement pour l’instant.',
   },
   flow: {
+    phone: 'Numéro mobile money',
+    methodDetail: {
+      momo: 'Validation sur votre téléphone',
+      om: 'Validation sur votre téléphone',
+      card: 'Paiement sécurisé par carte',
+    },
     topUp: {
       title: 'Recharger',
       amount: 'Montant à créditer',
@@ -51,6 +57,11 @@ const fr = {
     note: 'Note',
     receipt: 'Télécharger le reçu',
     report: 'Signaler',
+    date: 'Date',
+    balanceAfter: 'Solde après opération',
+    source: 'Origine',
+    reference: 'Référence',
+    recorded: 'Enregistrée',
   },
   title: 'Mon portefeuille',
   balance: 'Solde total',
@@ -148,6 +159,12 @@ const en: typeof fr = {
     noMovement: 'No movement yet.',
   },
   flow: {
+    phone: 'Mobile money number',
+    methodDetail: {
+      momo: 'Approve on your phone',
+      om: 'Approve on your phone',
+      card: 'Secure card payment',
+    },
     topUp: {
       title: 'Top up',
       amount: 'Amount to credit',
@@ -185,6 +202,11 @@ const en: typeof fr = {
     note: 'Note',
     receipt: 'Download receipt',
     report: 'Report',
+    date: 'Date',
+    balanceAfter: 'Balance after',
+    source: 'Origin',
+    reference: 'Reference',
+    recorded: 'Recorded',
   },
   title: 'My wallet',
   balance: 'Total balance',

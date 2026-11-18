@@ -12,6 +12,7 @@ import {
   Card,
   ChoiceChip,
   DetailHeader,
+  Field,
   Icon,
   Pill,
   Screen,
@@ -350,9 +351,14 @@ export interface MoneyFlowViewProps {
   feeOf: (amount: number) => number;
   submitting?: boolean;
   formError?: string | null;
+  /** Numéro proposé pour le mobile money (celui du profil). */
+  initialPhone?: string;
   onBack: () => void;
-  onSubmit: (values: { amount: number; method: PaymentMethod }) => void;
+  onSubmit: (values: { amount: number; method: PaymentMethod; phone: string }) => void;
 }
+
+/** Le mobile money exige le numéro du compte à débiter ou à créditer. */
+const isMobile = (method: PaymentMethod | undefined) => method === 'momo' || method === 'om';
 
 /** Recharge ou retrait (maquettes `WalletTopUpScreen`, `WalletWithdrawScreen`). */
 export function MoneyFlowView(props: MoneyFlowViewProps) {
@@ -363,10 +369,12 @@ export function MoneyFlowView(props: MoneyFlowViewProps) {
   const [method, setMethod] = useState<PaymentMethod | undefined>(
     props.sources.find((source) => source.isDefault)?.method ?? props.sources[0]?.method,
   );
+  const [phone, setPhone] = useState(props.initialPhone ?? '');
   const amount = Number(raw) || 0;
   const fee = amount > 0 ? props.feeOf(amount) : 0;
   const over = withdraw && amount > props.balance;
-  const valid = amount > 0 && !over && method != null;
+  const mobile = isMobile(method);
+  const valid = amount > 0 && !over && method != null && (!mobile || phone.trim().length > 0);
   const key = withdraw ? 'withdraw' : 'topUp';
 
   return (
@@ -381,7 +389,7 @@ export function MoneyFlowView(props: MoneyFlowViewProps) {
           full
           disabled={!valid}
           loading={props.submitting}
-          onPress={() => method && props.onSubmit({ amount, method })}
+          onPress={() => method && props.onSubmit({ amount, method, phone: phone.trim() })}
         />
       }
     >
@@ -485,6 +493,16 @@ export function MoneyFlowView(props: MoneyFlowViewProps) {
             })}
           </View>
         </View>
+
+        {mobile ? (
+          <Field
+            label={t('wallet:flow.phone')}
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad"
+            placeholder="6XXXXXXXX"
+          />
+        ) : null}
 
         <Card padding={0}>
           <SummaryRow label={t(`wallet:flow.${key}.amountLine`)} value={formatAmount(amount)} />

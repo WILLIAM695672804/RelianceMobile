@@ -9,11 +9,11 @@ jest.mock('expo-router', () => ({
   useLocalSearchParams: () => ({ requestId: 'r1' }),
 }));
 
-const mockWalletProps: { current?: { onRecharge: () => void; onWithdraw: () => void } } = {};
+const mockWalletProps: { current?: { onTopUp: () => void; onWithdraw: () => void } } = {};
 const mockReviewProps: { current?: { requestId: string; onDone: () => void } } = {};
 
 jest.mock('@/features/wallet', () => ({
-  WalletScreen: (props: { onRecharge: () => void; onWithdraw: () => void }) => {
+  WalletContainer: (props: { onTopUp: () => void; onWithdraw: () => void }) => {
     mockWalletProps.current = props;
     return null;
   },
@@ -30,7 +30,7 @@ describe('routes du portefeuille et des avis', () => {
   it('ouvre la recharge et le retrait depuis le portefeuille', async () => {
     await render(<WalletRoute />);
 
-    mockWalletProps.current?.onRecharge();
+    mockWalletProps.current?.onTopUp();
     mockWalletProps.current?.onWithdraw();
 
     expect(router.push).toHaveBeenCalledWith('/wallet/recharge');

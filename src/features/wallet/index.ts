@@ -45,3 +45,9 @@ export {
   type WalletViewProps,
 } from './ui/WalletViews';
 export { WalletContainer, type WalletContainerProps } from './containers/WalletContainer';
+export { MoneyFlowContainer, type MoneyFlowContainerProps } from './containers/MoneyFlowContainer';
+export {
+  TransactionContainer,
+  toTransactionDetail,
+  type TransactionContainerProps,
+} from './containers/TransactionContainer';
