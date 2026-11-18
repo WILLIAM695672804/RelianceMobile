@@ -31,3 +31,7 @@ export {
   type DisputeValues,
   type DisputeViewProps,
 } from './ui/DisputeView';
+export {
+  DisputeFormContainer,
+  type DisputeFormContainerProps,
+} from './containers/DisputeFormContainer';

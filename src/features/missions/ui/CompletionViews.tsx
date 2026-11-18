@@ -309,6 +309,9 @@ export function MissionClosedView(props: MissionClosedViewProps) {
 }
 
 export interface CancelViewProps {
+  /** Auteur de l'annulation : le technicien voit les libellés de sa mission. */
+  viewer?: 'client' | 'technician';
+  /** Interlocuteur rappelé en tête (le technicien pour le client, le client sinon). */
   technician: { name: string; detail: string; statusLabel: string };
   reasons: readonly { key: string; label: string }[];
   /** Montant en séquestre et frais ; absents, le détail du remboursement n'est pas affiché. */
@@ -321,6 +324,9 @@ export interface CancelViewProps {
 /** Annulation en deux temps : motif puis confirmation (maquette `CancelScreen`). */
 export function CancelView(props: CancelViewProps) {
   const { t } = useTranslation();
+  const title = t(
+    props.viewer === 'technician' ? 'missions:cancel.title' : 'missions:cancelView.title',
+  );
   const theme = useTheme();
   const [step, setStep] = useState<'reason' | 'confirm'>('reason');
   const [reason, setReason] = useState<string | null>(null);
@@ -352,7 +358,7 @@ export function CancelView(props: CancelViewProps) {
           </View>
         }
       >
-        <DetailHeader title={t('missions:cancelView.title')} onBack={() => setStep('reason')} />
+        <DetailHeader title={title} onBack={() => setStep('reason')} />
         <View style={{ paddingHorizontal: 24, paddingTop: 20, gap: 14 }}>
           <Text
             variant="headline"
@@ -362,7 +368,11 @@ export function CancelView(props: CancelViewProps) {
             {t('missions:cancelView.confirmTitle')}
           </Text>
           <Text variant="body" tone="muted" style={{ fontSize: 14 }}>
-            {t('missions:cancelView.confirmBody')}
+            {t(
+              props.viewer === 'technician'
+                ? 'missions:cancel.confirmMessage'
+                : 'missions:cancelView.confirmBody',
+            )}
           </Text>
           {props.refund ? (
             <Card padding={0}>
@@ -423,7 +433,7 @@ export function CancelView(props: CancelViewProps) {
         </View>
       }
     >
-      <DetailHeader title={t('missions:cancelView.title')} onBack={props.onBack} />
+      <DetailHeader title={title} onBack={props.onBack} />
       <View style={{ paddingHorizontal: 24, paddingTop: 20, gap: 12 }}>
         <Card padding={12}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>

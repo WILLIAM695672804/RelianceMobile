@@ -15,7 +15,7 @@ export default function MissionsLayout() {
       <Stack.Screen name="jobs/index" />
       <Stack.Screen name="jobs/[id]" />
       <Stack.Screen name="reports/[jobId]" />
-      <Stack.Screen name="cancel/[jobId]" />
+      <Stack.Screen name="cancel/[jobId]" options={{ headerShown: false }} />
     </Stack>
   );
 }

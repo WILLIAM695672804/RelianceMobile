@@ -40,7 +40,8 @@ export interface DisputeViewProps {
   reasons: readonly DisputeReasonOption[];
   submitting?: boolean;
   formError?: string | null;
-  onPickPhoto: () => Promise<UploadFile | null>;
+  /** Absent, la rubrique des preuves n'est pas proposée (le serveur ne les reçoit pas). */
+  onPickPhoto?: () => Promise<UploadFile | null>;
   onCancel: () => void;
   onSubmit: (values: DisputeValues) => void;
 }
@@ -54,7 +55,7 @@ export function DisputeView(props: DisputeViewProps) {
   const [photos, setPhotos] = useState<UploadFile[]>([]);
 
   const addPhoto = async () => {
-    const file = await props.onPickPhoto();
+    const file = props.onPickPhoto ? await props.onPickPhoto() : null;
     if (file) setPhotos((current) => [...current, file]);
   };
 
@@ -144,52 +145,54 @@ export function DisputeView(props: DisputeViewProps) {
           multiline
         />
 
-        <View>
-          <SectionLabel label={t('disputes:open.evidence')} />
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-            {photos.map((photo, index) => (
+        {props.onPickPhoto ? (
+          <View>
+            <SectionLabel label={t('disputes:open.evidence')} />
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              {photos.map((photo, index) => (
+                <Pressable
+                  key={`${photo.uri}-${index}`}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('disputes:open.removeEvidence', { number: index + 1 })}
+                  onPress={() =>
+                    setPhotos((current) => current.filter((_, position) => position !== index))
+                  }
+                >
+                  <Image
+                    source={{ uri: photo.uri }}
+                    style={{
+                      width: 74,
+                      height: 74,
+                      borderRadius: 10,
+                      backgroundColor: theme.colors.surfaceHigh,
+                    }}
+                  />
+                </Pressable>
+              ))}
               <Pressable
-                key={`${photo.uri}-${index}`}
                 accessibilityRole="button"
-                accessibilityLabel={t('disputes:open.removeEvidence', { number: index + 1 })}
-                onPress={() =>
-                  setPhotos((current) => current.filter((_, position) => position !== index))
-                }
+                accessibilityLabel={t('disputes:open.addEvidence')}
+                onPress={() => void addPhoto()}
+                style={{
+                  width: 74,
+                  height: 74,
+                  borderRadius: 10,
+                  borderWidth: 2,
+                  borderStyle: 'dashed',
+                  borderColor: theme.colors.border,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 2,
+                }}
               >
-                <Image
-                  source={{ uri: photo.uri }}
-                  style={{
-                    width: 74,
-                    height: 74,
-                    borderRadius: 10,
-                    backgroundColor: theme.colors.surfaceHigh,
-                  }}
-                />
+                <Icon name="plus" size={18} tone="muted" />
+                <Text variant="caption" tone="muted" style={{ fontSize: 10 }}>
+                  {t('disputes:open.add')}
+                </Text>
               </Pressable>
-            ))}
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t('disputes:open.addEvidence')}
-              onPress={() => void addPhoto()}
-              style={{
-                width: 74,
-                height: 74,
-                borderRadius: 10,
-                borderWidth: 2,
-                borderStyle: 'dashed',
-                borderColor: theme.colors.border,
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 2,
-              }}
-            >
-              <Icon name="plus" size={18} tone="muted" />
-              <Text variant="caption" tone="muted" style={{ fontSize: 10 }}>
-                {t('disputes:open.add')}
-              </Text>
-            </Pressable>
+            </View>
           </View>
-        </View>
+        ) : null}
 
         <Text variant="caption" tone="muted" style={{ fontSize: 11, lineHeight: 16 }}>
           {t('disputes:open.notice')}

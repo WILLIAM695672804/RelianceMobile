@@ -13,7 +13,7 @@ export default function LitigesLayout() {
       }}
     >
       <Stack.Screen name="disputes/index" />
-      <Stack.Screen name="disputes/new" />
+      <Stack.Screen name="disputes/new" options={{ headerShown: false }} />
       <Stack.Screen name="disputes/[id]" />
     </Stack>
   );

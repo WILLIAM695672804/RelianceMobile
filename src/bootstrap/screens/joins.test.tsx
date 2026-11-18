@@ -58,12 +58,12 @@ jest.mock('@/features/missions', () => ({
   MissionCockpitScreen: mockCapture,
   ClientTrackingContainer: mockCapture,
   QualityControlScreen: mockCapture,
-  CancelMissionScreen: mockCapture,
+  CancelMissionContainer: mockCapture,
 }));
 jest.mock('../containers/QualityContainer', () => ({ QualityContainer: mockCapture }));
 jest.mock('@/features/disputes', () => ({
   DisputesScreen: mockCapture,
-  DisputeFormScreen: mockCapture,
+  DisputeFormContainer: mockCapture,
   DisputeThreadScreen: mockCapture,
 }));
 jest.mock('@/features/reviews', () => ({

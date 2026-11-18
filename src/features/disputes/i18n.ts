@@ -32,6 +32,14 @@ const fr = {
     behaviour: 'Comportement inapproprié',
     other: 'Autre motif',
   },
+  reasonHints: {
+    work_not_done: 'Le problème persiste ou n’est pas résolu',
+    quality: 'Malfaçon, casse ou détérioration pendant l’intervention',
+    delay: 'En retard ou absent au rendez-vous',
+    amount: 'Montant non conforme au devis',
+    behaviour: 'Attitude ou propos déplacés',
+    other: 'Décrivez votre situation',
+  },
   list: {
     title: 'Mes litiges',
     empty: 'Aucun litige ouvert.',
@@ -101,6 +109,14 @@ const en: typeof fr = {
     amount: 'Disputed amount',
     behaviour: 'Inappropriate behaviour',
     other: 'Other reason',
+  },
+  reasonHints: {
+    work_not_done: 'The problem persists or is not solved',
+    quality: 'Poor workmanship, breakage or damage during the job',
+    delay: 'Late or absent for the appointment',
+    amount: 'Amount does not match the quote',
+    behaviour: 'Inappropriate attitude or language',
+    other: 'Describe your situation',
   },
   list: {
     title: 'My disputes',

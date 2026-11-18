@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { DisputeFormScreen, DisputesScreen, DisputeThreadScreen } from '@/features/disputes';
+import { DisputeFormContainer, DisputesScreen, DisputeThreadScreen } from '@/features/disputes';
 
 /** Liste des litiges, reliée au fil de chaque dossier. */
 export function DisputesRoute() {
@@ -13,7 +13,7 @@ export function DisputesRoute() {
 export function DisputeFormRoute() {
   const { requestId, against } = useLocalSearchParams<{ requestId: string; against: string }>();
   return (
-    <DisputeFormScreen
+    <DisputeFormContainer
       requestId={requestId}
       against={against}
       onBack={() => router.back()}
