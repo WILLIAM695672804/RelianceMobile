@@ -7,6 +7,7 @@ export function DirectoryRoute() {
   return (
     <TechnicianDirectoryScreen
       onOpen={(id) => router.push({ pathname: '/technicians/[id]', params: { id } })}
+      onBack={() => router.back()}
     />
   );
 }

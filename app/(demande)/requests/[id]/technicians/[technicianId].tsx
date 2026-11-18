@@ -9,6 +9,7 @@ export default function TechnicianOfferRoute() {
       requestId={id}
       technicianId={technicianId}
       onSent={() => router.dismissTo({ pathname: '/requests/[id]', params: { id } })}
+      onBack={() => router.back()}
     />
   );
 }
