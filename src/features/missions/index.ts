@@ -77,3 +77,9 @@ export {
   type TechHomeViewProps,
 } from './ui/TechHomeView';
 export { TechHomeContainer, type TechHomeContainerProps } from './containers/TechHomeContainer';
+export {
+  ClientTrackingContainer,
+  shortReference,
+  trackingPhases,
+  type ClientTrackingContainerProps,
+} from './containers/ClientTrackingContainer';

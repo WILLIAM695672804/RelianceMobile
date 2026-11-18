@@ -56,7 +56,7 @@ jest.mock('@/features/requests', () => ({
 }));
 jest.mock('@/features/missions', () => ({
   MissionCockpitScreen: mockCapture,
-  MissionTrackingScreen: mockCapture,
+  ClientTrackingContainer: mockCapture,
   QualityControlScreen: mockCapture,
   CancelMissionScreen: mockCapture,
 }));
@@ -148,14 +148,24 @@ describe('jointures du parcours d’intervention', () => {
     expect(router.replace).toHaveBeenCalledWith('/technicien/mission');
   });
 
-  it('relie le suivi client au rapport', async () => {
+  it('relie le suivi client à la messagerie, aux devis et au contrôle qualité', async () => {
     await render(<ClientTrackingRoute />);
 
-    call('onOpenReport', 'r1');
+    call('onChat', 't1', 'Fuite');
+    call('onOpenQuotes', 'r1');
+    call('onOpenQuality', 'r1', 't1');
 
-    expect(router.push).toHaveBeenCalledWith({
-      pathname: '/requests/[id]/report',
-      params: { id: 'r1' },
+    expect(router.push).toHaveBeenNthCalledWith(1, {
+      pathname: '/conversations/new',
+      params: { member: 't1', subject: 'Fuite' },
+    });
+    expect(router.push).toHaveBeenNthCalledWith(2, {
+      pathname: '/quotes/[requestId]',
+      params: { requestId: 'r1' },
+    });
+    expect(router.push).toHaveBeenNthCalledWith(3, {
+      pathname: '/requests/[id]/quality',
+      params: { id: 'r1', technicianId: 't1' },
     });
   });
 

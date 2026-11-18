@@ -39,6 +39,16 @@ const fr = {
     escrow: 'Paiement sécurisé · séquestre',
     frozen: '{{amount}} gelés en séquestre',
     states: { done: 'terminée', active: 'en cours', todo: 'à venir' },
+    unassigned: 'Technicien à confirmer',
+    held: 'Bloqué jusqu’à votre validation',
+    releasable: 'Prêt à être versé',
+    details: {
+      pending: 'Mission confirmée',
+      en_route: 'Le technicien se dirige vers vous',
+      arrived: 'Le technicien est sur place',
+      in_progress: 'Diagnostic et travaux',
+      completed: 'Travaux à valider',
+    },
   },
   completion: {
     title: 'Valider les travaux',
@@ -191,6 +201,7 @@ const fr = {
   tracking: {
     title: 'Suivi de mon intervention',
     none: 'Aucune intervention en cours.',
+    noneHint: 'Le suivi apparaîtra dès qu’un technicien aura accepté votre demande.',
     technician: 'Technicien : {{name}}',
     rating: 'Note : {{rating}} / 5 ({{count}} avis)',
     phone: 'Téléphone : {{phone}}',
@@ -246,6 +257,16 @@ const en: typeof fr = {
     escrow: 'Secure payment · escrow',
     frozen: '{{amount}} held in escrow',
     states: { done: 'done', active: 'in progress', todo: 'upcoming' },
+    unassigned: 'Technician to be confirmed',
+    held: 'Held until you validate',
+    releasable: 'Ready to be released',
+    details: {
+      pending: 'Mission confirmed',
+      en_route: 'The technician is heading to you',
+      arrived: 'The technician is on site',
+      in_progress: 'Diagnosis and work',
+      completed: 'Work awaiting validation',
+    },
   },
   completion: {
     title: 'Validate the work',
@@ -398,6 +419,7 @@ const en: typeof fr = {
   tracking: {
     title: 'Tracking my job',
     none: 'No job in progress.',
+    noneHint: 'Tracking will appear as soon as a technician accepts your request.',
     technician: 'Technician: {{name}}',
     rating: 'Rating: {{rating}} / 5 ({{count}} reviews)',
     phone: 'Phone: {{phone}}',
