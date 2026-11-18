@@ -51,7 +51,14 @@ export const technicianProfileSchema = z.object({
     )
     .nullish()
     .transform(asList),
-  service_perimeter: z.object({ city: z.string().nullish() }).nullish(),
+  service_perimeter: z
+    .object({
+      city: z.string().nullish(),
+      latitude: decimalSchema.nullish(),
+      longitude: decimalSchema.nullish(),
+      radius: decimalSchema.nullish(),
+    })
+    .nullish(),
   recent_reviews: z
     .array(
       z.object({

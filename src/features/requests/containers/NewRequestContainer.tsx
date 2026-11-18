@@ -34,6 +34,7 @@ export function toRequestPlace(place: Place, unnamed: string): RequestPlace {
   return {
     label: place.label ?? unnamed,
     detail: place.city ?? `${place.latitude.toFixed(4)}, ${place.longitude.toFixed(4)}`,
+    coordinates: { latitude: place.latitude, longitude: place.longitude },
   };
 }
 

@@ -111,7 +111,14 @@ export function TwoFactorSection({ onSuccess }: TwoFactorSectionProps) {
         {error ? <Banner tone="danger" message={error} /> : null}
         {step.kind === 'idle' ? (
           <Button
+            // Libellé court à l'écran (le titre de la ligne nomme déjà la fonction), complet pour
+            // les lecteurs d'écran.
             label={t(
+              enabled
+                ? 'profile:settings.twoFactorDisableShort'
+                : 'profile:settings.twoFactorEnableShort',
+            )}
+            accessibilityLabel={t(
               enabled ? 'profile:settings.twoFactorDisable' : 'profile:settings.twoFactorEnable',
             )}
             variant="soft"

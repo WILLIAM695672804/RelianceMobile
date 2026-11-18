@@ -10,6 +10,7 @@ import { QueryGate, useToast } from '@/shared/ui';
 export function toTechProfile(profile: TechnicianProfile): TechProfile {
   const skill = profile.skills[0];
   const verified = Boolean(profile.verified);
+  const perimeter = profile.service_perimeter;
   return {
     id: profile.id,
     name: profile.name,
@@ -26,6 +27,13 @@ export function toTechProfile(profile: TechnicianProfile): TechProfile {
     successRate: null,
     kycApproved: verified,
     highlight: null,
+    zone:
+      perimeter?.latitude != null && perimeter.longitude != null
+        ? {
+            center: { latitude: perimeter.latitude, longitude: perimeter.longitude },
+            radiusKm: perimeter.radius ?? 10,
+          }
+        : null,
   };
 }
 

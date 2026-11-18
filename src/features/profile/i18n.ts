@@ -256,6 +256,8 @@ const fr = {
     twoFactorOn: 'Activée',
     twoFactorOff: 'Désactivée',
     twoFactorEnable: 'Activer la double authentification',
+    twoFactorEnableShort: 'Activer',
+    twoFactorDisableShort: 'Désactiver',
     twoFactorDisable: 'Désactiver la double authentification',
     twoFactorSecretHint:
       'Ajoutez ce secret à votre application d’authentification, puis saisissez le code généré.',
@@ -530,6 +532,8 @@ const en: typeof fr = {
     twoFactorOn: 'Enabled',
     twoFactorOff: 'Disabled',
     twoFactorEnable: 'Enable two-factor authentication',
+    twoFactorEnableShort: 'Enable',
+    twoFactorDisableShort: 'Disable',
     twoFactorDisable: 'Disable two-factor authentication',
     twoFactorSecretHint:
       'Add this secret to your authenticator app, then enter the generated code.',

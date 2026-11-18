@@ -49,7 +49,7 @@ export function InvoiceView({
       testID="facture"
       footer={
         onDownload || onShare || onPay ? (
-          <View style={{ flexDirection: 'row', gap: 8 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {onShare ? (
               <View style={{ flex: 1 }}>
                 <Button
@@ -63,7 +63,7 @@ export function InvoiceView({
               </View>
             ) : null}
             {onPay ? (
-              <View style={{ flex: 1 }}>
+              <View style={{ width: '100%' }}>
                 <Button
                   label={t('billing:invoices.pay')}
                   icon="wallet"

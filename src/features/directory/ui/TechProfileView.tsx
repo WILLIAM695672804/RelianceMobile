@@ -12,7 +12,8 @@ import {
   Button,
   Card,
   Icon,
-  IllustratedMap,
+  GeoMap,
+  type GeoPoint,
   ImagePlaceholder,
   Pill,
   Screen,
@@ -31,6 +32,8 @@ export interface TechProfile extends TechSummary {
   kycApproved: boolean;
   /** Distinction mise en avant (« Top 10 »). */
   highlight: string | null;
+  /** Zone d'intervention déclarée : centre et rayon. */
+  zone?: { center: GeoPoint; radiusKm: number } | null;
 }
 
 export interface TechWork {
@@ -286,26 +289,12 @@ export function TechProfileView(props: TechProfileViewProps) {
               </>
             ) : null}
             <Eyebrow>{t('directory:profile.zone')}</Eyebrow>
-            <View
-              style={{
-                height: 140,
-                borderRadius: 14,
-                overflow: 'hidden',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <IllustratedMap compact />
-              <View
-                style={{
-                  width: 120,
-                  height: 120,
-                  borderRadius: 60,
-                  borderWidth: 2,
-                  borderStyle: 'dashed',
-                  borderColor: color,
-                  backgroundColor: `${color}40`,
-                }}
+            <View style={{ height: 160, borderRadius: 14, overflow: 'hidden' }}>
+              <GeoMap
+                compact
+                zoneCenter={tech.zone?.center ?? null}
+                radiusKm={tech.zone?.radiusKm ?? null}
+                you={tech.zone?.center ?? null}
               />
             </View>
           </View>

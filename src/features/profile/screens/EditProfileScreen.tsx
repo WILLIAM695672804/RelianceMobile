@@ -115,7 +115,9 @@ function EditProfileForm({
 
         <View style={{ alignItems: 'center', gap: 12, paddingVertical: 8 }}>
           <Avatar name={account.name} uri={avatarUrl} size={96} />
-          <View style={{ flexDirection: 'row', gap: 8 }}>
+          <View
+            style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}
+          >
             <Button
               label={t('profile:edit.fromLibrary')}
               icon="image"

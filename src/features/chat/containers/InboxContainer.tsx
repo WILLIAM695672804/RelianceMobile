@@ -5,9 +5,9 @@ import { formatClockTime, formatDate } from '@/shared/format';
 import { QueryGate } from '@/shared/ui';
 
 import { useConversations } from '../hooks/useChat';
-import { conversationTitle } from '../model/conversation';
 import type { Conversation } from '../schemas/chatSchemas';
 import { InboxView, type ConversationSummary } from '../ui/ChatViews';
+import { chatContact } from './ChatContainer';
 
 /** Heure du jour même, date sinon. */
 export function shortWhen(iso: string | null | undefined, now = new Date()): string {
@@ -23,7 +23,7 @@ export function toConversationSummary(
 ): ConversationSummary {
   return {
     id: conversation.id,
-    name: conversationTitle(conversation, selfId, fallbackTitle),
+    name: chatContact(conversation, selfId, { fallback: fallbackTitle, context: '' }).name,
     last: conversation.last_message?.body ?? '',
     time: shortWhen(conversation.last_message?.created_at ?? conversation.created_at),
     unread: conversation.unread_count ?? 0,

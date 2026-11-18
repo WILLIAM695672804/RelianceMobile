@@ -148,6 +148,15 @@ export function TechOnboardingContainer({ onBack, onDone }: TechOnboardingContai
             slug: skill.slug,
             label: skill.name,
           }))}
+          zoneCenter={
+            identity.data?.service_perimeter?.latitude != null &&
+            identity.data.service_perimeter.longitude != null
+              ? {
+                  latitude: identity.data.service_perimeter.latitude,
+                  longitude: identity.data.service_perimeter.longitude,
+                }
+              : null
+          }
           submitting={submitting}
           onBack={onBack}
           onSubmit={(values) => void submit(values)}

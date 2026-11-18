@@ -1,10 +1,16 @@
 import { useTranslation } from 'react-i18next';
 import { Linking } from 'react-native';
 
+import { holdForRequest, useHolds } from '@/features/wallet';
 import { formatAmount } from '@/shared/format';
 import { BackButton, EmptyState, QueryGate, Screen } from '@/shared/ui';
 
-import { useClientMission, useJobSync, useJobTracking } from '../hooks/useMissions';
+import {
+  useClientMission,
+  useJobSync,
+  useJobTracking,
+  useTechnicianPosition,
+} from '../hooks/useMissions';
 import { JOB_TIMELINE, timelineIndexOf } from '../model/jobStatus';
 import type { ClientMission } from '../schemas/missionSchemas';
 import { TrackingView, type TrackingPhase } from '../ui/TrackingView';
@@ -43,12 +49,16 @@ export function ClientTrackingContainer(props: ClientTrackingContainerProps) {
   const mission = useClientMission();
   const jobId = mission.data?.job_id ?? null;
   const tracking = useJobTracking(jobId);
+  const holds = useHolds();
+  const position = useTechnicianPosition();
   useJobSync(jobId);
 
   const render = (current: ClientMission) => {
     const status = tracking.data?.status ?? null;
     const technician = current.technician;
-    const price = current.proposal?.price ?? null;
+    // Le montant réellement gelé (devis accepté) prime sur le prix de la proposition.
+    const hold = holds.data ? holdForRequest(holds.data, current.request.id) : null;
+    const price = hold?.amount ?? current.proposal?.price ?? null;
     const requestId = current.request.id;
     const completed = status === 'completed';
     return (
@@ -60,6 +70,16 @@ export function ClientTrackingContainer(props: ClientTrackingContainerProps) {
         reference={shortReference(requestId)}
         phases={trackingPhases(status, t)}
         eta={null}
+        technicianAt={
+          position.data
+            ? { latitude: position.data.latitude, longitude: position.data.longitude }
+            : null
+        }
+        destination={
+          current.address?.latitude != null && current.address.longitude != null
+            ? { latitude: current.address.latitude, longitude: current.address.longitude }
+            : null
+        }
         escrow={
           price != null
             ? {

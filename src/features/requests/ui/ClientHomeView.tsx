@@ -8,11 +8,10 @@ import { formatAmount, formatDistance, formatRating } from '@/shared/format';
 import {
   Avatar,
   Card,
-  initialsOf,
   PhaseBar,
   VerifiedMark,
   Icon,
-  IllustratedMap,
+  GeoMap,
   Screen,
   Section,
   Text,
@@ -250,17 +249,19 @@ export function ClientHomeView(props: ClientHomeViewProps) {
               onPress={props.onMap}
               style={{ height: 160, borderRadius: 22, overflow: 'hidden' }}
             >
-              <IllustratedMap
+              <GeoMap
                 compact
                 pins={props.recommended
-                  .filter((tech) => tech.mapPoint)
+                  .filter((tech) => tech.coordinates)
                   .map((tech) => ({
                     id: tech.id,
-                    label: initialsOf(tech.name),
-                    x: tech.mapPoint!.x,
-                    y: tech.mapPoint!.y,
+                    label: tech.name,
+                    latitude: tech.coordinates!.latitude,
+                    longitude: tech.coordinates!.longitude,
                     color: tech.color,
                   }))}
+                // L'encart du nombre de techniciens occupe le bas de l'aperçu.
+                padding={{ top: 24, bottom: 70, left: 24, right: 24 }}
               />
               <View
                 style={{
@@ -460,6 +461,8 @@ export function ClientHomeView(props: ClientHomeViewProps) {
           </View>
         </Section>
       ) : null}
+      {/* Place du bouton flottant « Nouvelle demande », qui recouvre sinon la dernière carte. */}
+      <View style={{ height: 72 }} />
     </Screen>
   );
 }

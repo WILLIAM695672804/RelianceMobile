@@ -11,7 +11,9 @@ import {
   ChoiceChip,
   Field,
   Icon,
-  IllustratedMap,
+  DEFAULT_CENTER,
+  GeoMap,
+  type GeoPoint,
   PhaseBar,
   Screen,
   Text,
@@ -38,6 +40,8 @@ export interface TechOnboardingViewProps {
   initial: OnboardingValues;
   /** Métiers proposés (catalogue du serveur). */
   skillOptions: readonly { slug: string; label: string }[];
+  /** Centre de la zone d'intervention déjà déclarée, s'il est connu. */
+  zoneCenter?: GeoPoint | null;
   submitting?: boolean;
   onBack: () => void;
   onSubmit: (values: OnboardingValues) => void;
@@ -58,6 +62,7 @@ const STEPS: readonly {
 export function TechOnboardingView({
   initial,
   skillOptions,
+  zoneCenter,
   submitting = false,
   onBack,
   onSubmit,
@@ -246,26 +251,14 @@ export function TechOnboardingView({
 
         {current.key === 'zone' ? (
           <>
-            <View
-              style={{
-                height: 180,
-                borderRadius: 16,
-                overflow: 'hidden',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <IllustratedMap compact />
-              <View
-                style={{
-                  width: 40 + values.radiusKm * 5,
-                  height: 40 + values.radiusKm * 5,
-                  borderRadius: 999,
-                  borderWidth: 2,
-                  borderStyle: 'dashed',
-                  borderColor: theme.colors.primary,
-                  backgroundColor: `${theme.colors.primary}26`,
-                }}
+            <View style={{ height: 180, borderRadius: 16, overflow: 'hidden' }}>
+              <GeoMap
+                compact
+                // Le rayon choisi redessine le cercle : la clé recadre la carte à chaque choix.
+                key={values.radiusKm}
+                zoneCenter={zoneCenter ?? DEFAULT_CENTER}
+                radiusKm={values.radiusKm}
+                you={zoneCenter ?? null}
               />
             </View>
             <Text variant="caption" tone="muted">

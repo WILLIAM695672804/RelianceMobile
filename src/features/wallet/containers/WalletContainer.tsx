@@ -22,6 +22,16 @@ export function toMovement(transaction: Transaction, label: string): WalletMovem
   };
 }
 
+/** Libellé d'un fonds réservé : le serveur y inscrit une référence technique (`invoice:<id>`). */
+export function holdLabel(
+  reason: string | null | undefined,
+  labels: { invoice: string; fallback: string },
+): string {
+  if (!reason) return labels.fallback;
+  if (reason.startsWith('invoice:')) return labels.invoice;
+  return /^[\w-]+:[0-9a-f-]{8,}/i.test(reason) ? labels.fallback : reason;
+}
+
 export function toWalletHold(hold: Hold, label: string): WalletHold {
   return {
     id: hold.id,
@@ -53,7 +63,15 @@ export function WalletContainer({ onTopUp, onWithdraw, onMovement, onBack }: Wal
           balance={wallet.data?.available_balance ?? 0}
           holds={(holds.data ?? [])
             .filter((hold) => hold.status === 'held')
-            .map((hold) => toWalletHold(hold, hold.reason ?? t('wallet:transaction.hold')))}
+            .map((hold) =>
+              toWalletHold(
+                hold,
+                holdLabel(hold.reason, {
+                  invoice: t('wallet:holdInvoice'),
+                  fallback: t('wallet:transaction.hold'),
+                }),
+              ),
+            )}
           sources={[]}
           movements={(transactions.data ?? []).map((transaction) =>
             toMovement(

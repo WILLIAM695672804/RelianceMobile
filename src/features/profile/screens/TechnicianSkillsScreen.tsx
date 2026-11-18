@@ -108,7 +108,12 @@ export function TechnicianSkillsScreen({ onBack }: TechnicianSkillsScreenProps =
                         .join('\n')}
                     />
                     <View
-                      style={{ alignItems: 'flex-end', paddingHorizontal: 16, paddingBottom: 10 }}
+                      style={{
+                        alignSelf: 'stretch',
+                        alignItems: 'flex-end',
+                        paddingHorizontal: 16,
+                        paddingBottom: 10,
+                      }}
                     >
                       <Button
                         label={t('profile:skills.remove')}

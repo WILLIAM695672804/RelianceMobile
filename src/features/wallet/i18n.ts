@@ -51,6 +51,7 @@ const fr = {
     resendIn: 'Renvoyer le code dans {{seconds}} s',
     resend: 'Renvoyer le code',
   },
+  holdInvoice: 'Paiement de facture en séquestre',
   movement: {
     title: 'Transaction',
     breakdown: 'Décomposition',
@@ -196,6 +197,7 @@ const en: typeof fr = {
     resendIn: 'Resend the code in {{seconds}} s',
     resend: 'Resend the code',
   },
+  holdInvoice: 'Invoice payment held in escrow',
   movement: {
     title: 'Transaction',
     breakdown: 'Breakdown',

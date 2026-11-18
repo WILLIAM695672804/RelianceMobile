@@ -20,12 +20,21 @@ type GeocodedAddress = Partial<
   Pick<Location.LocationGeocodedAddress, 'street' | 'name' | 'city' | 'formattedAddress'>
 >;
 
-function describeAddress(address: GeocodedAddress | undefined): string | null {
+/** Code de localisation ouvert (« 3P5X+GPQ ») : illisible pour un client, il est écarté. */
+const PLUS_CODE = /^[23456789CFGHJMPQRVWX]{2,8}\+[23456789CFGHJMPQRVWX]{0,3}$/i;
+
+export function describeAddress(address: GeocodedAddress | undefined): string | null {
   if (!address) return null;
-  if (address.formattedAddress) return address.formattedAddress;
-  const parts = [address.street ?? address.name, address.city].filter((part): part is string =>
-    Boolean(part),
-  );
+  const readable = (part: string | null | undefined): part is string =>
+    Boolean(part && part.trim() && !PLUS_CODE.test(part.trim()));
+  if (address.formattedAddress) {
+    const parts = address.formattedAddress
+      .split(',')
+      .map((part) => part.trim())
+      .filter(readable);
+    if (parts.length > 0) return parts.join(', ');
+  }
+  const parts = [address.street ?? address.name, address.city].filter(readable);
   return parts.length > 0 ? parts.join(', ') : null;
 }
 

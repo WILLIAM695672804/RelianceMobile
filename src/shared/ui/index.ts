@@ -48,3 +48,13 @@ export { QueryGate, type GateQuery, type QueryGateProps } from './QueryGate';
 export { ListRow, type ListRowProps } from './ListRow';
 export { ConfirmSheet, type ConfirmSheetProps } from './ConfirmSheet';
 export { OfflineBanner } from './OfflineBanner';
+export {
+  boundsOf,
+  circlePolygon,
+  DEFAULT_CENTER,
+  GeoMap,
+  MAP_STYLE_URL,
+  type GeoMapProps,
+  type GeoPin,
+  type GeoPoint,
+} from './GeoMap';

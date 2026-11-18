@@ -8,8 +8,7 @@ import { formatAmount, formatDistance, formatRating } from '@/shared/format';
 import {
   Avatar,
   Icon,
-  IllustratedMap,
-  initialsOf,
+  GeoMap,
   Pill,
   Screen,
   TAB_BAR_CLEARANCE,
@@ -66,16 +65,19 @@ export function MapView(props: MapViewProps) {
   return (
     <Screen scroll={false} bleedBottom testID="carte">
       <View style={StyleSheet.absoluteFill}>
-        <IllustratedMap
+        <GeoMap
           pins={props.technicians
-            .filter((tech) => tech.mapPoint)
+            .filter((tech) => tech.coordinates)
             .map((tech) => ({
               id: tech.id,
-              label: initialsOf(tech.name),
-              x: tech.mapPoint!.x,
-              y: tech.mapPoint!.y,
+              label: tech.name,
+              latitude: tech.coordinates!.latitude,
+              longitude: tech.coordinates!.longitude,
               color: tech.color,
+              onPress: () => setSelectedId(tech.id),
             }))}
+          // Recherche en haut, panneau des techniciens en bas : le cadrage les évite.
+          padding={{ top: 120, bottom: 420 }}
         />
       </View>
 
@@ -152,6 +154,7 @@ export function MapView(props: MapViewProps) {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            gap: 8,
             paddingHorizontal: 20,
             paddingBottom: 14,
           }}
@@ -159,7 +162,7 @@ export function MapView(props: MapViewProps) {
           <Text
             variant="section"
             accessibilityRole="header"
-            style={{ fontFamily: theme.fontFamily.display, fontSize: 18 }}
+            style={{ flexShrink: 1, fontFamily: theme.fontFamily.display, fontSize: 18 }}
           >
             {t('directory:map.nearby', { count: props.technicians.length })}
           </Text>

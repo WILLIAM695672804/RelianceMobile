@@ -35,7 +35,11 @@ describe('toRequestPlace', () => {
   it('se replie sur un libellé générique et sur les coordonnées', () => {
     expect(
       toRequestPlace({ latitude: 3.848, longitude: 11.5021, label: null, city: null }, 'ici'),
-    ).toEqual({ label: 'ici', detail: '3.8480, 11.5021' });
+    ).toEqual({
+      label: 'ici',
+      detail: '3.8480, 11.5021',
+      coordinates: { latitude: 3.848, longitude: 11.5021 },
+    });
   });
 });
 

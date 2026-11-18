@@ -14,6 +14,10 @@ export function toTechSummary(card: TechnicianCard): TechSummary {
     etaMin: null,
     price: skill?.hourly_rate ?? null,
     verified: Boolean(card.verified ?? card.kyc_approved),
+    coordinates:
+      card.location?.latitude != null && card.location?.longitude != null
+        ? { latitude: card.location.latitude, longitude: card.location.longitude }
+        : undefined,
   };
 }
 
@@ -39,13 +43,21 @@ export function withMapPoints(cards: readonly TechnicianCard[]): TechSummary[] {
     const lat = card.location?.latitude;
     const lng = card.location?.longitude;
     return lat != null && lng != null
-      ? { x: scale(lng, minLng, maxLng), y: 100 - scale(lat, minLat, maxLat) }
-      : { x: 20 + ((index * 37) % 60), y: 20 + ((index * 23) % 55) };
+      ? { x: scale(lng, minLng, maxLng), y: band(100 - scale(lat, minLat, maxLat)) }
+      : { x: 20 + ((index * 37) % 60), y: band(20 + ((index * 23) % 55)) };
   });
   return spreadOverlaps(points).map((mapPoint, index) => ({
     ...toTechSummary(cards[index]!),
     mapPoint,
   }));
+}
+
+/**
+ * Ramène l'ordonnée (15 à 85 %) dans la moitié haute du cadre (12 à 48 %) : les cartes
+ * superposent leur panneau d'informations à la moitié basse, qui masquerait les repères.
+ */
+function band(y: number): number {
+  return 12 + ((y - 15) * 36) / 70;
 }
 
 /** Rayon, en pourcentage du cadre, de la couronne des repères confondus. */

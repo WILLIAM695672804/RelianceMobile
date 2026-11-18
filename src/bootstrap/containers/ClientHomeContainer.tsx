@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
+import { formatAmount } from '@/shared/format';
+
 import { useSession } from '@/core/session';
 import { useTechnicianDirectory } from '@/features/directory';
 import { useClientMission, type ClientMission } from '@/features/missions';
@@ -33,7 +35,8 @@ export function toActiveIntervention(
     phase: index >= 0 ? index + 1 : 1,
     phaseCount: STAGE_ORDER.length,
     phaseLabel: stageLabel(stage),
-    statusLabel: stageLabel(stage),
+    // Le statut figure déjà à gauche : la droite rappelle le montant convenu.
+    statusLabel: mission.proposal?.price != null ? formatAmount(mission.proposal.price) : '',
   };
 }
 

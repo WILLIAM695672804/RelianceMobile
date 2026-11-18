@@ -11,6 +11,8 @@ export interface ListRowProps {
   title: string;
   /** Ligne secondaire (date, montant, statut détaillé). */
   detail?: string;
+  /** Lignes du détail affichées au plus (3 par défaut). */
+  detailLines?: number;
   icon?: IconName;
   /** Pastille de statut à droite. */
   pill?: { label: string; tone?: PillTone };
@@ -27,6 +29,7 @@ export interface ListRowProps {
 export function ListRow({
   title,
   detail,
+  detailLines = 3,
   icon,
   pill,
   trailing,
@@ -57,7 +60,7 @@ export function ListRow({
           {title}
         </Text>
         {detail ? (
-          <Text variant="caption" tone="muted" numberOfLines={2}>
+          <Text variant="caption" tone="muted" numberOfLines={detailLines}>
             {detail}
           </Text>
         ) : null}

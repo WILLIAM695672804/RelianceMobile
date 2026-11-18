@@ -11,7 +11,8 @@ import {
   Card,
   Field,
   Icon,
-  IllustratedMap,
+  GeoMap,
+  type GeoPoint,
   PhaseBar,
   Pill,
   Screen,
@@ -43,6 +44,8 @@ export interface NewRequestValues {
 export interface RequestPlace {
   label: string;
   detail: string;
+  /** Coordonnées du lieu, pour la carte. */
+  coordinates?: GeoPoint;
 }
 
 export interface NewRequestViewProps {
@@ -321,7 +324,12 @@ export function NewRequestView(props: NewRequestViewProps) {
           <>
             <Title>{t('requests:create.whereTitle')}</Title>
             <View style={{ height: 160, borderRadius: 16, overflow: 'hidden' }}>
-              <IllustratedMap compact you={props.place ? { x: 50, y: 55 } : null} />
+              <GeoMap
+                compact
+                // Recadrage à chaque nouvelle position retenue.
+                key={props.place?.coordinates ? `${props.place.coordinates.latitude}` : 'aucun'}
+                you={props.place?.coordinates ?? null}
+              />
             </View>
             <Card padding={14}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>

@@ -57,3 +57,18 @@ jest.mock('expo-location', () => ({
   ]),
   geocodeAsync: jest.fn(async () => [{ latitude: 4.0511, longitude: 9.7679 }]),
 }));
+
+// MapLibre est natif : sous Jest, la carte et ses éléments deviennent de simples vues.
+jest.mock('@maplibre/maplibre-react-native', () => {
+  const { View } = jest.requireActual('react-native');
+  const passthrough = ({ children, testID }: { children?: unknown; testID?: string }) =>
+    jest.requireActual('react').createElement(View, { testID }, children);
+  return {
+    __esModule: true,
+    Map: passthrough,
+    Camera: () => null,
+    GeoJSONSource: passthrough,
+    Layer: () => null,
+    Marker: passthrough,
+  };
+});

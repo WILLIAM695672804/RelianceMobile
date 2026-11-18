@@ -10,8 +10,8 @@ import {
   Button,
   Card,
   Icon,
-  IllustratedMap,
-  initialsOf,
+  GeoMap,
+  type GeoPoint,
   Screen,
   Section,
   Text,
@@ -32,6 +32,10 @@ export interface TrackingViewProps {
   eta: { minutes: number; detail: string } | null;
   /** Séquestre : montant gelé et part déjà engagée (0 à 1). */
   escrow: { amount: number; progress: number; spent: string; remaining: string } | null;
+  /** Dernière position connue du technicien. */
+  technicianAt?: GeoPoint | null;
+  /** Lieu de l'intervention. */
+  destination?: GeoPoint | null;
   /** Prochaine étape proposée au client (« Voir le diagnostic »). */
   primaryAction?: { label: string; onPress: () => void } | null;
   onBack: () => void;
@@ -84,17 +88,21 @@ export function TrackingView(props: TrackingViewProps) {
       }
     >
       <View style={{ height: 280, marginTop: -insets.top }}>
-        <IllustratedMap
-          pins={[
-            {
-              id: 'tech',
-              label: initialsOf(technician.name),
-              x: 30,
-              y: 30,
-              color: technician.color,
-            },
-          ]}
-          you={{ x: 70, y: 70 }}
+        <GeoMap
+          pins={
+            props.technicianAt
+              ? [
+                  {
+                    id: 'tech',
+                    label: technician.name,
+                    ...props.technicianAt,
+                    color: technician.color,
+                  },
+                ]
+              : []
+          }
+          you={props.destination ?? null}
+          padding={{ top: 60 + insets.top, bottom: 50 }}
         />
         <View style={{ paddingHorizontal: 16, paddingTop: insets.top + 8 }}>
           <BackButton onPress={props.onBack} />

@@ -20,6 +20,8 @@ export interface TechSummary {
   color?: string;
   /** Position sur une carte illustrée, en pourcentage du cadre. */
   mapPoint?: { x: number; y: number };
+  /** Position géographique connue (carte réelle). */
+  coordinates?: { latitude: number; longitude: number };
 }
 
 /** « ⭐ 4,9 · 1,2 km · 18 min », en omettant les éléments inconnus. */

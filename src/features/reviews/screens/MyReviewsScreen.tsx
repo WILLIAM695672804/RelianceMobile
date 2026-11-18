@@ -54,7 +54,8 @@ export function MyReviewsScreen({ onBack }: MyReviewsScreenProps = {}) {
               <Text key={change.id} variant="caption" tone="muted" style={{ marginTop: 4 }}>
                 {t('reviews:mine.reputationChange', {
                   change: change.change,
-                  reason: change.reason ?? '',
+                  // Le serveur suffixe la référence de l'avis (« Review #<uuid>: 5 etoiles »).
+                  reason: (change.reason ?? '').replace(/#[0-9a-f-]{8,}:?\s*/i, ''),
                 })}
               </Text>
             ))}
