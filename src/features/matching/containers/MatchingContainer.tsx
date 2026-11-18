@@ -5,13 +5,23 @@ import { describeError, normalizeError } from '@/core/errors';
 import type { TechSummary } from '@/shared/model';
 import { useToast } from '@/shared/ui';
 
+import { useRequest } from '@/features/requests';
+
 import { useMatchResults, useSelectTechnician } from '../hooks/useMatching';
 import type { MatchedTechnician } from '../schemas/matchingSchemas';
 import { MatchingView } from '../ui/MatchingView';
 
-/** Technicien rapproché réduit au résumé de la refonte ; le tarif est celui de sa première compétence. */
-export function matchedToSummary(technician: MatchedTechnician): TechSummary {
-  const skill = technician.skills[0];
+/**
+ * Technicien rapproché réduit au résumé de la refonte. Le tarif retenu est celui de la
+ * compétence demandée (rapprochée par son nom, seul champ exposé), à défaut la première.
+ */
+export function matchedToSummary(
+  technician: MatchedTechnician,
+  requestedSkill?: string | null,
+): TechSummary {
+  const skill =
+    technician.skills.find((item) => requestedSkill && item.name === requestedSkill) ??
+    technician.skills[0];
   return {
     id: technician.id,
     name: technician.name,
@@ -42,6 +52,8 @@ export function MatchingContainer(props: MatchingContainerProps) {
   const { t } = useTranslation();
   const toast = useToast();
   const matches = useMatchResults(props.requestId);
+  const request = useRequest(props.requestId);
+  const requestedSkill = request.data?.category?.name ?? null;
   const select = useSelectTechnician(props.requestId);
   const [choosingId, setChoosingId] = useState<string | null>(null);
 
@@ -65,8 +77,11 @@ export function MatchingContainer(props: MatchingContainerProps) {
 
   return (
     <MatchingView
-      status={matches.isPending ? 'searching' : matches.isError ? 'error' : 'ready'}
-      technicians={(matches.data ?? []).map(matchedToSummary)}
+      // La demande fixe le tarif proposé : la recherche dure jusqu'à sa lecture (un échec est toléré).
+      status={
+        matches.isPending || request.isPending ? 'searching' : matches.isError ? 'error' : 'ready'
+      }
+      technicians={(matches.data ?? []).map((tech) => matchedToSummary(tech, requestedSkill))}
       errorKind={matches.isError ? normalizeError(matches.error).kind : undefined}
       choosingId={choosingId}
       onChoose={(tech) => void choose(tech)}
