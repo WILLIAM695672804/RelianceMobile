@@ -2,10 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
-import { Button, Card, FormTextField, Text } from '@/shared/components';
+import { FormField } from '@/shared/forms';
+import { Banner, Button, Card, ListRow, SectionLabel, Text } from '@/shared/ui';
 import { formatAmount } from '@/shared/format';
 
 import { useCreateQuote, useSendQuote } from '../hooks/useBilling';
@@ -85,77 +86,89 @@ export function QuoteEditorCard({ requestId, onSaved }: QuoteEditorCardProps) {
   const pending = createQuote.isPending || sendQuote.isPending;
 
   return (
-    <Card>
-      <Text variant="subtitle">{t('billing:editor.title')}</Text>
-      <Text variant="caption" tone="muted">
-        {t('billing:editor.hint')}
-      </Text>
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      {error ? <Text tone="danger">{error}</Text> : null}
-
-      {lines.map((line, index) => (
-        <View key={`${line.label}-${index}`} style={styles.line}>
-          <Text>
-            {t('billing:quotes.line', { label: line.label, amount: formatAmount(line.amount) })}
+    <Card padding={16}>
+      <View style={{ gap: 14 }}>
+        <View style={{ gap: 4 }}>
+          <Text variant="section">{t('billing:editor.title')}</Text>
+          <Text variant="caption" tone="muted">
+            {t('billing:editor.hint')}
           </Text>
-          <Button
-            label={t('billing:editor.removeLine', { label: line.label })}
-            accessibilityLabel={t('billing:editor.removeLine', { label: line.label })}
-            onPress={() => removeLine(index)}
-            variant="ghost"
-          />
         </View>
-      ))}
-      {lines.length > 0 ? (
-        <Text tone="muted">
-          {t('billing:editor.linesTotal', { amount: formatAmount(sumLines(lines)) })}
-        </Text>
-      ) : null}
+        {notice ? <Banner tone="success" message={notice} /> : null}
+        {error ? <Banner tone="danger" message={error} /> : null}
 
-      <FormTextField
-        control={lineForm.control}
-        name="label"
-        label={t('billing:editor.lineLabel')}
-      />
-      <FormTextField
-        control={lineForm.control}
-        name="amount"
-        label={t('billing:editor.lineAmount')}
-        keyboardType="number-pad"
-      />
-      <Button
-        label={t('billing:editor.addLine')}
-        onPress={() => void addLine()}
-        variant="secondary"
-      />
+        {lines.length > 0 ? (
+          <View>
+            {lines.map((line, index) => (
+              <ListRow
+                key={`${line.label}-${index}`}
+                divider={index > 0}
+                title={t('billing:quotes.line', {
+                  label: line.label,
+                  amount: formatAmount(line.amount),
+                })}
+                trailing={
+                  <Button
+                    label={t('billing:editor.removeLine', { label: line.label })}
+                    accessibilityLabel={t('billing:editor.removeLine', { label: line.label })}
+                    variant="ghost"
+                    size="sm"
+                    onPress={() => removeLine(index)}
+                  />
+                }
+              />
+            ))}
+            <Text variant="labelStrong" tone="primary" align="right" style={{ marginTop: 6 }}>
+              {t('billing:editor.linesTotal', { amount: formatAmount(sumLines(lines)) })}
+            </Text>
+          </View>
+        ) : null}
 
-      <FormTextField
-        control={quoteForm.control}
-        name="totalAmount"
-        label={t('billing:editor.total')}
-        keyboardType="number-pad"
-      />
-      <FormTextField
-        control={quoteForm.control}
-        name="validityDays"
-        label={t('billing:editor.validity')}
-        keyboardType="number-pad"
-      />
-      <Button
-        label={t('billing:editor.saveAndSend')}
-        onPress={() => void save(true)()}
-        loading={pending}
-      />
-      <Button
-        label={t('billing:editor.saveDraft')}
-        onPress={() => void save(false)()}
-        disabled={pending}
-        variant="secondary"
-      />
+        <SectionLabel label={t('billing:editor.addLine')} />
+        <FormField control={lineForm.control} name="label" label={t('billing:editor.lineLabel')} />
+        <FormField
+          control={lineForm.control}
+          name="amount"
+          label={t('billing:editor.lineAmount')}
+          keyboardType="number-pad"
+        />
+        <Button
+          label={t('billing:editor.addLine')}
+          icon="plus"
+          variant="soft"
+          full
+          onPress={() => void addLine()}
+        />
+
+        <FormField
+          control={quoteForm.control}
+          name="totalAmount"
+          label={t('billing:editor.total')}
+          icon="wallet"
+          keyboardType="number-pad"
+        />
+        <FormField
+          control={quoteForm.control}
+          name="validityDays"
+          label={t('billing:editor.validity')}
+          icon="calendar"
+          keyboardType="number-pad"
+        />
+        <Button
+          label={t('billing:editor.saveAndSend')}
+          icon="send"
+          full
+          onPress={() => void save(true)()}
+          loading={pending}
+        />
+        <Button
+          label={t('billing:editor.saveDraft')}
+          variant="ghost"
+          full
+          onPress={() => void save(false)()}
+          disabled={pending}
+        />
+      </View>
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  line: { gap: 4 },
-});

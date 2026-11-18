@@ -13,6 +13,7 @@ export function NewAppointmentRoute() {
       requestId={requestId}
       technicianId={technicianId}
       onCreated={() => router.back()}
+      onBack={() => router.back()}
     />
   );
 }

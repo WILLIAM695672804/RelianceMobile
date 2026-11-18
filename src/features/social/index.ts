@@ -14,7 +14,6 @@ export {
   useToggleLike,
 } from './hooks/useSocial';
 export { socialTranslations } from './i18n';
-export { PostCard, type PostCardProps } from './screens/PostCard';
 export type { Comment, LikeResult, Post } from './schemas/socialSchemas';
 export {
   useFollowCounts,

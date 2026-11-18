@@ -4,7 +4,10 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { applyServerErrors, describeError, normalizeError } from '@/core/errors';
-import { Button, FormTextField, Screen, Text } from '@/shared/components';
+import { View } from 'react-native';
+
+import { FormField } from '@/shared/forms';
+import { Banner, Button, Screen, Text, TopBar } from '@/shared/ui';
 
 import { useCreateAppointment } from '../hooks/usePlanning';
 import { appointmentFormSchema, toAppointmentPayload } from '../schemas/planningSchemas';
@@ -14,6 +17,7 @@ export interface NewAppointmentScreenProps {
   technicianId: string;
   /** Rendez-vous planifié : retour à l'écran appelant. */
   onCreated: () => void;
+  onBack?: () => void;
 }
 
 /** Planification d'un rendez-vous pour une demande attribuée. */
@@ -21,6 +25,7 @@ export function NewAppointmentScreen({
   requestId,
   technicianId,
   onCreated,
+  onBack,
 }: NewAppointmentScreenProps) {
   const { t } = useTranslation();
   const createAppointment = useCreateAppointment();
@@ -50,23 +55,46 @@ export function NewAppointmentScreen({
   });
 
   return (
-    <Screen title={t('planning:appointments.newTitle')} scroll>
-      <Text tone="muted">{t('planning:appointments.newHint')}</Text>
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      {error ? <Text tone="danger">{error}</Text> : null}
-      <FormTextField control={form.control} name="date" label={t('planning:appointments.date')} />
-      <FormTextField control={form.control} name="time" label={t('planning:appointments.time')} />
-      <FormTextField
-        control={form.control}
-        name="notes"
-        label={t('planning:appointments.notesField')}
-        multiline
-      />
-      <Button
-        label={t('planning:appointments.submit')}
-        onPress={() => void onSubmit()}
-        loading={createAppointment.isPending}
-      />
+    <Screen
+      testID="nouveau-rendez-vous"
+      footer={
+        <Button
+          label={t('planning:appointments.submit')}
+          size="lg"
+          full
+          onPress={() => void onSubmit()}
+          loading={createAppointment.isPending}
+        />
+      }
+    >
+      <TopBar title={t('planning:appointments.newTitle')} onBack={onBack ?? onCreated} />
+      <View style={{ paddingHorizontal: 20, gap: 14 }}>
+        <Text variant="label" tone="muted">
+          {t('planning:appointments.newHint')}
+        </Text>
+        {notice ? <Banner tone="success" message={notice} /> : null}
+        {error ? <Banner tone="danger" message={error} /> : null}
+        <FormField
+          control={form.control}
+          name="date"
+          label={t('planning:appointments.date')}
+          icon="calendar"
+          placeholder="AAAA-MM-JJ"
+        />
+        <FormField
+          control={form.control}
+          name="time"
+          label={t('planning:appointments.time')}
+          icon="clock"
+          placeholder="HH:MM"
+        />
+        <FormField
+          control={form.control}
+          name="notes"
+          label={t('planning:appointments.notesField')}
+          multiline
+        />
+      </View>
     </Screen>
   );
 }

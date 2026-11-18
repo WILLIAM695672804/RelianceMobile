@@ -23,6 +23,10 @@ export function QuotesRoute() {
     );
   }
   return (
-    <RequestQuotesScreen requestId={requestId} onOpenInvoices={() => router.push('/invoices')} />
+    <RequestQuotesScreen
+      requestId={requestId}
+      onOpenInvoices={() => router.push('/invoices')}
+      onBack={() => router.back()}
+    />
   );
 }

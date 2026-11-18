@@ -1,25 +1,28 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+
+import { useTheme } from '@/core/theme';
 
 import { describeError, normalizeError } from '@/core/errors';
 import {
-  Badge,
+  Banner,
   Button,
   Card,
-  ListItem,
+  ListRow,
+  Pill,
+  QueryGate,
   Screen,
-  Snackbar,
-  StateView,
   Text,
-  type BadgeTone,
-} from '@/shared/components';
+  TopBar,
+  type PillTone,
+} from '@/shared/ui';
 import { formatAmount, formatDate } from '@/shared/format';
 
 import { useConfirmPayment, usePayment } from '../hooks/usePayments';
 import { isPaymentPending, type PaymentStatus } from '../schemas/paymentSchemas';
 
-const TONE_BY_STATUS: Record<PaymentStatus, BadgeTone> = {
+const TONE_BY_STATUS: Record<PaymentStatus, PillTone> = {
   pending: 'warning',
   settled: 'success',
   failed: 'danger',
@@ -45,6 +48,7 @@ export function PaymentConfirmationScreen({
   onDone,
 }: PaymentConfirmationScreenProps) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const payment = usePayment(paymentId);
   const confirm = useConfirmPayment(paymentId);
   const [error, setError] = useState<string | null>(null);
@@ -64,73 +68,81 @@ export function PaymentConfirmationScreen({
 
   return (
     <Screen
-      title={t('wallet:payment.title')}
-      onBack={onBack}
+      testID="confirmation-paiement"
       onRefresh={() => void payment.refetch()}
       refreshing={payment.isRefetching}
       footer={
-        <View style={styles.footer}>
-          {error ? <Snackbar message={error} tone="danger" /> : null}
-          {settled ? <Snackbar message={t('wallet:payment.settled')} tone="success" /> : null}
+        <View style={{ gap: 10 }}>
+          {error ? <Banner tone="danger" message={error} /> : null}
+          {settled ? <Banner tone="success" message={t('wallet:payment.settled')} /> : null}
           {pending && !settled ? (
             <Button
               label={t('wallet:payment.confirm')}
               icon="check"
               size="lg"
-              fullWidth
+              full
               onPress={() => void validate()}
               loading={confirm.isPending}
             />
           ) : (
-            <Button label={t('wallet:payment.done')} size="lg" fullWidth onPress={onDone} />
+            <Button label={t('wallet:payment.done')} size="lg" full onPress={onDone} />
           )}
         </View>
       }
     >
-      {payment.isPending ? <StateView status="loading" /> : null}
-      {payment.isError ? (
-        <StateView status="error" error={payment.error} onRetry={() => void payment.refetch()} />
-      ) : null}
-      {payment.isSuccess ? (
-        <Card>
-          <Badge
-            label={t(`wallet:payment.statuses.${settled ? 'settled' : payment.data.status}`)}
-            tone={TONE_BY_STATUS[settled ? 'settled' : payment.data.status]}
-          />
-          <Text variant="display">{formatAmount(payment.data.amount)}</Text>
-          {payment.data.method ? (
-            <ListItem
-              label={t('wallet:payment.method', {
-                method: t(`wallet:methods.${payment.data.method}`, {
-                  defaultValue: payment.data.method,
-                }),
-              })}
-              icon="wallet"
-            />
-          ) : null}
-          {payment.data.external_ref ? (
-            <ListItem
-              label={t('wallet:payment.reference', { reference: payment.data.external_ref })}
-              icon="file"
-            />
-          ) : null}
-          {payment.data.created_at ? (
-            <ListItem
-              label={t('wallet:payment.createdAt', {
-                date: formatDate(payment.data.created_at),
-              })}
-              icon="calendar"
-            />
-          ) : null}
-          <Text tone="muted">
-            {t(pending && !settled ? 'wallet:payment.hint' : 'wallet:payment.doneHint')}
-          </Text>
-        </Card>
-      ) : null}
+      <TopBar title={t('wallet:payment.title')} onBack={onBack ?? onDone} />
+      <QueryGate queries={[payment]}>
+        {() => {
+          const data = payment.data!;
+          const status = settled ? 'settled' : data.status;
+          return (
+            <View style={{ paddingHorizontal: 20, gap: 14 }}>
+              <Card padding={20}>
+                <View style={{ alignItems: 'center', gap: 10 }}>
+                  <Pill
+                    label={t(`wallet:payment.statuses.${status}`)}
+                    tone={TONE_BY_STATUS[status]}
+                  />
+                  <Text
+                    variant="display"
+                    style={{ fontFamily: theme.fontFamily.display }}
+                    align="center"
+                  >
+                    {formatAmount(data.amount)}
+                  </Text>
+                </View>
+              </Card>
+              <Card padding={0}>
+                {data.method ? (
+                  <ListRow
+                    icon="wallet"
+                    title={t('wallet:payment.method', {
+                      method: t(`wallet:methods.${data.method}`, { defaultValue: data.method }),
+                    })}
+                  />
+                ) : null}
+                {data.external_ref ? (
+                  <ListRow
+                    icon="file"
+                    divider={Boolean(data.method)}
+                    title={t('wallet:payment.reference', { reference: data.external_ref })}
+                  />
+                ) : null}
+                {data.created_at ? (
+                  <ListRow
+                    icon="calendar"
+                    divider
+                    title={t('wallet:payment.createdAt', { date: formatDate(data.created_at) })}
+                  />
+                ) : null}
+              </Card>
+              <Text variant="label" tone="muted">
+                {t(pending && !settled ? 'wallet:payment.hint' : 'wallet:payment.doneHint')}
+              </Text>
+            </View>
+          );
+        }}
+      </QueryGate>
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  footer: { gap: 10 },
-});

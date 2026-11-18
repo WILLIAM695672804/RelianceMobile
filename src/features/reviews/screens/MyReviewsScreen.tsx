@@ -1,14 +1,32 @@
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 
 import { useSession } from '@/core/session';
-import { Badge, Card, Screen, StateView, Text } from '@/shared/components';
+import { useTheme } from '@/core/theme';
 import { formatDate, formatRating } from '@/shared/format';
+import {
+  Avatar,
+  Card,
+  EmptyState,
+  Pill,
+  QueryGate,
+  Screen,
+  Section,
+  Stars,
+  Text,
+  TopBar,
+} from '@/shared/ui';
 
 import { useMyReviews, useReputation, useUserBadges } from '../hooks/useReviews';
 
+export interface MyReviewsScreenProps {
+  onBack?: () => void;
+}
+
 /** Avis reçus par le technicien connecté, avec sa réputation et ses badges. */
-export function MyReviewsScreen() {
+export function MyReviewsScreen({ onBack }: MyReviewsScreenProps = {}) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const userId = useSession((state) => state.user?.id ?? '');
   const reviews = useMyReviews();
   const reputation = useReputation(userId);
@@ -20,65 +38,96 @@ export function MyReviewsScreen() {
     void badges.refetch();
   };
 
-  const renderReviews = () => {
-    if (reviews.isPending) return <StateView status="loading" />;
-    if (reviews.isError) {
-      return (
-        <StateView status="error" error={reviews.error} onRetry={() => void reviews.refetch()} />
-      );
-    }
-    if (reviews.data.length === 0) {
-      return <StateView status="empty" message={t('reviews:mine.empty')} />;
-    }
-    return reviews.data.map((review) => (
-      <Card key={review.id}>
-        <Text variant="subtitle">
-          {t('reviews:mine.rating', { rating: formatRating(review.rating) })}
-        </Text>
-        <Text tone="muted">
-          {t('reviews:mine.author', {
-            name: review.reviewer?.name ?? t('reviews:mine.anonymous'),
-          })}
-        </Text>
-        {review.request ? (
-          <Text tone="muted">{t('reviews:mine.request', { title: review.request.title })}</Text>
-        ) : null}
-        {review.comment ? <Text>{review.comment}</Text> : null}
-        {review.created_at ? (
-          <Text variant="caption" tone="muted">
-            {t('reviews:mine.receivedAt', { date: formatDate(review.created_at) })}
-          </Text>
-        ) : null}
-      </Card>
-    ));
-  };
-
   return (
-    <Screen title={t('reviews:mine.title')} onRefresh={refresh} refreshing={reviews.isRefetching}>
+    <Screen testID="mes-avis" onRefresh={refresh} refreshing={reviews.isRefetching}>
+      <TopBar title={t('reviews:mine.title')} onBack={onBack} />
       {reputation.isSuccess ? (
-        <Card>
-          <Text variant="subtitle">
-            {t('reviews:mine.reputation', { total: reputation.data.total })}
-          </Text>
-          {reputation.data.data.data.map((change) => (
-            <Text key={change.id} variant="caption" tone="muted">
-              {t('reviews:mine.reputationChange', {
-                change: change.change,
-                reason: change.reason ?? '',
-              })}
+        <View style={{ paddingHorizontal: 20 }}>
+          <Card
+            padding={16}
+            style={{ backgroundColor: theme.tint.primary, borderColor: 'transparent' }}
+          >
+            <Text variant="section">
+              {t('reviews:mine.reputation', { total: reputation.data.total })}
             </Text>
-          ))}
-        </Card>
+            {reputation.data.data.data.map((change) => (
+              <Text key={change.id} variant="caption" tone="muted" style={{ marginTop: 4 }}>
+                {t('reviews:mine.reputationChange', {
+                  change: change.change,
+                  reason: change.reason ?? '',
+                })}
+              </Text>
+            ))}
+          </Card>
+        </View>
       ) : null}
-      <Text variant="subtitle">{t('reviews:mine.badges')}</Text>
-      {badges.isSuccess ? (
-        badges.data.length === 0 ? (
-          <Text tone="muted">{t('reviews:mine.noBadges')}</Text>
-        ) : (
-          badges.data.map((badge) => <Badge key={badge.code} label={badge.title} tone="success" />)
-        )
-      ) : null}
-      {renderReviews()}
+
+      <Section title={t('reviews:mine.badges')}>
+        <View style={{ paddingHorizontal: 20, flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+          {badges.isSuccess ? (
+            badges.data.length === 0 ? (
+              <Text variant="label" tone="muted">
+                {t('reviews:mine.noBadges')}
+              </Text>
+            ) : (
+              badges.data.map((badge) => (
+                <Pill key={badge.code} label={badge.title} tone="success" icon="badge" />
+              ))
+            )
+          ) : null}
+        </View>
+      </Section>
+
+      <Section title={t('reviews:mine.title')}>
+        <View style={{ paddingHorizontal: 20, gap: 10 }}>
+          <QueryGate queries={[reviews]}>
+            {() =>
+              (reviews.data ?? []).length === 0 ? (
+                <EmptyState
+                  icon="star"
+                  title={t('reviews:mine.title')}
+                  message={t('reviews:mine.empty')}
+                />
+              ) : (
+                <>
+                  {reviews.data!.map((review) => {
+                    const author = review.reviewer?.name ?? t('reviews:mine.anonymous');
+                    return (
+                      <Card key={review.id} padding={16}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                          <Avatar name={author} size={36} />
+                          <View style={{ flex: 1 }}>
+                            <Text variant="labelStrong">
+                              {t('reviews:mine.author', { name: author })}
+                            </Text>
+                            {review.created_at ? (
+                              <Text variant="caption" tone="muted">
+                                {t('reviews:mine.receivedAt', {
+                                  date: formatDate(review.created_at),
+                                })}
+                              </Text>
+                            ) : null}
+                          </View>
+                          <Stars value={review.rating} size={12} />
+                        </View>
+                        <Text variant="caption" tone="muted" style={{ marginTop: 8 }}>
+                          {t('reviews:mine.rating', { rating: formatRating(review.rating) })}
+                          {review.request
+                            ? ` · ${t('reviews:mine.request', { title: review.request.title })}`
+                            : ''}
+                        </Text>
+                        {review.comment ? (
+                          <Text style={{ marginTop: 6 }}>{review.comment}</Text>
+                        ) : null}
+                      </Card>
+                    );
+                  })}
+                </>
+              )
+            }
+          </QueryGate>
+        </View>
+      </Section>
     </Screen>
   );
 }

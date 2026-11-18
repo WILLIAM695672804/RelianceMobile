@@ -3,7 +3,22 @@ import { useTranslation } from 'react-i18next';
 
 import { describeError, normalizeError } from '@/core/errors';
 import { useSession } from '@/core/session';
-import { Badge, Button, Card, ConfirmDialog, Screen, StateView, Text } from '@/shared/components';
+import { View } from 'react-native';
+
+import {
+  Banner,
+  Button,
+  Card,
+  ConfirmSheet,
+  EmptyState,
+  ListRow,
+  Pill,
+  QueryGate,
+  Screen,
+  Section,
+  Text,
+  TopBar,
+} from '@/shared/ui';
 import { formatAmount, formatDate } from '@/shared/format';
 
 import {
@@ -22,10 +37,15 @@ export interface RequestQuotesScreenProps {
   requestId: string;
   /** Ouverture de la liste des factures, après acceptation. */
   onOpenInvoices?: () => void;
+  onBack?: () => void;
 }
 
 /** E17 — Devis d'une demande : rédaction et envoi (technicien), décision (client). */
-export function RequestQuotesScreen({ requestId, onOpenInvoices }: RequestQuotesScreenProps) {
+export function RequestQuotesScreen({
+  requestId,
+  onOpenInvoices,
+  onBack,
+}: RequestQuotesScreenProps) {
   const { t } = useTranslation();
   const role = useSession((state) => state.user?.role);
   const isTechnician = role === 'technicien';
@@ -79,101 +99,121 @@ export function RequestQuotesScreen({ requestId, onOpenInvoices }: RequestQuotes
   const busy = sendQuote.isPending || acceptQuote.isPending || rejectQuote.isPending;
 
   const renderQuote = (quote: Quote) => (
-    <Card key={quote.id}>
-      <Text variant="subtitle">
-        {t('billing:quotes.total', { amount: formatAmount(quote.total_amount) })}
-      </Text>
-      <Badge label={t(`billing:quoteStatus.${quote.status}`)} tone={quoteToneOf(quote.status)} />
-      {quote.issuer ? (
-        <Text tone="muted">{t('billing:quotes.issuer', { name: quote.issuer.name })}</Text>
-      ) : null}
-      {quote.created_at ? (
-        <Text tone="muted">
-          {t('billing:quotes.createdAt', { date: formatDate(quote.created_at) })}
-        </Text>
-      ) : null}
-      {quote.valid_until ? (
-        <Text tone="muted">
-          {t('billing:quotes.validUntil', { date: formatDate(quote.valid_until) })}
-        </Text>
-      ) : null}
-      {quote.breakdown.length > 0 ? (
-        <>
-          <Text variant="caption" tone="muted">
-            {t('billing:quotes.breakdown')}
-          </Text>
-          {quote.breakdown.map((line, index) => (
-            <Text key={`${line.label}-${index}`}>
-              {t('billing:quotes.line', { label: line.label, amount: formatAmount(line.amount) })}
+    <Card key={quote.id} padding={0}>
+      <ListRow
+        icon="file"
+        title={t('billing:quotes.total', { amount: formatAmount(quote.total_amount) })}
+        detail={[
+          quote.issuer ? t('billing:quotes.issuer', { name: quote.issuer.name }) : null,
+          quote.created_at
+            ? t('billing:quotes.createdAt', { date: formatDate(quote.created_at) })
+            : null,
+          quote.valid_until
+            ? t('billing:quotes.validUntil', { date: formatDate(quote.valid_until) })
+            : null,
+        ]
+          .filter(Boolean)
+          .join('\n')}
+        trailing={
+          <Pill
+            size="sm"
+            label={t(`billing:quoteStatus.${quote.status}`)}
+            tone={quoteToneOf(quote.status)}
+          />
+        }
+      />
+      <View style={{ paddingHorizontal: 16, paddingBottom: 14, gap: 8 }}>
+        {quote.breakdown.length > 0 ? (
+          <View style={{ gap: 2 }}>
+            <Text variant="eyebrow" tone="muted">
+              {t('billing:quotes.breakdown')}
             </Text>
-          ))}
-        </>
-      ) : null}
-      {isTechnician && isQuoteSendable(quote.status) ? (
-        <Button
-          label={t('billing:quotes.send')}
-          onPress={() => void send(quote)}
-          loading={sendQuote.isPending}
-        />
-      ) : null}
-      {!isTechnician && isQuoteDecidable(quote.status) ? (
-        <>
+            {quote.breakdown.map((line, index) => (
+              <Text key={`${line.label}-${index}`} variant="label">
+                {t('billing:quotes.line', { label: line.label, amount: formatAmount(line.amount) })}
+              </Text>
+            ))}
+          </View>
+        ) : null}
+        {isTechnician && isQuoteSendable(quote.status) ? (
           <Button
-            label={t('billing:quotes.accept')}
-            onPress={() => setPending({ quote, decision: 'accept' })}
-            disabled={busy}
+            label={t('billing:quotes.send')}
+            icon="send"
+            full
+            onPress={() => void send(quote)}
+            loading={sendQuote.isPending}
           />
-          <Button
-            label={t('billing:quotes.reject')}
-            onPress={() => setPending({ quote, decision: 'reject' })}
-            disabled={busy}
-            variant="ghost"
-          />
-        </>
-      ) : null}
+        ) : null}
+        {!isTechnician && isQuoteDecidable(quote.status) ? (
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View style={{ flex: 1 }}>
+              <Button
+                label={t('billing:quotes.reject')}
+                variant="ghost"
+                full
+                onPress={() => setPending({ quote, decision: 'reject' })}
+                disabled={busy}
+              />
+            </View>
+            <View style={{ flex: 2 }}>
+              <Button
+                label={t('billing:quotes.accept')}
+                full
+                onPress={() => setPending({ quote, decision: 'accept' })}
+                disabled={busy}
+              />
+            </View>
+          </View>
+        ) : null}
+      </View>
     </Card>
   );
-
-  const renderQuotes = () => {
-    if (quotes.isPending) return <StateView status="loading" />;
-    if (quotes.isError) {
-      return (
-        <StateView status="error" error={quotes.error} onRetry={() => void quotes.refetch()} />
-      );
-    }
-    if (quotes.data.length === 0) {
-      return (
-        <StateView
-          status="empty"
-          message={t(isTechnician ? 'billing:quotes.empty' : 'billing:quotes.emptyClient')}
-        />
-      );
-    }
-    return quotes.data.map(renderQuote);
-  };
 
   const decision = pending?.decision ?? 'accept';
 
   return (
     <Screen
-      title={t('billing:quotes.title')}
-      scroll
+      testID="devis-demande"
       onRefresh={() => void quotes.refetch()}
       refreshing={quotes.isRefetching}
     >
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      {error ? <Text tone="danger">{error}</Text> : null}
-      {accepted && onOpenInvoices ? (
-        <Button
-          label={t('billing:quotes.openInvoices')}
-          onPress={onOpenInvoices}
-          variant="secondary"
-        />
+      <TopBar title={t('billing:quotes.title')} onBack={onBack} />
+      <View style={{ paddingHorizontal: 20, gap: 12 }}>
+        {notice ? <Banner tone="success" message={notice} /> : null}
+        {error ? <Banner tone="danger" message={error} /> : null}
+        {accepted && onOpenInvoices ? (
+          <Button
+            label={t('billing:quotes.openInvoices')}
+            icon="file"
+            variant="soft"
+            full
+            onPress={onOpenInvoices}
+          />
+        ) : null}
+        <QueryGate queries={[quotes]}>
+          {() =>
+            (quotes.data ?? []).length === 0 ? (
+              <EmptyState
+                icon="file"
+                title={t('billing:quotes.title')}
+                message={t(isTechnician ? 'billing:quotes.empty' : 'billing:quotes.emptyClient')}
+              />
+            ) : (
+              <>{quotes.data!.map(renderQuote)}</>
+            )
+          }
+        </QueryGate>
+      </View>
+      {isTechnician ? (
+        <Section>
+          <View style={{ paddingHorizontal: 20 }}>
+            <QuoteEditorCard requestId={requestId} />
+          </View>
+        </Section>
       ) : null}
-      {renderQuotes()}
-      {isTechnician ? <QuoteEditorCard requestId={requestId} /> : null}
-      <ConfirmDialog
+      <ConfirmSheet
         visible={pending !== null}
+        destructive={decision === 'reject'}
         title={t(`billing:quotes.${decision}Title`)}
         message={t(`billing:quotes.${decision}Message`, {
           amount: formatAmount(pending?.quote.total_amount ?? 0),
