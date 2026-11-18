@@ -12,6 +12,7 @@ jest.mock('./modules/reliance-cookies', () => ({
   __esModule: true,
   default: {
     getCookieValue: jest.fn(async () => null),
+    flush: jest.fn(async () => undefined),
     clearAll: jest.fn(async () => undefined),
   },
 }));

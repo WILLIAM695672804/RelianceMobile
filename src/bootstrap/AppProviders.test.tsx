@@ -28,7 +28,11 @@ describe('AppProviders', () => {
   it('met tous les services à disposition de l’arbre', async () => {
     const services = createServices({
       env: testEnv,
-      cookies: { get: async () => undefined, clearAll: async () => undefined },
+      cookies: {
+        get: async () => undefined,
+        flush: async () => undefined,
+        clearAll: async () => undefined,
+      },
       sessionStorage: createMemoryStore(),
       cacheStorage: createMemoryStore(),
       appVersion: '0.1.0',

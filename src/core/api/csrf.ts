@@ -6,6 +6,8 @@ const XSRF_COOKIE = 'XSRF-TOKEN';
 export interface CookieReader {
   /** Valeur brute (encodée URL) du cookie `name` pour `url`. */
   get(url: string, name: string): Promise<string | undefined>;
+  /** Persiste sans délai les cookies de session (après connexion). */
+  flush(): Promise<void>;
   clearAll(): Promise<void>;
 }
 

@@ -22,6 +22,12 @@ class RelianceCookiesModule : Module() {
         ?.substringAfter("=", "")
     }
 
+    // Écrit immédiatement les cookies sur disque : sans cela, CookieManager les persiste en
+    // différé et un arrêt forcé juste après la connexion fait perdre la session.
+    AsyncFunction("flush") {
+      CookieManager.getInstance().flush()
+    }
+
     // removeAllCookies exige un thread doté d'une Looper : exécution sur le thread principal.
     AsyncFunction("clearAll") { promise: Promise ->
       val manager = CookieManager.getInstance()

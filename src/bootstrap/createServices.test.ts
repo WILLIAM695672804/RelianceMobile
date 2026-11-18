@@ -21,6 +21,7 @@ function setup() {
   });
   const cookies: CookieReader = {
     get: jest.fn(async () => 'jeton%3D'),
+    flush: jest.fn(async () => undefined),
     clearAll: jest.fn(async () => undefined),
   };
   const csrfHttp = axios.create();
@@ -59,6 +60,14 @@ describe('createServices', () => {
     expect(services.profileCache.load()?.role).toBe('client');
     expect(services.sessionStore.getState().status).toBe('authenticated');
     expect(realtimeFactory).toHaveBeenCalledTimes(1);
+  });
+
+  it('signIn écrit sans délai les cookies de session sur disque', () => {
+    const { services, cookies } = setup();
+
+    services.sessionActions.signIn(buildSessionUser('client'));
+
+    expect(cookies.flush).toHaveBeenCalledTimes(1);
   });
 
   it('ouvre la session même si le temps réel ne démarre pas', () => {

@@ -9,6 +9,9 @@ public class RelianceCookiesModule: Module {
       HTTPCookieStorage.shared.cookies(for: url)?.first { $0.name == name }?.value
     }
 
+    // HTTPCookieStorage persiste de lui-même : rien à forcer.
+    AsyncFunction("flush") {}
+
     AsyncFunction("clearAll") {
       let storage = HTTPCookieStorage.shared
       storage.cookies?.forEach { storage.deleteCookie($0) }

@@ -8,7 +8,11 @@ function fakeCookies(values: (string | undefined)[]) {
   const get = jest.fn(async (_url: string, _name: string) =>
     queue.length > 1 ? queue.shift() : queue[0],
   );
-  const reader: CookieReader = { get, clearAll: jest.fn(async () => undefined) };
+  const reader: CookieReader = {
+    get,
+    flush: jest.fn(async () => undefined),
+    clearAll: jest.fn(async () => undefined),
+  };
   return { reader, get };
 }
 

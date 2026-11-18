@@ -124,6 +124,10 @@ export function createServices(deps: ServicesDeps): AppServices {
     signIn: (user) => {
       profileCache.save(user);
       sessionStore.getState().setAuthenticated(user);
+      // Le cookie de session doit survivre à un arrêt forcé immédiat de l'application.
+      deps.cookies.flush().catch((error: unknown) => {
+        console.warn('[cookies] écriture sur disque impossible', error);
+      });
     },
     logout: () => performLogout(logoutDeps),
   };
