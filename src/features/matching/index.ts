@@ -16,8 +16,6 @@ export {
   useRefuseProposal,
 } from './hooks/useProposals';
 export { matchingTranslations } from './i18n';
-export { MatchingScreen, type MatchingScreenProps } from './screens/MatchingScreen';
-export { TechnicianHomeScreen } from './screens/TechnicianHomeScreen';
 export { TechnicianProfileSummary } from './screens/TechnicianProfileSummary';
 export {
   TechnicianOfferScreen,

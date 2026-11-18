@@ -13,7 +13,6 @@ export {
   type KycItem,
   type KycItemStatus,
 } from './model/kycOverview';
-export { KycScreen, type KycScreenProps } from './screens/KycScreen';
 export { KYC_DOCUMENT_TYPES, type KycDocument, type KycDocumentType } from './schemas/kycSchemas';
 export {
   KYC_DOCUMENTS,

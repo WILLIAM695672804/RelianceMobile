@@ -45,19 +45,9 @@ export {
 } from './screens/ChangePasswordScreen';
 export { EditProfileScreen, type EditProfileScreenProps } from './screens/EditProfileScreen';
 export { LocationsScreen } from './screens/LocationsScreen';
-export {
-  destinationsFor,
-  ProfileScreen,
-  type ProfileDestination,
-  type ProfileScreenProps,
-} from './screens/ProfileScreen';
 export { ServiceAreaScreen } from './screens/ServiceAreaScreen';
 export { SettingsScreen, type SettingsScreenProps } from './screens/SettingsScreen';
 export { TechnicianProfileScreen } from './screens/TechnicianProfileScreen';
-export {
-  TechnicianSetupScreen,
-  type TechnicianSetupScreenProps,
-} from './screens/TechnicianSetupScreen';
 export { TechnicianSkillsScreen } from './screens/TechnicianSkillsScreen';
 export { TechnicianStatsScreen } from './screens/TechnicianStatsScreen';
 export {
@@ -102,3 +92,4 @@ export {
   TechOnboardingContainer,
   type TechOnboardingContainerProps,
 } from './containers/TechOnboardingContainer';
+export type { ProfileDestination } from './model/profileDestinations';

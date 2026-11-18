@@ -2,7 +2,6 @@ import { render } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
 import { CancelMissionRoute } from './CancelMissionRoute';
-import { ClientHomeRoute } from './ClientHomeRoute';
 import { ClientTrackingRoute } from './ClientTrackingRoute';
 import { DisputeFormRoute, DisputesRoute, DisputeThreadRoute } from './disputeRoutes';
 import { PaymentConfirmationRoute, TransactionDetailRoute } from './financeRoutes';
@@ -10,7 +9,7 @@ import { KycRoute } from './KycRoute';
 import { LeaderboardRoute } from './LeaderboardRoute';
 import { MissionRoute } from './MissionRoute';
 import { RechargeRoute, WithdrawRoute } from './paymentRoutes';
-import { PROFILE_HREF, ProfileRoute } from './ProfileRoute';
+import { PROFILE_HREF } from './ProfileRoute';
 import { QualityControlRoute } from './QualityControlRoute';
 import { RequestDetailRoute } from './RequestDetailRoute';
 import { BadgeDetailRoute, ReputationRoute } from './reputationRoutes';
@@ -112,16 +111,6 @@ beforeEach(() => {
 });
 
 describe('jointures de l’accueil client', () => {
-  it('mène à la recherche et aux notifications', async () => {
-    await render(<ClientHomeRoute />);
-
-    call('onSearch');
-    call('onOpenNotifications');
-
-    expect(router.push).toHaveBeenNthCalledWith(1, '/search');
-    expect(router.push).toHaveBeenNthCalledWith(2, '/notifications');
-  });
-
   it('mène à la recherche de l’annuaire', async () => {
     await render(<SearchRoute />);
 
@@ -335,14 +324,7 @@ describe('jointures du portefeuille', () => {
 });
 
 describe('jointures du compte', () => {
-  it('expose une route par destination du menu', async () => {
-    await render(<ProfileRoute />);
-
-    for (const destination of Object.keys(PROFILE_HREF)) {
-      call('onOpen', destination);
-    }
-
-    expect(router.push).toHaveBeenCalledTimes(Object.keys(PROFILE_HREF).length);
+  it('expose une route par destination du menu', () => {
     expect(PROFILE_HREF.disputes).toBe('/disputes');
     expect(PROFILE_HREF.reputation).toBe('/reputation');
     expect(PROFILE_HREF.setup).toBe('/setup');

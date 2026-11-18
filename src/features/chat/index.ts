@@ -16,7 +16,6 @@ export {
 } from './hooks/useChat';
 export { chatTranslations } from './i18n';
 export { conversationTitle, otherMembers, sortedMessages } from './model/conversation';
-export { ChatScreen, type ChatScreenProps } from './screens/ChatScreen';
 export { ConversationsScreen, type ConversationsScreenProps } from './screens/ConversationsScreen';
 export { StartChatScreen, type StartChatScreenProps } from './screens/StartChatScreen';
 export type { Conversation, ConversationMember, Message } from './schemas/chatSchemas';

@@ -1,13 +1,10 @@
 import { screen, userEvent } from '@testing-library/react-native';
-import { router } from 'expo-router';
 
 import { createSessionStore } from '@/core/session';
-import { profileTranslations } from '@/features/profile';
 import { buildSessionUser } from '@/test/fixtures/users';
 import { renderWithProviders } from '@/test/render';
 
 import { LaunchScreen } from './LaunchScreen';
-import { ProfileRoute } from './ProfileRoute';
 import { WebOnlyScreen } from './WebOnlyScreen';
 
 jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
@@ -35,22 +32,6 @@ describe('LaunchScreen (E01)', () => {
     await user.press(await screen.findByRole('button', { name: 'Réessayer' }));
 
     expect(restore).toHaveBeenCalledTimes(2);
-  });
-});
-
-describe('ProfileRoute', () => {
-  it('ouvre l’écran du profil choisi', async () => {
-    const user = userEvent.setup();
-    await renderWithProviders(<ProfileRoute />, {
-      sessionStore: storeWith('client'),
-      translations: [profileTranslations],
-    });
-
-    await user.press(screen.getByRole('button', { name: 'Mes adresses' }));
-    await user.press(screen.getByRole('button', { name: 'Devenir technicien' }));
-
-    expect(router.push).toHaveBeenNthCalledWith(1, '/locations');
-    expect(router.push).toHaveBeenNthCalledWith(2, '/upgrade');
   });
 });
 

@@ -20,13 +20,6 @@ export {
   PaymentConfirmationScreen,
   type PaymentConfirmationScreenProps,
 } from './screens/PaymentConfirmationScreen';
-export { RechargeScreen, type RechargeScreenProps } from './screens/RechargeScreen';
-export {
-  TransactionDetailScreen,
-  type TransactionDetailScreenProps,
-} from './screens/TransactionDetailScreen';
-export { WalletScreen, type WalletScreenProps } from './screens/WalletScreen';
-export { WithdrawScreen, type WithdrawScreenProps } from './screens/WithdrawScreen';
 export { HOLD_MIN_AMOUNT, isHoldActive, type Hold, type HoldStatus } from './schemas/holdSchemas';
 export { isPaymentPending, type Payment, type PaymentStatus } from './schemas/paymentSchemas';
 export type { PaymentPayload, Transaction, Wallet } from './schemas/walletSchemas';

@@ -1,0 +1,22 @@
+/** Rubriques ouvertes depuis l'onglet « Profil ». */
+export type ProfileDestination =
+  | 'edit'
+  | 'password'
+  | 'locations'
+  | 'planning'
+  | 'appointments'
+  | 'invoices'
+  | 'wallet'
+  | 'reviews'
+  | 'notifications'
+  | 'messages'
+  | 'feed'
+  | 'professional'
+  | 'skills'
+  | 'zone'
+  | 'kyc'
+  | 'upgrade'
+  | 'disputes'
+  | 'reputation'
+  | 'setup'
+  | 'settings';

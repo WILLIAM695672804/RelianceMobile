@@ -26,13 +26,10 @@ export {
   type AppointmentStatus,
 } from './model/schedule';
 export { AppointmentsScreen } from './screens/AppointmentsScreen';
-export { ExceptionsScreen } from './screens/ExceptionsScreen';
 export {
   NewAppointmentScreen,
   type NewAppointmentScreenProps,
 } from './screens/NewAppointmentScreen';
-export { PlanningScreen, type PlanningScreenProps } from './screens/PlanningScreen';
-export { TimeSlotsScreen } from './screens/TimeSlotsScreen';
 export type { Appointment, Calendar, ScheduleException, TimeSlot } from './schemas/planningSchemas';
 export {
   AvailabilityView,

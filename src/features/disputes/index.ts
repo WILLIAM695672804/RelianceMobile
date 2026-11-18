@@ -13,7 +13,6 @@ export {
 } from './hooks/useDisputes';
 export { disputesTranslations } from './i18n';
 export { DISPUTE_TONES } from './model/disputeTones';
-export { DisputeFormScreen, type DisputeFormScreenProps } from './screens/DisputeFormScreen';
 export { DisputesScreen, type DisputesScreenProps } from './screens/DisputesScreen';
 export { DisputeThreadScreen, type DisputeThreadScreenProps } from './screens/DisputeThreadScreen';
 export {

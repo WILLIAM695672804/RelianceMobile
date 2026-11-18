@@ -29,7 +29,6 @@ export {
   type InvoiceStatus,
   type QuoteStatus,
 } from './model/quoteStatus';
-export { InvoiceDetailScreen, type InvoiceDetailScreenProps } from './screens/InvoiceDetailScreen';
 export { InvoicesScreen, type InvoicesScreenProps } from './screens/InvoicesScreen';
 export { RequestQuotesScreen, type RequestQuotesScreenProps } from './screens/RequestQuotesScreen';
 export type { Invoice, Quote, QuoteLine, QuotePayload } from './schemas/billingSchemas';

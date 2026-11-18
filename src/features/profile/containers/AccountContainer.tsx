@@ -4,7 +4,7 @@ import { useSession, type Role } from '@/core/session';
 import { useLogout } from '@/features/auth';
 import type { IconName } from '@/shared/ui';
 
-import type { ProfileDestination } from '../screens/ProfileScreen';
+import type { ProfileDestination } from '../model/profileDestinations';
 import { AccountView, type AccountGroup } from '../ui/AccountView';
 
 /** Icône de chaque destination, reprise du jeu des maquettes. */

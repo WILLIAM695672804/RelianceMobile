@@ -10,16 +10,10 @@ export { useTechnicianDirectory } from './hooks/useDirectory';
 export { directoryTranslations } from './i18n';
 export { rankTechnicians, type RankedTechnician } from './model/ranking';
 export { createSearchHistory, HISTORY_LIMIT, type SearchHistory } from './model/searchHistory';
-export { LeaderboardScreen, type LeaderboardScreenProps } from './screens/LeaderboardScreen';
-export { SearchScreen, type SearchScreenProps } from './screens/SearchScreen';
 export {
   TechnicianDirectoryScreen,
   type TechnicianDirectoryScreenProps,
 } from './screens/TechnicianDirectoryScreen';
-export {
-  TechnicianPublicProfileScreen,
-  type TechnicianPublicProfileScreenProps,
-} from './screens/TechnicianPublicProfileScreen';
 export { technicianPageSchema } from './schemas/directorySchemas';
 export type { TechnicianCard, TechnicianFilters } from './schemas/directorySchemas';
 export { highlight, technicianResult, type SearchResult } from './model/searchResults';
