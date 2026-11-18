@@ -1,9 +1,9 @@
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { ReviewFormScreen } from '@/features/reviews';
+import { RatingContainer } from '@/features/reviews';
 
-/** Dépôt d'un avis sur une demande clôturée. */
+/** Notation du technicien sur une demande clôturée. */
 export function ReviewRoute() {
   const { requestId } = useLocalSearchParams<{ requestId: string }>();
-  return <ReviewFormScreen requestId={requestId} onDone={() => router.back()} />;
+  return <RatingContainer requestId={requestId} onDone={() => router.back()} />;
 }

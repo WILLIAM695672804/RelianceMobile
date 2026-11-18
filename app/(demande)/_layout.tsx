@@ -17,8 +17,8 @@ export default function DemandeLayout() {
       <Stack.Screen name="requests/[id]/index" />
       <Stack.Screen name="requests/[id]/matching" options={{ headerShown: false }} />
       <Stack.Screen name="requests/[id]/technicians/[technicianId]" />
-      <Stack.Screen name="requests/[id]/report" />
-      <Stack.Screen name="requests/[id]/quality" />
+      <Stack.Screen name="requests/[id]/report" options={{ headerShown: false }} />
+      <Stack.Screen name="requests/[id]/quality" options={{ headerShown: false }} />
     </Stack>
   );
 }

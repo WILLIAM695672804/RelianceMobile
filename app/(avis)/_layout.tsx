@@ -12,7 +12,7 @@ export default function AvisLayout() {
         headerBackTitle: t('common:actions.back'),
       }}
     >
-      <Stack.Screen name="reviews/new/[requestId]" />
+      <Stack.Screen name="reviews/new/[requestId]" options={{ headerShown: false }} />
       <Stack.Screen name="my-reviews" />
       <Stack.Screen name="reputation" />
       <Stack.Screen name="badges/[code]" />

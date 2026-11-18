@@ -1,5 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 
+import { ClientReportContainer } from '../containers/ClientReportContainer';
 import { InterventionReportGate } from './InterventionReportGate';
 
 /** Rapport rédigé par le technicien, ouvert depuis le cockpit. */
@@ -18,5 +19,11 @@ export function TechnicianReportRoute() {
 /** Rapport consulté par le client, ouvert depuis le suivi (`/requests/<id>/report`). */
 export function ClientReportRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return <InterventionReportGate requestId={id} mode="read" onBack={() => router.back()} />;
+  return (
+    <ClientReportContainer
+      requestId={id}
+      onBack={() => router.back()}
+      onAskQuote={() => router.push({ pathname: '/quotes/[requestId]', params: { requestId: id } })}
+    />
+  );
 }

@@ -33,6 +33,8 @@ export function useQuote(quoteId: string) {
   return useQuery({
     queryKey: billingKeys.quote(quoteId),
     queryFn: () => fetchQuote(api, quoteId),
+    // Identifiant vide : facture sans devis d'origine, rien à lire.
+    enabled: quoteId.length > 0,
   });
 }
 

@@ -37,6 +37,9 @@ const fr = {
     total: 'TOTAL TTC',
     share: 'Envoyer',
     download: 'Télécharger le PDF',
+    service: 'Prestation technique',
+    taxIncluded: 'Montant toutes taxes comprises, dont taxes : {{amount}}.',
+    shareMessage: 'Facture {{number}} du {{date}} : {{amount}} (Reliance).',
   },
   quoteStatus: {
     draft: 'Brouillon',
@@ -157,6 +160,9 @@ const en: typeof fr = {
     total: 'TOTAL',
     share: 'Send',
     download: 'Download PDF',
+    service: 'Technical service',
+    taxIncluded: 'Amount including taxes, of which taxes: {{amount}}.',
+    shareMessage: 'Invoice {{number}} dated {{date}}: {{amount}} (Reliance).',
   },
   quoteStatus: {
     draft: 'Draft',

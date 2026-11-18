@@ -24,6 +24,7 @@ const fr = {
     submit: 'Clôturer l’intervention',
     submitted: 'Rapport enregistré.',
     noReport: 'Le technicien n’a pas encore déposé son rapport.',
+    materialsLine: 'Matériel employé : {{list}}',
     noMaterials: 'Aucun matériel déclaré.',
     errors: {
       workRequired: 'Décrivez le travail effectué.',
@@ -59,6 +60,7 @@ const en: typeof fr = {
     submit: 'Close the job',
     submitted: 'Report saved.',
     noReport: 'The technician has not filed a report yet.',
+    materialsLine: 'Materials used: {{list}}',
     noMaterials: 'No material declared.',
     errors: {
       workRequired: 'Describe the work performed.',

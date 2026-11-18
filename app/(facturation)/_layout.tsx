@@ -14,7 +14,7 @@ export default function FacturationLayout() {
     >
       <Stack.Screen name="quotes/[requestId]" />
       <Stack.Screen name="invoices/index" />
-      <Stack.Screen name="invoices/[id]" />
+      <Stack.Screen name="invoices/[id]" options={{ headerShown: false }} />
     </Stack>
   );
 }

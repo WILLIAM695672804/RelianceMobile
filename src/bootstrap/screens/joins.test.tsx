@@ -60,6 +60,7 @@ jest.mock('@/features/missions', () => ({
   QualityControlScreen: mockCapture,
   CancelMissionScreen: mockCapture,
 }));
+jest.mock('../containers/QualityContainer', () => ({ QualityContainer: mockCapture }));
 jest.mock('@/features/disputes', () => ({
   DisputesScreen: mockCapture,
   DisputeFormScreen: mockCapture,
@@ -199,7 +200,7 @@ describe('jointures du parcours d’intervention', () => {
     await render(<QualityControlRoute />);
 
     call('onRate', 'r1');
-    call('onOpenDispute', 'r1', 't1');
+    call('onDispute', 'r1', 't1');
 
     expect(router.replace).toHaveBeenCalledWith({
       pathname: '/reviews/new/[requestId]',

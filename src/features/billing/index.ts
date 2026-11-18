@@ -41,3 +41,8 @@ export {
   quoteLines,
   type ClientQuoteContainerProps,
 } from './containers/ClientQuoteContainer';
+export {
+  InvoiceContainer,
+  toInvoiceDocument,
+  type InvoiceContainerProps,
+} from './containers/InvoiceContainer';

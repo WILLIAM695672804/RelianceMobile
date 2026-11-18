@@ -67,6 +67,11 @@ const fr = {
     rate: 'Noter le technicien',
     invoice: 'Facture',
     home: 'Accueil',
+    checkItems: {
+      work: 'Les travaux demandés sont réalisés',
+      tested: 'L’installation fonctionne',
+      clean: 'Les lieux sont laissés propres',
+    },
   },
   cancelView: {
     title: 'Annuler la demande',
@@ -285,6 +290,11 @@ const en: typeof fr = {
     rate: 'Rate the technician',
     invoice: 'Invoice',
     home: 'Home',
+    checkItems: {
+      work: 'The requested work is done',
+      tested: 'The installation works',
+      clean: 'The premises are left clean',
+    },
   },
   cancelView: {
     title: 'Cancel the request',

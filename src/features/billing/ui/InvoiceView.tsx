@@ -21,6 +21,9 @@ export interface InvoiceDocument {
 export interface InvoiceViewProps {
   invoice: InvoiceDocument;
   downloading?: boolean;
+  /** Client, facture à régler : déclaration du paiement. */
+  onPay?: () => void;
+  paying?: boolean;
   onBack: () => void;
   onDownload?: () => void;
   onShare?: () => void;
@@ -30,6 +33,8 @@ export interface InvoiceViewProps {
 export function InvoiceView({
   invoice,
   downloading = false,
+  onPay,
+  paying = false,
   onBack,
   onDownload,
   onShare,
@@ -43,7 +48,7 @@ export function InvoiceView({
     <Screen
       testID="facture"
       footer={
-        onDownload || onShare ? (
+        onDownload || onShare || onPay ? (
           <View style={{ flexDirection: 'row', gap: 8 }}>
             {onShare ? (
               <View style={{ flex: 1 }}>
@@ -54,6 +59,18 @@ export function InvoiceView({
                   size="lg"
                   full
                   onPress={onShare}
+                />
+              </View>
+            ) : null}
+            {onPay ? (
+              <View style={{ flex: 1 }}>
+                <Button
+                  label={t('billing:invoices.pay')}
+                  icon="wallet"
+                  size="lg"
+                  full
+                  loading={paying}
+                  onPress={onPay}
                 />
               </View>
             ) : null}

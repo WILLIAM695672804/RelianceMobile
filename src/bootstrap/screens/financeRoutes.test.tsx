@@ -20,7 +20,7 @@ jest.mock('@/features/wallet', () => ({
 }));
 
 jest.mock('@/features/reviews', () => ({
-  ReviewFormScreen: (props: { requestId: string; onDone: () => void }) => {
+  RatingContainer: (props: { requestId: string; onDone: () => void }) => {
     mockReviewProps.current = props;
     return null;
   },

@@ -1,22 +1,23 @@
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { QualityControlScreen } from '@/features/missions';
+import { QualityContainer } from '../containers/QualityContainer';
 
-/** Contrôle qualité du client : relie le rapport, l'avis et le litige. */
+/** Validation des travaux : relie la notation, la facture, le litige et l'accueil. */
 export function QualityControlRoute() {
   const { id, technicianId } = useLocalSearchParams<{ id: string; technicianId: string }>();
   return (
-    <QualityControlScreen
+    <QualityContainer
       requestId={id}
       technicianId={technicianId}
       onBack={() => router.back()}
       onRate={(requestId) =>
         router.replace({ pathname: '/reviews/new/[requestId]', params: { requestId } })
       }
-      onOpenDispute={(requestId, against) =>
+      onDispute={(requestId, against) =>
         router.push({ pathname: '/disputes/new', params: { requestId, against } })
       }
-      onDone={() => router.back()}
+      onInvoices={() => router.replace('/invoices')}
+      onHome={() => router.dismissTo('/client')}
     />
   );
 }

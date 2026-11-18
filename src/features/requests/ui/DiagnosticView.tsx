@@ -39,7 +39,7 @@ export interface DiagnosticViewProps {
   onBack: () => void;
   /** Client : demander un devis ; technicien : envoyer le diagnostic (constat saisi). */
   onPrimary: (findings: string) => void;
-  /** Client seulement : refuser le diagnostic. */
+  /** Client seulement : refuser le diagnostic ; absent, le bouton n'est pas proposé. */
   onReject?: () => void;
 }
 
@@ -74,15 +74,17 @@ export function DiagnosticView({
           />
         ) : (
           <View style={{ flexDirection: 'row', gap: 8 }}>
-            <View style={{ flex: 1 }}>
-              <Button
-                label={t('requests:diagnosticView.reject')}
-                variant="ghost"
-                size="lg"
-                full
-                onPress={onReject}
-              />
-            </View>
+            {onReject ? (
+              <View style={{ flex: 1 }}>
+                <Button
+                  label={t('requests:diagnosticView.reject')}
+                  variant="ghost"
+                  size="lg"
+                  full
+                  onPress={onReject}
+                />
+              </View>
+            ) : null}
             <View style={{ flex: 2 }}>
               <Button
                 label={t('requests:diagnosticView.askQuote')}

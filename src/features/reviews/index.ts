@@ -47,3 +47,8 @@ export {
   type LeaderEntry,
   type RankStep,
 } from './ui/ReputationViews';
+export {
+  RatingContainer,
+  toRatingPayload,
+  type RatingContainerProps,
+} from './containers/RatingContainer';
