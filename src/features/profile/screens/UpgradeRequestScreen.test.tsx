@@ -49,7 +49,7 @@ describe('UpgradeRequestScreen', () => {
       motivation: MOTIVATION,
       bio: 'Bio',
     });
-    await user.press(screen.getByRole('button', { name: 'Retour' }));
+    await user.press(screen.getAllByRole('button', { name: 'Retour' }).at(-1)!);
     expect(onDone).toHaveBeenCalledTimes(1);
   });
 

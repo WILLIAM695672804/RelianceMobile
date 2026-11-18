@@ -1,4 +1,4 @@
-import type { BadgeTone } from '@/shared/components';
+import type { PillTone as BadgeTone } from '@/shared/ui';
 
 /** Statuts d'une mission (`technician_jobs.status`). */
 export const JOB_STATUSES = [

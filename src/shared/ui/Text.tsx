@@ -70,6 +70,8 @@ export interface TextProps {
   /** Réduction maximale admise avec `adjustsFontSizeToFit`. */
   minimumFontScale?: number;
   accessibilityRole?: 'header' | 'text';
+  /** Texte sélectionnable (secret à recopier, référence). */
+  selectable?: boolean;
   /** Réservé aux marges et aux couleurs calculées ; la typographie vient de la variante. */
   style?: StyleProp<TextStyle>;
   testID?: string;
@@ -85,6 +87,7 @@ export function Text({
   adjustsFontSizeToFit,
   minimumFontScale,
   accessibilityRole,
+  selectable,
   style,
   testID,
 }: TextProps) {
@@ -98,6 +101,7 @@ export function Text({
       adjustsFontSizeToFit={adjustsFontSizeToFit}
       minimumFontScale={minimumFontScale}
       accessibilityRole={accessibilityRole}
+      selectable={selectable}
       maxFontSizeMultiplier={MAX_FONT_SCALE}
       style={[
         {

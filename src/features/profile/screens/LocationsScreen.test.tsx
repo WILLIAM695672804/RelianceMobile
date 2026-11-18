@@ -72,7 +72,7 @@ describe('LocationsScreen', () => {
     await user.press(await screen.findByRole('button', { name: 'Ajouter une adresse' }));
     await fireEvent.changeText(screen.getByLabelText('Libellé'), 'Atelier');
     await fireEvent.changeText(screen.getByLabelText('Adresse'), 'Rue 3');
-    await fireEvent(screen.getByLabelText('Adresse par défaut'), 'valueChange', true);
+    await user.press(screen.getByRole('switch', { name: 'Adresse par défaut' }));
     await user.press(screen.getByRole('button', { name: 'Enregistrer l’adresse' }));
 
     await waitFor(() => expect(mock.history.post).toHaveLength(1));

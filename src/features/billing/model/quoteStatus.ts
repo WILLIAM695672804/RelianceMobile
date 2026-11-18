@@ -1,4 +1,4 @@
-import type { BadgeTone } from '@/shared/components';
+import type { PillTone as BadgeTone } from '@/shared/ui';
 
 /** Statuts d'un devis (`quotes.status`). */
 export const QUOTE_STATUSES = ['draft', 'sent', 'accepted', 'rejected', 'expired'] as const;

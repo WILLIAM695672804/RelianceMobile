@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useResponsive } from '@/core/responsive';
@@ -20,6 +20,9 @@ export interface ScreenProps {
   footer?: ReactNode;
   /** Le contenu descend jusqu'au bas de l'écran et gère lui-même la zone sûre inférieure. */
   bleedBottom?: boolean;
+  /** Tirer pour rafraîchir (contenu défilant seulement). */
+  onRefresh?: () => void;
+  refreshing?: boolean;
   testID?: string;
 }
 
@@ -34,6 +37,8 @@ export function Screen({
   withTabBar = false,
   footer,
   bleedBottom = false,
+  onRefresh,
+  refreshing = false,
   testID,
 }: ScreenProps) {
   const theme = useTheme();
@@ -63,6 +68,16 @@ export function Screen({
       {scroll ? (
         <ScrollView
           keyboardShouldPersistTaps="handled"
+          refreshControl={
+            onRefresh ? (
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                colors={[theme.colors.primary]}
+                tintColor={theme.colors.primary}
+              />
+            ) : undefined
+          }
           contentContainerStyle={[column, { flexGrow: 1, paddingBottom: bottomSpace }]}
         >
           {children}

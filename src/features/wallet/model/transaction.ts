@@ -1,4 +1,4 @@
-import type { BadgeTone } from '@/shared/components';
+import type { PillTone as BadgeTone } from '@/shared/ui';
 
 /** Moyens de paiement acceptés par le serveur, du plus courant au moins courant. */
 export const PAYMENT_METHODS = ['momo', 'om', 'card', 'bank_transfer'] as const;

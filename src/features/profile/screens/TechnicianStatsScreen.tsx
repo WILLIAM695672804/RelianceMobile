@@ -1,45 +1,60 @@
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Card, ListItem, Screen, StateView, Text } from '@/shared/components';
+import { useTheme } from '@/core/theme';
 import { formatAmount, formatRating } from '@/shared/format';
+import { Card, EmptyState, ListRow, QueryGate, Screen, Section, Text, TopBar } from '@/shared/ui';
 
 import { useTechnicianStats } from '../hooks/useTechnician';
 import type { TechnicianStats } from '../schemas/technicianSchemas';
 
+export interface TechnicianStatsScreenProps {
+  onBack?: () => void;
+}
+
 /** Statistiques d'activité du technicien : soldes, gains, missions et répartitions. */
-export function TechnicianStatsScreen() {
+export function TechnicianStatsScreen({ onBack }: TechnicianStatsScreenProps = {}) {
   const { t } = useTranslation();
   const stats = useTechnicianStats();
-
-  const renderContent = () => {
-    if (stats.isPending) return <StateView status="loading" />;
-    if (stats.isError) {
-      return <StateView status="error" error={stats.error} onRetry={() => void stats.refetch()} />;
-    }
-    return <StatsContent stats={stats.data} />;
-  };
-
   return (
     <Screen
-      title={t('profile:activity.title')}
+      testID="activite"
       onRefresh={() => void stats.refetch()}
       refreshing={stats.isRefetching}
     >
-      {renderContent()}
+      <TopBar title={t('profile:activity.title')} onBack={onBack} />
+      <QueryGate queries={[stats]}>{() => <StatsContent stats={stats.data!} />}</QueryGate>
     </Screen>
   );
 }
 
-/** Carte d'un indicateur : intitulé puis valeur mise en avant. */
-function Metric({ label, value }: { label: string; value: string }) {
+/** Tuile d'un indicateur : intitulé puis valeur mise en avant. */
+function Metric({
+  label,
+  value,
+  accent = false,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+}) {
+  const theme = useTheme();
   return (
-    <Card>
-      <Text variant="caption" tone="muted">
-        {label}
-      </Text>
-      <Text variant="subtitle">{value}</Text>
-    </Card>
+    <View style={{ width: '48%', flexGrow: 1 }}>
+      <Card
+        padding={14}
+        style={
+          accent ? { backgroundColor: theme.tint.primary, borderColor: 'transparent' } : undefined
+        }
+      >
+        <Text variant="caption" tone="muted">
+          {label}
+        </Text>
+        <Text variant="section" style={{ fontFamily: theme.fontFamily.display, marginTop: 4 }}>
+          {value}
+        </Text>
+      </Card>
+    </View>
   );
 }
 
@@ -49,8 +64,9 @@ function StatsContent({ stats }: { stats: TechnicianStats }) {
 
   return (
     <>
-      <View style={styles.metrics}>
+      <View style={{ paddingHorizontal: 20, flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
         <Metric
+          accent
           label={t('profile:activity.available')}
           value={formatAmount(stats.available_balance ?? 0)}
         />
@@ -83,47 +99,70 @@ function StatsContent({ stats }: { stats: TechnicianStats }) {
       </View>
 
       {stats.category_breakdown.length > 0 ? (
-        <>
-          <Text variant="subtitle">{t('profile:activity.byCategory')}</Text>
-          {stats.category_breakdown.map((entry) => (
-            <ListItem
-              key={entry.label}
-              label={entry.label}
-              detail={t('profile:activity.count', { count: entry.value })}
-            />
-          ))}
-        </>
+        <Section title={t('profile:activity.byCategory')}>
+          <View style={{ paddingHorizontal: 20 }}>
+            <Card padding={0}>
+              {stats.category_breakdown.map((entry, index) => (
+                <ListRow
+                  key={entry.label}
+                  divider={index > 0}
+                  title={entry.label}
+                  trailing={
+                    <Text variant="labelStrong" tone="primary">
+                      {t('profile:activity.count', { count: entry.value })}
+                    </Text>
+                  }
+                />
+              ))}
+            </Card>
+          </View>
+        </Section>
       ) : null}
 
       {stats.monthly_missions.length > 0 ? (
-        <>
-          <Text variant="subtitle">{t('profile:activity.byMonth')}</Text>
-          {stats.monthly_missions.map((month) => (
-            <ListItem
-              key={month.label}
-              label={month.label}
-              detail={t('profile:activity.count', { count: month.count })}
-            />
-          ))}
-        </>
+        <Section title={t('profile:activity.byMonth')}>
+          <View style={{ paddingHorizontal: 20 }}>
+            <Card padding={0}>
+              {stats.monthly_missions.map((month, index) => (
+                <ListRow
+                  key={month.label}
+                  divider={index > 0}
+                  title={month.label}
+                  trailing={
+                    <Text variant="labelStrong" tone="primary">
+                      {t('profile:activity.count', { count: month.count })}
+                    </Text>
+                  }
+                />
+              ))}
+            </Card>
+          </View>
+        </Section>
       ) : null}
 
-      <Text variant="subtitle">{t('profile:activity.recent')}</Text>
-      {hasActivity ? (
-        stats.recent_missions.map((mission) => (
-          <ListItem
-            key={mission.id}
-            label={mission.title}
-            detail={[mission.category, mission.city].filter(Boolean).join(' · ')}
-          />
-        ))
-      ) : (
-        <StateView status="empty" message={t('profile:activity.empty')} />
-      )}
+      <Section title={t('profile:activity.recent')}>
+        <View style={{ paddingHorizontal: 20 }}>
+          {hasActivity ? (
+            <Card padding={0}>
+              {stats.recent_missions.map((mission, index) => (
+                <ListRow
+                  key={mission.id}
+                  icon="bolt"
+                  divider={index > 0}
+                  title={mission.title}
+                  detail={[mission.category, mission.city].filter(Boolean).join(' · ')}
+                />
+              ))}
+            </Card>
+          ) : (
+            <EmptyState
+              icon="bolt"
+              title={t('profile:activity.recent')}
+              message={t('profile:activity.empty')}
+            />
+          )}
+        </View>
+      </Section>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  metrics: { gap: 12 },
-});

@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { useTheme } from '@/core/theme';
 
@@ -23,11 +23,13 @@ export interface AvatarProps {
   color?: string;
   /** `striped` : gabarit rayé des maquettes, en attendant une photo. */
   variant?: 'solid' | 'striped';
+  /** Photo de profil ; à défaut, les initiales. */
+  uri?: string | null;
   testID?: string;
 }
 
 /** Pastille ronde aux initiales. */
-export function Avatar({ name, size = 40, color, variant = 'solid', testID }: AvatarProps) {
+export function Avatar({ name, size = 40, color, variant = 'solid', uri, testID }: AvatarProps) {
   const theme = useTheme();
   const accent = color ?? theme.colors.primary;
   const striped = variant === 'striped';
@@ -56,17 +58,25 @@ export function Avatar({ name, size = 40, color, variant = 'solid', testID }: Av
           angle={45}
         />
       ) : null}
-      <Text
-        variant="bodyStrong"
-        style={{
-          color: foreground,
-          fontFamily: theme.fontFamily.display,
-          fontSize: Math.round(size * 0.36),
-          lineHeight: Math.round(size * 0.44),
-        }}
-      >
-        {initialsOf(name)}
-      </Text>
+      {uri ? (
+        <Image
+          source={{ uri }}
+          style={{ width: size, height: size }}
+          accessibilityIgnoresInvertColors
+        />
+      ) : (
+        <Text
+          variant="bodyStrong"
+          style={{
+            color: foreground,
+            fontFamily: theme.fontFamily.display,
+            fontSize: Math.round(size * 0.36),
+            lineHeight: Math.round(size * 0.44),
+          }}
+        >
+          {initialsOf(name)}
+        </Text>
+      )}
     </View>
   );
 }

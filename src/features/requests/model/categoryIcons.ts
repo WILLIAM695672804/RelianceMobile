@@ -1,4 +1,4 @@
-import type { IconName } from '@/shared/components';
+import type { IconName } from '@/shared/ui';
 
 /** Normalise un libellé de domaine : minuscules, sans diacritiques. */
 function normalize(label: string): string {

@@ -2,15 +2,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { ActivityIndicator, View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
+import { useTheme } from '@/core/theme';
 import {
   useAccount,
   useDisableTwoFactor,
   useEnableTwoFactor,
   useGenerateTwoFactor,
 } from '@/features/auth';
-import { Button, FormTextField, ListItem, StateView, Text } from '@/shared/components';
+import { FormField } from '@/shared/forms';
+import { Banner, Button, ListRow, Text } from '@/shared/ui';
 
 import { twoFactorFormSchema } from '../schemas/profileSchemas';
 
@@ -27,6 +30,7 @@ export interface TwoFactorSectionProps {
  */
 export function TwoFactorSection({ onSuccess }: TwoFactorSectionProps) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const account = useAccount();
   const generate = useGenerateTwoFactor();
   const enable = useEnableTwoFactor();
@@ -35,10 +39,25 @@ export function TwoFactorSection({ onSuccess }: TwoFactorSectionProps) {
   const [error, setError] = useState<string | null>(null);
   const form = useForm({ resolver: zodResolver(twoFactorFormSchema), defaultValues: { code: '' } });
 
-  if (account.isPending) return <StateView status="loading" />;
+  if (account.isPending) {
+    return (
+      <ActivityIndicator
+        style={{ padding: 16 }}
+        color={theme.colors.primary}
+        accessibilityLabel={t('common:states.loading')}
+      />
+    );
+  }
   if (account.isError) {
     return (
-      <StateView status="error" error={account.error} onRetry={() => void account.refetch()} />
+      <View style={{ padding: 16, gap: 8 }}>
+        <Banner tone="danger" message={describeError(normalizeError(account.error), t)} />
+        <Button
+          label={t('common:actions.retry')}
+          variant="ghost"
+          onPress={() => void account.refetch()}
+        />
+      </View>
     );
   }
 
@@ -82,46 +101,60 @@ export function TwoFactorSection({ onSuccess }: TwoFactorSectionProps) {
   });
 
   return (
-    <>
-      <ListItem
-        label={t('profile:settings.twoFactor')}
+    <View>
+      <ListRow
+        icon="shield"
+        title={t('profile:settings.twoFactor')}
         detail={t(enabled ? 'profile:settings.twoFactorOn' : 'profile:settings.twoFactorOff')}
       />
-      {error ? <Text tone="danger">{error}</Text> : null}
-      {step.kind === 'idle' ? (
-        <Button
-          label={t(
-            enabled ? 'profile:settings.twoFactorDisable' : 'profile:settings.twoFactorEnable',
-          )}
-          onPress={() => void start()}
-          loading={generate.isPending}
-          variant="secondary"
-        />
-      ) : (
-        <>
-          {step.kind === 'enabling' ? (
-            <>
-              <Text tone="muted">{t('profile:settings.twoFactorSecretHint')}</Text>
-              <Text variant="subtitle" selectable>
-                {step.secret}
-              </Text>
-            </>
-          ) : null}
-          <FormTextField
-            control={form.control}
-            name="code"
-            label={t('profile:settings.twoFactorCode')}
-            keyboardType="number-pad"
-            autoComplete="one-time-code"
-          />
+      <View style={{ paddingHorizontal: 16, paddingBottom: 16, gap: 12 }}>
+        {error ? <Banner tone="danger" message={error} /> : null}
+        {step.kind === 'idle' ? (
           <Button
-            label={t('profile:settings.twoFactorConfirm')}
-            onPress={() => void confirm()}
-            loading={enable.isPending || disable.isPending}
+            label={t(
+              enabled ? 'profile:settings.twoFactorDisable' : 'profile:settings.twoFactorEnable',
+            )}
+            variant="soft"
+            full
+            onPress={() => void start()}
+            loading={generate.isPending}
           />
-          <Button label={t('common:actions.cancel')} onPress={reset} variant="ghost" />
-        </>
-      )}
-    </>
+        ) : (
+          <>
+            {step.kind === 'enabling' ? (
+              <View
+                style={{
+                  padding: 12,
+                  borderRadius: 12,
+                  backgroundColor: theme.colors.surfaceMuted,
+                  gap: 6,
+                }}
+              >
+                <Text variant="caption" tone="muted">
+                  {t('profile:settings.twoFactorSecretHint')}
+                </Text>
+                <Text variant="bodyStrong" selectable>
+                  {step.secret}
+                </Text>
+              </View>
+            ) : null}
+            <FormField
+              control={form.control}
+              name="code"
+              label={t('profile:settings.twoFactorCode')}
+              keyboardType="number-pad"
+              autoComplete="one-time-code"
+            />
+            <Button
+              label={t('profile:settings.twoFactorConfirm')}
+              full
+              onPress={() => void confirm()}
+              loading={enable.isPending || disable.isPending}
+            />
+            <Button label={t('common:actions.cancel')} variant="ghost" full onPress={reset} />
+          </>
+        )}
+      </View>
+    </View>
   );
 }

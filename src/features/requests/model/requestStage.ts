@@ -1,4 +1,4 @@
-import type { BadgeTone } from '@/shared/components';
+import type { PillTone as BadgeTone } from '@/shared/ui';
 
 import { REQUEST_STATUSES, type RequestStatus } from '../schemas/requestSchemas';
 

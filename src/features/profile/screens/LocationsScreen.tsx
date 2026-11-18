@@ -1,15 +1,31 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
-import { Badge, Button, Card, ConfirmDialog, Screen, StateView, Text } from '@/shared/components';
+import {
+  Banner,
+  Button,
+  Card,
+  ConfirmSheet,
+  EmptyState,
+  ListRow,
+  Pill,
+  QueryGate,
+  Screen,
+  TopBar,
+} from '@/shared/ui';
 
 import { useDeleteLocation, useLocations, useSetDefaultLocation } from '../hooks/useLocations';
 import type { Location } from '../schemas/profileSchemas';
 import { LocationForm } from './LocationForm';
 
+export interface LocationsScreenProps {
+  onBack?: () => void;
+}
+
 /** Adresses de l'utilisateur : consultation, ajout, adresse par défaut, suppression. */
-export function LocationsScreen() {
+export function LocationsScreen({ onBack }: LocationsScreenProps = {}) {
   const { t } = useTranslation();
   const locations = useLocations();
   const deleteLocation = useDeleteLocation();
@@ -35,62 +51,91 @@ export function LocationsScreen() {
     if (target) void run(() => deleteLocation.mutateAsync(target.id));
   };
 
-  const renderList = () => {
-    if (locations.isPending) return <StateView status="loading" />;
-    if (locations.isError) {
-      return (
-        <StateView
-          status="error"
-          error={locations.error}
-          onRetry={() => void locations.refetch()}
-        />
-      );
-    }
-    if (locations.data.length === 0) {
-      return <StateView status="empty" message={t('profile:locations.empty')} />;
-    }
-    return locations.data.map((location) => {
-      const label = labelOf(location);
-      return (
-        <Card key={location.id}>
-          <Text variant="subtitle">{label}</Text>
-          <Text tone="muted">{[location.address, location.city].filter(Boolean).join(', ')}</Text>
-          {location.is_default ? (
-            <Badge label={t('profile:locations.default')} tone="success" />
-          ) : (
-            <Button
-              label={t('profile:locations.setAsDefault')}
-              accessibilityLabel={`${t('profile:locations.setAsDefault')} : ${label}`}
-              onPress={() => void run(() => setDefaultLocation.mutateAsync(location.id))}
-              variant="ghost"
-            />
-          )}
-          <Button
-            label={t('profile:locations.delete')}
-            accessibilityLabel={`${t('profile:locations.delete')} : ${label}`}
-            onPress={() => setPendingDeletion(location)}
-            variant="ghost"
-          />
-        </Card>
-      );
-    });
-  };
-
   return (
-    <Screen title={t('profile:locations.title')} scroll>
-      {actionError ? <Text tone="danger">{actionError}</Text> : null}
-      {renderList()}
-      {adding ? (
-        <LocationForm onClose={() => setAdding(false)} />
-      ) : (
-        <Button
-          label={t('profile:locations.add')}
-          onPress={() => setAdding(true)}
-          variant="secondary"
-        />
-      )}
-      <ConfirmDialog
+    <Screen
+      testID="adresses"
+      onRefresh={() => void locations.refetch()}
+      refreshing={locations.isRefetching}
+    >
+      <TopBar title={t('profile:locations.title')} onBack={onBack} />
+      <View style={{ paddingHorizontal: 20, gap: 12 }}>
+        {actionError ? <Banner tone="danger" message={actionError} /> : null}
+        <QueryGate queries={[locations]}>
+          {() =>
+            (locations.data ?? []).length === 0 ? (
+              <EmptyState
+                icon="pin"
+                title={t('profile:locations.title')}
+                message={t('profile:locations.empty')}
+              />
+            ) : (
+              <>
+                {locations.data!.map((location) => {
+                  const label = labelOf(location);
+                  return (
+                    <Card key={location.id} padding={0}>
+                      <ListRow
+                        icon="pin"
+                        title={label}
+                        detail={[location.address, location.city].filter(Boolean).join(', ')}
+                        trailing={
+                          location.is_default ? (
+                            <Pill label={t('profile:locations.default')} tone="success" size="sm" />
+                          ) : (
+                            <View />
+                          )
+                        }
+                      />
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'flex-end',
+                          gap: 16,
+                          paddingHorizontal: 16,
+                          paddingBottom: 12,
+                        }}
+                      >
+                        {location.is_default ? null : (
+                          <Button
+                            label={t('profile:locations.setAsDefault')}
+                            accessibilityLabel={`${t('profile:locations.setAsDefault')} : ${label}`}
+                            variant="soft"
+                            size="sm"
+                            onPress={() =>
+                              void run(() => setDefaultLocation.mutateAsync(location.id))
+                            }
+                          />
+                        )}
+                        <Button
+                          label={t('profile:locations.delete')}
+                          accessibilityLabel={`${t('profile:locations.delete')} : ${label}`}
+                          variant="ghost"
+                          size="sm"
+                          onPress={() => setPendingDeletion(location)}
+                        />
+                      </View>
+                    </Card>
+                  );
+                })}
+              </>
+            )
+          }
+        </QueryGate>
+        {adding ? (
+          <LocationForm onClose={() => setAdding(false)} />
+        ) : (
+          <Button
+            label={t('profile:locations.add')}
+            icon="plus"
+            variant="soft"
+            full
+            onPress={() => setAdding(true)}
+          />
+        )}
+      </View>
+      <ConfirmSheet
         visible={pendingDeletion !== null}
+        destructive
         title={t('profile:locations.deleteTitle')}
         message={t('profile:locations.deleteMessage', {
           label: pendingDeletion ? labelOf(pendingDeletion) : '',

@@ -2,19 +2,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
+import { FormField } from '@/shared/forms';
 import {
   Avatar,
-  Badge,
+  Banner,
   Button,
   Card,
-  FormTextField,
+  ListRow,
+  Pill,
+  QueryGate,
   Screen,
-  StateView,
   Text,
-} from '@/shared/components';
+  TopBar,
+} from '@/shared/ui';
 import { formatDistance, formatRating } from '@/shared/format';
 
 import { useTechnicianIdentity, useUpdateTechnicianProfile } from '../hooks/useTechnician';
@@ -25,28 +28,27 @@ import {
   type TechnicianIdentity,
 } from '../schemas/technicianSchemas';
 
-/** Profil professionnel du technicien : état de vérification, synthèse et présentation. */
-export function TechnicianProfileScreen() {
-  const identity = useTechnicianIdentity();
-
-  if (identity.isPending) {
-    return (
-      <Screen>
-        <StateView status="loading" />
-      </Screen>
-    );
-  }
-  if (identity.isError) {
-    return (
-      <Screen>
-        <StateView status="error" error={identity.error} onRetry={() => void identity.refetch()} />
-      </Screen>
-    );
-  }
-  return <TechnicianProfileForm identity={identity.data} />;
+export interface TechnicianProfileScreenProps {
+  onBack?: () => void;
 }
 
-function TechnicianProfileForm({ identity }: { identity: TechnicianIdentity }) {
+/** Profil professionnel du technicien : état de vérification, synthèse et présentation. */
+export function TechnicianProfileScreen({ onBack }: TechnicianProfileScreenProps = {}) {
+  const identity = useTechnicianIdentity();
+  return (
+    <QueryGate queries={[identity]}>
+      {() => <TechnicianProfileForm identity={identity.data!} onBack={onBack} />}
+    </QueryGate>
+  );
+}
+
+function TechnicianProfileForm({
+  identity,
+  onBack,
+}: {
+  identity: TechnicianIdentity;
+  onBack?: () => void;
+}) {
   const { t } = useTranslation();
   const update = useUpdateTechnicianProfile();
   const [formError, setFormError] = useState<string | null>(null);
@@ -82,76 +84,93 @@ function TechnicianProfileForm({ identity }: { identity: TechnicianIdentity }) {
   });
 
   return (
-    <Screen title={t('profile:technician.title')} scroll>
-      <Card>
-        <View style={styles.identity}>
-          <Avatar name={identity.name} uri={identity.avatar_url} size={72} />
-          <View style={styles.identityText}>
-            <Text variant="subtitle">{identity.name}</Text>
-            <Badge
-              label={t(
-                identity.verified ? 'profile:technician.verified' : 'profile:technician.unverified',
-              )}
-              tone={identity.verified ? 'success' : 'warning'}
-            />
-            <Badge
-              label={t(
-                identity.kyc_approved
-                  ? 'profile:technician.kycApproved'
-                  : 'profile:technician.kycPending',
-              )}
-              tone={identity.kyc_approved ? 'success' : 'warning'}
-            />
+    <Screen
+      testID="profil-professionnel"
+      footer={
+        <Button
+          label={t('profile:technician.submit')}
+          size="lg"
+          full
+          onPress={() => void onSubmit()}
+          loading={update.isPending}
+        />
+      }
+    >
+      <TopBar title={t('profile:technician.title')} onBack={onBack} />
+      <View style={{ paddingHorizontal: 20, gap: 14 }}>
+        <Card padding={16}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+            <Avatar name={identity.name} uri={identity.avatar_url} size={64} />
+            <View style={{ flex: 1, gap: 6 }}>
+              <Text variant="section">{identity.name}</Text>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                <Pill
+                  size="sm"
+                  icon={identity.verified ? 'check' : 'clock'}
+                  label={t(
+                    identity.verified
+                      ? 'profile:technician.verified'
+                      : 'profile:technician.unverified',
+                  )}
+                  tone={identity.verified ? 'success' : 'warning'}
+                />
+                <Pill
+                  size="sm"
+                  icon="shield"
+                  label={t(
+                    identity.kyc_approved
+                      ? 'profile:technician.kycApproved'
+                      : 'profile:technician.kycPending',
+                  )}
+                  tone={identity.kyc_approved ? 'success' : 'warning'}
+                />
+              </View>
+            </View>
           </View>
-        </View>
-        {identity.rating != null ? (
-          <Text tone="muted">
-            {t('profile:technician.rating', {
-              rating: formatRating(identity.rating),
-              count: identity.num_reviews ?? 0,
-            })}
-          </Text>
-        ) : null}
-        {perimeter?.city && perimeter.radius != null ? (
-          <Text tone="muted">
-            {t('profile:technician.zoneSummary', {
-              city: perimeter.city,
-              radius: formatDistance(perimeter.radius),
-            })}
-          </Text>
-        ) : (
-          <Text tone="muted">{t('profile:technician.zoneMissing')}</Text>
-        )}
-        <Text tone="muted">
-          {t('profile:technician.skillsSummary', { count: identity.skills.length })}
-        </Text>
-      </Card>
-      {formError ? <Text tone="danger">{formError}</Text> : null}
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      <FormTextField
-        control={form.control}
-        name="bio"
-        label={t('profile:technician.bio')}
-        multiline
-      />
-      <FormTextField
-        control={form.control}
-        name="competences"
-        label={t('profile:technician.competences')}
-      />
-      <Text variant="caption" tone="muted">
-        {t('profile:technician.competencesHint')}
-      </Text>
-      <Button
-        label={t('profile:technician.submit')}
-        onPress={() => void onSubmit()}
-        loading={update.isPending}
-      />
+        </Card>
+        <Card padding={0}>
+          {identity.rating != null ? (
+            <ListRow
+              icon="star"
+              title={t('profile:technician.rating', {
+                rating: formatRating(identity.rating),
+                count: identity.num_reviews ?? 0,
+              })}
+            />
+          ) : null}
+          <ListRow
+            icon="map"
+            divider={identity.rating != null}
+            title={
+              perimeter?.city && perimeter.radius != null
+                ? t('profile:technician.zoneSummary', {
+                    city: perimeter.city,
+                    radius: formatDistance(perimeter.radius),
+                  })
+                : t('profile:technician.zoneMissing')
+            }
+          />
+          <ListRow
+            icon="wrench"
+            divider
+            title={t('profile:technician.skillsSummary', { count: identity.skills.length })}
+          />
+        </Card>
+        {formError ? <Banner tone="danger" message={formError} /> : null}
+        {notice ? <Banner tone="success" message={notice} /> : null}
+        <FormField
+          control={form.control}
+          name="bio"
+          label={t('profile:technician.bio')}
+          multiline
+        />
+        <FormField
+          control={form.control}
+          name="competences"
+          label={t('profile:technician.competences')}
+          hint={t('profile:technician.competencesHint')}
+        />
+      </View>
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  identity: { flexDirection: 'row', alignItems: 'center', gap: 16 },
-  identityText: { flex: 1, gap: 6 },
-});

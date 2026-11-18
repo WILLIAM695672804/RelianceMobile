@@ -2,19 +2,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
+import { FormField } from '@/shared/forms';
 import {
+  Banner,
   Button,
   Card,
-  ConfirmDialog,
-  FormTextField,
-  ListItem,
+  ChoiceChip,
+  ConfirmSheet,
+  EmptyState,
+  ListRow,
+  QueryGate,
   Screen,
-  StateView,
+  Section,
+  SectionLabel,
   Text,
-} from '@/shared/components';
+  TopBar,
+} from '@/shared/ui';
 import { formatAmount } from '@/shared/format';
 
 import { useSkillCatalog } from '../hooks/useSkillCatalog';
@@ -34,8 +40,12 @@ import {
   type TechnicianSkillFormField,
 } from '../schemas/technicianSchemas';
 
+export interface TechnicianSkillsScreenProps {
+  onBack?: () => void;
+}
+
 /** Compétences tarifées : liste des compétences déclarées, ajout depuis le catalogue, retrait. */
-export function TechnicianSkillsScreen() {
+export function TechnicianSkillsScreen({ onBack }: TechnicianSkillsScreenProps = {}) {
   const { t } = useTranslation();
   const mine = useMyTechnicianSkills();
   const removeSkill = useRemoveTechnicianSkill();
@@ -57,58 +67,79 @@ export function TechnicianSkillsScreen() {
     }
   };
 
-  const renderSkills = () => {
-    if (mine.isPending) return <StateView status="loading" />;
-    if (mine.isError) {
-      return <StateView status="error" error={mine.error} onRetry={() => void mine.refetch()} />;
-    }
-    if (mine.data.length === 0) {
-      return <StateView status="empty" message={t('profile:skills.empty')} />;
-    }
-    return mine.data.map((skill) => (
-      <Card key={skill.id}>
-        <Text variant="subtitle">{skill.name}</Text>
-        {skill.category ? <Text tone="muted">{skill.category}</Text> : null}
-        <Text>
-          {t('profile:skills.detail', {
-            level: skill.proficiency ?? 1,
-            rate: formatAmount(skill.hourly_rate ?? 0),
-            years: skill.experience_years ?? 0,
-          })}
-        </Text>
-        <Text tone="muted">
-          {t('profile:skills.travelFee', { amount: formatAmount(skill.travel_fee ?? 0) })}
-        </Text>
-        <Button
-          label={t('profile:skills.remove')}
-          accessibilityLabel={`${t('profile:skills.remove')} : ${skill.name}`}
-          onPress={() => setPendingRemoval(skill)}
-          disabled={removeSkill.isPending}
-          variant="ghost"
-        />
-      </Card>
-    ));
-  };
-
   return (
     <Screen
-      title={t('profile:skills.title')}
-      scroll
+      testID="competences"
       onRefresh={() => void mine.refetch()}
       refreshing={mine.isRefetching}
     >
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      {error ? <Text tone="danger">{error}</Text> : null}
-      {renderSkills()}
-      <AddSkillForm
-        ownedIds={mine.data?.map((skill) => skill.id) ?? []}
-        onAdded={() => {
-          setError(null);
-          setNotice(t('profile:skills.added'));
-        }}
-      />
-      <ConfirmDialog
+      <TopBar title={t('profile:skills.title')} onBack={onBack} />
+      <View style={{ paddingHorizontal: 20, gap: 12 }}>
+        {notice ? <Banner tone="success" message={notice} /> : null}
+        {error ? <Banner tone="danger" message={error} /> : null}
+        <QueryGate queries={[mine]}>
+          {() =>
+            (mine.data ?? []).length === 0 ? (
+              <EmptyState
+                icon="wrench"
+                title={t('profile:skills.title')}
+                message={t('profile:skills.empty')}
+              />
+            ) : (
+              <Card padding={0}>
+                {mine.data!.map((skill, index) => (
+                  <View key={skill.id}>
+                    <ListRow
+                      icon="wrench"
+                      divider={index > 0}
+                      title={skill.name}
+                      detail={[
+                        skill.category,
+                        t('profile:skills.detail', {
+                          level: skill.proficiency ?? 1,
+                          rate: formatAmount(skill.hourly_rate ?? 0),
+                          years: skill.experience_years ?? 0,
+                        }),
+                        t('profile:skills.travelFee', {
+                          amount: formatAmount(skill.travel_fee ?? 0),
+                        }),
+                      ]
+                        .filter(Boolean)
+                        .join('\n')}
+                    />
+                    <View
+                      style={{ alignItems: 'flex-end', paddingHorizontal: 16, paddingBottom: 10 }}
+                    >
+                      <Button
+                        label={t('profile:skills.remove')}
+                        accessibilityLabel={`${t('profile:skills.remove')} : ${skill.name}`}
+                        variant="ghost"
+                        size="sm"
+                        onPress={() => setPendingRemoval(skill)}
+                        disabled={removeSkill.isPending}
+                      />
+                    </View>
+                  </View>
+                ))}
+              </Card>
+            )
+          }
+        </QueryGate>
+      </View>
+      <Section title={t('profile:skills.add')}>
+        <View style={{ paddingHorizontal: 20 }}>
+          <AddSkillForm
+            ownedIds={mine.data?.map((skill) => skill.id) ?? []}
+            onAdded={() => {
+              setError(null);
+              setNotice(t('profile:skills.added'));
+            }}
+          />
+        </View>
+      </Section>
+      <ConfirmSheet
         visible={pendingRemoval !== null}
+        destructive
         title={t('profile:skills.removeTitle')}
         message={t('profile:skills.removeMessage', { name: pendingRemoval?.name ?? '' })}
         confirmLabel={t('profile:skills.remove')}
@@ -167,80 +198,82 @@ function AddSkillForm({ ownedIds, onAdded }: { ownedIds: string[]; onAdded: () =
   });
 
   return (
-    <Card>
-      <Text variant="subtitle">{t('profile:skills.add')}</Text>
-      {formError ? <Text tone="danger">{formError}</Text> : null}
-      {catalogue.isError ? (
-        <StateView
-          status="error"
-          error={catalogue.error}
-          onRetry={() => void catalogue.refetch()}
+    <Card padding={16}>
+      <View style={{ gap: 14 }}>
+        {formError ? <Banner tone="danger" message={formError} /> : null}
+        {catalogue.isError ? (
+          <Banner tone="danger" message={describeError(normalizeError(catalogue.error), t)} />
+        ) : null}
+        <Button
+          label={selected?.name ?? t('profile:skills.chooseSkill')}
+          accessibilityLabel={t('profile:skills.chooseSkill')}
+          icon="search"
+          variant="soft"
+          full
+          onPress={() => setPicking((open) => !open)}
+          disabled={available.length === 0}
         />
-      ) : null}
-      <Button
-        label={selected?.name ?? t('profile:skills.chooseSkill')}
-        accessibilityLabel={t('profile:skills.chooseSkill')}
-        onPress={() => setPicking((open) => !open)}
-        disabled={available.length === 0}
-        variant="secondary"
-      />
-      {available.length === 0 && catalogue.isSuccess ? (
-        <Text tone="muted">{t('profile:skills.allDeclared')}</Text>
-      ) : null}
-      {picking
-        ? groups.map((group) => (
-            <View key={group.category} style={styles.group}>
-              <Text variant="caption" tone="muted">
-                {group.category}
-              </Text>
-              {group.skills.map((skill) => (
-                <ListItem key={skill.id} label={skill.name} onPress={() => choose(skill)} />
-              ))}
-            </View>
-          ))
-        : null}
-      <Text variant="caption" tone="muted">
-        {t('profile:skills.proficiency')}
-      </Text>
-      <View style={styles.levels}>
-        {PROFICIENCY_LEVELS.map((level) => (
-          <Button
-            key={level}
-            label={String(level)}
-            accessibilityLabel={t('profile:skills.level', { level })}
-            onPress={() => form.setValue('proficiency', level, { shouldValidate: true })}
-            variant={proficiency === level ? 'primary' : 'ghost'}
-          />
-        ))}
+        {available.length === 0 && catalogue.isSuccess ? (
+          <Text variant="caption" tone="muted">
+            {t('profile:skills.allDeclared')}
+          </Text>
+        ) : null}
+        {picking
+          ? groups.map((group) => (
+              <View key={group.category} style={{ gap: 6 }}>
+                <SectionLabel label={group.category} />
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                  {group.skills.map((skill) => (
+                    <ChoiceChip
+                      key={skill.id}
+                      label={skill.name}
+                      selected={selected?.id === skill.id}
+                      onPress={() => choose(skill)}
+                    />
+                  ))}
+                </View>
+              </View>
+            ))
+          : null}
+        <SectionLabel label={t('profile:skills.proficiency')} />
+        <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap' }}>
+          {PROFICIENCY_LEVELS.map((level) => (
+            <ChoiceChip
+              key={level}
+              label={t('profile:skills.level', { level })}
+              selected={proficiency === level}
+              onPress={() => form.setValue('proficiency', level, { shouldValidate: true })}
+            />
+          ))}
+        </View>
+        <FormField
+          control={form.control}
+          name="experienceYears"
+          label={t('profile:skills.experience')}
+          icon="clock"
+          keyboardType="number-pad"
+        />
+        <FormField
+          control={form.control}
+          name="hourlyRate"
+          label={t('profile:skills.hourlyRate')}
+          icon="wallet"
+          keyboardType="number-pad"
+        />
+        <FormField
+          control={form.control}
+          name="travelFee"
+          label={t('profile:skills.travelFeeField')}
+          icon="location"
+          keyboardType="number-pad"
+        />
+        <Button
+          label={t('profile:skills.submit')}
+          full
+          onPress={() => void onSubmit()}
+          loading={addSkill.isPending}
+        />
       </View>
-      <FormTextField
-        control={form.control}
-        name="experienceYears"
-        label={t('profile:skills.experience')}
-        keyboardType="number-pad"
-      />
-      <FormTextField
-        control={form.control}
-        name="hourlyRate"
-        label={t('profile:skills.hourlyRate')}
-        keyboardType="number-pad"
-      />
-      <FormTextField
-        control={form.control}
-        name="travelFee"
-        label={t('profile:skills.travelFeeField')}
-        keyboardType="number-pad"
-      />
-      <Button
-        label={t('profile:skills.submit')}
-        onPress={() => void onSubmit()}
-        loading={addSkill.isPending}
-      />
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  group: { gap: 4 },
-  levels: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
-});

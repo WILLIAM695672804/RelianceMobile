@@ -1,4 +1,4 @@
-import type { BadgeTone } from '@/shared/components';
+import type { PillTone as BadgeTone } from '@/shared/ui';
 
 /** Jours de la semaine dans l'ordre d'usage ; le serveur suit Carbon (0 = dimanche). */
 export const DAY_ORDER = [1, 2, 3, 4, 5, 6, 0];

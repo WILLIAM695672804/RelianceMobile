@@ -36,9 +36,13 @@ describe('TechnicianSkillsScreen', () => {
 
     expect(await screen.findByText(firstSkill.name)).toBeOnTheScreen();
     expect(
-      screen.getByText(`Niveau 3 · 7${NBSP}000${NBSP}FCFA de l’heure · 0 an(s) d’expérience`),
+      screen.getByText(`Niveau 3 · 7${NBSP}000${NBSP}FCFA de l’heure · 0 an(s) d’expérience`, {
+        exact: false,
+      }),
     ).toBeOnTheScreen();
-    expect(screen.getByText(`Frais de déplacement : 1${NBSP}000${NBSP}FCFA`)).toBeOnTheScreen();
+    expect(
+      screen.getByText(`Frais de déplacement : 1${NBSP}000${NBSP}FCFA`, { exact: false }),
+    ).toBeOnTheScreen();
   });
 
   it('signale l’absence de compétence déclarée', async () => {

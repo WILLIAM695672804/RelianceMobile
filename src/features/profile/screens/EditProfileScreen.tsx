@@ -2,13 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { applyServerErrors, describeError, normalizeError } from '@/core/errors';
 import { useSession, type ApiUser } from '@/core/session';
 import { useAccount } from '@/features/auth';
-import { Avatar, Button, FormTextField, Screen, StateView, Text } from '@/shared/components';
+import { FormField } from '@/shared/forms';
 import { pickImage, type ImageSource } from '@/shared/media';
+import { Avatar, Banner, Button, QueryGate, Screen, TopBar } from '@/shared/ui';
 
 import { useUpdateProfile, useUploadAvatar } from '../hooks/useProfileMutations';
 import {
@@ -20,30 +21,28 @@ import {
 export interface EditProfileScreenProps {
   /** Appelé après un enregistrement réussi. */
   onDone: () => void;
+  onBack?: () => void;
 }
 
 /** E09 — Modification du profil ; le téléphone, absent de la session, est relu sur `/auth/me`. */
-export function EditProfileScreen({ onDone }: EditProfileScreenProps) {
+export function EditProfileScreen({ onDone, onBack }: EditProfileScreenProps) {
   const account = useAccount();
-
-  if (account.isPending) {
-    return (
-      <Screen>
-        <StateView status="loading" />
-      </Screen>
-    );
-  }
-  if (account.isError) {
-    return (
-      <Screen>
-        <StateView status="error" error={account.error} onRetry={() => void account.refetch()} />
-      </Screen>
-    );
-  }
-  return <EditProfileForm account={account.data} onDone={onDone} />;
+  return (
+    <QueryGate queries={[account]}>
+      {() => <EditProfileForm account={account.data!} onDone={onDone} onBack={onBack ?? onDone} />}
+    </QueryGate>
+  );
 }
 
-function EditProfileForm({ account, onDone }: { account: ApiUser; onDone: () => void }) {
+function EditProfileForm({
+  account,
+  onDone,
+  onBack,
+}: {
+  account: ApiUser;
+  onDone: () => void;
+  onBack: () => void;
+}) {
   const { t } = useTranslation();
   const avatarUrl = useSession((state) => state.user?.avatarUrl ?? null);
   const updateProfile = useUpdateProfile();
@@ -97,59 +96,71 @@ function EditProfileForm({ account, onDone }: { account: ApiUser; onDone: () => 
   });
 
   return (
-    <Screen title={t('profile:edit.title')} scroll>
-      {formError ? <Text tone="danger">{formError}</Text> : null}
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-
-      <View style={styles.avatar}>
-        <Avatar name={account.name} uri={avatarUrl} size={96} />
+    <Screen
+      testID="edition-profil"
+      footer={
         <Button
-          label={t('profile:edit.fromLibrary')}
-          onPress={() => void changeAvatar('library')}
-          loading={uploadAvatar.isPending}
-          variant="secondary"
+          label={t('profile:edit.submit')}
+          size="lg"
+          full
+          onPress={() => void onSubmit()}
+          loading={updateProfile.isPending}
         />
-        <Button
-          label={t('profile:edit.fromCamera')}
-          onPress={() => void changeAvatar('camera')}
-          disabled={uploadAvatar.isPending}
-          variant="ghost"
+      }
+    >
+      <TopBar title={t('profile:edit.title')} onBack={onBack} />
+      <View style={{ paddingHorizontal: 20, gap: 16 }}>
+        {formError ? <Banner tone="danger" message={formError} /> : null}
+        {notice ? <Banner tone="success" message={notice} /> : null}
+
+        <View style={{ alignItems: 'center', gap: 12, paddingVertical: 8 }}>
+          <Avatar name={account.name} uri={avatarUrl} size={96} />
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <Button
+              label={t('profile:edit.fromLibrary')}
+              icon="image"
+              variant="soft"
+              size="sm"
+              onPress={() => void changeAvatar('library')}
+              loading={uploadAvatar.isPending}
+            />
+            <Button
+              label={t('profile:edit.fromCamera')}
+              icon="camera"
+              variant="ghost"
+              size="sm"
+              onPress={() => void changeAvatar('camera')}
+              disabled={uploadAvatar.isPending}
+            />
+          </View>
+        </View>
+
+        <FormField
+          control={form.control}
+          name="name"
+          label={t('profile:edit.name')}
+          icon="user"
+          autoComplete="name"
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          label={t('profile:edit.email')}
+          icon="inbox"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoComplete="email"
+          hint={t('profile:edit.emailChangeNotice')}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          label={t('profile:edit.phone')}
+          icon="phone"
+          keyboardType="phone-pad"
+          autoComplete="tel"
         />
       </View>
-
-      <FormTextField
-        control={form.control}
-        name="name"
-        label={t('profile:edit.name')}
-        autoComplete="name"
-      />
-      <FormTextField
-        control={form.control}
-        name="email"
-        label={t('profile:edit.email')}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoComplete="email"
-      />
-      <Text variant="caption" tone="muted">
-        {t('profile:edit.emailChangeNotice')}
-      </Text>
-      <FormTextField
-        control={form.control}
-        name="phone"
-        label={t('profile:edit.phone')}
-        keyboardType="phone-pad"
-        autoComplete="tel"
-      />
-      <Button
-        label={t('profile:edit.submit')}
-        onPress={() => void onSubmit()}
-        loading={updateProfile.isPending}
-      />
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  avatar: { alignItems: 'center', gap: 8 },
-});

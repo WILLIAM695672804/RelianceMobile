@@ -2,10 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Switch, View } from 'react-native';
+import { View } from 'react-native';
 
 import { applyServerErrors, describeError, normalizeError } from '@/core/errors';
-import { Button, Card, FormTextField, Text } from '@/shared/components';
+import { FormField } from '@/shared/forms';
+import { Banner, Button, Card, SwitchRow } from '@/shared/ui';
 
 import { useCreateLocation } from '../hooks/useLocations';
 import { locationFormSchema, toLocationPayload } from '../schemas/profileSchemas';
@@ -37,41 +38,47 @@ export function LocationForm({ onClose }: LocationFormProps) {
   });
 
   return (
-    <Card>
-      {formError ? <Text tone="danger">{formError}</Text> : null}
-      <FormTextField control={form.control} name="label" label={t('profile:locations.label')} />
-      <FormTextField
-        control={form.control}
-        name="address"
-        label={t('profile:locations.address')}
-        autoComplete="street-address"
-      />
-      <FormTextField control={form.control} name="city" label={t('profile:locations.city')} />
-      <Controller
-        control={form.control}
-        name="is_default"
-        render={({ field }) => (
-          <View style={styles.switchRow}>
-            <Text style={styles.switchLabel}>{t('profile:locations.makeDefault')}</Text>
-            <Switch
-              accessibilityLabel={t('profile:locations.makeDefault')}
+    <Card padding={16}>
+      <View style={{ gap: 14 }}>
+        {formError ? <Banner tone="danger" message={formError} /> : null}
+        <FormField
+          control={form.control}
+          name="label"
+          label={t('profile:locations.label')}
+          icon="bookmark"
+        />
+        <FormField
+          control={form.control}
+          name="address"
+          label={t('profile:locations.address')}
+          icon="pin"
+          autoComplete="street-address"
+        />
+        <FormField
+          control={form.control}
+          name="city"
+          label={t('profile:locations.city')}
+          icon="location"
+        />
+        <Controller
+          control={form.control}
+          name="is_default"
+          render={({ field }) => (
+            <SwitchRow
+              label={t('profile:locations.makeDefault')}
               value={field.value}
-              onValueChange={field.onChange}
+              onChange={field.onChange}
             />
-          </View>
-        )}
-      />
-      <Button
-        label={t('profile:locations.submit')}
-        onPress={() => void onSubmit()}
-        loading={createLocation.isPending}
-      />
-      <Button label={t('common:actions.cancel')} onPress={onClose} variant="ghost" />
+          )}
+        />
+        <Button
+          label={t('profile:locations.submit')}
+          full
+          onPress={() => void onSubmit()}
+          loading={createLocation.isPending}
+        />
+        <Button label={t('common:actions.cancel')} variant="ghost" full onPress={onClose} />
+      </View>
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  switchRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  switchLabel: { flex: 1 },
-});

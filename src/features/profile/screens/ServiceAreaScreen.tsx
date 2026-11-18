@@ -2,18 +2,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
+import { FormField } from '@/shared/forms';
 import {
+  Banner,
   Button,
   Card,
-  FormTextField,
+  Field,
+  ListRow,
+  QueryGate,
   Screen,
-  StateView,
+  Section,
   Text,
-  TextField,
-} from '@/shared/components';
+  TopBar,
+} from '@/shared/ui';
 import { formatDistance } from '@/shared/format';
 import { geocodeAddress, locateDevice, openAppSettings, type Place } from '@/shared/location';
 
@@ -30,30 +34,29 @@ import {
 /** Rayon proposé par défaut lorsque le serveur n'en a pas. */
 const DEFAULT_RADIUS_KM = 50;
 
-/** Zone d'intervention : position de référence, rayon et quartiers desservis. */
-export function ServiceAreaScreen() {
-  const identity = useTechnicianIdentity();
+export interface ServiceAreaScreenProps {
+  onBack?: () => void;
+}
 
-  if (identity.isPending) {
-    return (
-      <Screen>
-        <StateView status="loading" />
-      </Screen>
-    );
-  }
-  if (identity.isError) {
-    return (
-      <Screen>
-        <StateView status="error" error={identity.error} onRetry={() => void identity.refetch()} />
-      </Screen>
-    );
-  }
-  return <ServiceAreaForm identity={identity.data} />;
+/** Zone d'intervention : position de référence, rayon et quartiers desservis. */
+export function ServiceAreaScreen({ onBack }: ServiceAreaScreenProps = {}) {
+  const identity = useTechnicianIdentity();
+  return (
+    <QueryGate queries={[identity]}>
+      {() => <ServiceAreaForm identity={identity.data!} onBack={onBack} />}
+    </QueryGate>
+  );
 }
 
 type Feedback = 'denied' | 'unavailable' | 'notFound';
 
-function ServiceAreaForm({ identity }: { identity: TechnicianIdentity }) {
+function ServiceAreaForm({
+  identity,
+  onBack,
+}: {
+  identity: TechnicianIdentity;
+  onBack?: () => void;
+}) {
   const { t } = useTranslation();
   const update = useUpdateServiceArea();
   const perimeter = identity.service_perimeter;
@@ -126,82 +129,117 @@ function ServiceAreaForm({ identity }: { identity: TechnicianIdentity }) {
   });
 
   return (
-    <Screen title={t('profile:zone.title')} scroll>
-      <Text tone="muted">{t('profile:zone.hint')}</Text>
-      <Card>
-        {perimeter?.city && perimeter.radius != null ? (
-          <Text>
-            {t('profile:zone.current', {
-              city: perimeter.city,
-              radius: formatDistance(perimeter.radius),
-            })}
-          </Text>
-        ) : (
-          <Text tone="muted">{t('profile:zone.none')}</Text>
-        )}
-        {place ? (
-          <Text tone="primary">
-            {t('profile:zone.selectedPlace', {
-              label: place.label ?? t('profile:zone.unnamedPlace'),
-            })}
-          </Text>
-        ) : null}
+    <Screen
+      testID="zone-intervention"
+      footer={
         <Button
-          label={t('profile:zone.useMyPosition')}
-          onPress={() => void locate()}
-          loading={busy === 'position'}
-          disabled={busy !== null}
-          variant="secondary"
+          label={t('profile:zone.submit')}
+          size="lg"
+          full
+          onPress={() => void onSubmit()}
+          loading={update.isPending}
         />
-        <TextField
-          label={t('profile:zone.manualAddress')}
-          value={lookupAddress}
-          onChangeText={setLookupAddress}
-        />
-        <Button
-          label={t('profile:zone.locateAddress')}
-          onPress={() => void locateFromAddress()}
-          loading={busy === 'address'}
-          disabled={busy !== null || lookupAddress.trim() === ''}
-          variant="secondary"
-        />
-        {feedback === 'denied' ? (
-          <View style={styles.notice}>
-            <Text tone="danger">{t('profile:zone.permissionDenied')}</Text>
+      }
+    >
+      <TopBar title={t('profile:zone.title')} onBack={onBack} />
+      <View style={{ paddingHorizontal: 20, gap: 12 }}>
+        <Text variant="label" tone="muted">
+          {t('profile:zone.hint')}
+        </Text>
+        <Card padding={0}>
+          <ListRow
+            icon="map"
+            title={
+              perimeter?.city && perimeter.radius != null
+                ? t('profile:zone.current', {
+                    city: perimeter.city,
+                    radius: formatDistance(perimeter.radius),
+                  })
+                : t('profile:zone.none')
+            }
+            detail={
+              place
+                ? t('profile:zone.selectedPlace', {
+                    label: place.label ?? t('profile:zone.unnamedPlace'),
+                  })
+                : undefined
+            }
+          />
+          <View style={{ paddingHorizontal: 16, paddingBottom: 16, gap: 12 }}>
             <Button
-              label={t('profile:zone.openSettings')}
-              onPress={() => void openAppSettings()}
-              variant="ghost"
+              label={t('profile:zone.useMyPosition')}
+              icon="location"
+              variant="soft"
+              full
+              onPress={() => void locate()}
+              loading={busy === 'position'}
+              disabled={busy !== null}
             />
+            <Field
+              label={t('profile:zone.manualAddress')}
+              icon="search"
+              value={lookupAddress}
+              onChangeText={setLookupAddress}
+            />
+            <Button
+              label={t('profile:zone.locateAddress')}
+              variant="ghost"
+              full
+              onPress={() => void locateFromAddress()}
+              loading={busy === 'address'}
+              disabled={busy !== null || lookupAddress.trim() === ''}
+            />
+            {feedback === 'denied' ? (
+              <>
+                <Banner tone="danger" message={t('profile:zone.permissionDenied')} />
+                <Button
+                  label={t('profile:zone.openSettings')}
+                  variant="ghost"
+                  full
+                  onPress={() => void openAppSettings()}
+                />
+              </>
+            ) : null}
+            {feedback === 'unavailable' ? (
+              <Banner tone="danger" message={t('profile:zone.positionUnavailable')} />
+            ) : null}
+            {feedback === 'notFound' ? (
+              <Banner tone="warning" message={t('profile:zone.addressNotFound')} />
+            ) : null}
           </View>
-        ) : null}
-        {feedback === 'unavailable' ? (
-          <Text tone="danger">{t('profile:zone.positionUnavailable')}</Text>
-        ) : null}
-        {feedback === 'notFound' ? (
-          <Text tone="danger">{t('profile:zone.addressNotFound')}</Text>
-        ) : null}
-      </Card>
-      {formError ? <Text tone="danger">{formError}</Text> : null}
-      {notice ? <Text tone="primary">{notice}</Text> : null}
-      <FormTextField control={form.control} name="address" label={t('profile:zone.address')} />
-      <FormTextField control={form.control} name="city" label={t('profile:zone.city')} />
-      <FormTextField
-        control={form.control}
-        name="radiusKm"
-        label={t('profile:zone.radius')}
-        keyboardType="number-pad"
-      />
-      <FormTextField control={form.control} name="zones" label={t('profile:zone.zones')} />
-      <Button
-        label={t('profile:zone.submit')}
-        onPress={() => void onSubmit()}
-        loading={update.isPending}
-      />
+        </Card>
+        {formError ? <Banner tone="danger" message={formError} /> : null}
+        {notice ? <Banner tone="success" message={notice} /> : null}
+      </View>
+      <Section>
+        <View style={{ paddingHorizontal: 20, gap: 14 }}>
+          <FormField
+            control={form.control}
+            name="address"
+            label={t('profile:zone.address')}
+            icon="pin"
+          />
+          <FormField
+            control={form.control}
+            name="city"
+            label={t('profile:zone.city')}
+            icon="location"
+          />
+          <FormField
+            control={form.control}
+            name="radiusKm"
+            label={t('profile:zone.radius')}
+            icon="map"
+            keyboardType="number-pad"
+          />
+          <FormField
+            control={form.control}
+            name="zones"
+            label={t('profile:zone.zones')}
+            icon="grid"
+          />
+        </View>
+      </Section>
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  notice: { gap: 8 },
-});
