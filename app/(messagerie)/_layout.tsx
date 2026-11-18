@@ -13,7 +13,7 @@ export default function MessagerieLayout() {
       }}
     >
       <Stack.Screen name="conversations/index" />
-      <Stack.Screen name="conversations/[id]" />
+      <Stack.Screen name="conversations/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="conversations/new" />
     </Stack>
   );

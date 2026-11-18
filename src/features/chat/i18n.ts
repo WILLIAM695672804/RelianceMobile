@@ -34,6 +34,7 @@ const fr = {
   },
   thread: {
     title: 'Conversation',
+    today: 'Aujourd’hui',
     empty: 'Démarrez la conversation.',
     me: 'Moi',
     unknownSender: 'Interlocuteur',
@@ -87,6 +88,7 @@ const en: typeof fr = {
   },
   thread: {
     title: 'Conversation',
+    today: 'Today',
     empty: 'Start the conversation.',
     me: 'Me',
     unknownSender: 'Participant',

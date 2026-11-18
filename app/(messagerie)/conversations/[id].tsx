@@ -1,8 +1,8 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
-import { ChatScreen } from '@/features/chat';
+import { ChatContainer } from '@/features/chat';
 
 export default function ConversationRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return <ChatScreen conversationId={id} />;
+  return <ChatContainer conversationId={id} onBack={() => router.back()} />;
 }

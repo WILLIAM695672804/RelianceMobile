@@ -29,3 +29,9 @@ export {
   type InboxViewProps,
 } from './ui/ChatViews';
 export { InboxContainer, type InboxContainerProps } from './containers/InboxContainer';
+export {
+  ChatContainer,
+  chatContact,
+  toChatItems,
+  type ChatContainerProps,
+} from './containers/ChatContainer';
