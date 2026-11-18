@@ -31,7 +31,7 @@ jest.mock('@/features/notifications', () => ({
 }));
 
 jest.mock('@/features/chat', () => ({
-  ConversationsScreen: (props: { onOpen: (id: string) => void }) => {
+  InboxContainer: (props: { onOpen: (id: string) => void }) => {
     mockConversationsProps.current = props;
     return null;
   },

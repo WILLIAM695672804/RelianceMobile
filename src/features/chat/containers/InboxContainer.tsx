@@ -35,16 +35,17 @@ export function toConversationSummary(
 export interface InboxContainerProps {
   onOpen: (conversationId: string) => void;
   onNew?: () => void;
+  onBack?: () => void;
 }
 
 /** Onglet « Messages » : conversations de l'utilisateur. */
-export function InboxContainer({ onOpen, onNew }: InboxContainerProps) {
+export function InboxContainer({ onOpen, onNew, onBack }: InboxContainerProps) {
   const { t } = useTranslation();
   const selfId = useSession((state) => state.user?.id ?? null);
   const conversations = useConversations();
 
   return (
-    <QueryGate queries={[conversations]} withTabBar>
+    <QueryGate queries={[conversations]} withTabBar={!onBack}>
       {() => (
         <InboxView
           conversations={(conversations.data ?? []).map((conversation) =>
@@ -52,6 +53,7 @@ export function InboxContainer({ onOpen, onNew }: InboxContainerProps) {
           )}
           onOpen={(conversation) => onOpen(conversation.id)}
           onNew={onNew}
+          onBack={onBack}
         />
       )}
     </QueryGate>

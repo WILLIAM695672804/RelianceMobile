@@ -1,12 +1,14 @@
 import { router } from 'expo-router';
 
-import { ConversationsScreen } from '@/features/chat';
+import { InboxContainer } from '@/features/chat';
 
-/** Liste des conversations reliée au fil de discussion. */
+/** Conversations ouvertes hors des onglets (profil, notifications). */
 export function ConversationsRoute() {
   return (
-    <ConversationsScreen
+    <InboxContainer
       onOpen={(id) => router.push({ pathname: '/conversations/[id]', params: { id } })}
+      onNew={() => router.push('/conversations/new')}
+      onBack={() => router.back()}
     />
   );
 }

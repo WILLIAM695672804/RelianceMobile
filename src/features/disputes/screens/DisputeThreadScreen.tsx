@@ -2,21 +2,24 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
 import { useSession } from '@/core/session';
+import { useTheme } from '@/core/theme';
+import { FormField } from '@/shared/forms';
 import {
-  Badge,
+  Banner,
   Button,
   Card,
-  FormTextField,
+  EmptyState,
+  Pill,
+  QueryGate,
   Screen,
-  SectionHeader,
-  Snackbar,
-  StateView,
+  Section,
   Text,
-} from '@/shared/components';
+  TopBar,
+} from '@/shared/ui';
 import { formatClockTime, formatDate } from '@/shared/format';
 
 import { useDispute, usePostDisputeMessage } from '../hooks/useDisputes';
@@ -40,26 +43,24 @@ export function DisputeThreadScreen({ disputeId, onBack }: DisputeThreadScreenPr
 
   return (
     <Screen
-      title={t('disputes:thread.title')}
-      onBack={onBack}
+      testID="fil-litige"
       onRefresh={() => void dispute.refetch()}
       refreshing={dispute.isRefetching}
     >
-      {dispute.isPending ? <StateView status="loading" /> : null}
-      {dispute.isError ? (
-        <StateView status="error" error={dispute.error} onRetry={() => void dispute.refetch()} />
-      ) : null}
-      {dispute.isSuccess ? (
-        <>
-          <DisputeHeader dispute={dispute.data} />
-          <DisputeMessages dispute={dispute.data} />
-          {isDisputeClosed(dispute.data.status) ? (
-            <Snackbar message={t('disputes:thread.closed')} tone="info" />
-          ) : (
-            <MessageComposer disputeId={disputeId} />
-          )}
-        </>
-      ) : null}
+      <TopBar title={t('disputes:thread.title')} onBack={onBack} />
+      <QueryGate queries={[dispute]}>
+        {() => (
+          <View style={{ paddingHorizontal: 20, gap: 12 }}>
+            <DisputeHeader dispute={dispute.data!} />
+            <DisputeMessages dispute={dispute.data!} />
+            {isDisputeClosed(dispute.data!.status) ? (
+              <Banner tone="warning" message={t('disputes:thread.closed')} />
+            ) : (
+              <MessageComposer disputeId={disputeId} />
+            )}
+          </View>
+        )}
+      </QueryGate>
     </Screen>
   );
 }
@@ -67,73 +68,95 @@ export function DisputeThreadScreen({ disputeId, onBack }: DisputeThreadScreenPr
 function DisputeHeader({ dispute }: { dispute: Dispute }) {
   const { t } = useTranslation();
   return (
-    <Card>
-      <View style={styles.header}>
-        <Text variant="subtitle" style={styles.title}>
-          {t(`disputes:reasons.${dispute.reason}`, { defaultValue: dispute.reason })}
-        </Text>
-        <Badge
-          label={t(`disputes:statuses.${dispute.status}`)}
-          tone={DISPUTE_TONES[dispute.status]}
-        />
+    <Card padding={16}>
+      <View style={{ gap: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Text variant="section" style={{ flex: 1 }}>
+            {t(`disputes:reasons.${dispute.reason}`, { defaultValue: dispute.reason })}
+          </Text>
+          <Pill
+            size="sm"
+            label={t(`disputes:statuses.${dispute.status}`)}
+            tone={DISPUTE_TONES[dispute.status]}
+          />
+        </View>
+        {dispute.created_at ? (
+          <Text variant="caption" tone="muted">
+            {t('disputes:list.openedAt', { date: formatDate(dispute.created_at) })}
+          </Text>
+        ) : null}
+        {dispute.defendant ? (
+          <Text variant="label" tone="muted">
+            {t('disputes:list.against', { name: dispute.defendant.name })}
+          </Text>
+        ) : null}
+        {dispute.description ? <Text>{dispute.description}</Text> : null}
+        {dispute.resolution ? (
+          <Banner
+            tone="success"
+            message={t('disputes:thread.resolution', { resolution: dispute.resolution })}
+          />
+        ) : null}
       </View>
-      {dispute.created_at ? (
-        <Text variant="caption" tone="muted">
-          {t('disputes:list.openedAt', { date: formatDate(dispute.created_at) })}
-        </Text>
-      ) : null}
-      {dispute.defendant ? (
-        <Text tone="muted">{t('disputes:list.against', { name: dispute.defendant.name })}</Text>
-      ) : null}
-      {dispute.description ? <Text>{dispute.description}</Text> : null}
-      {dispute.resolution ? (
-        <Text tone="success">
-          {t('disputes:thread.resolution', { resolution: dispute.resolution })}
-        </Text>
-      ) : null}
     </Card>
   );
 }
 
 function DisputeMessages({ dispute }: { dispute: Dispute }) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const selfId = useSession((state) => state.user?.id ?? null);
   const messages = dispute.messages ?? [];
-
   if (messages.length === 0) {
-    return <StateView status="empty" message={t('disputes:thread.empty')} />;
+    return (
+      <EmptyState
+        icon="chat"
+        title={t('disputes:thread.title')}
+        message={t('disputes:thread.empty')}
+      />
+    );
   }
-
   return (
-    <>
-      <SectionHeader title={t('disputes:thread.title')} />
-      {messages.map((message) => {
-        const mine = Boolean(message.sender_id && message.sender_id === selfId);
-        return (
-          <View key={message.id} style={[styles.row, mine ? styles.mineRow : styles.theirRow]}>
-            <Card
-              tone={mine ? 'primary' : 'muted'}
-              padding={12}
-              style={[styles.bubble, mine ? styles.mine : styles.their]}
+    <Section title={t('disputes:thread.title')}>
+      <View style={{ gap: 8 }}>
+        {messages.map((message) => {
+          const mine = Boolean(message.sender_id && message.sender_id === selfId);
+          return (
+            <View
+              key={message.id}
+              style={{ flexDirection: 'row', justifyContent: mine ? 'flex-end' : 'flex-start' }}
             >
-              <View style={styles.bubbleHeader}>
-                <Text variant="caption" tone="primary">
-                  {mine
-                    ? t('disputes:thread.me')
-                    : (message.sender?.name ?? t('disputes:thread.unknownSender'))}
-                </Text>
-                {message.created_at ? (
-                  <Text variant="caption" tone="muted">
-                    {t('disputes:thread.sentAt', { time: formatClockTime(message.created_at) })}
+              <View
+                style={{
+                  maxWidth: '85%',
+                  paddingHorizontal: 14,
+                  paddingVertical: 10,
+                  borderRadius: 18,
+                  borderBottomRightRadius: mine ? 6 : 18,
+                  borderBottomLeftRadius: mine ? 18 : 6,
+                  backgroundColor: mine ? theme.colors.primary : theme.colors.surfaceHigh,
+                  gap: 4,
+                }}
+              >
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 8 }}>
+                  <Text variant="caption" tone={mine ? 'onPrimary' : 'primary'}>
+                    {mine
+                      ? t('disputes:thread.me')
+                      : (message.sender?.name ?? t('disputes:thread.unknownSender'))}
                   </Text>
-                ) : null}
+                  {message.created_at ? (
+                    <Text variant="caption" tone={mine ? 'onPrimary' : 'muted'}>
+                      {t('disputes:thread.sentAt', { time: formatClockTime(message.created_at) })}
+                    </Text>
+                  ) : null}
+                </View>
+                <Text tone={mine ? 'onPrimary' : 'default'}>{message.message}</Text>
               </View>
-              <Text>{message.message}</Text>
-            </Card>
-          </View>
-        );
-      })}
-    </>
+            </View>
+          );
+        })}
+      </View>
+    </Section>
   );
 }
 
@@ -160,33 +183,22 @@ function MessageComposer({ disputeId }: { disputeId: string }) {
   });
 
   return (
-    <>
-      <FormTextField
+    <View style={{ gap: 10 }}>
+      <FormField
         control={form.control}
         name="message"
         label={t('disputes:thread.message')}
         multiline
       />
-      {notice ? <Snackbar message={notice} tone="success" /> : null}
-      {error ? <Snackbar message={error} tone="danger" /> : null}
+      {notice ? <Banner tone="success" message={notice} /> : null}
+      {error ? <Banner tone="danger" message={error} /> : null}
       <Button
         label={t('disputes:thread.send')}
         icon="send"
+        full
         onPress={() => void submit()}
         loading={post.isPending}
       />
-    </>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  title: { flex: 1 },
-  row: { flexDirection: 'row' },
-  mineRow: { justifyContent: 'flex-end' },
-  theirRow: { justifyContent: 'flex-start' },
-  bubble: { maxWidth: '88%' },
-  mine: { borderBottomRightRadius: 4 },
-  their: { borderBottomLeftRadius: 4 },
-  bubbleHeader: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
-});

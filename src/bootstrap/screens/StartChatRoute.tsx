@@ -10,6 +10,7 @@ export function StartChatRoute() {
       memberId={member}
       subject={subject}
       onOpened={(id) => router.replace({ pathname: '/conversations/[id]', params: { id } })}
+      onBack={() => router.back()}
     />
   );
 }

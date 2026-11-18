@@ -335,12 +335,14 @@ export interface InboxViewProps {
   conversations: readonly ConversationSummary[];
   onOpen: (conversation: ConversationSummary) => void;
   onNew?: () => void;
+  /** Fourni, l'écran est ouvert hors des onglets : bouton retour, sans barre d'onglets. */
+  onBack?: () => void;
 }
 
 type Filter = 'all' | 'active' | 'archive';
 
 /** Boîte de réception (maquette `InboxScreen`), présentation pure. */
-export function InboxView({ conversations, onOpen, onNew }: InboxViewProps) {
+export function InboxView({ conversations, onOpen, onNew, onBack }: InboxViewProps) {
   const { t } = useTranslation();
   const theme = useTheme();
   const [filter, setFilter] = useState<Filter>('all');
@@ -353,18 +355,24 @@ export function InboxView({ conversations, onOpen, onNew }: InboxViewProps) {
   );
 
   return (
-    <Screen withTabBar testID="messages">
+    <Screen withTabBar={!onBack} testID="messages">
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
+          gap: 12,
           paddingHorizontal: 20,
           paddingTop: 12,
           paddingBottom: 8,
         }}
       >
-        <Text variant="display" accessibilityRole="header" style={{ fontSize: 28, lineHeight: 32 }}>
+        {onBack ? <BackButton onPress={onBack} /> : null}
+        <Text
+          variant="display"
+          accessibilityRole="header"
+          style={{ flex: 1, fontSize: 28, lineHeight: 32 }}
+        >
           {t('chat:inbox.title')}
         </Text>
         {onNew ? (

@@ -5,7 +5,10 @@ import { DisputeFormContainer, DisputesScreen, DisputeThreadScreen } from '@/fea
 /** Liste des litiges, reliée au fil de chaque dossier. */
 export function DisputesRoute() {
   return (
-    <DisputesScreen onOpen={(id) => router.push({ pathname: '/disputes/[id]', params: { id } })} />
+    <DisputesScreen
+      onOpen={(id) => router.push({ pathname: '/disputes/[id]', params: { id } })}
+      onBack={() => router.back()}
+    />
   );
 }
 

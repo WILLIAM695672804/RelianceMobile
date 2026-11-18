@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ActivityIndicator, View } from 'react-native';
 
-import { Button, Screen, StateView, Text } from '@/shared/components';
+import { useTheme } from '@/core/theme';
+import { EmptyState, Screen, Text, TopBar } from '@/shared/ui';
 
 import { useCreateConversation } from '../hooks/useChat';
 
@@ -11,11 +13,13 @@ export interface StartChatScreenProps {
   subject?: string;
   /** Conversation ouverte : l'appelant redirige vers le fil. */
   onOpened: (conversationId: string) => void;
+  onBack?: () => void;
 }
 
-/** Ouverture d'une conversation privée depuis une mission. */
-export function StartChatScreen({ memberId, subject, onOpened }: StartChatScreenProps) {
+/** Ouverture d'une conversation privée depuis une mission ou une fiche. */
+export function StartChatScreen({ memberId, subject, onOpened, onBack }: StartChatScreenProps) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const createConversation = useCreateConversation();
   const [failed, setFailed] = useState(false);
   const started = useRef(false);
@@ -40,14 +44,24 @@ export function StartChatScreen({ memberId, subject, onOpened }: StartChatScreen
   }, []);
 
   return (
-    <Screen title={t('chat:start.title')}>
+    <Screen scroll={false} testID="ouverture-conversation">
+      <TopBar title={t('chat:start.title')} onBack={onBack} />
       {failed ? (
-        <>
-          <Text tone="danger">{t('chat:start.failed')}</Text>
-          <Button label={t('chat:start.retry')} onPress={start} />
-        </>
+        <EmptyState
+          icon="chat"
+          tone="danger"
+          title={t('chat:start.title')}
+          message={t('chat:start.failed')}
+          actionLabel={t('chat:start.retry')}
+          onAction={start}
+        />
       ) : (
-        <StateView status="loading" />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+          <ActivityIndicator color={theme.colors.primary} size="large" />
+          <Text variant="label" tone="muted">
+            {t('chat:start.title')}
+          </Text>
+        </View>
       )}
     </Screen>
   );
