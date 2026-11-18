@@ -37,3 +37,8 @@ export {
   type TechReview,
   type TechWork,
 } from './ui/TechProfileView';
+export {
+  filterByDomains,
+  SearchContainer,
+  type SearchContainerProps,
+} from './containers/SearchContainer';

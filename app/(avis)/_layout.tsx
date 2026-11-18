@@ -14,8 +14,8 @@ export default function AvisLayout() {
     >
       <Stack.Screen name="reviews/new/[requestId]" options={{ headerShown: false }} />
       <Stack.Screen name="my-reviews" />
-      <Stack.Screen name="reputation" />
-      <Stack.Screen name="badges/[code]" />
+      <Stack.Screen name="reputation" options={{ headerShown: false }} />
+      <Stack.Screen name="badges/[code]" options={{ headerShown: false }} />
     </Stack>
   );
 }

@@ -12,9 +12,9 @@ export default function AnnuaireLayout() {
         headerBackTitle: t('common:actions.back'),
       }}
     >
-      <Stack.Screen name="technicians/[id]" />
-      <Stack.Screen name="leaderboard" />
-      <Stack.Screen name="search" />
+      <Stack.Screen name="technicians/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="leaderboard" options={{ headerShown: false }} />
+      <Stack.Screen name="search" options={{ headerShown: false }} />
     </Stack>
   );
 }

@@ -61,6 +61,11 @@ jest.mock('@/features/missions', () => ({
   CancelMissionContainer: mockCapture,
 }));
 jest.mock('../containers/QualityContainer', () => ({ QualityContainer: mockCapture }));
+jest.mock('../containers/ReputationContainers', () => ({
+  ReputationContainer: mockCapture,
+  BadgeContainer: mockCapture,
+  LeaderboardContainer: mockCapture,
+}));
 jest.mock('@/features/disputes', () => ({
   DisputesScreen: mockCapture,
   DisputeFormContainer: mockCapture,
@@ -72,6 +77,7 @@ jest.mock('@/features/reviews', () => ({
 }));
 jest.mock('@/features/directory', () => ({
   LeaderboardScreen: mockCapture,
+  SearchContainer: mockCapture,
   SearchScreen: mockCapture,
 }));
 jest.mock('@/features/wallet', () => ({
@@ -252,8 +258,8 @@ describe('jointures de la réputation', () => {
   it('mène au classement et au détail d’un badge', async () => {
     await render(<ReputationRoute />);
 
-    call('onOpenBadge', 'first-mission');
-    call('onOpenLeaderboard');
+    call('onBadge', 'first-mission');
+    call('onLeaderboard');
 
     expect(router.push).toHaveBeenNthCalledWith(1, {
       pathname: '/badges/[code]',

@@ -16,8 +16,9 @@ const fr = {
   },
   profile: {
     back: 'Retour',
-    save: 'Enregistrer ce technicien',
-    saved: 'Technicien enregistré',
+    save: 'Suivre ce technicien',
+    saved: 'Technicien suivi',
+    anonymous: 'Client Reliance',
     kyc: 'KYC',
     rating: 'Note moy.',
     jobs: 'Missions',
@@ -104,8 +105,9 @@ const en: typeof fr = {
   },
   profile: {
     back: 'Back',
-    save: 'Save this technician',
-    saved: 'Technician saved',
+    save: 'Follow this technician',
+    saved: 'Following',
+    anonymous: 'Reliance client',
     kyc: 'KYC',
     rating: 'Avg. rating',
     jobs: 'Jobs',
