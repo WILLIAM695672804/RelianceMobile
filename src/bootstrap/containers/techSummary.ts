@@ -35,13 +35,45 @@ export function withMapPoints(cards: readonly TechnicianCard[]): TechSummary[] {
   ];
   const scale = (value: number, min: number, max: number) =>
     max - min < 1e-6 ? 50 : 15 + ((value - min) / (max - min)) * 70;
-  return cards.map((card, index) => {
+  const points = cards.map((card, index) => {
     const lat = card.location?.latitude;
     const lng = card.location?.longitude;
-    const mapPoint =
-      lat != null && lng != null
-        ? { x: scale(lng, minLng, maxLng), y: 100 - scale(lat, minLat, maxLat) }
-        : { x: 20 + ((index * 37) % 60), y: 20 + ((index * 23) % 55) };
-    return { ...toTechSummary(card), mapPoint };
+    return lat != null && lng != null
+      ? { x: scale(lng, minLng, maxLng), y: 100 - scale(lat, minLat, maxLat) }
+      : { x: 20 + ((index * 37) % 60), y: 20 + ((index * 23) % 55) };
   });
+  return spreadOverlaps(points).map((mapPoint, index) => ({
+    ...toTechSummary(cards[index]!),
+    mapPoint,
+  }));
+}
+
+/** Rayon, en pourcentage du cadre, de la couronne des repères confondus. */
+const OVERLAP_RADIUS = 9;
+
+/**
+ * Écarte en couronne les repères confondus (même adresse, ou données d'essai identiques) :
+ * sans cela, ils se superposent et un seul reste visible.
+ */
+export function spreadOverlaps(
+  points: readonly { x: number; y: number }[],
+): { x: number; y: number }[] {
+  const groups = new Map<string, number[]>();
+  points.forEach((point, index) => {
+    const key = `${Math.round(point.x)}:${Math.round(point.y)}`;
+    groups.set(key, [...(groups.get(key) ?? []), index]);
+  });
+  const result = points.map((point) => ({ ...point }));
+  for (const indexes of groups.values()) {
+    if (indexes.length < 2) continue;
+    indexes.forEach((pointIndex, rank) => {
+      const angle = (2 * Math.PI * rank) / indexes.length;
+      const origin = points[pointIndex]!;
+      result[pointIndex] = {
+        x: Math.min(95, Math.max(5, origin.x + OVERLAP_RADIUS * Math.cos(angle))),
+        y: Math.min(95, Math.max(5, origin.y + OVERLAP_RADIUS * Math.sin(angle))),
+      };
+    });
+  }
+  return result;
 }
