@@ -94,7 +94,7 @@ jest.mock('@/features/profile', () => ({
   ProfileScreen: mockCapture,
   TechnicianSetupScreen: mockCapture,
 }));
-jest.mock('@/features/kyc', () => ({ KycScreen: mockCapture }));
+jest.mock('@/features/kyc', () => ({ KycContainer: mockCapture }));
 jest.mock('@/features/interventions', () => ({
   InterventionReportScreen: mockCapture,
   interventionForJob: () => null,
@@ -366,7 +366,7 @@ describe('jointures du compte', () => {
   it('mène des justificatifs au parcours d’installation', async () => {
     await render(<KycRoute />);
 
-    call('onContinue');
+    call('onDone');
 
     expect(router.push).toHaveBeenCalledWith('/setup');
   });

@@ -1,5 +1,7 @@
-import { NotificationSettingsScreen } from '@/features/notifications';
+import { router } from 'expo-router';
+
+import { NotificationSettingsContainer } from '@/features/notifications';
 
 export default function NotificationSettingsRoute() {
-  return <NotificationSettingsScreen />;
+  return <NotificationSettingsContainer onBack={() => router.back()} />;
 }

@@ -26,3 +26,4 @@ export {
   type KycStartViewProps,
   type KycStatusViewProps,
 } from './ui/KycViews';
+export { KycContainer, remainingShots, type KycContainerProps } from './containers/KycContainer';

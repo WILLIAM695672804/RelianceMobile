@@ -13,7 +13,7 @@ export default function NotificationsLayout() {
       }}
     >
       <Stack.Screen name="notifications" options={{ headerShown: false }} />
-      <Stack.Screen name="notification-settings" />
+      <Stack.Screen name="notification-settings" options={{ headerShown: false }} />
     </Stack>
   );
 }

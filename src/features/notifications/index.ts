@@ -37,3 +37,7 @@ export {
   NotificationsContainer,
   type NotificationsContainerProps,
 } from './containers/NotificationsContainer';
+export {
+  NotificationSettingsContainer,
+  type NotificationSettingsContainerProps,
+} from './containers/NotificationSettingsContainer';

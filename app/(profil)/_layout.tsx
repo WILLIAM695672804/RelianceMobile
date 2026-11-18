@@ -24,7 +24,7 @@ export default function ProfilLayout() {
         <Stack.Screen name="professional" />
         <Stack.Screen name="skills" />
         <Stack.Screen name="zone" />
-        <Stack.Screen name="kyc" />
+        <Stack.Screen name="kyc" options={{ headerShown: false }} />
       </Stack.Protected>
       <Stack.Protected guard={role === 'client'}>
         <Stack.Screen name="upgrade" />

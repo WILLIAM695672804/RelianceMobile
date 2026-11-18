@@ -148,13 +148,16 @@ export function KycStartView({ onSelect, onBack }: KycStartViewProps) {
   );
 }
 
-export type KycShot = 'front' | 'back' | 'selfie';
+/** Recto, verso, selfie, puis les justificatifs complémentaires exigés par le serveur. */
+export type KycShot = 'front' | 'back' | 'selfie' | 'casier' | 'cert';
 
 export interface KycCaptureViewProps {
   shot: KycShot;
   /** Étape du parcours (2 pour le document, 3 pour le selfie). */
   step: number;
   photo: UploadFile | null;
+  /** Envoi de la prise de vue retenue en cours. */
+  submitting?: boolean;
   onCapture: () => Promise<UploadFile | null>;
   onPhoto: (file: UploadFile | null) => void;
   onNext: () => void;
@@ -166,6 +169,7 @@ export function KycCaptureView({
   shot,
   step,
   photo,
+  submitting = false,
   onCapture,
   onPhoto,
   onNext,
@@ -187,6 +191,7 @@ export function KycCaptureView({
                 variant="ghost"
                 size="lg"
                 full
+                disabled={submitting}
                 onPress={() => onPhoto(null)}
               />
             </View>
@@ -196,6 +201,7 @@ export function KycCaptureView({
                 iconRight="arrowR"
                 size="lg"
                 full
+                loading={submitting}
                 onPress={onNext}
               />
             </View>
