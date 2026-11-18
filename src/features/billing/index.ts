@@ -35,3 +35,9 @@ export { RequestQuotesScreen, type RequestQuotesScreenProps } from './screens/Re
 export type { Invoice, Quote, QuoteLine, QuotePayload } from './schemas/billingSchemas';
 export { InvoiceView, type InvoiceDocument, type InvoiceViewProps } from './ui/InvoiceView';
 export { QuoteView, type QuoteDocument, type QuoteViewProps } from './ui/QuoteView';
+export {
+  ClientQuoteContainer,
+  pendingQuote,
+  quoteLines,
+  type ClientQuoteContainerProps,
+} from './containers/ClientQuoteContainer';

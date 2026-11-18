@@ -15,6 +15,12 @@ const fr = {
     agree: 'J’accepte les conditions et la signature électronique.',
     reject: 'Refuser',
     accept: 'Signer et bloquer le séquestre',
+    noneTitle: 'Aucun devis à valider',
+    issuerRole: 'Technicien',
+    flat: 'Intervention',
+    other: 'Autres prestations',
+    escrowCondition:
+      'Le montant est bloqué en séquestre et n’est versé au technicien qu’après votre validation des travaux.',
   },
   invoiceView: {
     eyebrow: 'Facture',
@@ -129,6 +135,12 @@ const en: typeof fr = {
     agree: 'I accept the terms and the electronic signature.',
     reject: 'Decline',
     accept: 'Sign and hold in escrow',
+    noneTitle: 'No quote to approve',
+    issuerRole: 'Technician',
+    flat: 'Job',
+    other: 'Other services',
+    escrowCondition:
+      'The amount is held in escrow and only paid to the technician once you approve the work.',
   },
   invoiceView: {
     eyebrow: 'Invoice',
