@@ -95,3 +95,10 @@ export {
   accountGroupsFor,
   type AccountContainerProps,
 } from './containers/AccountContainer';
+export {
+  LEVEL_PROFICIENCY,
+  onboardingInitial,
+  skillsToAdd,
+  TechOnboardingContainer,
+  type TechOnboardingContainerProps,
+} from './containers/TechOnboardingContainer';

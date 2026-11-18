@@ -20,7 +20,7 @@ export default function ProfilLayout() {
       <Stack.Screen name="locations" />
       <Stack.Screen name="settings" />
       <Stack.Protected guard={role === 'technicien'}>
-        <Stack.Screen name="setup" />
+        <Stack.Screen name="setup" options={{ headerShown: false }} />
         <Stack.Screen name="professional" />
         <Stack.Screen name="skills" />
         <Stack.Screen name="zone" />

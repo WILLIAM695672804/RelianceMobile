@@ -14,6 +14,11 @@ const fr = {
   account: {
     title: 'Profil',
   },
+  onboardingSave: {
+    saved: 'Profil professionnel enregistré.',
+    positionRequired:
+      'Votre position est nécessaire pour définir la zone d’intervention : autorisez la localisation.',
+  },
   onboarding: {
     step: 'Étape {{step}} / {{count}}',
     previous: 'Retour',
@@ -286,6 +291,10 @@ const en: typeof fr = {
   },
   account: {
     title: 'Profile',
+  },
+  onboardingSave: {
+    saved: 'Professional profile saved.',
+    positionRequired: 'Your location is needed to set your service area: allow location access.',
   },
   onboarding: {
     step: 'Step {{step}} / {{count}}',

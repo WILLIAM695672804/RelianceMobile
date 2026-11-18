@@ -24,7 +24,7 @@ import { WalletRoute } from './WalletRoute';
  */
 
 jest.mock('expo-router', () => ({
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), dismissTo: jest.fn() },
   useLocalSearchParams: () => ({
     id: 'r1',
     jobId: 'j1',
@@ -92,6 +92,7 @@ jest.mock('@/features/wallet', () => ({
 }));
 jest.mock('@/features/profile', () => ({
   ProfileScreen: mockCapture,
+  TechOnboardingContainer: mockCapture,
   TechnicianSetupScreen: mockCapture,
 }));
 jest.mock('@/features/kyc', () => ({ KycContainer: mockCapture }));
@@ -347,20 +348,12 @@ describe('jointures du compte', () => {
     expect(PROFILE_HREF.setup).toBe('/setup');
   });
 
-  it('mène du parcours d’installation à chacune de ses étapes', async () => {
+  it('ramène à l’accueil technicien après l’installation', async () => {
     await render(<TechnicianSetupRoute />);
 
-    call('onOpen', 'professional');
-    call('onOpen', 'skills');
-    call('onOpen', 'zone');
-    call('onOpen', 'kyc');
-    call('onOpen', 'planning');
+    call('onDone');
 
-    expect(router.push).toHaveBeenNthCalledWith(1, '/professional');
-    expect(router.push).toHaveBeenNthCalledWith(2, '/skills');
-    expect(router.push).toHaveBeenNthCalledWith(3, '/zone');
-    expect(router.push).toHaveBeenNthCalledWith(4, '/kyc');
-    expect(router.push).toHaveBeenNthCalledWith(5, '/planning/time-slots');
+    expect(router.dismissTo).toHaveBeenCalledWith('/technicien');
   });
 
   it('mène des justificatifs au parcours d’installation', async () => {
