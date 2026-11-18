@@ -8,7 +8,11 @@ import {
   useCreateIntervention,
   useInterventions,
 } from '@/features/interventions';
-import { Screen, StateView } from '@/shared/components';
+import { ActivityIndicator, View } from 'react-native';
+
+import { useTheme } from '@/core/theme';
+import { EmptyState, ErrorState, Screen, TopBar } from '@/shared/ui';
+import { normalizeError } from '@/core/errors';
 
 export interface InterventionReportGateProps {
   /** Mission du technicien : l'intervention est ouverte si elle n'existe pas encore. */
@@ -33,6 +37,7 @@ export function InterventionReportGate({
   onDone,
 }: InterventionReportGateProps) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const interventions = useInterventions();
   const create = useCreateIntervention();
   const found =
@@ -55,17 +60,24 @@ export function InterventionReportGate({
 
   if (interventions.isPending || (missing && canOpen)) {
     return (
-      <Screen title={t('interventions:report.title')} onBack={onBack}>
-        <StateView status="loading" />
+      <Screen scroll={false}>
+        <TopBar title={t('interventions:report.title')} onBack={onBack} />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <ActivityIndicator
+            color={theme.colors.primary}
+            size="large"
+            accessibilityLabel={t('common:states.loading')}
+          />
+        </View>
       </Screen>
     );
   }
   if (interventions.isError) {
     return (
-      <Screen title={t('interventions:report.title')} onBack={onBack}>
-        <StateView
-          status="error"
-          error={interventions.error}
+      <Screen>
+        <TopBar title={t('interventions:report.title')} onBack={onBack} />
+        <ErrorState
+          kind={normalizeError(interventions.error).kind}
           onRetry={() => void interventions.refetch()}
         />
       </Screen>
@@ -73,8 +85,13 @@ export function InterventionReportGate({
   }
   if (found === null) {
     return (
-      <Screen title={t('interventions:report.readTitle')} onBack={onBack}>
-        <StateView status="empty" message={t('interventions:report.noReport')} />
+      <Screen>
+        <TopBar title={t('interventions:report.readTitle')} onBack={onBack} />
+        <EmptyState
+          icon="file"
+          title={t('interventions:report.readTitle')}
+          message={t('interventions:report.noReport')}
+        />
       </Screen>
     );
   }

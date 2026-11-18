@@ -2,22 +2,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { describeError, normalizeError } from '@/core/errors';
+import { FormField } from '@/shared/forms';
 import {
-  Badge,
+  Banner,
   Button,
   Card,
-  FormTextField,
-  ListItem,
+  ListRow,
+  Pill,
+  QueryGate,
   Screen,
-  SectionHeader,
-  Snackbar,
-  StateView,
+  SectionLabel,
   Text,
-  type BadgeTone,
-} from '@/shared/components';
+  TopBar,
+  type PillTone,
+} from '@/shared/ui';
 import { formatDate, formatHours } from '@/shared/format';
 
 import { useCompleteIntervention, useIntervention } from '../hooks/useInterventions';
@@ -29,7 +30,7 @@ import {
   type ReportFormValues,
 } from '../schemas/interventionSchemas';
 
-const TONE_BY_STATUS: Record<InterventionStatus, BadgeTone> = {
+const TONE_BY_STATUS: Record<InterventionStatus, PillTone> = {
   planned: 'neutral',
   in_progress: 'warning',
   completed: 'success',
@@ -55,25 +56,21 @@ export function InterventionReportScreen({
   const intervention = useIntervention(interventionId);
 
   return (
-    <Screen
-      title={t(mode === 'edit' ? 'interventions:report.title' : 'interventions:report.readTitle')}
-      onBack={onBack}
-      scroll
-    >
-      {intervention.isPending ? <StateView status="loading" /> : null}
-      {intervention.isError ? (
-        <StateView
-          status="error"
-          error={intervention.error}
-          onRetry={() => void intervention.refetch()}
-        />
-      ) : null}
-      {intervention.isSuccess ? (
-        <>
-          <ReportSummary intervention={intervention.data} />
-          {mode === 'edit' ? <ReportForm interventionId={interventionId} onDone={onDone} /> : null}
-        </>
-      ) : null}
+    <Screen testID="rapport-intervention">
+      <TopBar
+        title={t(mode === 'edit' ? 'interventions:report.title' : 'interventions:report.readTitle')}
+        onBack={onBack}
+      />
+      <QueryGate queries={[intervention]}>
+        {() => (
+          <View style={{ paddingHorizontal: 20, gap: 14 }}>
+            <ReportSummary intervention={intervention.data!} />
+            {mode === 'edit' ? (
+              <ReportForm interventionId={interventionId} onDone={onDone} />
+            ) : null}
+          </View>
+        )}
+      </QueryGate>
     </Screen>
   );
 }
@@ -84,48 +81,55 @@ function ReportSummary({ intervention }: { intervention: Intervention }) {
   const hasReport = Boolean(intervention.work_performed);
 
   return (
-    <Card>
-      <View style={styles.header}>
-        <Text variant="subtitle" style={styles.title}>
-          {intervention.request?.title ?? t('interventions:report.title')}
-        </Text>
-        <Badge
-          label={t(`interventions:report.statuses.${intervention.status}`)}
-          tone={TONE_BY_STATUS[intervention.status]}
-        />
+    <Card padding={16}>
+      <View style={{ gap: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Text variant="section" style={{ flex: 1 }}>
+            {intervention.request?.title ?? t('interventions:report.title')}
+          </Text>
+          <Pill
+            size="sm"
+            label={t(`interventions:report.statuses.${intervention.status}`)}
+            tone={TONE_BY_STATUS[intervention.status]}
+          />
+        </View>
+        {intervention.completed_at ? (
+          <Text variant="caption" tone="muted">
+            {formatDate(intervention.completed_at)}
+          </Text>
+        ) : null}
+        {hasReport ? (
+          <>
+            <SectionLabel label={t('interventions:report.sections.work')} icon="wrench" />
+            <Text>{intervention.work_performed}</Text>
+            <SectionLabel label={t('interventions:report.sections.materials')} icon="cog" />
+            {materials.length === 0 ? (
+              <Text variant="label" tone="muted">
+                {t('interventions:report.noMaterials')}
+              </Text>
+            ) : (
+              materials.map((material) => <ListRow key={material} icon="cog" title={material} />)
+            )}
+            {intervention.duration_hours != null ? (
+              <ListRow
+                icon="clock"
+                title={t('interventions:report.sections.duration')}
+                detail={formatHours(intervention.duration_hours)}
+              />
+            ) : null}
+            {intervention.notes ? (
+              <>
+                <SectionLabel label={t('interventions:report.sections.notes')} icon="info" />
+                <Text tone="muted">{intervention.notes}</Text>
+              </>
+            ) : null}
+          </>
+        ) : (
+          <Text variant="label" tone="muted">
+            {t('interventions:report.noReport')}
+          </Text>
+        )}
       </View>
-      {intervention.completed_at ? (
-        <Text variant="caption" tone="muted">
-          {formatDate(intervention.completed_at)}
-        </Text>
-      ) : null}
-      {hasReport ? (
-        <>
-          <SectionHeader title={t('interventions:report.sections.work')} />
-          <Text>{intervention.work_performed}</Text>
-          <SectionHeader title={t('interventions:report.sections.materials')} />
-          {materials.length === 0 ? (
-            <Text tone="muted">{t('interventions:report.noMaterials')}</Text>
-          ) : (
-            materials.map((material) => <ListItem key={material} label={material} icon="cog" />)
-          )}
-          {intervention.duration_hours != null ? (
-            <ListItem
-              label={t('interventions:report.sections.duration')}
-              detail={formatHours(intervention.duration_hours)}
-              icon="clock"
-            />
-          ) : null}
-          {intervention.notes ? (
-            <>
-              <SectionHeader title={t('interventions:report.sections.notes')} />
-              <Text tone="muted">{intervention.notes}</Text>
-            </>
-          ) : null}
-        </>
-      ) : (
-        <Text tone="muted">{t('interventions:report.noReport')}</Text>
-      )}
     </Card>
   );
 }
@@ -153,47 +157,45 @@ function ReportForm({ interventionId, onDone }: { interventionId: string; onDone
   });
 
   return (
-    <Card>
-      <SectionHeader title={t('interventions:report.title')} />
-      <FormTextField
-        control={form.control}
-        name="workPerformed"
-        label={t('interventions:report.fields.work')}
-        multiline
-      />
-      <FormTextField
-        control={form.control}
-        name="materials"
-        label={t('interventions:report.fields.materials')}
-        multiline
-      />
-      <FormTextField
-        control={form.control}
-        name="hours"
-        label={t('interventions:report.fields.hours')}
-        keyboardType="decimal-pad"
-      />
-      <FormTextField
-        control={form.control}
-        name="notes"
-        label={t('interventions:report.fields.notes')}
-        multiline
-      />
-      {notice ? <Snackbar message={notice} tone="success" /> : null}
-      {error ? <Snackbar message={error} tone="danger" /> : null}
-      <Button
-        label={t('interventions:report.submit')}
-        icon="check"
-        size="lg"
-        fullWidth
-        onPress={() => void submit()}
-        loading={complete.isPending}
-      />
+    <Card padding={16}>
+      <View style={{ gap: 14 }}>
+        <Text variant="section">{t('interventions:report.title')}</Text>
+        <FormField
+          control={form.control}
+          name="workPerformed"
+          label={t('interventions:report.fields.work')}
+          multiline
+        />
+        <FormField
+          control={form.control}
+          name="materials"
+          label={t('interventions:report.fields.materials')}
+          multiline
+        />
+        <FormField
+          control={form.control}
+          name="hours"
+          label={t('interventions:report.fields.hours')}
+          icon="clock"
+          keyboardType="decimal-pad"
+        />
+        <FormField
+          control={form.control}
+          name="notes"
+          label={t('interventions:report.fields.notes')}
+          multiline
+        />
+        {notice ? <Banner tone="success" message={notice} /> : null}
+        {error ? <Banner tone="danger" message={error} /> : null}
+        <Button
+          label={t('interventions:report.submit')}
+          icon="check"
+          size="lg"
+          full
+          onPress={() => void submit()}
+          loading={complete.isPending}
+        />
+      </View>
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  title: { flex: 1 },
-});

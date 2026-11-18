@@ -17,7 +17,6 @@ import {
 import { formatAmount, formatDate } from '@/shared/format';
 
 import { useRequest } from '../hooks/useRequests';
-import { iconForSkillSlug } from '../model/categoryIcons';
 import { stageOf, STAGE_TONES } from '../model/requestStage';
 import type { ServiceRequest } from '../schemas/requestSchemas';
 
