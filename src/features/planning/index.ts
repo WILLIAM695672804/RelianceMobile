@@ -46,3 +46,14 @@ export {
   type BlockValues,
   type WeeklyHours,
 } from './ui/PlanningViews';
+export {
+  AvailabilityContainer,
+  BlockAgendaContainer,
+  mondayOf,
+  PlanningWeekContainer,
+  toWeeklyHours,
+  weekEvents,
+  type AvailabilityContainerProps,
+  type BlockAgendaContainerProps,
+  type PlanningWeekContainerProps,
+} from './containers/PlanningContainers';

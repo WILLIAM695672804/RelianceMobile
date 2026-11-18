@@ -1,5 +1,7 @@
-import { ExceptionsScreen } from '@/features/planning';
+import { router } from 'expo-router';
+
+import { BlockAgendaContainer } from '@/features/planning';
 
 export default function ExceptionsRoute() {
-  return <ExceptionsScreen />;
+  return <BlockAgendaContainer onDone={() => router.back()} />;
 }

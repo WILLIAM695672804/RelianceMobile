@@ -1,14 +1,15 @@
 import { router } from 'expo-router';
 
-import { PlanningScreen } from '@/features/planning';
+import { PlanningWeekContainer } from '@/features/planning';
 
-/** Planning du technicien relié aux créneaux, indisponibilités et rendez-vous. */
+/** Semaine du technicien, reliée au blocage d'agenda et aux disponibilités. */
 export function PlanningRoute() {
   return (
-    <PlanningScreen
-      onOpenSlots={() => router.push('/planning/time-slots')}
-      onOpenExceptions={() => router.push('/planning/exceptions')}
-      onOpenAppointments={() => router.push('/appointments')}
+    <PlanningWeekContainer
+      onBack={() => router.back()}
+      onBlock={() => router.push('/planning/exceptions')}
+      onAvailability={() => router.push('/planning/time-slots')}
+      onAppointments={() => router.push('/appointments')}
     />
   );
 }

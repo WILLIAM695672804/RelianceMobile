@@ -12,9 +12,9 @@ export default function PlanningLayout() {
         headerBackTitle: t('common:actions.back'),
       }}
     >
-      <Stack.Screen name="planning/index" />
-      <Stack.Screen name="planning/time-slots" />
-      <Stack.Screen name="planning/exceptions" />
+      <Stack.Screen name="planning/index" options={{ headerShown: false }} />
+      <Stack.Screen name="planning/time-slots" options={{ headerShown: false }} />
+      <Stack.Screen name="planning/exceptions" options={{ headerShown: false }} />
       <Stack.Screen name="appointments/index" />
       <Stack.Screen name="appointments/new" />
     </Stack>

@@ -456,6 +456,8 @@ export interface AvailabilityViewProps {
   dayNames: readonly string[];
   initial: AvailabilityValues;
   saving?: boolean;
+  /** Seuls les horaires hebdomadaires sont proposés (ceux que le serveur conserve). */
+  weeklyOnly?: boolean;
   onBack: () => void;
   onSave: (values: AvailabilityValues) => void;
 }
@@ -465,6 +467,7 @@ export function AvailabilityView({
   dayNames,
   initial,
   saving = false,
+  weeklyOnly = false,
   onBack,
   onSave,
 }: AvailabilityViewProps) {
@@ -491,19 +494,23 @@ export function AvailabilityView({
         }
       />
       <View style={{ paddingHorizontal: 20, gap: 16 }}>
-        <Card
-          padding={14}
-          style={{ backgroundColor: values.available ? theme.tint.success : theme.colors.surface }}
-        >
-          <SwitchRow
-            label={t(values.available ? 'planning:availability.on' : 'planning:availability.off')}
-            hint={t(
-              values.available ? 'planning:availability.onHint' : 'planning:availability.offHint',
-            )}
-            value={values.available}
-            onChange={(available) => setValues((current) => ({ ...current, available }))}
-          />
-        </Card>
+        {weeklyOnly ? null : (
+          <Card
+            padding={14}
+            style={{
+              backgroundColor: values.available ? theme.tint.success : theme.colors.surface,
+            }}
+          >
+            <SwitchRow
+              label={t(values.available ? 'planning:availability.on' : 'planning:availability.off')}
+              hint={t(
+                values.available ? 'planning:availability.onHint' : 'planning:availability.offHint',
+              )}
+              value={values.available}
+              onChange={(available) => setValues((current) => ({ ...current, available }))}
+            />
+          </Card>
+        )}
 
         <View>
           <SectionLabel label={t('planning:availability.weekly')} />
@@ -529,32 +536,36 @@ export function AvailabilityView({
           </Card>
         </View>
 
-        <View>
-          <SectionLabel label={t('planning:availability.capacity')} />
-          <Card padding={14}>
-            <Text variant="label" style={{ marginBottom: 8 }}>
-              {t('planning:availability.maxPerDay')}
-            </Text>
-            <View accessibilityRole="radiogroup" style={{ flexDirection: 'row', gap: 6 }}>
-              {[2, 3, 4, 5, 6].map((count) => (
-                <ChoiceChip
-                  key={count}
-                  label={String(count)}
-                  selected={values.maxPerDay === count}
-                  onPress={() => setValues((current) => ({ ...current, maxPerDay: count }))}
-                />
-              ))}
+        {weeklyOnly ? null : (
+          <>
+            <View>
+              <SectionLabel label={t('planning:availability.capacity')} />
+              <Card padding={14}>
+                <Text variant="label" style={{ marginBottom: 8 }}>
+                  {t('planning:availability.maxPerDay')}
+                </Text>
+                <View accessibilityRole="radiogroup" style={{ flexDirection: 'row', gap: 6 }}>
+                  {[2, 3, 4, 5, 6].map((count) => (
+                    <ChoiceChip
+                      key={count}
+                      label={String(count)}
+                      selected={values.maxPerDay === count}
+                      onPress={() => setValues((current) => ({ ...current, maxPerDay: count }))}
+                    />
+                  ))}
+                </View>
+              </Card>
             </View>
-          </Card>
-        </View>
 
-        <SwitchRow
-          icon="flash"
-          label={t('planning:availability.urgent')}
-          hint={t('planning:availability.urgentHint')}
-          value={values.urgent}
-          onChange={(urgent) => setValues((current) => ({ ...current, urgent }))}
-        />
+            <SwitchRow
+              icon="flash"
+              label={t('planning:availability.urgent')}
+              hint={t('planning:availability.urgentHint')}
+              value={values.urgent}
+              onChange={(urgent) => setValues((current) => ({ ...current, urgent }))}
+            />
+          </>
+        )}
         <Button
           label={t('planning:availability.save')}
           size="lg"

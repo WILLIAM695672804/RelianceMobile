@@ -43,6 +43,15 @@ const fr = {
     urgent: 'Recevoir les urgences',
     urgentHint: 'Demandes « Maintenant », de jour comme de nuit',
   },
+  weekStats: {
+    booked: 'Réservé',
+    of: 'sur {{hours}} h ouvertes',
+    capacity: 'Charge',
+    capacityDetail: 'de la capacité',
+    appointments: 'Rendez-vous',
+    thisWeek: 'cette semaine',
+    saved: 'Disponibilités enregistrées.',
+  },
   days: {
     0: 'Dimanche',
     1: 'Lundi',
@@ -190,6 +199,15 @@ const en: typeof fr = {
     maxPerDay: 'Maximum jobs per day',
     urgent: 'Receive urgent requests',
     urgentHint: '“Now” requests, day and night',
+  },
+  weekStats: {
+    booked: 'Booked',
+    of: 'of {{hours}} h open',
+    capacity: 'Load',
+    capacityDetail: 'of capacity',
+    appointments: 'Appointments',
+    thisWeek: 'this week',
+    saved: 'Availability saved.',
   },
   days: {
     0: 'Sunday',

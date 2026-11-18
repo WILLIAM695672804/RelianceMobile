@@ -11,9 +11,9 @@ jest.mock('expo-router', () => ({
 
 const mockPlanningProps: {
   current?: {
-    onOpenSlots: () => void;
-    onOpenExceptions: () => void;
-    onOpenAppointments: () => void;
+    onAvailability: () => void;
+    onBlock: () => void;
+    onAppointments: () => void;
   };
 } = {};
 const mockAppointmentProps: {
@@ -21,11 +21,7 @@ const mockAppointmentProps: {
 } = {};
 
 jest.mock('@/features/planning', () => ({
-  PlanningScreen: (props: {
-    onOpenSlots: () => void;
-    onOpenExceptions: () => void;
-    onOpenAppointments: () => void;
-  }) => {
+  PlanningWeekContainer: (props: NonNullable<typeof mockPlanningProps.current>) => {
     mockPlanningProps.current = props;
     return null;
   },
@@ -43,9 +39,9 @@ describe('routes du planning', () => {
   it('ouvre les créneaux, les indisponibilités et les rendez-vous', async () => {
     await render(<PlanningRoute />);
 
-    mockPlanningProps.current?.onOpenSlots();
-    mockPlanningProps.current?.onOpenExceptions();
-    mockPlanningProps.current?.onOpenAppointments();
+    mockPlanningProps.current?.onAvailability();
+    mockPlanningProps.current?.onBlock();
+    mockPlanningProps.current?.onAppointments();
 
     expect(router.push).toHaveBeenCalledWith('/planning/time-slots');
     expect(router.push).toHaveBeenCalledWith('/planning/exceptions');
