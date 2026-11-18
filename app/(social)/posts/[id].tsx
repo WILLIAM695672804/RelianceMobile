@@ -1,8 +1,8 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
-import { PostDetailScreen } from '@/features/social';
+import { PostContainer } from '@/features/social';
 
 export default function PostRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return <PostDetailScreen postId={id} />;
+  return <PostContainer postId={id} onBack={() => router.back()} />;
 }

@@ -39,3 +39,13 @@ export {
   type PostKind,
   type PostViewProps,
 } from './ui/SocialViews';
+export {
+  ComposeContainer,
+  FeedContainer,
+  PostContainer,
+  toFeedPost,
+  toPostContent,
+  type ComposeContainerProps,
+  type FeedContainerProps,
+  type PostContainerProps,
+} from './containers/SocialContainers';

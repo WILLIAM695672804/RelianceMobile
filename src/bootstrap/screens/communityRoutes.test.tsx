@@ -7,7 +7,7 @@ import { FeedRoute } from './FeedRoute';
 jest.mock('expo-router', () => ({ router: { push: jest.fn() } }));
 
 const mockAgencyProps: { current?: { onOpenTeam: (id: string) => void } } = {};
-const mockFeedProps: { current?: { onOpen: (id: string) => void } } = {};
+const mockFeedProps: { current?: { onOpen: (id: string) => void; onCompose: () => void } } = {};
 
 jest.mock('@/features/agency', () => ({
   AgencyScreen: (props: { onOpenTeam: (id: string) => void }) => {
@@ -17,7 +17,7 @@ jest.mock('@/features/agency', () => ({
 }));
 
 jest.mock('@/features/social', () => ({
-  FeedScreen: (props: { onOpen: (id: string) => void }) => {
+  FeedContainer: (props: { onOpen: (id: string) => void; onCompose: () => void }) => {
     mockFeedProps.current = props;
     return null;
   },
@@ -39,7 +39,9 @@ describe('routes de l’agence et du fil', () => {
     await render(<FeedRoute />);
 
     mockFeedProps.current?.onOpen('p1');
+    mockFeedProps.current?.onCompose();
 
     expect(router.push).toHaveBeenCalledWith({ pathname: '/posts/[id]', params: { id: 'p1' } });
+    expect(router.push).toHaveBeenCalledWith('/compose');
   });
 });

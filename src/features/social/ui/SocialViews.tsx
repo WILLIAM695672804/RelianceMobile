@@ -338,6 +338,8 @@ export interface ComposeViewProps {
   author: string;
   suggestedTags: readonly string[];
   publishing?: boolean;
+  /** Choix de l'audience ; masqué lorsque le serveur publie toujours pour tous. */
+  audiences?: boolean;
   onCancel: () => void;
   onPublish: (values: {
     kind: PostKind;
@@ -353,6 +355,7 @@ export function ComposeView({
   author,
   suggestedTags,
   publishing = false,
+  audiences = true,
   onCancel,
   onPublish,
 }: ComposeViewProps) {
@@ -388,18 +391,20 @@ export function ComposeView({
           <Avatar name={author} size={40} />
           <View style={{ flex: 1 }}>
             <Text variant="labelStrong">{author}</Text>
-            <View style={{ flexDirection: 'row', gap: 6, marginTop: 4 }}>
-              <ChoiceChip
-                label={t('social:composer.public')}
-                selected={audience === 'public'}
-                onPress={() => setAudience('public')}
-              />
-              <ChoiceChip
-                label={t('social:composer.pros')}
-                selected={audience === 'pros'}
-                onPress={() => setAudience('pros')}
-              />
-            </View>
+            {audiences ? (
+              <View style={{ flexDirection: 'row', gap: 6, marginTop: 4 }}>
+                <ChoiceChip
+                  label={t('social:composer.public')}
+                  selected={audience === 'public'}
+                  onPress={() => setAudience('public')}
+                />
+                <ChoiceChip
+                  label={t('social:composer.pros')}
+                  selected={audience === 'pros'}
+                  onPress={() => setAudience('pros')}
+                />
+              </View>
+            ) : null}
           </View>
         </View>
         <View accessibilityRole="radiogroup" style={{ flexDirection: 'row', gap: 8 }}>

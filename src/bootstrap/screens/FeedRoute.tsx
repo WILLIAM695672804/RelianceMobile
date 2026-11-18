@@ -1,8 +1,14 @@
 import { router } from 'expo-router';
 
-import { FeedScreen } from '@/features/social';
+import { FeedContainer } from '@/features/social';
 
-/** Fil social relié au détail d'une publication. */
+/** Fil social relié au détail d'une publication et à la rédaction. */
 export function FeedRoute() {
-  return <FeedScreen onOpen={(id) => router.push({ pathname: '/posts/[id]', params: { id } })} />;
+  return (
+    <FeedContainer
+      onOpen={(id) => router.push({ pathname: '/posts/[id]', params: { id } })}
+      onCompose={() => router.push('/compose')}
+      onBack={() => router.back()}
+    />
+  );
 }

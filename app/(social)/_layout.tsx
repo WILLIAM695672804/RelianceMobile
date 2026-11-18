@@ -12,8 +12,9 @@ export default function SocialLayout() {
         headerBackTitle: t('common:actions.back'),
       }}
     >
-      <Stack.Screen name="feed" />
-      <Stack.Screen name="posts/[id]" />
+      <Stack.Screen name="feed" options={{ headerShown: false }} />
+      <Stack.Screen name="posts/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="compose" options={{ headerShown: false }} />
     </Stack>
   );
 }
