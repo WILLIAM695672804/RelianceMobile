@@ -9,6 +9,7 @@ export function WalletRoute() {
       onTopUp={() => router.push('/wallet/recharge')}
       onWithdraw={() => router.push('/wallet/withdraw')}
       onMovement={(id) => router.push({ pathname: '/wallet/transactions/[id]', params: { id } })}
+      onBack={() => router.back()}
     />
   );
 }

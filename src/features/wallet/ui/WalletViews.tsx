@@ -89,6 +89,8 @@ export interface WalletViewProps {
   onWithdraw: () => void;
   onMovement: (movement: WalletMovement) => void;
   onSettings?: () => void;
+  /** Fourni, l'écran est ouvert hors des onglets : bouton retour, sans barre d'onglets. */
+  onBack?: () => void;
 }
 
 /** Portefeuille (maquette `WalletScreen`), présentation pure. */
@@ -97,9 +99,10 @@ export function WalletView(props: WalletViewProps) {
   const theme = useTheme();
 
   return (
-    <Screen withTabBar testID="portefeuille">
+    <Screen withTabBar={!props.onBack} testID="portefeuille">
       <TopBar
         title={t('wallet:home.title')}
+        onBack={props.onBack}
         trailing={
           props.onSettings ? (
             <Pressable

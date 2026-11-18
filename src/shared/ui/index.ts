@@ -47,3 +47,4 @@ export { CheckRow, RadioRow, type CheckRowProps, type RadioRowProps } from './Ch
 export { QueryGate, type GateQuery, type QueryGateProps } from './QueryGate';
 export { ListRow, type ListRowProps } from './ListRow';
 export { ConfirmSheet, type ConfirmSheetProps } from './ConfirmSheet';
+export { OfflineBanner } from './OfflineBanner';

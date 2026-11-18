@@ -6,7 +6,7 @@ import { useApiClient } from '@/core/api';
 import { useRealtime } from '@/core/realtime';
 import { useSession } from '@/core/session';
 import { useTheme } from '@/core/theme';
-import { Text } from '@/shared/components';
+import { Text } from '@/shared/ui';
 import { createMemoryStore } from '@/core/storage';
 import { createFakeRealtimeClient } from '@/test/fakeRealtime';
 import { testEnv } from '@/test/fixtures/env';

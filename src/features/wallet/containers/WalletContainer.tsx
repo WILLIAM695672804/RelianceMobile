@@ -36,17 +36,18 @@ export interface WalletContainerProps {
   onTopUp: () => void;
   onWithdraw: () => void;
   onMovement: (transactionId: string) => void;
+  onBack?: () => void;
 }
 
 /** Onglet « Portefeuille » : solde, fonds réservés et mouvements. */
-export function WalletContainer({ onTopUp, onWithdraw, onMovement }: WalletContainerProps) {
+export function WalletContainer({ onTopUp, onWithdraw, onMovement, onBack }: WalletContainerProps) {
   const { t } = useTranslation();
   const wallet = useWallet();
   const transactions = useWalletTransactions();
   const holds = useHolds();
 
   return (
-    <QueryGate queries={[wallet, transactions]} withTabBar>
+    <QueryGate queries={[wallet, transactions]} withTabBar={!onBack}>
       {() => (
         <WalletView
           balance={wallet.data?.available_balance ?? 0}
@@ -65,6 +66,7 @@ export function WalletContainer({ onTopUp, onWithdraw, onMovement }: WalletConta
           onTopUp={onTopUp}
           onWithdraw={onWithdraw}
           onMovement={(movement) => onMovement(movement.id)}
+          onBack={onBack}
         />
       )}
     </QueryGate>

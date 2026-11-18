@@ -8,7 +8,7 @@ Les maquettes (`design/maquettes/design-system.jsx`) définissent une identité 
 
 ## Décision
 
-Jetons TypeScript (`src/core/theme/tokens.ts`) et primitives `StyleSheet` dans `src/shared/components/`, sans bibliothèque de composants tierce.
+Jetons TypeScript (`src/core/theme/tokens.ts`) et primitives `StyleSheet` dans `src/shared/ui/` (système Clean Lavender, ADR révisé le 18/11/2026), sans bibliothèque de composants tierce.
 
 ## Conséquences
 

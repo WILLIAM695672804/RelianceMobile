@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useResponsive } from '@/core/responsive';
 import { useTheme } from '@/core/theme';
 
+import { OfflineBanner } from './OfflineBanner';
 import { TAB_BAR_CLEARANCE } from './TabBar';
 
 export interface ScreenProps {
@@ -65,6 +66,7 @@ export function Screen({
     >
       {/* Icônes de la barre d'état contrastées avec le thème affiché (relevé sur appareil). */}
       <StatusBar style={theme.scheme === 'dark' ? 'light' : 'dark'} />
+      <OfflineBanner />
       {scroll ? (
         <ScrollView
           keyboardShouldPersistTaps="handled"
