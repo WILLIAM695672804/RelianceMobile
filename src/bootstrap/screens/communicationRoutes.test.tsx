@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
 import { ConversationsRoute } from './ConversationsRoute';
-import { NotificationsRoute } from './NotificationsRoute';
+import { hrefForTarget, NotificationsRoute } from './NotificationsRoute';
 import { StartChatRoute } from './StartChatRoute';
 
 jest.mock('expo-router', () => ({
@@ -10,14 +10,21 @@ jest.mock('expo-router', () => ({
   useLocalSearchParams: () => ({ member: 'u2', subject: 'Intervention' }),
 }));
 
-const mockNotificationsProps: { current?: { onOpenSettings: () => void } } = {};
+const mockNotificationsProps: {
+  current?: { onBack: () => void; onNavigate: (target: { kind: string; id?: string }) => void };
+} = {};
 const mockConversationsProps: { current?: { onOpen: (id: string) => void } } = {};
 const mockStartProps: {
   current?: { memberId: string; subject?: string; onOpened: (id: string) => void };
 } = {};
 
+jest.mock('@/core/session', () => ({
+  useSession: (select: (state: { user: { role: string } }) => unknown) =>
+    select({ user: { role: 'client' } }),
+}));
+
 jest.mock('@/features/notifications', () => ({
-  NotificationsScreen: (props: { onOpenSettings: () => void }) => {
+  NotificationsContainer: (props: NonNullable<typeof mockNotificationsProps.current>) => {
     mockNotificationsProps.current = props;
     return null;
   },
@@ -39,12 +46,26 @@ jest.mock('@/features/chat', () => ({
 }));
 
 describe('routes de communication', () => {
-  it('ouvre les préférences depuis le centre de notifications', async () => {
+  it('ouvre l’écran visé par une notification', async () => {
     await render(<NotificationsRoute />);
 
-    mockNotificationsProps.current?.onOpenSettings();
+    mockNotificationsProps.current?.onNavigate({ kind: 'conversation', id: 'c9' });
 
-    expect(router.push).toHaveBeenCalledWith('/notification-settings');
+    expect(router.push).toHaveBeenCalledWith({
+      pathname: '/conversations/[id]',
+      params: { id: 'c9' },
+    });
+  });
+
+  it('associe chaque destination à sa route selon le rôle', () => {
+    expect(hrefForTarget({ kind: 'request', id: 'r1' }, 'client')).toEqual({
+      pathname: '/requests/[id]',
+      params: { id: 'r1' },
+    });
+    expect(hrefForTarget({ kind: 'mission' }, 'technicien')).toBe('/technicien/mission');
+    expect(hrefForTarget({ kind: 'wallet' }, 'client')).toBe('/client/wallet');
+    expect(hrefForTarget({ kind: 'wallet' }, 'technicien')).toBe('/technicien/wallet');
+    expect(hrefForTarget({ kind: 'wallet' }, 'agence')).toBe('/wallet');
   });
 
   it('ouvre un fil depuis la liste des conversations', async () => {

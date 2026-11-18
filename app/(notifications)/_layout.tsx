@@ -12,7 +12,7 @@ export default function NotificationsLayout() {
         headerBackTitle: t('common:actions.back'),
       }}
     >
-      <Stack.Screen name="notifications" />
+      <Stack.Screen name="notifications" options={{ headerShown: false }} />
       <Stack.Screen name="notification-settings" />
     </Stack>
   );

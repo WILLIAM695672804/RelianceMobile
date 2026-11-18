@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { describeError, normalizeError } from '@/core/errors';
@@ -14,6 +14,7 @@ import {
 } from '@/features/matching';
 import { useTechnicianStats } from '@/features/profile';
 import { formatRating } from '@/shared/format';
+import { useNow } from '@/shared/hooks';
 import { QueryGate, useToast } from '@/shared/ui';
 
 import { TechHomeView, type AgendaSlot, type IncomingRequest } from '../ui/TechHomeView';
@@ -21,16 +22,6 @@ import { TechHomeView, type AgendaSlot, type IncomingRequest } from '../ui/TechH
 const HTTP_GONE = 410;
 /** Fréquence de réévaluation des délais d'expiration. */
 const CLOCK_INTERVAL_MS = 30 * 1000;
-
-/** Instant courant, réévalué périodiquement (le rendu doit rester pur). */
-function useNow(intervalMs: number): number {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), intervalMs);
-    return () => clearInterval(timer);
-  }, [intervalMs]);
-  return now;
-}
 
 export function toIncoming(proposal: ReceivedProposal, fallback: string): IncomingRequest {
   return {

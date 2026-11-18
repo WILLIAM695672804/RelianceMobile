@@ -32,3 +32,8 @@ export {
   NotificationSettingsView,
   type NotificationSettingsViewProps,
 } from './ui/NotificationSettingsView';
+export { notificationTarget, type NotificationTarget } from './model/notificationTarget';
+export {
+  NotificationsContainer,
+  type NotificationsContainerProps,
+} from './containers/NotificationsContainer';
