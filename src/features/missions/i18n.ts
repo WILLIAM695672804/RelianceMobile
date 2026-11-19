@@ -9,6 +9,7 @@ const fr = {
     declined: 'Proposition refusée.',
   },
   techHome: {
+    radar: 'Radar en direct',
     hello: 'Bonjour,',
     online: 'En ligne',
     offline: 'Hors ligne',
@@ -232,6 +233,7 @@ const en: typeof fr = {
     declined: 'Proposal declined.',
   },
   techHome: {
+    radar: 'Live radar',
     hello: 'Hello,',
     online: 'Online',
     offline: 'Offline',

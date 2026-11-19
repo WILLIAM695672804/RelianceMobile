@@ -4,7 +4,18 @@ import { Pressable, View } from 'react-native';
 import { useResponsive } from '@/core/responsive';
 import { useTheme } from '@/core/theme';
 import { formatAmount, formatDistance } from '@/shared/format';
-import { Avatar, Button, Card, EmptyState, Icon, Pill, Screen, Section, Text } from '@/shared/ui';
+import {
+  Avatar,
+  Button,
+  Card,
+  EmptyState,
+  Icon,
+  Pill,
+  Screen,
+  Section,
+  Text,
+  TextAction,
+} from '@/shared/ui';
 
 export interface IncomingRequest {
   id: string;
@@ -40,6 +51,8 @@ export interface TechHomeViewProps {
   onDecline: (request: IncomingRequest) => void;
   onOpenSlot?: (slot: AgendaSlot) => void;
   onPlanning?: () => void;
+  /** Radar en direct des propositions. */
+  onRadar?: () => void;
 }
 
 /** Accueil technicien (maquette `TechHomeScreen`), présentation pure. */
@@ -145,7 +158,9 @@ export function TechHomeView(props: TechHomeViewProps) {
       <Section
         title={t('missions:techHome.incoming', { count: props.incoming.length })}
         action={
-          props.incoming.length > 0 ? (
+          props.onRadar ? (
+            <TextAction label={t('missions:techHome.radar')} onPress={props.onRadar} />
+          ) : props.incoming.length > 0 ? (
             <Pill label={t('missions:techHome.respondQuickly')} tone="warning" size="sm" />
           ) : undefined
         }

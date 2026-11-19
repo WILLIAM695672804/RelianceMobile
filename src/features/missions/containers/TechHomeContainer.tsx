@@ -52,6 +52,7 @@ export interface TechHomeContainerProps {
   onNotifications: () => void;
   onOpenMission: () => void;
   onPlanning: () => void;
+  onRadar?: () => void;
 }
 
 /** Onglet « Missions » du technicien : propositions reçues, mission en cours, mois écoulé. */
@@ -117,6 +118,7 @@ export function TechHomeContainer(props: TechHomeContainerProps) {
             onDecline={(request) => void decide(request.id, 'refuse')}
             onOpenSlot={props.onOpenMission}
             onPlanning={props.onPlanning}
+            onRadar={props.onRadar}
           />
         );
       }}

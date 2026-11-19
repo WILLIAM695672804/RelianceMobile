@@ -8,6 +8,7 @@ export default function TechHomeRoute() {
       onNotifications={() => router.push('/notifications')}
       onOpenMission={() => router.push('/technicien/mission')}
       onPlanning={() => router.push('/planning')}
+      onRadar={() => router.push('/technicien/radar')}
     />
   );
 }

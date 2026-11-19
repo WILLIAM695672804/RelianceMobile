@@ -1,6 +1,24 @@
 import type { TranslationResources } from '@/core/i18n';
 
 const fr = {
+  radar: {
+    title: 'Radar en direct',
+    available_one: '{{count}} mission disponible',
+    available_other: '{{count}} missions disponibles',
+    new: 'Nouveau',
+    match: 'Nouvelle demande',
+    expires: 'Expire dans {{delay}}',
+    accept: 'Accepter',
+    refuse: 'Refuser',
+    queued_one: '{{count}} autre demande en attente',
+    queued_other: '{{count}} autres demandes en attente',
+    waitingTitle: 'En attente de nouvelles demandes…',
+    waitingBody:
+      'Votre zone est surveillée : vous serez prévenu dès qu’une mission vous correspond.',
+    fallbackTitle: 'Intervention',
+    accepted: 'Mission acceptée',
+    refused: 'Demande refusée',
+  },
   live: {
     close: 'Fermer',
     sent: 'Proposition envoyée à {{name}}.',
@@ -74,6 +92,23 @@ const fr = {
 };
 
 const en: typeof fr = {
+  radar: {
+    title: 'Live radar',
+    available_one: '{{count}} job available',
+    available_other: '{{count}} jobs available',
+    new: 'New',
+    match: 'New request',
+    expires: 'Expires in {{delay}}',
+    accept: 'Accept',
+    refuse: 'Decline',
+    queued_one: '{{count}} more request waiting',
+    queued_other: '{{count}} more requests waiting',
+    waitingTitle: 'Waiting for new requests…',
+    waitingBody: 'Your area is being watched: you will be notified as soon as a job matches you.',
+    fallbackTitle: 'Job',
+    accepted: 'Job accepted',
+    refused: 'Request declined',
+  },
   live: {
     close: 'Close',
     sent: 'Proposal sent to {{name}}.',

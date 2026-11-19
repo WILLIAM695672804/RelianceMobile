@@ -104,7 +104,16 @@ export const receivedProposalSchema = z.object({
       title: z.string(),
       description: z.string().nullish(),
       category: z.object({ name: z.string() }).nullish(),
-      address: z.object({ address: z.string().nullish(), city: z.string().nullish() }).nullish(),
+      address: z
+        .object({
+          address: z.string().nullish(),
+          city: z.string().nullish(),
+          /** Coordonnées de l'adresse, transmises en chaînes par le serveur. */
+          meta: z
+            .object({ latitude: decimalSchema.nullish(), longitude: decimalSchema.nullish() })
+            .nullish(),
+        })
+        .nullish(),
     })
     .nullish(),
 });

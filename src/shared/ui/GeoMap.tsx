@@ -7,7 +7,7 @@ import {
   type CameraRef,
   type MapRef,
 } from '@maplibre/maplibre-react-native';
-import { useImperativeHandle, useMemo, useRef, useState, type Ref } from 'react';
+import { useEffect, useImperativeHandle, useMemo, useRef, useState, type Ref } from 'react';
 import { View } from 'react-native';
 
 import { useTheme } from '@/core/theme';
@@ -45,6 +45,8 @@ export interface GeoMapProps {
   compact?: boolean;
   /** Marge intérieure de cadrage, en points (panneaux superposés à la carte). */
   padding?: { top?: number; bottom?: number; left?: number; right?: number };
+  /** Point mis en avant : la caméra s'y rend lorsqu'il change après l'affichage initial. */
+  focus?: GeoPoint | null;
   /** Commandes de zoom pilotées par l'écran (boutons « + » et « − »). */
   ref?: Ref<GeoMapHandle>;
   testID?: string;
@@ -124,6 +126,7 @@ export function GeoMap({
   zoneCenter = null,
   compact = false,
   padding,
+  focus = null,
   ref,
   testID,
 }: GeoMapProps) {
@@ -161,6 +164,21 @@ export function GeoMap({
     left: padding?.left ?? 40,
     right: padding?.right ?? 40,
   };
+  // Recadrage sur le point mis en avant ; l'affichage initial relève du cadrage d'ensemble.
+  const focusKey = focus ? `${focus.latitude},${focus.longitude}` : null;
+  const initialFocus = useRef(focusKey);
+  useEffect(() => {
+    if (!focus || focusKey === initialFocus.current) return;
+    initialFocus.current = null;
+    cameraRef.current?.flyTo({
+      center: [focus.longitude, focus.latitude],
+      zoom: 12.5,
+      padding: viewPadding,
+      duration: 900,
+    });
+    // `focus` est décrit par `focusKey`.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focusKey]);
 
   return (
     <View testID={testID} style={{ flex: 1, backgroundColor: theme.colors.surfaceMuted }}>
