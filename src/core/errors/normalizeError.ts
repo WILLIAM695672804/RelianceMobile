@@ -52,7 +52,7 @@ export function normalizeError(error: unknown): AppError {
       }
       return new AppError({ ...base, kind: 'forbidden' });
     case 402:
-      // Solde insuffisant (paiement de facture, abonnement) : le message du serveur est explicite.
+      // Solde insuffisant (paiement de facture) : le message du serveur est explicite.
       return new AppError({ ...base, kind: 'validation' });
     case 404:
       return new AppError({ ...base, kind: 'notFound' });
