@@ -26,10 +26,14 @@ export function conversationTitle(
  * Messages du plus ancien au plus récent : le serveur les renvoie dans l'ordre inverse.
  * Les messages sans date restent en fin de fil.
  */
-export function sortedMessages<T extends { created_at?: string | null }>(messages: T[]): T[] {
+export function sortedMessages<T extends { id?: string; created_at?: string | null }>(
+  messages: T[],
+): T[] {
   return [...messages].sort((left, right) => {
     const leftTime = left.created_at ? Date.parse(left.created_at) : Number.POSITIVE_INFINITY;
     const rightTime = right.created_at ? Date.parse(right.created_at) : Number.POSITIVE_INFINITY;
-    return leftTime - rightTime;
+    // Même seconde : l'identifiant départage, pour un ordre stable d'une lecture à l'autre.
+    if (leftTime !== rightTime) return leftTime - rightTime;
+    return String(left.id ?? '').localeCompare(String(right.id ?? ''));
   });
 }
