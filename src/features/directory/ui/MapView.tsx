@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,6 +9,7 @@ import {
   Avatar,
   Icon,
   GeoMap,
+  type GeoMapHandle,
   Pill,
   Screen,
   TAB_BAR_CLEARANCE,
@@ -38,34 +39,15 @@ export function MapView(props: MapViewProps) {
   const insets = useSafeAreaInsets();
   const [selectedId, setSelectedId] = useState(props.technicians[0]?.id);
   const format = { rating: formatRating, distance: formatDistance };
-
-  const floating = (icon: IconName, label: string, onPress?: () => void) => (
-    <Pressable
-      key={icon}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      onPress={onPress}
-      disabled={!onPress}
-      style={{
-        width: 48,
-        height: 48,
-        borderRadius: 14,
-        borderWidth: 1,
-        borderColor: theme.colors.border,
-        backgroundColor: theme.colors.surface,
-        alignItems: 'center',
-        justifyContent: 'center',
-        opacity: onPress ? 1 : 0.6,
-      }}
-    >
-      <IconGlyph name={icon} />
-    </Pressable>
-  );
+  const mapRef = useRef<GeoMapHandle>(null);
+  const zoomIn = useCallback(() => mapRef.current?.zoomIn(), []);
+  const zoomOut = useCallback(() => mapRef.current?.zoomOut(), []);
 
   return (
     <Screen scroll={false} bleedBottom testID="carte">
       <View style={StyleSheet.absoluteFill}>
         <GeoMap
+          ref={mapRef}
           pins={props.technicians
             .filter((tech) => tech.coordinates)
             .map((tech) => ({
@@ -82,7 +64,9 @@ export function MapView(props: MapViewProps) {
       </View>
 
       <View style={{ flexDirection: 'row', gap: 10, paddingHorizontal: 16, paddingTop: 12 }}>
-        {props.onBack ? floating('chevronL', t('directory:map.back'), props.onBack) : null}
+        {props.onBack ? (
+          <FloatingButton icon="chevronL" label={t('directory:map.back')} onPress={props.onBack} />
+        ) : null}
         <Pressable
           accessibilityRole="search"
           accessibilityLabel={t('directory:map.search')}
@@ -118,9 +102,13 @@ export function MapView(props: MapViewProps) {
       </View>
 
       <View style={{ position: 'absolute', right: 16, bottom: 300 + insets.bottom, gap: 8 }}>
-        {floating('plus', t('directory:map.zoomIn'))}
-        {floating('minus', t('directory:map.zoomOut'))}
-        {floating('location', t('directory:map.recenter'), props.onRecenter)}
+        <FloatingButton icon="plus" label={t('directory:map.zoomIn')} onPress={zoomIn} />
+        <FloatingButton icon="minus" label={t('directory:map.zoomOut')} onPress={zoomOut} />
+        <FloatingButton
+          icon="location"
+          label={t('directory:map.recenter')}
+          onPress={props.onRecenter}
+        />
       </View>
 
       <View
@@ -264,4 +252,38 @@ export function MapView(props: MapViewProps) {
 
 function IconGlyph({ name, muted = false }: { name: IconName; muted?: boolean }) {
   return <Icon name={name} size={18} tone={muted ? 'muted' : 'default'} />;
+}
+
+/** Bouton rond posé sur la carte (retour, filtres, zoom, recentrage). */
+function FloatingButton({
+  icon,
+  label,
+  onPress,
+}: {
+  icon: IconName;
+  label: string;
+  onPress?: () => void;
+}) {
+  const theme = useTheme();
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      onPress={onPress}
+      disabled={!onPress}
+      style={{
+        width: 48,
+        height: 48,
+        borderRadius: 14,
+        borderWidth: 1,
+        borderColor: theme.colors.border,
+        backgroundColor: theme.colors.surface,
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: onPress ? 1 : 0.6,
+      }}
+    >
+      <IconGlyph name={icon} />
+    </Pressable>
+  );
 }

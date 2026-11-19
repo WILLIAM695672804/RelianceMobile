@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useTheme } from '@/core/theme';
@@ -88,22 +88,25 @@ export function TrackingView(props: TrackingViewProps) {
       }
     >
       <View style={{ height: 280, marginTop: -insets.top }}>
-        <GeoMap
-          pins={
-            props.technicianAt
-              ? [
-                  {
-                    id: 'tech',
-                    label: technician.name,
-                    ...props.technicianAt,
-                    color: technician.color,
-                  },
-                ]
-              : []
-          }
-          you={props.destination ?? null}
-          padding={{ top: 60 + insets.top, bottom: 50 }}
-        />
+        {/* La carte occupe tout le cadre ; le bouton retour se pose par-dessus. */}
+        <View style={StyleSheet.absoluteFill}>
+          <GeoMap
+            pins={
+              props.technicianAt
+                ? [
+                    {
+                      id: 'tech',
+                      label: technician.name,
+                      ...props.technicianAt,
+                      color: technician.color,
+                    },
+                  ]
+                : []
+            }
+            you={props.destination ?? null}
+            padding={{ top: 60 + insets.top, bottom: 50 }}
+          />
+        </View>
         <View style={{ paddingHorizontal: 16, paddingTop: insets.top + 8 }}>
           <BackButton onPress={props.onBack} />
         </View>

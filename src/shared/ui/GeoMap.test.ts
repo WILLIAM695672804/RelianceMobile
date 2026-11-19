@@ -1,4 +1,4 @@
-import { boundsOf, circlePolygon } from './GeoMap';
+import { boundsOf, circlePolygon, clusterPins } from './GeoMap';
 
 describe('GeoMap', () => {
   it('trace un cercle fermé du rayon demandé', () => {
@@ -22,5 +22,29 @@ describe('GeoMap', () => {
         0,
       ),
     ).toEqual([11.5, 3.8, 11.6, 3.9]);
+  });
+});
+
+describe('clusterPins', () => {
+  const pin = (id: string, latitude: number, longitude: number) => ({
+    id,
+    label: id,
+    latitude,
+    longitude,
+  });
+  const yaounde = [pin('a', 3.848, 11.5021), pin('b', 3.84, 11.49), pin('c', 3.86, 11.52)];
+  const douala = pin('d', 4.0511, 9.7679);
+
+  it('regroupe les repères voisins à l’échelle régionale', () => {
+    const clusters = clusterPins([...yaounde, douala], 7);
+    expect(clusters.map((cluster) => cluster.members.length)).toEqual([3, 1]);
+  });
+
+  it('les sépare une fois la carte rapprochée', () => {
+    expect(clusterPins(yaounde, 15)).toHaveLength(3);
+  });
+
+  it('ne regroupe rien tant que le zoom est inconnu', () => {
+    expect(clusterPins(yaounde, null)).toHaveLength(3);
   });
 });
