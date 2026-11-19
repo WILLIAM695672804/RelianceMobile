@@ -17,11 +17,12 @@ export interface LoginContainerProps {
   /** Racine de l'application web (inscription) ; `null` si non configurée. */
   webUrl: string | null;
   onForgotPassword: () => void;
+  onLegal?: (kind: 'terms' | 'privacy') => void;
   onBack?: () => void;
 }
 
 /** Connexion branchée sur l'API, double authentification comprise. */
-export function LoginContainer({ webUrl, onForgotPassword, onBack }: LoginContainerProps) {
+export function LoginContainer({ webUrl, onForgotPassword, onLegal, onBack }: LoginContainerProps) {
   const { t } = useTranslation();
   const toast = useToast();
   const expired = useSession((state) => state.expired);
@@ -84,6 +85,7 @@ export function LoginContainer({ webUrl, onForgotPassword, onBack }: LoginContai
       }}
       onForgotPassword={onForgotPassword}
       onRegister={openRegistration}
+      onLegal={onLegal}
       onBack={onBack}
     />
   );

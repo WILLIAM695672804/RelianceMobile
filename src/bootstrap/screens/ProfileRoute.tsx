@@ -24,4 +24,6 @@ export const PROFILE_HREF: Record<ProfileDestination, Href> = {
   reputation: '/reputation',
   setup: '/setup',
   settings: '/settings',
+  terms: { pathname: '/legal/[kind]', params: { kind: 'cgu' } },
+  privacy: { pathname: '/legal/[kind]', params: { kind: 'confidentialite' } },
 };

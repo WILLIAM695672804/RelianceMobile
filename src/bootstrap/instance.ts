@@ -9,6 +9,7 @@ import { createMmkvStore } from '@/core/storage';
 import { agencyTranslations } from '@/features/agency';
 import { authTranslations, createOnboardingFlag } from '@/features/auth';
 import { billingTranslations } from '@/features/billing';
+import { legalTranslations } from '@/features/legal';
 import { chatTranslations } from '@/features/chat';
 import { createSearchHistory, directoryTranslations } from '@/features/directory';
 import { disputesTranslations } from '@/features/disputes';
@@ -64,5 +65,6 @@ export const services = createServices({
     agencyTranslations,
     socialTranslations,
     directoryTranslations,
+    legalTranslations,
   ],
 });

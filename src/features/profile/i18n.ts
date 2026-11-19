@@ -7,6 +7,7 @@ const fr = {
       activity: 'Mon activité',
       money: 'Finances',
       community: 'Communauté',
+      about: 'À propos',
     },
     verified: 'Identité vérifiée',
     emailOk: 'Adresse vérifiée',
@@ -86,6 +87,8 @@ const fr = {
   },
   menu: {
     edit: 'Modifier le profil',
+    terms: 'Conditions d’utilisation',
+    privacy: 'Politique de confidentialité',
     password: 'Mot de passe',
     locations: 'Mes adresses',
     invoices: 'Mes factures',
@@ -287,6 +290,7 @@ const en: typeof fr = {
       activity: 'My activity',
       money: 'Finances',
       community: 'Community',
+      about: 'About',
     },
     verified: 'Verified identity',
     emailOk: 'Verified address',
@@ -362,6 +366,8 @@ const en: typeof fr = {
   },
   menu: {
     edit: 'Edit profile',
+    terms: 'Terms of use',
+    privacy: 'Privacy policy',
     password: 'Password',
     locations: 'My addresses',
     invoices: 'My invoices',

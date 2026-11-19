@@ -29,9 +29,11 @@ const ICONS: Record<ProfileDestination, IconName> = {
   reputation: 'badge',
   setup: 'list',
   settings: 'settings',
+  terms: 'file',
+  privacy: 'shield',
 };
 
-type GroupKey = 'identity' | 'activity' | 'money' | 'community';
+type GroupKey = 'identity' | 'activity' | 'money' | 'community' | 'about';
 
 /** Destinations du compte par groupe, selon le rôle. */
 export function accountGroupsFor(role: Role): Record<GroupKey, ProfileDestination[]> {
@@ -60,6 +62,7 @@ export function accountGroupsFor(role: Role): Record<GroupKey, ProfileDestinatio
       'feed',
       ...(tech || client ? (['disputes'] as const) : []),
     ],
+    about: ['terms', 'privacy'],
   };
 }
 

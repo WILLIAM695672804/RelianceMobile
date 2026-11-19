@@ -17,6 +17,7 @@ export function RootNavigator() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="prototype" />
+        <Stack.Screen name="legal/[kind]" />
       </Stack>
     );
   }
@@ -57,6 +58,8 @@ export function RootNavigator() {
         <Stack.Protected guard={guards.isWebOnly}>
           <Stack.Screen name="web-only" />
         </Stack.Protected>
+        {/* Textes légaux : consultables avant comme après la connexion. */}
+        <Stack.Screen name="legal/[kind]" />
       </Stack>
       <RealtimeBridge />
     </>

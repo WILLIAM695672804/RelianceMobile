@@ -26,6 +26,8 @@ export interface LoginViewProps {
   onForgotPassword: () => void;
   /** Création de compte : ouvre l'inscription du site web. */
   onRegister: () => void;
+  /** Conditions d'utilisation ou politique de confidentialité. */
+  onLegal?: (kind: 'terms' | 'privacy') => void;
   onBack?: () => void;
 }
 
@@ -79,6 +81,40 @@ export function LoginView(props: LoginViewProps) {
           </Pressable>
         </View>
       )}
+      {props.onLegal ? (
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 8,
+            paddingHorizontal: 24,
+            paddingBottom: 8,
+          }}
+        >
+          <Pressable
+            accessibilityRole="link"
+            onPress={() => props.onLegal?.('terms')}
+            style={{ minHeight: MIN_TOUCH_TARGET, justifyContent: 'center', paddingHorizontal: 4 }}
+          >
+            <Text variant="caption" tone="muted">
+              {t('legal:links.terms')}
+            </Text>
+          </Pressable>
+          <Text variant="caption" tone="muted">
+            {t('legal:links.separator')}
+          </Text>
+          <Pressable
+            accessibilityRole="link"
+            onPress={() => props.onLegal?.('privacy')}
+            style={{ minHeight: MIN_TOUCH_TARGET, justifyContent: 'center', paddingHorizontal: 4 }}
+          >
+            <Text variant="caption" tone="muted">
+              {t('legal:links.privacy')}
+            </Text>
+          </Pressable>
+        </View>
+      ) : null}
     </Screen>
   );
 }

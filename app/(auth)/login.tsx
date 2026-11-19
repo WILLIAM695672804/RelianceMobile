@@ -8,6 +8,12 @@ export default function LoginRoute() {
     <LoginContainer
       webUrl={appEnv.webUrl}
       onForgotPassword={() => router.push('/forgot-password')}
+      onLegal={(kind) =>
+        router.push({
+          pathname: '/legal/[kind]',
+          params: { kind: kind === 'privacy' ? 'confidentialite' : 'cgu' },
+        })
+      }
     />
   );
 }

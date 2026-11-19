@@ -19,4 +19,6 @@ export type ProfileDestination =
   | 'disputes'
   | 'reputation'
   | 'setup'
-  | 'settings';
+  | 'settings'
+  | 'terms'
+  | 'privacy';
