@@ -23,7 +23,7 @@ Voir la spécification, § 5.2. Ce tableau est tenu à jour à mesure de l'impl�
 | `planning`      | Livré (Plan 9, recette appareil en attente)         | `technician/calendar`, `technician/time-slots`, `technician/time-slots/{id}`, `technician/exceptions`, `technician/exceptions/{id}`, `appointments`, `appointments/upcoming`, `appointments/{id}`, `appointments/{id}/status`                                   |
 | `agency`        | Livré (Plan 10, recette appareil en attente)        | `my-agency`, `agencies` (GET, POST), `agencies/{id}`, `agencies/{id}/members`, `agencies/{id}/members/{userId}`                                                                                                                                                 |
 | `social`        | Livré (Plans 10 et 11, recette appareil en attente) | `posts/feed`, `posts/explore`, `posts` (POST), `posts/{id}`, `posts/{id}/like`, `posts/{id}/comments` (GET, POST), `follows/{id}` (POST, DELETE), `follows/{id}/check`, `follows/suggestions`, `users/{id}/follow-counts`                                       |
-| Hors périmètre  | Litiges, abonnements, crédits, jetons de poussée    | `disputes/*`, `subscriptions/*`, `credits/*`, `push-tokens/*`                                                                                                                                                                                                   |
+| Hors périmètre  | Litiges, crédits, jetons de poussée                 | `disputes/*`, `credits/*`, `push-tokens/*`                                                                                                                                                                                                                      |
 
 ## 2. Réponses d'authentification constatées
 
@@ -198,6 +198,8 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 
 ## 6. Observations de sécurité backend
 
+- **Abonnements retirés** (2026-11-19) : le système n'en gère pas ; les routes `subscriptions/*` et `admin/subscriptions/*`, l'option `REQUIRE_SUBSCRIPTION` et les modèles associés ont disparu du serveur. Les tables restent en base.
+
 - `User::$hidden` ne masque que `password` et `remember_token` : `two_factor_secret` et `two_factor_recovery_codes` sont sérialisés dans `/auth/me` et `/auth/login`. Le mobile les ignore (schéma Zod strict), mais la correction relève du backend.
 - `POST /auth/forgot-password` valide `exists:users,email` : la réponse 422 permet l'énumération des comptes.
 - `SANCTUM_STATEFUL_DOMAINS` doit contenir `mobile.reliance.local` (origine déclarée par le mobile).
@@ -236,7 +238,7 @@ Aucun événement ne définit `broadcastAs` : le nom diffusé est `App\Events\<C
 - `POST /auth/login` répond **403** `{ requires_email_verification: true, email }` tant que l'adresse n'est pas vérifiée (`emailNotVerified`) ; lien envoyé à l'inscription ; renvoi public : `POST /auth/email/resend { email }`.
 - `POST /jobs` et `POST /quotes` exigent une proposition acceptée du technicien appelant (**403** sinon) ; `POST /jobs` est idempotent par demande.
 - `POST /reviews` accepte `stage` (`pre` : demande `assigned`/`in_progress` ; `post` : `completed`, défaut) ; un avis par étape.
-- `POST /subscriptions/subscribe` débite le portefeuille (**402** si solde insuffisant) ; `POST /payments/{id}/confirm` est réservé au payeur (vérification passerelle) ou à l'admin (virement).
+- `POST /payments/{id}/confirm` est réservé au payeur (vérification passerelle) ou à l'admin (virement).
 - Refus ou expiration d'une proposition : la demande repasse à `analyzed` et le client est notifié. Les notifications push utilisent les jetons Expo enregistrés via `POST /push-tokens`.
 - **Limitation de débit** (**429**, `rateLimited`) : `POST /auth/login` à 5 tentatives par minute et par couple e-mail + IP ; `POST /auth/register`, `/auth/forgot-password`, `/auth/reset-password` et `POST /contact` à 10 requêtes par minute et par IP.
 - `POST /auth/forgot-password` répond **200** `{ message }` que le compte existe ou non (plus de 422 « Aucun compte trouvé » : énumération de comptes impossible). Le message est neutre (« Si un compte correspond… »).
